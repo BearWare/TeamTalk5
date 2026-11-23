@@ -36,8 +36,8 @@
 #include <ace/Timer_Heap.h>
 #include <ace/Timer_Queue_Adapters.h>
 
-#include <cstdint>
 #include <chrono>
+#include <cstdint>
 
 //reactor event task
 ACE_THR_FUNC_RETURN EventLoop (void *arg);

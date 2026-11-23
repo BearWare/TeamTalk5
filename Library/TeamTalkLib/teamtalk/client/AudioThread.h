@@ -25,6 +25,7 @@
 #define AUDIOTHREAD_H
 
 #include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 #include "teamtalk/Common.h"
 
 #if defined(ENABLE_SPEEX)
@@ -41,16 +42,14 @@
 #endif
 
 #include <ace/Message_Block.h>
-#include "myace/MyACE.h"
-
-#include <thread>
 #include <ace/Time_Value.h>
 
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <thread>
 #include <vector>
-#include <chrono>
 
 using audioencodercallback_t = std::function< void (const teamtalk::AudioCodec& codec,
                              const char* enc_data, int enc_len,

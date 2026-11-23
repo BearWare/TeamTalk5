@@ -28,15 +28,9 @@
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 
-#include <ace/Date_Time.h>
-
-#include <array>
-#include <cstdint>
+#include <ctime>
 #include <regex>
 #include <string>
-#include <ctime>
-#include <vector>
-#include <chrono>
 
 namespace teamtalk
 {

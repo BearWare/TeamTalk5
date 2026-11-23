@@ -35,7 +35,6 @@
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
-#include <chrono>
 #endif
 
 using namespace teamtalk;

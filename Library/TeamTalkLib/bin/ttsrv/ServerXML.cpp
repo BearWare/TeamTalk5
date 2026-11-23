@@ -25,19 +25,15 @@
 
 #include "TeamTalkDefs.h"
 #include "settings/Settings.h"
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
-#include <cstdio>
+#include <chrono>
 #include <cstdint>
-#include <ctime>
 #include <stack>
 #include <string>
 #include <vector>
-#include <chrono>
 
 using namespace std;
 using namespace tinyxml2;
