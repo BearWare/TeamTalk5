@@ -41,10 +41,10 @@
 #endif /** __APPLE__ **/
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstring>
 #include <map>
-#include <chrono>
 
 
 //some inspiration found here: http://www.vmware.com/support/ws45/doc/devices_linux_kb_ws.html

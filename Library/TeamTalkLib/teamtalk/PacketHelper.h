@@ -24,18 +24,17 @@
 #ifndef CODECHELPER_H
 #define CODECHELPER_H
 
-#include "Common.h"
 #include "PacketLayout.h"
 
-#include <ace/Time_Value.h>
+#include "Common.h"
 
+#include <chrono>
 #include <cstdint>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
 #include <vector>
-#include <chrono>
 
 namespace teamtalk {
 

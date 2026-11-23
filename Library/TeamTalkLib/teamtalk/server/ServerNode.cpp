@@ -44,7 +44,6 @@
 #include <stack>
 #include <system_error>
 #include <utility>
-#include <chrono>
 
 using namespace teamtalk;
 

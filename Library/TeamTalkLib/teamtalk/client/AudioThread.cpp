@@ -34,12 +34,12 @@
 #endif
 
 #include <cassert>
+#include <chrono>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <vector>
-#include <chrono>
 
 using namespace teamtalk;
 

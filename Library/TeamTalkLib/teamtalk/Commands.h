@@ -30,10 +30,10 @@
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
 
+#include <chrono>
 #include <map>
 #include <set>
 #include <vector>
-#include <chrono>
 
 constexpr auto TEAMTALK_PROTOCOL_VERSION = TTEXT("5.14");
 

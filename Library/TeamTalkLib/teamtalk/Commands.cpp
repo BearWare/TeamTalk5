@@ -30,7 +30,6 @@
 
 #include <array>
 #include <ctime>
-#include <chrono>
 
 namespace teamtalk {
 

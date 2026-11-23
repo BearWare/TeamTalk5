@@ -62,12 +62,12 @@
 #endif
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <map>
 #include <memory>
 #include <set>
 #include <vector>
-#include <chrono>
 
 static const auto CLIENT_DESKTOPNAK_TIMEOUT          = ACE_Time_Value(4); //close a desktop session
 static const auto CLIENT_QUERY_MTU_INTERVAL          = ACE_Time_Value(0, 500000); //time between MTU query packets

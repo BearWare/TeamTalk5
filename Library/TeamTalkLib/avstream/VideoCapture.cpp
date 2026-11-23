@@ -44,17 +44,16 @@ using videocapturedevice_t = V4L2Capture;
 #else
 
 #include "codec/MediaUtil.h"
-
 #include "myace/MyACE.h"
 
 #include <ace/Reactor.h>
-#include <thread>
 
 #include <algorithm>
 #include <cassert>
-#include <cstdint>
-#include <vector>
 #include <chrono>
+#include <cstdint>
+#include <thread>
+#include <vector>
 
 #define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE TTEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
 
