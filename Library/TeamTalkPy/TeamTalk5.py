@@ -319,6 +319,8 @@ class OpusCodec(Structure):
     ("bVBRConstraint", BOOL),
     ("nTxIntervalMSec", INT32),
     ("nFrameSizeMSec", INT32),
+    ("bEnableDRED", BOOL),
+    ("bEnableOSCE", BOOL),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.OPUSCODEC) == ctypes.sizeof(OpusCodec))

@@ -1085,6 +1085,12 @@ namespace BearWare
          * If @c nFrameSizeMSec is 0 then @c nFrameSizeMSec will be same as 
          * @c nTxIntervalMSec. */
         public int nFrameSizeMSec;
+        /** @brief Enable OPUS DRED for improved packet loss recovery.
+         * Requires OPUS 1.5 or later. */
+        public bool bEnableDRED;
+        /** @brief Enable OPUS OSCE AI-based decoder enhancement.
+         * Requires OPUS 1.5 or later. */
+        public bool bEnableOSCE;
     }
 
     /** @brief OPUS constants for #BearWare.OpusCodec. */

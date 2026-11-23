@@ -152,6 +152,8 @@ inline void CopyTTStr(char* dst, const QString& src)
 #define DEFAULT_OPUS_BITRATE        32000
 #define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
 #define DEFAULT_OPUS_FRAMESIZE      0 // implies same as DEFAULT_OPUS_DELAY
+#define DEFAULT_OPUS_DRED           FALSE
+#define DEFAULT_OPUS_OSCE           FALSE
 
 //Default video capture settings
 #define DEFAULT_VIDEO_WIDTH     320

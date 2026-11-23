@@ -802,6 +802,20 @@
                 </item>
                </layout>
               </item>
+              <item row="6" column="0" colspan="2">
+               <widget class="QCheckBox" name="opus_dredBox">
+                <property name="text">
+                 <string>Enable AI packet loss recovery (DRED)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0" colspan="2">
+               <widget class="QCheckBox" name="opus_osceBox">
+                <property name="text">
+                 <string>Enable AI speech enhancement (OSCE)</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </widget>
