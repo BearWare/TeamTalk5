@@ -109,7 +109,6 @@ using clientnode_t = std::shared_ptr<ClientNode>;
 
 extern tstring g_lpszRegName;
 extern tstring g_lpszRegKey;
-extern bool g_LicenseValid;
 
 struct ClientInstance
 {
