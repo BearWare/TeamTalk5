@@ -49,8 +49,6 @@
 
 using teamtalk::ServerNode;
 
-extern bool g_LicenseValid;
-
 struct ServerInstance
 {
     ACE_Select_Reactor selectReactor; 

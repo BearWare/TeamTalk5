@@ -45,7 +45,7 @@
 
 tstring g_lpszRegName;
 tstring g_lpszRegKey;
-bool g_LicenseValid = true;
+std::atomic<bool> g_LicenseValid{true};
 
 void LicenseCheck()
 {

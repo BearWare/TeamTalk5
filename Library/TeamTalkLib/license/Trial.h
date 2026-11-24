@@ -26,11 +26,15 @@
 
 #include "mystd/MyStd.h"
 
+#include <atomic>
+
 constexpr auto REG_NAME_MIN = 5;
 
 void LicenseCheck();
 
 void ValidTeamTalkSDK();
+
+extern std::atomic<bool> g_LicenseValid;
 
 tstring GetProcessName();
 
