@@ -25,7 +25,7 @@
 #define AUDIOTHREAD_H
 
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyQueue.h"
 #include "teamtalk/Common.h"
 
 #if defined(ENABLE_SPEEX)
@@ -40,9 +40,6 @@
 #if defined(ENABLE_WEBRTC)
 #include <api/audio/audio_processing.h>
 #endif
-
-#include <ace/Message_Block.h>
-#include <ace/Time_Value.h>
 
 #include <chrono>
 #include <functional>
@@ -70,7 +67,7 @@ public:
     void EnableTone(int frequency) { m_tone_frequency = frequency; }
 
     void QueueAudio(const media::AudioFrame& audframe);
-    void QueueAudio(ACE_Message_Block* mb_audio);
+    void QueueAudio(std::unique_ptr<MsgBlock> mb_audio);
     bool IsVoiceActive();
     int GetCurrentVoiceLevel() const;
 
@@ -85,14 +82,14 @@ public:
 
     const teamtalk::AudioCodec& Codec() const { return m_codec; }
 
-    void ProcessQueue(ACE_Time_Value* tm);
+    void ProcessQueue(std::chrono::milliseconds* tm);
 
     //voice gain
     int m_gainlevel = GAIN_NORMAL;    //GAIN_NORMAL == disabled
 
 private:
     void Run();
-    msg_queue_t m_msg_queue;
+    MsgQueue m_msg_queue;
     std::thread m_thread;
     void ProcessAudioFrame(media::AudioFrame& audblock);
     void MeasureVoiceLevel(const media::AudioFrame& audblock);

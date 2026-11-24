@@ -24,10 +24,11 @@
 #ifndef MEDIAPLAYBACK_H
 #define MEDIAPLAYBACK_H
 
-#include "MediaStreamer.h"
 #include "AudioResampler.h"
+#include "MediaStreamer.h"
 #include "SoundSystem.h"
 #include "codec/MediaUtil.h"
+#include "mystd/MyQueue.h"
 
 #if defined(ENABLE_SPEEXDSP)
 #include "SpeexPreprocess.h"
@@ -37,7 +38,6 @@
 #endif
 
 #include <ace/Future.h>
-#include <ace/Message_Block.h>
 
 #include <cstdint>
 #include <functional>
@@ -83,10 +83,10 @@ public:
 #endif
     // MediaStreamListener
     static bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                  ACE_Message_Block* mb_video);
+                                  MsgBlock* mb_video);
 
     bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
-                                  ACE_Message_Block* mb_audio);
+                                  MsgBlock* mb_audio);
     
     void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                    MediaStreamStatus status);
@@ -130,7 +130,7 @@ private:
     void SubmitPostProgress();
 
     std::queue<MediaFileProgress> m_progress;
-    std::queue<ACE_Message_Block*> m_audio_buffer;
+    std::queue<std::unique_ptr<MsgBlock>> m_audio_buffer;
     uint32_t m_sampleindex = 0;
 
     int m_gainlevel = GAIN_NORMAL;

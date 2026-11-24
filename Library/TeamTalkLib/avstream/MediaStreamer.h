@@ -25,7 +25,7 @@
 #define MEDIASTREAMER_H
 
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyQueue.h"
 
 #include <ace/ACE.h>
 #include <ace/Future.h>
@@ -101,12 +101,12 @@ enum MediaStreamStatus
 };
 
 using mediastream_videocallback_t = std::function< bool (media::VideoFrame& video_frame,
-                             ACE_Message_Block* mb_video) >;
+                             MsgBlock* mb_video) >;
 
 //'audio_frame' is a reference to mb_audio->rd_ptr()
 //@return if false 'mb_audio' will be deleted
 using mediastream_audiocallback_t = std::function< bool (media::AudioFrame& audio_frame,
-                             ACE_Message_Block* mb_audio) >;
+                             MsgBlock* mb_audio) >;
 
 using mediastream_statuscallback_t = std::function< void (const MediaFileProp& mfp,
                              MediaStreamStatus status) >;
@@ -140,7 +140,7 @@ protected:
     virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec) {}
 
     bool QueueAudio(const media::AudioFrame& frame);
-    bool QueueAudio(ACE_Message_Block* mb);
+    bool QueueAudio(std::unique_ptr<MsgBlock> mb);
     bool QueueVideo(const media::VideoFrame& frame);
     
     void InitBuffers();
@@ -167,8 +167,8 @@ private:
     bool ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool flush);
     bool ProcessVideoFrame(uint32_t starttime, uint32_t curtime);
     
-    msg_queue_t m_audio_frames;
-    msg_queue_t m_video_frames;
+    MsgQueue m_audio_frames;
+    MsgQueue m_video_frames;
 };
 
 class MediaFileStreamer : public MediaStreamer

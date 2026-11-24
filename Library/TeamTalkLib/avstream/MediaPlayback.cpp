@@ -22,7 +22,6 @@
  */
 
 #include "MediaPlayback.h"
-#include "myace/MyACE.h"
 
 #if defined(ENABLE_WEBRTC)
 #include "avstream/WebRTCPreprocess.h"
@@ -75,10 +74,7 @@ MediaPlayback::~MediaPlayback()
 
     std::scoped_lock const g(m_mutex);
     while (!m_audio_buffer.empty())
-    {
-        m_audio_buffer.front()->release();
         m_audio_buffer.pop();
-    }
     MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("~MediaPlayback - %p. ID: %d\n"), this, m_userdata);
 }
 
@@ -222,13 +218,13 @@ bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config&
 #endif
 
 bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame&  /*video_frame*/,
-                                             ACE_Message_Block*  /*mb_video*/)
+                                             MsgBlock*  /*mb_video*/)
 {
     return false;
 }
 
 bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/,
-                                             ACE_Message_Block* mb_audio)
+                                             MsgBlock* mb_audio)
 {
     std::scoped_lock const g(m_mutex);
     if (m_audio_buffer.size() > 10)
@@ -237,7 +233,7 @@ bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/
         return false;
     }
 
-    m_audio_buffer.push(mb_audio);
+    m_audio_buffer.push(std::unique_ptr<MsgBlock>(mb_audio));
     return true;
 }
 
@@ -285,13 +281,13 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 {
     SubmitPreProgress();
 
-    ACE_Message_Block* mb = nullptr;
+    MsgBlock* mb = nullptr;
     {
         std::scoped_lock const g(m_mutex);
 
         if (!m_audio_buffer.empty())
         {
-            mb = m_audio_buffer.front();
+            mb = m_audio_buffer.front().release();
             m_audio_buffer.pop();
         }
         else if (m_status == MEDIASTREAM_FINISHED)
@@ -310,7 +306,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
     if (mb != nullptr)
     {
-        MBGuard const gmb(mb);
+        std::unique_ptr<MsgBlock> const gmb(mb);
         media::AudioFrame const frm(mb);
 
         if (m_resampler)

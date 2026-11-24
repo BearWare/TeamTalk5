@@ -36,7 +36,7 @@ AudioInputStreamer::AudioInputStreamer(int streamid, const MediaStreamOutput& ou
 
 AudioInputStreamer::~AudioInputStreamer()
 {
-    m_resample_frames.close();
+    m_resample_frames.Close();
 
     Close();
 }
@@ -57,8 +57,7 @@ bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
             return false;
 
         m_inputfmt = frame.inputfmt;
-        m_resample_frames.low_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
-        m_resample_frames.high_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
+        m_resample_frames.SetWaterMark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
     }
     else if (frame.inputfmt != m_inputfmt)
     {
@@ -79,26 +78,12 @@ bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
         }
     }
 
-    ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
-    ACE_Time_Value zero;
-    if (m_resample_frames.enqueue(mb, &zero) < 0)
-    {
-        mb->release();
-        return false;
-    }
-    return true;
+    return m_resample_frames.Put(AudioFrameToMsgBlock(frame));
 }
 
 bool AudioInputStreamer::Flush()
 {
-    ACE_Message_Block* mb = AudioFrameToMsgBlock(media::AudioFrame());
-    ACE_Time_Value zero;
-    if (m_resample_frames.enqueue(mb, &zero) < 0)
-    {
-        mb->release();
-        return false;
-    }
-    return true;
+    return m_resample_frames.Put(AudioFrameToMsgBlock(media::AudioFrame()));
 }
 
 void AudioInputStreamer::AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec)
@@ -144,24 +129,22 @@ void AudioInputStreamer::Run()
 
 bool AudioInputStreamer::ProcessResample()
 {
-    ACE_Message_Block* mb = nullptr;
-    int ret = m_resample_frames.dequeue(mb, nullptr);
-    if (mb == nullptr)
+    std::unique_ptr<MsgBlock> mb;
+    if (!m_resample_frames.Get(mb) || mb == nullptr)
         return false;
 
-    media::AudioFrame const frame(mb);
+    media::AudioFrame const frame(mb.get());
 
     if (frame.input_samples == 0)
     {
-        mb->release();
-        return true;
+        return true; // 'mb' auto-released
     }
 
     if (frame.inputfmt != GetMediaOutput().audio)
     {
-        MBGuard const g(mb);
         assert(frame.inputfmt == m_inputfmt);
         assert(m_resampler);
+        int ret = 0;
         int const osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
         if (m_resamplebuffer.size() != static_cast<size_t>(osamples) * GetMediaOutput().audio.channels)
             m_resamplebuffer.resize(static_cast<size_t>(osamples) * GetMediaOutput().audio.channels);
@@ -172,8 +155,7 @@ bool AudioInputStreamer::ProcessResample()
     }
     else
     {
-        if (!Submit(mb))
-            mb->release();
+        Submit(std::move(mb)); // block dropped if queue is full
     }
 
     return false; // no flush
@@ -189,14 +171,14 @@ bool AudioInputStreamer::Submit(const media::AudioFrame& frame)
     return QueueAudio(copy);
 }
 
-bool AudioInputStreamer::Submit(ACE_Message_Block* mb)
+bool AudioInputStreamer::Submit(std::unique_ptr<MsgBlock> mb)
 {
     if(!GetMediaOutput().audio.IsValid())
         return false;
 
-    media::AudioFrame* frame = AudioFrameFromMsgBlock(mb);
+    media::AudioFrame* frame = AudioFrameFromMsgBlock(mb.get());
     UpdateTimeStamp(*frame);
-    return QueueAudio(mb);
+    return QueueAudio(std::move(mb));
 }
 
 void AudioInputStreamer::UpdateTimeStamp(media::AudioFrame& frame)

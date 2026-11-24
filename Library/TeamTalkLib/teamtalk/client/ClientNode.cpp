@@ -49,6 +49,7 @@
 #include <system_error>
 
 using namespace teamtalk;
+
 using namespace media;
 using namespace soundsystem;
 using namespace vidcap;
@@ -1043,7 +1044,7 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 
 // Separate thread
 void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
-                                 ACE_Message_Block* mb_audio)
+                                 MsgBlock* mb_audio)
 {
     audframe.soundgrpid = m_soundprop.soundgroupid;
     audframe.userdata = STREAMTYPE_VOICE;
@@ -1056,7 +1057,7 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
     
     if (mb_audio != nullptr)
     {
-        m_voice_thread.QueueAudio(mb_audio);
+        m_voice_thread.QueueAudio(std::unique_ptr<MsgBlock>(mb_audio));
         // don't touch 'mb_audio' after this
     }
     else
@@ -1354,19 +1355,16 @@ SoundDeviceFeatures ClientNode::GetDuplexFeatures()
 }
 
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
-                                           ACE_Message_Block* mb_video)
+                                           MsgBlock* mb_video)
 {
-    if (mb_video == nullptr)
-        mb_video = VideoFrameToMsgBlock(video_frame);
+    std::unique_ptr<MsgBlock> mb = (mb_video != nullptr) ? std::unique_ptr<MsgBlock>(mb_video) : VideoFrameToMsgBlock(video_frame);
 
-    ACE_Time_Value tm_zero;
-    if (m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
+    if (!m_local_vidcapframes.Put(std::move(mb)))
     {
         //make room by deleting oldest video frame
-        ACE_Message_Block* mb = nullptr;
-        if(m_local_vidcapframes.dequeue(mb, &tm_zero) >= 0)
-            mb->release();
-        if(m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
+        std::unique_ptr<MsgBlock> old;
+        m_local_vidcapframes.Get(old, std::chrono::milliseconds(0));
+        if(!m_local_vidcapframes.Put(VideoFrameToMsgBlock(video_frame)))
             return false;
     }
 
@@ -1376,7 +1374,7 @@ bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
 }
 
 bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
-                                            ACE_Message_Block* mb_video)
+                                            MsgBlock* mb_video)
 {
     // FOURCC of 'video_frame' must be RGB32 or I420
 
@@ -1385,7 +1383,7 @@ bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
 
     if(mb_video != nullptr)
     {
-        m_vidcap_thread.QueueFrame(mb_video);
+        m_vidcap_thread.QueueFrame(std::unique_ptr<MsgBlock>(mb_video));
         return true;
     }
     
@@ -1395,7 +1393,7 @@ bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
 }
 
 bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
-                                          ACE_Message_Block* mb_video)
+                                          MsgBlock* mb_video)
 {
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED)
     {
@@ -1407,7 +1405,7 @@ bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
 }
 
 bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
-                                          ACE_Message_Block* mb_video)
+                                          MsgBlock* mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
     TTASSERT(m_videofile_thread);
@@ -1425,7 +1423,7 @@ bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
 }
 
 bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
-                                          ACE_Message_Block* mb_audio)
+                                          MsgBlock* mb_audio)
 {
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
 /*
@@ -1451,7 +1449,7 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
 
     AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame);
 
-    m_audiofile_thread.QueueAudio(mb_audio);
+    m_audiofile_thread.QueueAudio(std::unique_ptr<MsgBlock>(mb_audio));
     // don't touch 'mb_audio' after this
 
     return true;  //m_audiofile_thread always takes ownership
@@ -1492,7 +1490,7 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
 }
 
 bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
-                                    ACE_Message_Block* mb_audio)
+                                    MsgBlock* mb_audio)
 {
     assert(mb_audio);
     audio_frame.force_enc = true;
@@ -3573,9 +3571,9 @@ bool ClientNode::InitVideoCapture(const tstring& src_id,
     //set max buffers for local video frames
     std::size_t bytes = sizeof(media::VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= VIDEOCAPTURE_LOCAL_FRAMES_MAX;
-    m_local_vidcapframes.high_water_mark(bytes);//room for one frame
-    m_local_vidcapframes.low_water_mark(bytes);
-    m_local_vidcapframes.activate();
+    m_local_vidcapframes.Activate();
+    m_local_vidcapframes.SetWaterMark(bytes);//room for one frame
+
 
     if (!m_vidcap->StartVideoCapture())
     {
@@ -3632,22 +3630,21 @@ void ClientNode::CloseVideoCaptureSession()
     ASSERT_CLIENTNODE_LOCKED(this);
 
     m_vidcap_thread.StopEncoder();
-    m_local_vidcapframes.close();
+    m_local_vidcapframes.Close();
 
     m_flags &= ~CLIENT_TX_VIDEOCAPTURE;
 }
 
-ACE_Message_Block* ClientNode::AcquireVideoCaptureFrame()
+std::unique_ptr<MsgBlock> ClientNode::AcquireVideoCaptureFrame()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    ACE_Message_Block* mb = nullptr;
-    ACE_Time_Value tm_zero;
-    m_local_vidcapframes.dequeue(mb, &tm_zero);
+    std::unique_ptr<MsgBlock> mb;
+    m_local_vidcapframes.Get(mb, std::chrono::milliseconds(0));
     return mb;
 }
 
-bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
+bool ClientNode::EncodedVideoCaptureFrame(MsgBlock* org_frame,
                                           const char* enc_data, int enc_len,
                                           uint32_t packet_no,
                                           uint32_t timestamp)
@@ -3681,17 +3678,18 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
     ACE_Time_Value const tm_zero;
     if(org_frame != nullptr)
     {
-        VideoFrame vid_frm(org_frame);
+        auto mb = std::unique_ptr<MsgBlock>(org_frame);
+        VideoFrame vid_frm(mb.get());
         vid_frm.stream_id = m_vidcap_stream_id;
 
         if (vid_frm.fourcc == media::FOURCC_RGB32)
-            return VideoCaptureRGB32Callback(vid_frm, org_frame);
+            return VideoCaptureRGB32Callback(vid_frm, mb.release());
     }
 
     return false; //ignored 'org_frame'
 }
 
-bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
+bool ClientNode::EncodedVideoFileFrame(MsgBlock* /*org_frame*/,
                                        const char* enc_data, int enc_len,
                                        uint32_t packet_no,
                                        uint32_t timestamp)

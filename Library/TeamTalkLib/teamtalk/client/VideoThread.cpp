@@ -25,9 +25,6 @@
 #include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
-#include <ace/Message_Block.h>
-#include <ace/Time_Value.h>
-
 #include <cassert>
 #include <utility>
 
@@ -55,9 +52,8 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
 
     size_t bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= max_frames_queued;
-    m_msg_queue.activate();
-    m_msg_queue.high_water_mark(bytes);
-    m_msg_queue.low_water_mark(bytes);
+    m_msg_queue.Activate();
+    m_msg_queue.SetWaterMark(bytes);
     
     assert(cap_format.IsValid());
 
@@ -109,7 +105,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
 void VideoThread::StopEncoder()
 {
     int ret = 0;
-    ret = m_msg_queue.close();
+    m_msg_queue.Close();
     TTASSERT(ret>=0);
     if (m_thread.joinable())
         m_thread.join();
@@ -150,11 +146,11 @@ bool VideoThread::UpdateEncoder(const teamtalk::VideoCodec& codec)
 
 void VideoThread::Run()
 {
-    ACE_Message_Block* mb = nullptr;
+    std::unique_ptr<MsgBlock> mb;
 
-    while(m_msg_queue.dequeue(mb) >= 0)
+    while(m_msg_queue.Get(mb))
     {
-        VideoFrame const vid(mb);
+        VideoFrame const vid(mb.get());
         bool new_ownership = false;
         assert(m_callback);
         
@@ -185,7 +181,7 @@ void VideoThread::Run()
 
             int enc_len = 0;
             const char* enc_data = m_vpx_encoder.GetEncodedData(enc_len);
-            new_ownership = m_callback(mb, enc_data, enc_len,
+            new_ownership = m_callback(mb.get(), enc_data, enc_len,
                                        m_packet_counter++, vid.timestamp);
 
             while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)) != nullptr)
@@ -197,33 +193,26 @@ void VideoThread::Run()
         default : break;
         }
 
-        if(!new_ownership)
-            mb->release();
+        // 'mb' auto-released (unique_ptr)
     }
 }
 
 void VideoThread::QueueFrame(const media::VideoFrame& video_frame)
 {
-    ACE_Message_Block* mb = VideoFrameToMsgBlock(video_frame);
-    if(mb != nullptr)
-        QueueFrame(mb);
+    QueueFrame(VideoFrameToMsgBlock(video_frame));
 }
 
-void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
+void VideoThread::QueueFrame(std::unique_ptr<MsgBlock> mb_video)
 {
-    assert(mb_video->rd_ptr() == mb_video->base());
-    ACE_Time_Value tm_zero;
-    if (m_msg_queue.enqueue(mb_video, &tm_zero)<0)
+    if (!m_msg_queue.Put(std::move(mb_video)))
     {
         m_frames_dropped++;
-        MYTRACE(TTEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
-                static_cast<int>(mb_video->length()), static_cast<int>(m_msg_queue.message_bytes()), 
+        MYTRACE(TTEXT("Dropped video frame, buffer holds %u. %d/%d\n"),
+                static_cast<unsigned>(m_msg_queue.BytesQueued()),
                 m_frames_dropped, m_frames_dropped + m_frames_passed);
-        mb_video->release();
     }
     else
     {
         m_frames_passed++;
     }
-    //MYTRACE(TTEXT("Encoder queue size: %d\n"), this->msg_queue()->message_count());
 }

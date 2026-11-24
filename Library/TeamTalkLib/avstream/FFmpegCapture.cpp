@@ -114,7 +114,7 @@ void FFmpegCapture::UnregisterVideoFormat(media::FourCC fcc)
 }
 
 bool FFmpegCapture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                              ACE_Message_Block* mb_video)
+                                              MsgBlock* mb_video)
 {
     assert(m_videoinput.get());
     

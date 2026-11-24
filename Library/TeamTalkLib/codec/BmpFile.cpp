@@ -23,11 +23,13 @@
 
 #include "BmpFile.h"
 
+#include <ace/OS.h> // BITMAPFILEHEADER
+
 #include <cassert>
 #include <cstdint>
 #include <vector>
 
-#if defined(ACE_WIN32)
+#if defined(WIN32)
 typedef BITMAPFILEHEADER BitmapFileHeader;
 #else
 struct BitmapFileHeader
@@ -68,8 +70,8 @@ bool WriteBitmap(const tstring& filename, const media::VideoFormat fmt,
     BitmapFileHeader bmphdr = {};
 
     assert(BMPHDR_SIZE == sizeof(bmphdr));
-
-    bmphdr.bfType        = 0x4d42;   // 'BM' WINDOWS_BITMAP_SIGNATURE
+    constexpr auto WINDOWS_BITMAP_SIGNATURE = 0x4d42;
+    bmphdr.bfType        = WINDOWS_BITMAP_SIGNATURE;   // 'BM' WINDOWS_BITMAP_SIGNATURE
     bmphdr.bfSize        = ((((3 * fmt.width) + 3) & ~3) * fmt.height)
                            + BMPHDR_SIZE + BMIHEADER_SIZE;
     bmphdr.bfReserved1    = bmphdr.bfReserved2 = 0;

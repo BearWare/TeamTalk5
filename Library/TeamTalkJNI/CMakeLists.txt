@@ -39,7 +39,7 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
     option (BUILD_TEAMTALK_LIBRARY_JNIPRO "Build TeamTalk 5 Pro JNI DLL for TeamTalk 5 Professional Edition" ON)
 
     if (MSVC)
-      add_definitions (-DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
+      add_definitions (-DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX)
     endif()
 
     if (BUILD_TEAMTALK_LIBRARY_JNIPRO OR BUILD_TEAMTALK_LIBRARY_JNI)

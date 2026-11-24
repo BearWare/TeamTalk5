@@ -117,7 +117,7 @@ ACE_THR_FUNC_RETURN perform_check(void *arg)
 
     http_prop_t http_prop;
 
-#if defined(ACE_WIN32)
+#if defined(WIN32)
     http_prop["os"] =  (sizeof(void*) == sizeof(uint64_t)? "win64" : "win32");
 #elif defined(ACE_HAS_IPHONE)
     http_prop["os"] =  (sizeof(void*) == sizeof(uint64_t)? "ios64" : "ios32");

@@ -25,8 +25,7 @@
 #define VIDEOCAPTURE_H
 
 #include "codec/MediaUtil.h"
-
-#include <ace/Message_Block.h>
+#include "mystd/MyQueue.h"
 
 #include <functional>
 #include <memory>
@@ -51,7 +50,7 @@ namespace vidcap {
     {
     public:
         // return true to take overship of 'mb_video'. 'mb_video' may be NULL
-        using VideoCaptureCallback = std::function<bool(media::VideoFrame& video_frame, ACE_Message_Block* mb_video)>;
+        using VideoCaptureCallback = std::function<bool(media::VideoFrame& video_frame, MsgBlock* mb_video)>;
 
         virtual ~VideoCapture() = default;
 

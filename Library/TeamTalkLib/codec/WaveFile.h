@@ -31,6 +31,7 @@
 #include <memory>
 
 #if defined(WIN32)
+#include <ace/OS.h> // Windows.h
 #include <Mmreg.h>
 #else
 struct WAVEFORMATEX

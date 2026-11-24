@@ -25,14 +25,15 @@
 #define MFTRANSFORM_H
 
 #include "codec/MediaUtil.h"
+#include "mystd/MyQueue.h"
 #include "mystd/MyStd.h"
+
+#include <ace/OS.h> // Windows.h
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 
 #include <mfapi.h>
 #include <atlbase.h>
-
-#include <ace/Message_Queue_T.h>
-#include <ace/Synch.h>
-#include <ace/Synch_Traits.h>
 
 #include <memory>
 #include <vector>
@@ -44,9 +45,9 @@ media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType);
 // returns WAVEFORMATEX-struct
 WAVEFORMATEX* MediaTypeToWaveFormatEx(IMFMediaType* pMediaType, std::vector<char>& buf);
 CComPtr<IMFMediaType> ConvertAudioFormat(const media::AudioFormat& format);
-ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt);
-ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt);
-std::vector<ACE_Message_Block*> ConvertRawSample(IMFSample* pSample);
+msgblock_t ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt);
+msgblock_t ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt);
+std::vector<msgblock_t> ConvertRawSample(IMFSample* pSample);
 CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame);
 
 enum TransformState
@@ -67,7 +68,7 @@ typedef std::vector< CComPtr<IMFSample> > imfsamples_t;
 class MFTransform
 {
 public:
-    virtual ~MFTransform() {}
+    virtual ~MFTransform() = default;
     static mftransform_t Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
     static mftransform_t Create(const media::VideoFormat& inputfmt, media::FourCC outputfmt);
     static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
@@ -87,16 +88,16 @@ public:
 
     virtual TransformState SubmitSample(const media::VideoFrame& frame) = 0;
     virtual TransformState SubmitSample(const media::AudioFrame& frame) = 0;
-    virtual std::vector<ACE_Message_Block*> RetrieveVideoFrames() = 0;
-    virtual std::vector<ACE_Message_Block*> RetrieveAudioFrames() = 0;
-    virtual std::vector<ACE_Message_Block*> RetrieveRawFrames() = 0;
+    virtual std::vector<msgblock_t> RetrieveVideoFrames() = 0;
+    virtual std::vector<msgblock_t> RetrieveAudioFrames() = 0;
+    virtual std::vector<msgblock_t> RetrieveRawFrames() = 0;
 
     virtual std::vector< CComPtr<IMFSample> > ProcessSample(CComPtr<IMFSample>& pInSample) = 0;
-    // return ACE_Message_Block containing media::AudioFrame or media::VideoFrame
-    virtual std::vector<ACE_Message_Block*> ProcessMBSample(CComPtr<IMFSample>& pInSample) = 0;
-    // return ACE_Message_Block containing media::AudioFrame
-    virtual std::vector<ACE_Message_Block*> ProcessAudioResampler(const media::AudioFrame& sample) = 0;
-    virtual std::vector<ACE_Message_Block*> ProcessAudioEncoder(const media::AudioFrame& sample, bool bEraseOutput) = 0;
+    // return MsgBlock containing media::AudioFrame or media::VideoFrame
+    virtual std::vector<msgblock_t> ProcessMBSample(CComPtr<IMFSample>& pInSample) = 0;
+    // return MsgBlock containing media::AudioFrame
+    virtual std::vector<msgblock_t> ProcessAudioResampler(const media::AudioFrame& sample) = 0;
+    virtual std::vector<msgblock_t> ProcessAudioEncoder(const media::AudioFrame& sample) = 0;
 
 };
 #endif

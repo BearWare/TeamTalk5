@@ -73,23 +73,25 @@ struct IntTTMessage
     };
 };
 
-static IntTTMessage* MakeMsgBlock(ACE_Message_Block*& mb,
-                           ClientEvent event,
-                           UINT32 nSource,
-                           TTType ttType)
+static std::unique_ptr<MsgBlock> MakeMsgBlock(ClientEvent event,
+                                              UINT32 nSource,
+                                              TTType ttType,
+                                              IntTTMessage** out)
 {
     int const size = TT_DBG_SIZEOF(ttType);
-    mb = std::make_unique<ACE_Message_Block>(sizeof(IntTTMessage) + size).release(); // NOLINT(bugprone-unused-return-value)
-    std::memset(mb->rd_ptr(), 0, sizeof(IntTTMessage) + size);
-    auto* ret = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
+    auto mb = std::make_unique<MsgBlock>(sizeof(IntTTMessage) + size);
+    std::memset(mb->RdPtr(), 0, sizeof(IntTTMessage) + size);
+    auto* ret = reinterpret_cast<IntTTMessage*>(mb->RdPtr());
     ret->event = event;
     ret->nSource = nSource;
     ret->ttType = ttType;
     if(size != 0)
-        ret->any = &mb->rd_ptr()[sizeof(IntTTMessage)];
+        ret->any = mb->RdPtr() + sizeof(IntTTMessage);
     else
         ret->any = nullptr;
-    return ret;
+    if (out != nullptr)
+        *out = ret;
+    return mb;
 }
 
 TTMsgQueue::TTMsgQueue()
@@ -121,36 +123,31 @@ TTMsgQueue::~TTMsgQueue()
 
 void TTMsgQueue::InitMsgQueue()
 {
-    m_event_queue.low_water_mark(INTMSG_MAX_SIZE);
-    m_event_queue.high_water_mark(INTMSG_MAX_SIZE);
+    m_event_queue.SetWaterMark(INTMSG_MAX_SIZE);
     static_assert(INTMSG_MAX_SIZE >= INTMSG_SUSPEND_SIZE, "Message queue size invalid");
 }
 
-void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
+void TTMsgQueue::EnqueueMsg(std::unique_ptr<MsgBlock> mb)
 {
     bool suspend = false;
     {
         std::unique_lock<std::mutex> const g(m_mutex);
 
-        size_t const old_size = m_event_queue.message_bytes();
+        size_t const old_size = m_event_queue.BytesQueued();
         if (old_size <= INTMSG_SUSPEND_SIZE &&
-            m_event_queue.message_bytes() + mb->size() > INTMSG_SUSPEND_SIZE)
+            m_event_queue.BytesQueued() + mb->Capacity() > INTMSG_SUSPEND_SIZE)
         {
             // submit message along with overflow message
 
-            ACE_Time_Value tv;
-            int ret = m_event_queue.enqueue(mb, &tv);
-            assert(ret >= 0);
+            m_event_queue.Put(std::move(mb));
 
-            IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
-                                             0, __CLIENTERRORMSG);
+            IntTTMessage* msg = nullptr;
+            auto mb2 = MakeMsgBlock(CLIENTEVENT_INTERNAL_ERROR, 0, __CLIENTERRORMSG, &msg);
             Convert(teamtalk::ErrorMsg(INTERR_TTMESSAGE_QUEUE_OVERFLOW,
                                        TTEXT("The internal message queue has overflowed")),
                     *msg->clienterrmsg);
 
-            tv = ACE_Time_Value::zero;
-            ret = m_event_queue.enqueue(mb, &tv);
-            assert(ret >= 0);
+            m_event_queue.Put(std::move(mb2));
             assert(!m_suspended);
             if (m_suspender != nullptr)
                 m_suspended = suspend = m_suspender->CanSuspend();
@@ -159,23 +156,20 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
 
             MYTRACE(TTEXT("TTMsgQueue message queue has overflowed. Suspend: %d\n"), static_cast<int>(suspend));
         }
-        else if (m_event_queue.message_bytes() + mb->size() <= INTMSG_SUSPEND_SIZE)
+        else if (m_event_queue.BytesQueued() + mb->Capacity() <= INTMSG_SUSPEND_SIZE)
         {
-            ACE_Time_Value tv;
-            int const ret = m_event_queue.enqueue(mb, &tv);
-            TTASSERT(ret >= 0);
+            m_event_queue.Put(std::move(mb));
         }
         else
         {
-            MBGuard const g_mb(mb);
             if (!m_suspended && (m_suspender != nullptr) && m_suspender->CanSuspend())
                 m_suspended = suspend = true;
 
-            auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
+            auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->RdPtr());
             MYTRACE(TTEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, static_cast<int>(suspend));
         }
         MYTRACE_COND(DEBUG_TTMSGQUEUE, TTEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"),
-                     this, old_size, m_event_queue.message_bytes(), m_event_queue.high_water_mark());
+                     this, old_size, m_event_queue.BytesQueued(), m_event_queue.GetWaterMark());
     }
 
     if (suspend && (m_suspender != nullptr))
@@ -189,22 +183,18 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
 #endif
 }
 
-TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
+TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, std::chrono::milliseconds tv)
 {
     bool resume = false;
-    ACE_Message_Block* mb = nullptr;
+    std::unique_ptr<MsgBlock> mb;
     {
-        if (m_event_queue.peek_dequeue_head(mb, tv) >= 0)
+        if (m_event_queue.PeekHead() != nullptr)
         {
             std::unique_lock<std::mutex> const g(m_mutex);
 
-            ACE_Time_Value tvzero;
-            int const ret = m_event_queue.dequeue(mb, &tvzero);
-            assert(ret >= 0);
-            if (ret < 0)
-                return FALSE;
+            m_event_queue.Get(mb);
 
-            auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
+            auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->RdPtr());
             msg.nClientEvent = intmsg->event;
             msg.nSource = intmsg->nSource;
             msg.ttType = intmsg->ttType;
@@ -212,12 +202,10 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
             TTASSERT(!size || intmsg->any);
             if(size>0 && (intmsg->any != nullptr))
                 std::memcpy(msg.data, intmsg->any, size);
-            mb->release();
-
             MYTRACE_COND(DEBUG_TTMSGQUEUE, TTEXT("Dequeue %p: Cur size: %u\n"),
-                         this, m_event_queue.message_bytes());
+                         this, m_event_queue.BytesQueued());
 
-            if (m_suspended && m_event_queue.message_bytes() <= INTMSG_SUSPEND_SIZE)
+            if (m_suspended && m_event_queue.BytesQueued() <= INTMSG_SUSPEND_SIZE)
             {
                 resume = true;
                 m_suspended = false;
@@ -240,199 +228,195 @@ void TTMsgQueue::RegisterEventSuspender(teamtalk::EventSuspender* suspender)
 
 void TTMsgQueue::OnConnectSuccess()
 {
-    ACE_Message_Block* mb = nullptr;
-    MakeMsgBlock(mb, CLIENTEVENT_CON_SUCCESS, 0, __NONE);
-    EnqueueMsg(mb);
+    auto mb = MakeMsgBlock(CLIENTEVENT_CON_SUCCESS, 0, __NONE, nullptr);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnConnectFailed()
 {
-    ACE_Message_Block* mb = nullptr;
-    MakeMsgBlock(mb, CLIENTEVENT_CON_FAILED, 0, __NONE);
-    EnqueueMsg(mb);
+    auto mb = MakeMsgBlock(CLIENTEVENT_CON_FAILED, 0, __NONE, nullptr);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnConnectionLost()
 {
-    ACE_Message_Block* mb = nullptr;
-    MakeMsgBlock(mb, CLIENTEVENT_CON_LOST, 0, __NONE);
-    EnqueueMsg(mb);
+    auto mb = MakeMsgBlock(CLIENTEVENT_CON_LOST, 0, __NONE, nullptr);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnEncryptionFailed(int sslerr, const tstring& errmsg)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_CRYPT_ERROR,
-                                     sslerr, __CLIENTERRORMSG);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CON_CRYPT_ERROR,
+                                     sslerr, __CLIENTERRORMSG, &msg);
     Convert(teamtalk::ErrorMsg(sslerr, errmsg), *msg->clienterrmsg);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnAccepted(int myuserid, const teamtalk::UserAccount& account)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_MYSELF_LOGGEDIN,
-                                     myuserid, __USERACCOUNT);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_MYSELF_LOGGEDIN,
+                                     myuserid, __USERACCOUNT, &msg);
     Convert(account, *msg->useraccount);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnLoggedOut()
 {
-    ACE_Message_Block* mb = nullptr;
-    MakeMsgBlock(mb, CLIENTEVENT_CMD_MYSELF_LOGGEDOUT, 0, __NONE);
-    EnqueueMsg(mb);
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_MYSELF_LOGGEDOUT, 0, __NONE, nullptr);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserLoggedIn(const teamtalk::ClientUser& user)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USER_LOGGEDIN,
-                                     0, __USER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USER_LOGGEDIN,
+                                     0, __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserLoggedOut(const teamtalk::ClientUser& user)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USER_LOGGEDOUT,
-                                     0, __USER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USER_LOGGEDOUT,
+                                     0, __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserUpdate(const teamtalk::ClientUser& user)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USER_UPDATE,
-                                     0, __USER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USER_UPDATE,
+                                     0, __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserJoinChannel(const teamtalk::ClientUser& user,
                                    const teamtalk::ClientChannel& /*chan*/)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USER_JOINED,
-                                     0, __USER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USER_JOINED,
+                                     0, __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserLeftChannel(const teamtalk::ClientUser& user,
                                    const teamtalk::ClientChannel& chan)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USER_LEFT,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USER_LEFT,
                                      chan.GetChannelID(),
-                                     __USER);
+                                     __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnAddChannel(const teamtalk::ClientChannel& chan)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_CHANNEL_NEW,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_CHANNEL_NEW,
                                      0,
-                                     __CHANNEL);
+                                     __CHANNEL, &msg);
     Convert(chan.GetChannelProp(), *msg->chan);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUpdateChannel(const teamtalk::ClientChannel& chan)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_CHANNEL_UPDATE,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_CHANNEL_UPDATE,
                                      0,
-                                     __CHANNEL);
+                                     __CHANNEL, &msg);
     Convert(chan.GetChannelProp(), *msg->chan);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnRemoveChannel(const teamtalk::ClientChannel& chan)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_CHANNEL_REMOVE,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_CHANNEL_REMOVE,
                                      0,
-                                     __CHANNEL);
+                                     __CHANNEL, &msg);
     Convert(chan.GetChannelProp(), *msg->chan);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnAddFile(const teamtalk::ClientChannel& /*chan*/,
                            const teamtalk::RemoteFile& file)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_FILE_NEW,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_FILE_NEW,
                                      0,
-                                     __REMOTEFILE);
+                                     __REMOTEFILE, &msg);
     Convert(file, *msg->remotefile);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnRemoveFile(const teamtalk::ClientChannel& /*chan*/,
                               const teamtalk::RemoteFile& file)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_FILE_REMOVE,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_FILE_REMOVE,
                                      0,
-                                     __REMOTEFILE);
+                                     __REMOTEFILE, &msg);
     Convert(file, *msg->remotefile);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserAccount(const teamtalk::UserAccount& account)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USERACCOUNT,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USERACCOUNT,
                                      0,
-                                     __USERACCOUNT);
+                                     __USERACCOUNT, &msg);
     Convert(account, *msg->useraccount);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnAddUserAccount(const teamtalk::UserAccount& account)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USERACCOUNT_NEW,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USERACCOUNT_NEW,
                                      0,
-                                     __USERACCOUNT);
+                                     __USERACCOUNT, &msg);
     Convert(account, *msg->useraccount);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnRemoveUserAccount(const tstring& username)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USERACCOUNT_REMOVE,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USERACCOUNT_REMOVE,
                                      0,
-                                     __USERACCOUNT);
+                                     __USERACCOUNT, &msg);
     teamtalk::UserAccount account;
     account.username = username;
     Convert(account, *msg->useraccount);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnBannedUser(const teamtalk::BannedUser& banuser)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_BANNEDUSER,
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_BANNEDUSER,
                                      0,
-                                     __BANNEDUSER);
+                                     __BANNEDUSER, &msg);
     Convert(banuser, *msg->banneduser);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnTextMessage(const teamtalk::TextMessage& textmsg)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USER_TEXTMSG,
-                                     0, __TEXTMESSAGE);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_USER_TEXTMSG,
+                                     0, __TEXTMESSAGE, &msg);
     Convert(textmsg, *msg->textmessage);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnJoinedChannel(int /*channelid*/)
@@ -445,204 +429,203 @@ void TTMsgQueue::OnLeftChannel(int /*channelid*/)
 
 void TTMsgQueue::OnKicked(const teamtalk::clientuser_t& user, int channelid)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_MYSELF_KICKED,
-                                     channelid, user? __USER : __NONE);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_MYSELF_KICKED,
+                                     channelid, user? __USER : __NONE, &msg);
     if(user)
         Convert(*user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnServerUpdate(const teamtalk::ServerInfo& serverinfo)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_SERVER_UPDATE,
-                                     0, __SERVERPROPERTIES);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_SERVER_UPDATE,
+                                     0, __SERVERPROPERTIES, &msg);
     Convert(serverinfo, *msg->serverproperties);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnServerStatistics(const teamtalk::ServerStats& serverstats)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_SERVERSTATISTICS,
-                                     0, __SERVERSTATISTICS);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_SERVERSTATISTICS,
+                                     0, __SERVERSTATISTICS, &msg);
     Convert(serverstats, *msg->serverstatistics);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 
 void TTMsgQueue::OnFileTransferStatus(const teamtalk::FileTransfer& transfer)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_FILETRANSFER,
-                                     0, __FILETRANSFER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_FILETRANSFER,
+                                     0, __FILETRANSFER, &msg);
     Convert(transfer, *msg->filetransfer);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnCommandProcessing(int cmdid, bool begin_end)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_PROCESSING,
-                                     cmdid, __TTBOOL);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_PROCESSING,
+                                     cmdid, __TTBOOL, &msg);
     *msg->active = static_cast<TTBOOL>(!begin_end);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnCommandError(int cmdid, int err_num, const tstring& msg_)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_ERROR,
-                                     cmdid, __CLIENTERRORMSG);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_ERROR,
+                                     cmdid, __CLIENTERRORMSG, &msg);
     Convert(teamtalk::ErrorMsg(err_num, msg_), *msg->clienterrmsg);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnCommandSuccess(int cmdid)
 {
-    ACE_Message_Block* mb = nullptr;
-    MakeMsgBlock(mb, CLIENTEVENT_CMD_SUCCESS, cmdid, __NONE);
-    EnqueueMsg(mb);
+    auto mb = MakeMsgBlock(CLIENTEVENT_CMD_SUCCESS, cmdid, __NONE, nullptr);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnInternalError(int errorno, const tstring& msg_)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
-                                     0, __CLIENTERRORMSG);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_INTERNAL_ERROR,
+                                     0, __CLIENTERRORMSG, &msg);
     Convert(teamtalk::ErrorMsg(errorno, msg_), *msg->clienterrmsg);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnVoiceActivated(bool enabled)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_VOICE_ACTIVATION,
-                                     0, __TTBOOL);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_VOICE_ACTIVATION,
+                                     0, __TTBOOL, &msg);
     *msg->active = static_cast<TTBOOL>(enabled);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserFirstStreamVoicePacket(const teamtalk::ClientUser& user, int streamid)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET,
-                                     streamid, __USER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET,
+                                     streamid, __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserStateChange(const teamtalk::ClientUser& user)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_STATECHANGE,
-                                     0, __USER);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_STATECHANGE,
+                                     0, __USER, &msg);
     Convert(user, *msg->user);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserVideoCaptureFrame(int userid, int stream_id)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_VIDEOCAPTURE,
-                                     userid, __INT32);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_VIDEOCAPTURE,
+                                     userid, __INT32, &msg);
     *msg->stream_id = stream_id;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserMediaFileVideoFrame(int userid, int stream_id)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_MEDIAFILE_VIDEO,
-                                     userid, __INT32);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_MEDIAFILE_VIDEO,
+                                     userid, __INT32, &msg);
     *msg->stream_id = stream_id;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnDesktopTransferUpdate(int session_id, int remain_bytes)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_DESKTOPWINDOW_TRANSFER,
-                                     session_id, __INT32);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_DESKTOPWINDOW_TRANSFER,
+                                     session_id, __INT32, &msg);
     *msg->bytesremain = remain_bytes;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserDesktopWindow(int userid, int session_id)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_DESKTOPWINDOW,
-                                     userid, __INT32);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_DESKTOPWINDOW,
+                                     userid, __INT32, &msg);
     *msg->stream_id = session_id;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserDesktopCursor(int src_userid, const teamtalk::DesktopInput& input)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_DESKTOPCURSOR,
-                                     src_userid, __DESKTOPINPUT);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_DESKTOPCURSOR,
+                                     src_userid, __DESKTOPINPUT, &msg);
     Convert(input, *msg->desktopinput);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserDesktopInput(int src_userid, const teamtalk::DesktopInput& input)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_DESKTOPINPUT,
-                                     src_userid, __DESKTOPINPUT);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_DESKTOPINPUT,
+                                     src_userid, __DESKTOPINPUT, &msg);
     Convert(input, *msg->desktopinput);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnChannelStreamMediaFile(const MediaFileProp& mfp,
                                           teamtalk::MediaFileStatus status)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_STREAM_MEDIAFILE,
-                                     0, __MEDIAFILEINFO);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_STREAM_MEDIAFILE,
+                                     0, __MEDIAFILEINFO, &msg);
     Convert(mfp, *msg->mediafileinfo);
     msg->mediafileinfo->nStatus = static_cast<MediaFileStatus>(status);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mfp,
                                           teamtalk::MediaFileStatus status)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_LOCAL_MEDIAFILE,
-                                     sessionid, __MEDIAFILEINFO);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_LOCAL_MEDIAFILE,
+                                     sessionid, __MEDIAFILEINFO, &msg);
     Convert(mfp, *msg->mediafileinfo);
     msg->mediafileinfo->nStatus = static_cast<MediaFileStatus>(status);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnAudioInputStatus(int voicestreamid, const AudioInputStatus& ais)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_AUDIOINPUT,
-                                     voicestreamid, __AUDIOINPUTPROGRESS);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_AUDIOINPUT,
+                                     voicestreamid, __AUDIOINPUTPROGRESS, &msg);
     Convert(ais, *msg->audioinputprogress);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamTypes sts)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_AUDIOBLOCK,
-                                     userid, __STREAMTYPE);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_AUDIOBLOCK,
+                                     userid, __STREAMTYPE, &msg);
     *msg->streamtype = static_cast<StreamType>(sts);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnMTUQueryComplete(int payload_size)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED,
-                                     0, __INT32);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED,
+                                     0, __INT32, &msg);
     *msg->payload_size = payload_size;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 //VoiceLogListener
@@ -650,40 +633,40 @@ void TTMsgQueue::OnMediaFileStatus(int userid,
                                    teamtalk::MediaFileStatus status,
                                    const teamtalk::VoiceLogFile& vlog)
 {
-    ACE_Message_Block* mb = nullptr;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_RECORD_MEDIAFILE,
-                                     userid, __MEDIAFILEINFO);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_USER_RECORD_MEDIAFILE,
+                                     userid, __MEDIAFILEINFO, &msg);
     Convert(status, vlog, *msg->mediafileinfo);
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 /* HotKeyListener events */
 #if defined(WIN32)
 void TTMsgQueue::OnHotKeyActive(int hotkeyid)
 {
-    ACE_Message_Block* mb;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_HOTKEY,
-                                     hotkeyid, __TTBOOL);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_HOTKEY,
+                                     hotkeyid, __TTBOOL, &msg);
     *msg->active = TRUE;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnHotKeyInactive(int hotkeyid)
 {
-    ACE_Message_Block* mb;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_HOTKEY,
-                                     hotkeyid, __TTBOOL);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_HOTKEY,
+                                     hotkeyid, __TTBOOL, &msg);
     *msg->active = FALSE;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 void TTMsgQueue::OnKeyDown(UINT nVK)
 {
-    ACE_Message_Block* mb;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_HOTKEY_TEST,
-                                    nVK, __TTBOOL);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_HOTKEY_TEST,
+                                    nVK, __TTBOOL, &msg);
     *msg->active = TRUE;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 
     if(m_hKeyWnd)
     {
@@ -693,11 +676,11 @@ void TTMsgQueue::OnKeyDown(UINT nVK)
 
 void TTMsgQueue::OnKeyUp(UINT nVK)
 {
-    ACE_Message_Block* mb;
-    IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_HOTKEY_TEST,
-                                    nVK, __TTBOOL);
+    IntTTMessage* msg = nullptr;
+    auto mb = MakeMsgBlock(CLIENTEVENT_HOTKEY_TEST,
+                                    nVK, __TTBOOL, &msg);
     *msg->active = FALSE;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 
     if(m_hKeyWnd)
     {
@@ -713,35 +696,35 @@ void TTMsgQueue::AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, con
     tstrsncpy(snd.szDeviceName, name, TT_STRLEN);
     tstrsncpy(snd.szDeviceID, id, TT_STRLEN);
 
-    ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = nullptr;
+    std::unique_ptr<MsgBlock> mb;
     switch (event)
     {
     case AUDIODEVICE_ADD :
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_ADDED, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_ADDED, 0, __SOUNDDEVICE, &msg);
         break;
     case AUDIODEVICE_REMOVE :
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_REMOVED, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_REMOVED, 0, __SOUNDDEVICE, &msg);
         break;
     case AUDIODEVICE_UNPLUGGED:
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_UNPLUGGED, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_UNPLUGGED, 0, __SOUNDDEVICE, &msg);
         break;
     case AUDIODEVICE_NEW_DEFAULT_INPUT :
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT, 0, __SOUNDDEVICE, &msg);
         break;
     case AUDIODEVICE_NEW_DEFAULT_OUTPUT :
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT, 0, __SOUNDDEVICE, &msg);
         break;
     case AUDIODEVICE_NEW_DEFAULT_INPUT_COMDEVICE:
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE, 0, __SOUNDDEVICE, &msg);
         break;
     case AUDIODEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE:
-        msg = MakeMsgBlock(mb, CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE, 0, __SOUNDDEVICE);
+        mb = MakeMsgBlock(CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE, 0, __SOUNDDEVICE, &msg);
         break;
     }
 
     *msg->sounddevice = snd;
-    EnqueueMsg(mb);
+    EnqueueMsg(std::move(mb));
 }
 
 #endif /* WIN32 */

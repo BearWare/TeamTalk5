@@ -99,7 +99,7 @@ static void PlayAudioPackets(const std::set<uint16_t>& drop_packets,
     while (PCM16_SAMPLES_DURATION(samples_submitted, teamtalk::GetAudioCodecSampleRate(codec)) < recordDurationMSec)
     {
         encoder.QueueAudio(audfrm);
-        ACE_Time_Value zero;
+        std::chrono::milliseconds zero{0};
         encoder.ProcessQueue(&zero);
         samples_submitted += audfrm.input_samples;
     }

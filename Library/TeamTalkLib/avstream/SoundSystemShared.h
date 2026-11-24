@@ -25,13 +25,11 @@
 #define SOUNDSYSTEMSHARED_H
 
 #include "SoundSystem.h"
+
 #include "AudioResampler.h"
-
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyQueue.h"
 
-#include <ace/Message_Block.h>
-#include <ace/Message_Queue_T.h>
 #include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
 
@@ -111,7 +109,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             assert(m_resample_buffers.empty());
             assert(m_callback_buffers.empty());
 
-            m_samples_queue.close();
+            m_samples_queue.Close();
             if (m_resample_thread)
                 m_resample_thread->join();
 
@@ -131,8 +129,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             size_t buffersize = PCM16_BYTES(streamer->framesize, streamer->channels);
             buffersize *= 3; //TODO: what is a good number??
-            m_samples_queue.low_water_mark(buffersize);
-            m_samples_queue.high_water_mark(buffersize);
+            m_samples_queue.SetWaterMark(buffersize);
         }
 
         inputstreamer_t GetOrigin() const { return m_originalstream; }
@@ -265,25 +262,20 @@ constexpr auto DEBUG_RESAMPLER = 0;
             if (resample)
             {
                 size_t const size = PCM16_BYTES(samples, streamer.channels);
-                auto mb = std::make_unique<ACE_Message_Block>(size);
-                if (mb->copy(reinterpret_cast<const char*>(buffer), size) == 0)
-                {
-                    ACE_Time_Value tm = ACE_Time_Value::zero;
-                    if (m_samples_queue.enqueue(mb.get(), &tm) >= 0)
-                        mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
-                }
+                auto mb = std::make_unique<MsgBlock>(size);
+                mb->Copy(reinterpret_cast<const char*>(buffer), size);
+                m_samples_queue.Put(std::move(mb)); // queue owns the block now
             }
         }
 
         void ResampleFunc()
         {
-            ACE_Message_Block* mb = nullptr;
-            while (m_samples_queue.dequeue(mb) >= 0)
+            std::unique_ptr<MsgBlock> mb;
+            while (m_samples_queue.Get(mb))
             {
-                MBGuard const gmb(mb);
                 std::scoped_lock g(m_mutex);
 
-                assert(mb->length() == PCM16_BYTES(m_originalstream->framesize, m_originalstream->channels));
+                assert(mb->Length() == PCM16_BYTES(m_originalstream->framesize, m_originalstream->channels));
                 for (const auto& i : m_resamplers)
                 {
                     auto key = i.first;
@@ -298,7 +290,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     assert(cbch);
                     int rsframesize = static_cast<int>(rsbuf->second.size()) / cbch;
                     assert(i.second);
-                    int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
+                    int samples = i.second->Resample(reinterpret_cast<const short*>(mb->RdPtr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsframesize);
                     MYTRACE_COND(DEBUG_RESAMPLER, TTEXT("Resampled for samplerate %d, framesize %d, channels %d\n"),
@@ -360,7 +352,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
     private:
         int m_sndgrpid = 0;
-        msg_queue_t m_samples_queue;
+        MsgQueue m_samples_queue;
         inputstreamer_t m_originalstream;
 
         std::set<inputstreamer_t> m_inputstreams, m_activestreams;
@@ -453,11 +445,11 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     const size_t outputbytes = PCM16_BYTES(outputsamples, m_orgstream->channels);
 
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue before: %d msec\n"),
-                                 int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
+                                 int(PCM16_BYTES_DURATION(msgq->BytesQueued(), streamer.channels,
                                                           streamer.samplerate)));
 
                     // fill up buffer with enough bytes to do a callback
-                    while (msgq->message_length() < reqbytes)
+                    while (msgq->BytesQueued() < reqbytes)
                     {
                         i.first->StreamPlayerCb(*streamer_resam, input, streamer_resam->framesize);
                         int mastervol = m_sndsys->GetMasterVolume(streamer_resam->sndgrpid);
@@ -465,21 +457,15 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         SoftVolume(*streamer_resam, input, streamer_resam->framesize, mastervol, mastermute);
                         short* output = resampler->Resample(input);
 
-                        auto mb = std::make_unique<ACE_Message_Block>(outputbytes);
-                        if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) >= 0)
-                        {
-                            ACE_Time_Value tv;
-                            int ret = msgq->enqueue(mb.get(), &tv);
-                            if (ret >= 0)
-                                mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
-                            else
-                                msgq->close();
-                        }
+                        auto mb = std::make_unique<MsgBlock>(outputbytes);
+                        mb->Copy(reinterpret_cast<const char*>(output), outputbytes);
+                        if (!msgq->Put(std::move(mb)))
+                            msgq->Close();
                     }
 
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
-                                 int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
-                                                          streamer.samplerate)), unsigned(msgq->message_length()));
+                                 int(PCM16_BYTES_DURATION(msgq->BytesQueued(), streamer.channels,
+                                                          streamer.samplerate)), unsigned(msgq->BytesQueued()));
 
 
                     // copy buffer to callback
@@ -487,44 +473,34 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     size_t copied = 0;
                     while (copied < reqbytes)
                     {
-                        ACE_Time_Value tv;
-                        ACE_Message_Block* mb = nullptr;
-                        int ret = msgq->dequeue(mb, &tv);
-                        assert(ret >= 0);
-                        if (ret < 0)
+                        std::unique_ptr<MsgBlock> mb;
+                        if (!msgq->Get(mb))
                         {
-                            msgq->close();
+                            msgq->Close();
                             break;
                         }
 
-                        size_t const copylimit = std::min(mb->length(), reqbytes - copied);
-                        std::memcpy(bytebuffer + copied, mb->rd_ptr(), copylimit);
-                        auto *was = mb->rd_ptr();
-                        mb->rd_ptr(copylimit);
-                        assert(mb->rd_ptr() == was + copylimit);
+                        size_t const copylimit = std::min(mb->Length(), reqbytes - copied);
+                        std::memcpy(bytebuffer + copied, mb->RdPtr(), copylimit);
+                        auto *was = mb->RdPtr();
+                        mb->RdPtr(copylimit);
+                        assert(mb->RdPtr() == was + copylimit);
                         copied += copylimit;
 
-                        if (mb->length() != 0u)
+                        if (mb->Length() != 0u)
                         {
                             assert(copied == reqbytes);
-                            int ret = msgq->enqueue_head(mb, &tv);
-                            assert(ret >= 0);
-                            if (ret < 0)
+                            if (!msgq->PutFront(std::move(mb)))
                             {
-                                mb->release();
-                                msgq->close();
+                                msgq->Close();
                                 break;
                             }
-                        }
-                        else
-                        {
-                            mb->release();
                         }
                     }
                     assert(copied == reqbytes);
 
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue after dequeue: %d msec\n"),
-                                 int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
+                                 int(PCM16_BYTES_DURATION(msgq->BytesQueued(), streamer.channels,
                                                           streamer.samplerate)));
 
                 }
@@ -587,10 +563,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             m_resamplers[player] = resampler;
             m_callbackbuffers[player].resize(size_t(streamer->channels) * streamer->framesize);
-            m_resambuffers[player] = std::make_shared<ACE_Message_Queue< ACE_NULL_SYNCH >>();
+            m_resambuffers[player] = std::make_shared<MsgQueue>();
             constexpr auto ONEMBYTE = 1024 * 1024;
-            m_resambuffers[player]->high_water_mark(ONEMBYTE);
-            m_resambuffers[player]->low_water_mark(ONEMBYTE);
+            m_resambuffers[player]->SetWaterMark(ONEMBYTE);
             return true;
         }
 
@@ -636,7 +611,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
         }
 
     private:
-        using msg_queue_t = std::shared_ptr< ACE_Message_Queue< ACE_NULL_SYNCH > >;
+        using msg_queue_t = std::shared_ptr< MsgQueue >;
 
         SoundSystem* m_sndsys;
         outputstreamer_t m_orgstream;

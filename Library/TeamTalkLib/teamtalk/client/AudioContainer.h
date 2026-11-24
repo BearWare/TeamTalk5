@@ -26,11 +26,9 @@
 
 #include "avstream/AudioResampler.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyQueue.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
-
-#include <ace/Message_Block.h>
 
 #include <cstdint>
 #include <map>
@@ -41,15 +39,14 @@ constexpr auto AUDIOCONTAINER_MAXSIZE = PCM16_BYTES(48000, 2) * 3; // 3 seconds 
 
 struct AudioEntry
 {
-    msg_queue_t mq;
+    MsgQueue mq;
 
     audio_resampler_t resampler;
     media::AudioFormat outfmt;
 
     AudioEntry(const media::AudioFormat& resamplefmt) : outfmt(resamplefmt)
     {
-        mq.high_water_mark(AUDIOCONTAINER_MAXSIZE);
-        mq.low_water_mark(AUDIOCONTAINER_MAXSIZE);
+        mq.SetWaterMark(AUDIOCONTAINER_MAXSIZE);
     }
 };
 
@@ -68,7 +65,7 @@ public:
     bool Exists(int userid, teamtalk::StreamTypes sts);
     bool IsEmpty(int userid, teamtalk::StreamTypes sts);
 
-    ACE_Message_Block* AcquireAudioFrame(int userid, teamtalk::StreamTypes sts);
+    std::unique_ptr<MsgBlock> AcquireAudioFrame(int userid, teamtalk::StreamTypes sts);
     void ReleaseAllAudio();
 
 private:

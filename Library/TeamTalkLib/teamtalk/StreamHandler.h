@@ -87,7 +87,7 @@ public:
             m_listener->OnClosed(*this);
 
         ACE_HANDLE const hh = this->get_handle();
-#if defined (ACE_WIN32)
+#if defined (WIN32)
         MYTRACE(TTEXT("~StreamHandler() %p. Handle: 0x%p, Sent: %u Recv: %u\n"),
                 this, hh, uint32_t(sent_), uint32_t(recv_));
 #else

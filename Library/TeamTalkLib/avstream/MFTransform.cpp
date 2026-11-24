@@ -381,11 +381,9 @@ public:
         if (m_audiofile)
         {
             Drain();
-            auto mbs = RetrieveAudioFrames();
-            for(auto& mb : mbs)
+            for (auto& mb : RetrieveAudioFrames())
             {
-                m_audiofile->AppendData(mb->rd_ptr(), int(mb->length()));
-                mb->release();
+                m_audiofile->AppendData(mb->RdPtr(), int(mb->Length()));
             }
         }
 
@@ -395,7 +393,7 @@ public:
 
     bool Ready() const { return m_ready; }
 
-    CComPtr<IMFMediaType> GetInputType()
+    CComPtr<IMFMediaType> GetInputType() override
     {
         if (!m_pMFT)
             return nullptr;
@@ -407,7 +405,7 @@ public:
         return pMediaType;
     }
 
-    CComPtr<IMFMediaType> GetOutputType()
+    CComPtr<IMFMediaType> GetOutputType() override
     {
         HRESULT hr;
         CComPtr<IMFMediaType> pMediaType;
@@ -416,7 +414,7 @@ public:
         return pMediaType;
     }
 
-    TransformState SubmitSample(CComPtr<IMFSample>& pInSample)
+    TransformState SubmitSample(CComPtr<IMFSample>& pInSample) override
     {
         assert(Ready());
 
@@ -459,7 +457,7 @@ public:
         }
     }
 
-    TransformState SubmitSample(const media::VideoFrame& frame)
+    TransformState SubmitSample(const media::VideoFrame& frame) override
     {
         HRESULT hr;
         CComPtr<IMFSample> pSample;
@@ -511,7 +509,7 @@ public:
         return TRANSFORM_ERROR;
     }
 
-    TransformState SubmitSample(const media::AudioFrame& frame)
+    TransformState SubmitSample(const media::AudioFrame& frame) override
     {
         auto pSample = CreateSample(frame);
 
@@ -523,7 +521,7 @@ public:
         return TRANSFORM_ERROR;
     }
 
-    std::vector< CComPtr<IMFSample> > RetrieveSample()
+    std::vector< CComPtr<IMFSample> > RetrieveSample() override
     {
         assert(Ready());
 
@@ -641,7 +639,7 @@ public:
         return outputsamples;
     }
 
-    bool Drain()
+    bool Drain() override
     {
         if (!m_pMFT)
             return false;
@@ -651,9 +649,9 @@ public:
         return SUCCEEDED(hr);
     }
 
-    std::vector<ACE_Message_Block*> RetrieveVideoFrames()
+    std::vector<msgblock_t> RetrieveVideoFrames() override
     {
-        std::vector<ACE_Message_Block*> result;
+        std::vector<msgblock_t> result;
 
         std::vector< CComPtr<IMFSample> > samples = RetrieveSample();
         for (auto& pSample: samples)
@@ -668,9 +666,9 @@ public:
         return result;
     }
 
-    std::vector<ACE_Message_Block*> RetrieveAudioFrames()
+    std::vector<msgblock_t> RetrieveAudioFrames() override
     {
-        std::vector<ACE_Message_Block*> result;
+        std::vector<msgblock_t> result;
 
         std::vector< CComPtr<IMFSample> > samples = RetrieveSample();
         for(auto& pSample : samples)
@@ -682,14 +680,14 @@ public:
             assert(m_outputaudiofmt.IsValid());
             auto mb = ConvertAudioSample(pSample, m_outputaudiofmt);
             if (mb)
-                result.push_back(mb);
+                result.push_back(std::move(mb));
         }
         return result;
     }
 
-    std::vector<ACE_Message_Block*> RetrieveRawFrames()
+    std::vector<msgblock_t> RetrieveRawFrames() override
     {
-        std::vector<ACE_Message_Block*> result;
+        std::vector<msgblock_t> result;
         std::vector< CComPtr<IMFSample> > samples = RetrieveSample();
         for(auto& pSample : samples)
         {
@@ -698,12 +696,12 @@ public:
                 continue;
 
             auto mbs = ConvertRawSample(pSample);
-            result.insert(result.end(), mbs.begin(), mbs.end());
+            result.insert(result.end(), std::make_move_iterator(mbs.begin()), std::make_move_iterator(mbs.end()));
         }
         return result;
     }
 
-    std::vector< CComPtr<IMFSample> > ProcessSample(CComPtr<IMFSample>& pInSample)
+    std::vector< CComPtr<IMFSample> > ProcessSample(CComPtr<IMFSample>& pInSample) override 
     {
         imfsamples_t result = RetrieveSample();
 
@@ -750,9 +748,9 @@ public:
         return result;
     }
 
-    std::vector< ACE_Message_Block* > ProcessMBSample(CComPtr<IMFSample>& pInSample)
+    std::vector< msgblock_t > ProcessMBSample(CComPtr<IMFSample>& pInSample) override
     {
-        std::vector< ACE_Message_Block* > result;
+        std::vector< msgblock_t > result;
 
         auto outputsamples = ProcessSample(pInSample);
 
@@ -768,16 +766,16 @@ public:
             {
                 auto mb = ConvertAudioSample(pOutSample, m_outputaudiofmt);
                 if (mb)
-                    result.push_back(mb);
+                    result.push_back(std::move(mb));
             }
         }
 
         return result;
     }
 
-    std::vector<ACE_Message_Block*> ProcessAudioResampler(const media::AudioFrame& sample)
+    std::vector<msgblock_t> ProcessAudioResampler(const media::AudioFrame& sample) override
     {
-        std::vector< ACE_Message_Block* > result;
+        std::vector< msgblock_t > result;
 
         auto pSample = CreateSample(sample);
         if (!pSample)
@@ -794,16 +792,16 @@ public:
             {
                 auto mb = ConvertAudioSample(pOutSample, m_outputaudiofmt);
                 if (mb)
-                    result.push_back(mb);
+                    result.push_back(std::move(mb));
             }
         }
 
         return result;
     }
 
-    std::vector<ACE_Message_Block*> ProcessAudioEncoder(const media::AudioFrame& sample, bool bEraseOutput)
+    std::vector<msgblock_t> ProcessAudioEncoder(const media::AudioFrame& sample) override
     {
-        std::vector< ACE_Message_Block* > result;
+        std::vector< msgblock_t > result;
 
         auto pSample = CreateSample(sample);
         if(!pSample)
@@ -826,20 +824,16 @@ public:
                 continue;
 
             auto mbs = ConvertRawSample(pOutSample);
-            result.insert(result.end(), mbs.begin(), mbs.end());
+            result.insert(result.end(), std::make_move_iterator(mbs.begin()), std::make_move_iterator(mbs.end()));
         }
 
         if(m_audiofile)
         {
             for(auto& mb : result)
             {
-                assert(mb->length());
-                m_audiofile->AppendData(mb->rd_ptr(), int(mb->length()));
-                if (bEraseOutput)
-                    mb->release();
+                assert(mb->Length());
+                m_audiofile->AppendData(mb->RdPtr(), int(mb->Length()));
             }
-            if (bEraseOutput)
-                result.clear();
         }
 
         return result;
@@ -1253,12 +1247,12 @@ fail:
     return CComPtr<IMFMediaType>();
 }
 
-ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt)
+msgblock_t ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt)
 {
     HRESULT hr;
     uint32_t timestamp = 0;
     DWORD dwBufCount = 0;
-    ACE_Message_Block* mb = nullptr;
+    msgblock_t mb;
     assert(fmt.IsValid());
     if(pSample)
     {
@@ -1294,12 +1288,12 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
 }
 
 
-ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt)
+msgblock_t ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt)
 {
     HRESULT hr;
     uint32_t timestamp = 0;
     DWORD dwBufCount = 0;
-    ACE_Message_Block* mb = nullptr;
+    msgblock_t mb = nullptr;
     assert(fmt.IsValid());
     if(pSample)
     {
@@ -1339,9 +1333,9 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
     return mb;
 }
 
-std::vector<ACE_Message_Block*> ConvertRawSample(IMFSample* pSample)
+std::vector<msgblock_t> ConvertRawSample(IMFSample* pSample)
 {
-    std::vector<ACE_Message_Block*> result;
+    std::vector<msgblock_t> result;
     HRESULT hr;
     DWORD dwBufCount = 0;
     hr = pSample->GetBufferCount(&dwBufCount);
@@ -1361,13 +1355,8 @@ std::vector<ACE_Message_Block*> ConvertRawSample(IMFSample* pSample)
         assert(SUCCEEDED(hr));
         if(SUCCEEDED(hr))
         {
-            ACE_Message_Block* mb = new (std::nothrow) ACE_Message_Block(dwCurLen);
-            if(mb)
-            {
-                int ret = mb->copy(reinterpret_cast<char*>(pBuffer), dwCurLen);
-                assert(ret >= 0);
-                result.push_back(mb);
-            }
+            msgblock_t mb = std::make_unique<MsgBlock>(pBuffer, dwCurLen);
+            result.push_back(std::move(mb));
         }
         hr = pMediaBuffer->Unlock();
         assert(SUCCEEDED(hr));

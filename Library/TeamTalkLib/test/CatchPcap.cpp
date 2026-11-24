@@ -393,5 +393,5 @@ TEST_CASE("PlaybackJitter")
     } myclientnode(57, mychan, &events, ttpackets);
 
     TTMessage msg;
-    while (events.GetMessage(msg, nullptr) && msg.nClientEvent != CLIENTEVENT_CON_LOST);
+    while (events.GetMessage(msg, std::chrono::milliseconds::max()) && msg.nClientEvent != CLIENTEVENT_CON_LOST);
 }

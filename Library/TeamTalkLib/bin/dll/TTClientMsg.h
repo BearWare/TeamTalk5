@@ -29,7 +29,7 @@
 
 #include "avstream/AudioInputStreamer.h"
 #include "avstream/MediaStreamer.h"
-#include "myace/MyACE.h"
+#include "mystd/MyQueue.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/client/Client.h"
 #include "teamtalk/client/ClientChannel.h"
@@ -43,7 +43,6 @@
 #include "win32/AudioDeviceNotify.h"
 #endif
 
-#include <ace/Message_Block.h>
 #include <ace/Time_Value.h>
 
 #include <mutex>
@@ -54,7 +53,7 @@ class TTMsgQueue
     , public HotKeyListener
 #endif
 {
-    msg_queue_t m_event_queue;
+    MsgQueue m_event_queue;
     teamtalk::EventSuspender* m_suspender;
     bool m_suspended = false;
     std::mutex m_mutex;
@@ -65,7 +64,7 @@ class TTMsgQueue
     UINT m_EventHKeyWndMsg;
 #endif
     void InitMsgQueue();
-    void EnqueueMsg(ACE_Message_Block* mb);
+    void EnqueueMsg(std::unique_ptr<MsgBlock> mb);
 
 public:
     TTMsgQueue();
@@ -76,7 +75,7 @@ public:
 #endif
     ~TTMsgQueue() override;
 
-    TTBOOL GetMessage(TTMessage& msg, ACE_Time_Value* tv);
+    TTBOOL GetMessage(TTMessage& msg, std::chrono::milliseconds tv);
 
     TTBOOL IsSuspended() const { return static_cast<TTBOOL>(m_suspended); }
 

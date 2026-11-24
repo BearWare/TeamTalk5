@@ -24,14 +24,14 @@
 #ifndef MEDIAUTIL_H
 #define MEDIAUTIL_H
 
+#include "mystd/MyQueue.h"
 #include "mystd/MyStd.h"
-
-#include <ace/Message_Block.h>
 
 #include <cstdint>
 #include <cstring>
 #include <span>
 #include <vector>
+#include <memory>
 
 constexpr auto ONE_SEC_MILLIS = 1000;
 
@@ -188,9 +188,9 @@ namespace media
             sample_no = sampleindex;
         }
 
-        AudioFrame(ACE_Message_Block* mb)
+        AudioFrame(MsgBlock* mb)
         {
-            auto* frm = reinterpret_cast<AudioFrame*>(mb->base());
+            auto* frm = reinterpret_cast<AudioFrame*>(mb->Data());
             *this = *frm;
         }
 
@@ -232,9 +232,9 @@ namespace media
 
         VideoFrame() : VideoFrame(nullptr, 0, 0, 0, FOURCC_NONE, false) {}
 
-        VideoFrame(ACE_Message_Block* mb)
+        VideoFrame(MsgBlock* mb)
         {
-            auto* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
+            auto* frm = reinterpret_cast<media::VideoFrame*>(mb->Data());
             frame = frm->frame;
             frame_length = frm->frame_length;
             width = frm->width;
@@ -256,16 +256,14 @@ namespace media
 
 } // namespace media
 
-ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
-                                        ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
-ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
-                                        ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
-media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb);
+std::unique_ptr<MsgBlock> VideoFrameInMsgBlock(media::VideoFrame& frm);
+std::unique_ptr<MsgBlock> VideoFrameToMsgBlock(const media::VideoFrame& frm);
+media::VideoFrame* VideoFrameFromMsgBlock(MsgBlock* mb);
 
-ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy = false);
-media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb);
-ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs);
-ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_Block*>& mbs);
+std::unique_ptr<MsgBlock> AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy = false);
+media::AudioFrame* AudioFrameFromMsgBlock(MsgBlock* mb);
+std::unique_ptr<MsgBlock> AudioFramesMerge(const std::vector<std::unique_ptr<MsgBlock>>& mbs);
+std::unique_ptr<MsgBlock> AudioFrameFromList(int samples_out, std::vector<std::unique_ptr<MsgBlock>>& mbs);
 
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan);

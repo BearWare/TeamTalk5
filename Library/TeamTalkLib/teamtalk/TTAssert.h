@@ -61,13 +61,13 @@ static void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
     TTASSERT(ACE_Thread::self() != tid);
 }
 
-#if defined(ACE_WIN32) /* Win32 cannot see who holds a lock */
+#if defined(WIN32) /* Win32 cannot see who holds a lock */
 #define ASSERT_MUTEX_LOCKED(lock)                                       \
     TTASSERT((lock).get_nesting_level()>0)
 #else
 #define ASSERT_MUTEX_LOCKED(lock)                                       \
     TTASSERT(ACE_Thread::self() == (lock).get_thread_id())
-#endif /* ACE_WIN32 */
+#endif /* WIN32 */
 
 #else
 #define ASSERT_REACTOR_THREAD(...)             static_cast<void>(0)

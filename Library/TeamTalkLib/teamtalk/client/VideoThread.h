@@ -25,27 +25,25 @@
 #define VIDEOTHREAD_H
 
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyQueue.h"
 #include "teamtalk/Common.h"
 
 #if defined(ENABLE_VPX)
 #include "codec/VpxEncoder.h"
 #endif
 
-#include <ace/Message_Block.h>
-
 #include <functional>
 #include <memory>
 #include <thread>
 
-//Get VideoFrame from ACE_Message_Block
+//Get VideoFrame from MsgBlock
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \
     memcpy(&(video_frame), (msg_block)->rd_ptr(), sizeof(video_frame))
 
 #define GET_OGGPACKET_FROM_MB(ogg_pkt, msg_block) \
     memcpy(&(ogg_pkt), (msg_block)->rd_ptr(), sizeof(ogg_pkt))
 
-using videoencodercallback_t = std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
+using videoencodercallback_t = std::function< bool (MsgBlock* org_frame, /* can be NULL */
                              const char* enc_data, int enc_len,
                              uint32_t packet_no,
                              uint32_t timestamp) >;
@@ -65,14 +63,14 @@ public:
     bool UpdateEncoder(const teamtalk::VideoCodec& codec);
 
     void QueueFrame(const media::VideoFrame& video_frame);
-    void QueueFrame(ACE_Message_Block* mb_video);
+    void QueueFrame(std::unique_ptr<MsgBlock> mb_video);
 
     const teamtalk::VideoCodec& GetCodec() const { return m_codec; }
     const media::VideoFormat& GetVideoFormat() const { return m_cap_format; }
 
 private:
     void Run();
-    msg_queue_t m_msg_queue;
+    MsgQueue m_msg_queue;
     std::thread m_thread;
 
     videoencodercallback_t m_callback;
@@ -96,7 +94,7 @@ public:
     virtual ~VideoEncListener() = default;
     //@return true if callee took ownership of 'org_frame'
     virtual bool EncodedVideoFrame(const VideoThread* video_encoder,
-                                   ACE_Message_Block* org_frame, /* can be NULL */
+                                   MsgBlock* org_frame, /* can be NULL */
                                    const char* enc_data, int enc_len,
                                    uint32_t packet_no,
                                    uint32_t timestamp) = 0;

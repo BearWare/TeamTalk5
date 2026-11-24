@@ -24,8 +24,6 @@
 #include "MFCapture.h"
 #include "MFTransform.h"
 
-#include "myace/MyACE.h"
-
 #include <atlbase.h>
 #include <mfapi.h>
 #include <mfidl.h>
@@ -145,7 +143,7 @@ namespace vidcap {
         {
         }
 
-        bool PerformCallback(media::VideoFrame& video_frame, ACE_Message_Block* mb)
+        bool PerformCallback(media::VideoFrame& video_frame, MsgBlock* mb)
         {
             if (callbacks.find(video_frame.fourcc) != callbacks.end())
             {
@@ -396,11 +394,11 @@ void MFCapture::Run(CaptureSession* session, tstring deviceid)
                 auto mbs = transform.second->ProcessMBSample(pSample);
                 for (auto& mb : mbs)
                 {
-                    media::VideoFrame media_frame(mb);
+                    media::VideoFrame media_frame(mb.get());
                     assert(media_frame.frame_length);
                     media_frame.timestamp = uTimeStamp;
-                    if(!session->PerformCallback(media_frame, mb))
-                        mb->release();
+                    if (session->PerformCallback(media_frame, mb.get()))
+                        mb.release();
                 }
             }
         }
