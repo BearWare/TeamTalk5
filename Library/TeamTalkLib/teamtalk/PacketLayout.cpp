@@ -342,7 +342,7 @@ namespace teamtalk
         int pos = 0;
         for(int i=0;i<buffers;i++)
         {
-            while(std::cmp_less(pos_buf ,vv[i].iov_len))
+            while(std::cmp_less_equal(pos_buf + FIELDVALUE_PREFIX, vv[i].iov_len))
             {
                 uint16_t const field_size = READFIELD_SIZE(&reinterpret_cast<const uint8_t*>(vv[i].iov_base)[pos_buf]);
                 pos_buf += field_size + FIELDVALUE_PREFIX;
