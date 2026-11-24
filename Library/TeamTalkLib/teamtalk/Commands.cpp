@@ -275,6 +275,18 @@ namespace teamtalk {
         if(!GetProperty(properties, prop, codec_type) || codec_type.empty())
             return false;
 
+        switch(codec_type[0])
+        {
+        case CODEC_NO_CODEC :
+        case CODEC_SPEEX :
+        case CODEC_SPEEX_VBR :
+        case CODEC_OPUS :
+        case CODEC_WEBM_VP8 :
+            break;
+        default :
+            return false;
+        }
+
         codec.codec = static_cast<Codec>(codec_type[0]);
         switch(codec.codec)
         {
