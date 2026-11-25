@@ -418,7 +418,8 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
                                                           m_media_out.audio.channels,
                                                           m_media_out.audio.samplerate);
 
-            out_mb->Copy(mb->RdPtr(), write_bytes);
+            int const ret = out_mb->Copy(mb->RdPtr(), write_bytes);
+            assert(ret >= 0);
             mb->RdPtr(write_bytes);
             write_bytes -= write_bytes;
             assert(mb->RdPtr() < mb->End());

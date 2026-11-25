@@ -139,8 +139,10 @@ std::unique_ptr<MsgBlock> VideoFrameToMsgBlock(const media::VideoFrame& frm)
     auto mb = std::make_unique<MsgBlock>(sizeof(tmp) + frm.frame_length);
     tmp.frame = mb->Data() + sizeof(tmp);
 
-    mb->Copy(&tmp, sizeof(tmp));
-    mb->Copy(frm.frame, frm.frame_length);
+    int ret = mb->Copy(&tmp, sizeof(tmp));
+    assert(ret >= 0);
+    ret = mb->Copy(frm.frame, frm.frame_length);
+    assert(ret >= 0);
     return mb;
 }
 
@@ -165,15 +167,22 @@ std::unique_ptr<MsgBlock> AudioFrameToMsgBlock(const media::AudioFrame& frame, b
     if (output_bytes != 0)
         copy_frame.output_buffer = reinterpret_cast<short*>(mb->Data() + (frame_bytes + input_bytes));
 
-    mb->Copy(&copy_frame, frame_bytes);
+    int ret = mb->Copy(&copy_frame, frame_bytes);
+    assert(ret >= 0);
 
     if (skip_copy)
         return mb;
 
     if (input_bytes > 0)
-        mb->Copy(frame.input_buffer, input_bytes);
+    {
+        ret = mb->Copy(frame.input_buffer, input_bytes);
+        assert(ret >= 0);
+    }
     if (output_bytes > 0)
-        mb->Copy(frame.output_buffer, output_bytes);
+    {
+        ret = mb->Copy(frame.output_buffer, output_bytes);
+        assert(ret >= 0);
+    }
     return mb;
 }
 

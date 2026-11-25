@@ -148,7 +148,7 @@ class MsgBlock
 {
 public:
     explicit MsgBlock(std::size_t capacity) : m_buf(capacity) { }
-    MsgBlock(const void* src, std::size_t len) { Copy(src, len); }
+    MsgBlock(const void* src, std::size_t len) : m_buf(len) { Copy(src, len); }
 
     MsgBlock() = delete;
     MsgBlock(const MsgBlock&) = delete;
@@ -171,13 +171,17 @@ public:
     std::size_t Length() const { return m_wr - m_rd; }
     void Length(std::size_t len) { m_wr = m_rd + len <= m_buf.size() ? m_rd + len : m_buf.size(); }
 
-    // Copy 'len' bytes from 'src' into the block at the write pointer
-    void Copy(const void* src, std::size_t len)
+    // ACE semantics (ACE_Message_Block::copy): copy 'len' bytes from 'src'
+    // at the write pointer. The block never grows beyond its capacity.
+    // Returns 0 on success, -1 if 'len' exceeds the free space after the
+    // write pointer.
+    int Copy(const void* src, std::size_t len)
     {
-        if (m_wr + len > m_buf.size())
-            m_buf.resize(m_wr + len);
+        if (len > m_buf.size() - m_wr)
+            return -1;
         std::memcpy(m_buf.data() + m_wr, src, len);
         m_wr += len;
+        return 0;
     }
 
 private:
