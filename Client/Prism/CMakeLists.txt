@@ -139,8 +139,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   find_library(APPKIT_FRAMEWORK AppKit)
   find_library(AVFOUNDATION_FRAMEWORK AVFoundation)
+  find_library(CORESERVICES_FRAMEWORK CoreServices)
   find_library(FOUNDATION_FRAMEWORK Foundation)
-  target_link_libraries(Prism INTERFACE ${APPKIT_FRAMEWORK} ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
+  find_library(SECURITY_FRAMEWORK Security)
+  target_link_libraries(Prism INTERFACE ${APPKIT_FRAMEWORK} ${AVFOUNDATION_FRAMEWORK} ${CORESERVICES_FRAMEWORK} ${FOUNDATION_FRAMEWORK} ${SECURITY_FRAMEWORK})
   target_link_options(Prism INTERFACE "LINKER:-force_load,$<TARGET_LINKER_FILE:Prism>")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
