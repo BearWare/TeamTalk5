@@ -1044,7 +1044,7 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 
 // Separate thread
 void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
-                                 MsgBlock* mb_audio)
+                                 msgblock_t mb_audio)
 {
     audframe.soundgrpid = m_soundprop.soundgroupid;
     audframe.userdata = STREAMTYPE_VOICE;
@@ -1055,10 +1055,9 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
         m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
     }
     
-    if (mb_audio != nullptr)
+    if (mb_audio)
     {
-        m_voice_thread.QueueAudio(std::unique_ptr<MsgBlock>(mb_audio));
-        // don't touch 'mb_audio' after this
+        m_voice_thread.QueueAudio(std::move(mb_audio));
     }
     else
     {

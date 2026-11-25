@@ -258,10 +258,10 @@ namespace media
 
 std::unique_ptr<MsgBlock> VideoFrameInMsgBlock(media::VideoFrame& frm);
 std::unique_ptr<MsgBlock> VideoFrameToMsgBlock(const media::VideoFrame& frm);
-media::VideoFrame* VideoFrameFromMsgBlock(MsgBlock* mb);
+media::VideoFrame* VideoFrameFromMsgBlock(MsgBlock& mb);
 
 std::unique_ptr<MsgBlock> AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy = false);
-media::AudioFrame* AudioFrameFromMsgBlock(MsgBlock* mb);
+media::AudioFrame* AudioFrameFromMsgBlock(MsgBlock& mb);
 std::unique_ptr<MsgBlock> AudioFramesMerge(const std::vector<std::unique_ptr<MsgBlock>>& mbs);
 std::unique_ptr<MsgBlock> AudioFrameFromList(int samples_out, std::vector<std::unique_ptr<MsgBlock>>& mbs);
 

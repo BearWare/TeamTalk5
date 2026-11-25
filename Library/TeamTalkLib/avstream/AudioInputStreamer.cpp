@@ -176,7 +176,7 @@ bool AudioInputStreamer::Submit(std::unique_ptr<MsgBlock> mb)
     if(!GetMediaOutput().audio.IsValid())
         return false;
 
-    media::AudioFrame* frame = AudioFrameFromMsgBlock(mb.get());
+    media::AudioFrame* frame = AudioFrameFromMsgBlock(*mb);
     UpdateTimeStamp(*frame);
     return QueueAudio(std::move(mb));
 }

@@ -502,7 +502,7 @@ namespace teamtalk {
         void CloseAudioCapture();
         void QueueAudioCapture(media::AudioFrame& audframe);
         void QueueVoiceFrame(media::AudioFrame& audframe,
-                             MsgBlock* mb_audio = nullptr);
+                             msgblock_t mb_audio = nullptr);
 
         void SendVoicePacket(const VoicePacket& packet);
         void SendAudioFilePacket(const AudioFilePacket& packet);

@@ -144,9 +144,9 @@ std::unique_ptr<MsgBlock> VideoFrameToMsgBlock(const media::VideoFrame& frm)
     return mb;
 }
 
-media::VideoFrame* VideoFrameFromMsgBlock(MsgBlock* mb)
+media::VideoFrame* VideoFrameFromMsgBlock(MsgBlock& mb)
 {
-    return reinterpret_cast<media::VideoFrame*>(mb->Data());
+    return reinterpret_cast<media::VideoFrame*>(mb.Data());
 }
 
 std::unique_ptr<MsgBlock> AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
@@ -177,9 +177,9 @@ std::unique_ptr<MsgBlock> AudioFrameToMsgBlock(const media::AudioFrame& frame, b
     return mb;
 }
 
-media::AudioFrame* AudioFrameFromMsgBlock(MsgBlock* mb)
+media::AudioFrame* AudioFrameFromMsgBlock(MsgBlock& mb)
 {
-    return reinterpret_cast<media::AudioFrame*>(mb->Data());
+    return reinterpret_cast<media::AudioFrame*>(mb.Data());
 }
 
 
