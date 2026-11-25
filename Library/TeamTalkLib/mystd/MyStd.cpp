@@ -25,9 +25,6 @@
 
 #if defined(UNICODE)
 #if defined(WIN32)
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
 #include <windows.h>
 #endif
 #include <cwchar>

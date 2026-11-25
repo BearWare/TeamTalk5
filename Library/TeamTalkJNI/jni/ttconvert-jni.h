@@ -25,7 +25,6 @@
 #define TTCONVERT_JNI_H
 
 #if defined(WIN32)
-#define NOMINMAX 1
 #include <Windows.h>
 #endif
 

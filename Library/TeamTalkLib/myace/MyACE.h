@@ -38,6 +38,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <mutex>
 
 //reactor event task
 ACE_THR_FUNC_RETURN EventLoop (void *arg);
