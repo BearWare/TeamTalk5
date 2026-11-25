@@ -157,9 +157,13 @@ public:
     const char* Data() const { return m_buf.data(); }
     char* Base() { return m_buf.data(); }
     char* RdPtr() { return m_buf.data() + m_rd; }
-    void RdPtr(std::size_t offset) { m_rd = offset <= m_wr ? offset : m_wr; }
+    // ACE semantics: advance read pointer by 'offset' bytes (rd_ptr(n) += n)
+    void RdPtr(std::size_t offset) { m_rd = offset <= m_wr - m_rd ? m_rd + offset : m_wr; }
+    // ACE semantics: set read pointer to absolute 'ptr' (rd_ptr(char*) = ptr)
+    void RdPtr(char* ptr) { auto const off = static_cast<std::size_t>(ptr - m_buf.data()); m_rd = off <= m_wr ? off : m_wr; }
     char* WrPtr() { return m_buf.data() + m_wr; }
-    void WrPtr(std::size_t offset) { m_wr = offset <= m_buf.size() ? offset : m_buf.size(); }
+    // ACE semantics: advance write pointer by 'offset' bytes (wr_ptr(n) += n)
+    void WrPtr(std::size_t offset) { m_wr = offset <= m_buf.size() - m_wr ? m_wr + offset : m_buf.size(); }
     char* End() { return m_buf.data() + m_buf.size(); }
     std::size_t Capacity() const { return m_buf.size(); }
 

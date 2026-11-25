@@ -402,6 +402,8 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
             out_mb->Copy(mb->RdPtr(), mb->Length());
             write_bytes -= static_cast<int>(mb->Length());
             assert(write_bytes >= 0);
+            // ensure entire message_block's length is subtracted from message queue's length
+            mb->RdPtr(mb->Base());
             std::unique_ptr<MsgBlock> done;
             m_audio_frames.Get(done); //remove head (== mb)
             mb = m_audio_frames.PeekHead();
