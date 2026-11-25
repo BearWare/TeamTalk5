@@ -1788,11 +1788,9 @@ TEST_CASE("testThumbnail")
                   };
 
     auto audio = [] (media::AudioFrame& /*audio_frame*/, msgblock_t /*mb_audio*/) {
-                     return false;
                  };
 
     auto video = [] (media::VideoFrame& /*video_frame*/, msgblock_t /*mb_video*/) {
-                    return false;
                 };
 
     ffmpeg.RegisterStatusCallback(status, true);
@@ -2740,7 +2738,6 @@ TEST_CASE("VideoCapture")
     {
         frames--;
         cv.notify_all();
-        return false;
     };
 
     REQUIRE(capture->InitVideoCapture(dev.deviceid, capformat));
@@ -3802,7 +3799,6 @@ TEST_CASE("OPUSStreamer")
     auto audiofunc = [&](media::AudioFrame& audio_frame, msgblock_t /*mb_audio*/)
     {
         wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
-        return false;
     };
 
     std::unique_lock<std::mutex> lck(mtx);

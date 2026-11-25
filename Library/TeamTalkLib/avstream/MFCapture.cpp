@@ -143,14 +143,13 @@ namespace vidcap {
         {
         }
 
-        bool PerformCallback(media::VideoFrame& video_frame, msgblock_t mb)
+        void PerformCallback(media::VideoFrame& video_frame, msgblock_t mb)
         {
             if (callbacks.find(video_frame.fourcc) != callbacks.end())
             {
                 auto m = callbacks[video_frame.fourcc];
-                return m(video_frame, std::move(mb));
+                m(video_frame, std::move(mb));
             }
-            return false;
         }
         bool CreateCallback(media::FourCC fcc, VideoCapture::VideoCaptureCallback callback)
         {

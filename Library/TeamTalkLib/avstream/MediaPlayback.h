@@ -82,10 +82,10 @@ public:
     bool SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config& webrtc);
 #endif
     // MediaStreamListener
-    static bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
+    static void MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                   msgblock_t mb_video);
 
-    bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
+    void MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                   msgblock_t mb_audio);
     
     void MediaStreamStatusCallback(const MediaFileProp& mfp,

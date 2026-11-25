@@ -1354,7 +1354,7 @@ SoundDeviceFeatures ClientNode::GetDuplexFeatures()
     return GetCaptureFeatures();
 }
 
-bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+void ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
                                            msgblock_t mb_video)
 {
     msgblock_t mb = mb_video ? std::move(mb_video) : VideoFrameToMsgBlock(video_frame);
@@ -1365,52 +1365,47 @@ bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
         std::unique_ptr<MsgBlock> old;
         m_local_vidcapframes.Get(old, std::chrono::milliseconds(0));
         if(!m_local_vidcapframes.Put(VideoFrameToMsgBlock(video_frame)))
-            return false;
+            return;
     }
 
     m_listener->OnUserVideoCaptureFrame(0, m_vidcap_stream_id);
-
-    return true; //took ownership of 'org_frame'
 }
 
-bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+void ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
                                             msgblock_t mb_video)
 {
     // FOURCC of 'video_frame' must be RGB32 or I420
 
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED)
-        return false;
+        return;
 
     if (mb_video)
     {
         m_vidcap_thread.QueueFrame(std::move(mb_video));
-        return true;
+        return;
     }
     
-            m_vidcap_thread.QueueFrame(video_frame);
-   
-    return false;
+    m_vidcap_thread.QueueFrame(video_frame);
 }
 
-bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
+void ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
                                           msgblock_t mb_video)
 {
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED)
     {
-        return VideoCaptureEncodeCallback(video_frame, std::move(mb_video));
+        VideoCaptureEncodeCallback(video_frame, std::move(mb_video));
     }
     
-            return VideoCaptureRGB32Callback(video_frame, std::move(mb_video));
-   
+    VideoCaptureRGB32Callback(video_frame, std::move(mb_video));
 }
 
-bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
+void ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
                                           msgblock_t mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
     TTASSERT(m_videofile_thread);
     if (!m_videofile_thread)
-        return false;
+        return;
 
 //    VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
 //     static int x = 1;
@@ -1418,11 +1413,9 @@ bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
 //         WriteBitmap(i2string(x) + tstring(".bmp"), video_frame.width, video_frame.height, 4,
 //                     video_frame.frame, video_frame.frame_length);
     m_videofile_thread->QueueFrame(std::move(mb_video));
-
-    return true; //m_video_thread always takes ownership
 }
 
-bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
+void ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
                                           msgblock_t mb_audio)
 {
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
@@ -1452,7 +1445,6 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     m_audiofile_thread.QueueAudio(std::move(mb_audio));
     // don't touch 'mb_audio' after this
 
-    return true;  //m_audiofile_thread always takes ownership
 }
 
 void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
@@ -1489,14 +1481,12 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
     m_listener->OnChannelStreamMediaFile(mfp, mfs);
 }
 
-bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
+void ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
                                     msgblock_t mb_audio)
 {
     assert(mb_audio);
     audio_frame.force_enc = true;
     QueueVoiceFrame(audio_frame);
-
-    return false; // delete 'mb_audio'
 }
 
 void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)

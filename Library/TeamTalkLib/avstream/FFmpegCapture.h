@@ -75,7 +75,7 @@ namespace vidcap {
         void UnregisterVideoFormat(media::FourCC fcc) override;
 
         // MediaStreamListener interface
-        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
+        void MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                       msgblock_t mb_video);
 
         void MediaStreamStatusCallback(const MediaFileProp& mfp,

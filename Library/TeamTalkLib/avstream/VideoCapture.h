@@ -49,8 +49,8 @@ namespace vidcap {
     class VideoCapture
     {
     public:
-        // return true to take ownership of 'mb_video'. 'mb_video' may be empty
-        using VideoCaptureCallback = std::function<bool(media::VideoFrame& video_frame, msgblock_t mb_video)>;
+        // 'mb_video' may be empty
+        using VideoCaptureCallback = std::function<void(media::VideoFrame& video_frame, msgblock_t mb_video)>;
 
         virtual ~VideoCapture() = default;
 

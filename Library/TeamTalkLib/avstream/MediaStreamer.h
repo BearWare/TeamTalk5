@@ -100,12 +100,11 @@ enum MediaStreamStatus
     MEDIASTREAM_PLAYING     = 5,
 };
 
-using mediastream_videocallback_t = std::function< bool (media::VideoFrame& video_frame,
+using mediastream_videocallback_t = std::function< void (media::VideoFrame& video_frame,
                              msgblock_t mb_video) >;
 
 //'audio_frame' is a reference to mb_audio->rd_ptr()
-//@return if false 'mb_audio' will be deleted
-using mediastream_audiocallback_t = std::function< bool (media::AudioFrame& audio_frame,
+using mediastream_audiocallback_t = std::function< void (media::AudioFrame& audio_frame,
                              msgblock_t mb_audio) >;
 
 using mediastream_statuscallback_t = std::function< void (const MediaFileProp& mfp,

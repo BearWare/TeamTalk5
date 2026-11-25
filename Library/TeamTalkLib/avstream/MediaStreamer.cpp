@@ -486,10 +486,8 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
                     media_frame->timestamp - starttime, curtime - media_frame->timestamp,
                     unsigned(m_video_frames.Size()));
 
-            if (!m_videocallback || !m_videocallback(*media_frame, std::move(mb)))
-            {
-                // 'mb' auto-released
-            }
+            if (m_videocallback)
+                m_videocallback(*media_frame, std::move(mb));
         }
         else
         {

@@ -217,24 +217,22 @@ bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config&
 }
 #endif
 
-bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame&  /*video_frame*/,
+void MediaPlayback::MediaStreamVideoCallback(media::VideoFrame&  /*video_frame*/,
                                              msgblock_t  /*mb_video*/)
 {
-    return false;
 }
 
-bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/,
+void MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/,
                                              msgblock_t mb_audio)
 {
     std::scoped_lock const g(m_mutex);
     if (m_audio_buffer.size() > 10)
     {
         MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("Media Playback buffer full. Discarding audio frame.\n"));
-        return false;
+        return;
     }
 
     m_audio_buffer.push(std::move(mb_audio));
-    return true;
 }
 
 void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,

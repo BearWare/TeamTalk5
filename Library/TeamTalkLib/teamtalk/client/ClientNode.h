@@ -366,23 +366,23 @@ namespace teamtalk {
         soundsystem::SoundDeviceFeatures GetDuplexFeatures() override;
 
         //VideoCapture listener - separate thread
-        bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+        void VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
                                        msgblock_t mb_video);
-        bool VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+        void VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
                                         msgblock_t mb_video);
-        bool VideoCaptureDualCallback(media::VideoFrame& video_frame,
+        void VideoCaptureDualCallback(media::VideoFrame& video_frame,
                                       msgblock_t mb_video);
 
         //Media stream listener - separate thread
-        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
+        void MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                       msgblock_t mb_video);
-        bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
+        void MediaStreamAudioCallback(media::AudioFrame& audio_frame,
                                       msgblock_t mb_audio);
         void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
 
         // AudioInputStreamer listener - separate thread
-        bool AudioInputCallback(media::AudioFrame& audio_frame,
+        void AudioInputCallback(media::AudioFrame& audio_frame,
                                 msgblock_t mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
