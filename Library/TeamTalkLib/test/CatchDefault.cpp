@@ -2578,6 +2578,7 @@ TEST_CASE("InjectAudio")
         do
         {
             REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_AUDIOINPUT, msg));
+            REQUIRE(msg.audioinputprogress.uElapsedMSec < PCM16_SAMPLES_DURATION(SAMPLERATE * CHANNELS, SAMPLERATE)*2);
         } while (msg.audioinputprogress.uQueueMSec > 0);
 
     } while ((samples -= SAMPLERATE) > 0);
