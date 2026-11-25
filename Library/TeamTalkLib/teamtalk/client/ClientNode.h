@@ -347,11 +347,11 @@ namespace teamtalk {
                                    const media::AudioFrame& org_frame);
         
         //Video encoder - separate thread
-        bool EncodedVideoCaptureFrame(MsgBlock* org_frame,
+        void EncodedVideoCaptureFrame(msgblock_t org_frame,
                                       const char* enc_data, int enc_len,
                                       uint32_t packet_no,
                                       uint32_t timestamp);
-        bool EncodedVideoFileFrame(MsgBlock* org_frame,
+        void EncodedVideoFileFrame(msgblock_t org_frame,
                                    const char* enc_data, int enc_len,
                                    uint32_t packet_no,
                                    uint32_t timestamp);

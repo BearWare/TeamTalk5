@@ -43,7 +43,7 @@
 #define GET_OGGPACKET_FROM_MB(ogg_pkt, msg_block) \
     memcpy(&(ogg_pkt), (msg_block)->rd_ptr(), sizeof(ogg_pkt))
 
-using videoencodercallback_t = std::function< bool (MsgBlock* org_frame, /* can be NULL */
+using videoencodercallback_t = std::function< void (msgblock_t org_frame, /* can be NULL */
                              const char* enc_data, int enc_len,
                              uint32_t packet_no,
                              uint32_t timestamp) >;
@@ -94,7 +94,7 @@ public:
     virtual ~VideoEncListener() = default;
     //@return true if callee took ownership of 'org_frame'
     virtual bool EncodedVideoFrame(const VideoThread* video_encoder,
-                                   MsgBlock* org_frame, /* can be NULL */
+                                   msgblock_t org_frame, /* can be NULL */
                                    const char* enc_data, int enc_len,
                                    uint32_t packet_no,
                                    uint32_t timestamp) = 0;

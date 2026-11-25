@@ -151,7 +151,6 @@ void VideoThread::Run()
     while(m_msg_queue.Get(mb))
     {
         VideoFrame const vid(mb.get());
-        bool new_ownership = false;
         assert(m_callback);
         
         switch(m_codec.codec)
@@ -181,8 +180,8 @@ void VideoThread::Run()
 
             int enc_len = 0;
             const char* enc_data = m_vpx_encoder.GetEncodedData(enc_len);
-            new_ownership = m_callback(mb.get(), enc_data, enc_len,
-                                       m_packet_counter++, vid.timestamp);
+            m_callback(std::move(mb), enc_data, enc_len,
+                       m_packet_counter++, vid.timestamp);
 
             while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)) != nullptr)
                 m_callback(nullptr, enc_data, enc_len,

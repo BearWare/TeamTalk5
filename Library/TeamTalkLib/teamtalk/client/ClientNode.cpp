@@ -3644,7 +3644,7 @@ std::unique_ptr<MsgBlock> ClientNode::AcquireVideoCaptureFrame()
     return mb;
 }
 
-bool ClientNode::EncodedVideoCaptureFrame(MsgBlock* org_frame,
+void ClientNode::EncodedVideoCaptureFrame(msgblock_t org_frame,
                                           const char* enc_data, int enc_len,
                                           uint32_t packet_no,
                                           uint32_t timestamp)
@@ -3676,20 +3676,18 @@ bool ClientNode::EncodedVideoCaptureFrame(MsgBlock* org_frame,
     //MYTRACE(TTEXT("Local video frame queue: %d\n"), m_local_vidcapframes.message_count());
 
     ACE_Time_Value const tm_zero;
-    if(org_frame != nullptr)
+    if (org_frame)
     {
-        auto mb = std::unique_ptr<MsgBlock>(org_frame);
-        VideoFrame vid_frm(mb.get());
+        VideoFrame vid_frm(org_frame.get());
         vid_frm.stream_id = m_vidcap_stream_id;
 
         if (vid_frm.fourcc == media::FOURCC_RGB32)
-            return VideoCaptureRGB32Callback(vid_frm, std::move(mb));
+            VideoCaptureRGB32Callback(vid_frm, std::move(org_frame));
     }
 
-    return false; //ignored 'org_frame'
 }
 
-bool ClientNode::EncodedVideoFileFrame(MsgBlock* /*org_frame*/,
+void ClientNode::EncodedVideoFileFrame(msgblock_t /*org_frame*/,
                                        const char* enc_data, int enc_len,
                                        uint32_t packet_no,
                                        uint32_t timestamp)
@@ -3720,7 +3718,6 @@ bool ClientNode::EncodedVideoFileFrame(MsgBlock* /*org_frame*/,
         }
     }
 
-    return false; //ignored 'org_frame'
 }
 
 int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
