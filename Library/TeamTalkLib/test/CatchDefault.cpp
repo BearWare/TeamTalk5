@@ -2736,7 +2736,7 @@ TEST_CASE("VideoCapture")
     std::condition_variable cv;
 
     int frames = 10;
-    auto callback = [&] (media::VideoFrame& /*video_frame*/, MsgBlock* /*mb_video*/)
+    auto callback = [&] (media::VideoFrame& /*video_frame*/, msgblock_t /*mb_video*/)
     {
         frames--;
         cv.notify_all();

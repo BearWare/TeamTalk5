@@ -119,7 +119,7 @@ bool FFmpegCapture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
     assert(m_videoinput.get());
     
     if (m_callback)
-        return m_callback(video_frame, mb_video);
+        return m_callback(video_frame, msgblock_t(mb_video));
     
     return false;
 }

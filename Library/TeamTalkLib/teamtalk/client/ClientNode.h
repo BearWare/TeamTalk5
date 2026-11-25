@@ -367,11 +367,11 @@ namespace teamtalk {
 
         //VideoCapture listener - separate thread
         bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
-                                       MsgBlock* mb_video);
+                                       msgblock_t mb_video);
         bool VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
-                                        MsgBlock* mb_video);
+                                        msgblock_t mb_video);
         bool VideoCaptureDualCallback(media::VideoFrame& video_frame,
-                                      MsgBlock* mb_video);
+                                      msgblock_t mb_video);
 
         //Media stream listener - separate thread
         bool MediaStreamVideoCallback(media::VideoFrame& video_frame,

@@ -1355,9 +1355,9 @@ SoundDeviceFeatures ClientNode::GetDuplexFeatures()
 }
 
 bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
-                                           MsgBlock* mb_video)
+                                           msgblock_t mb_video)
 {
-    std::unique_ptr<MsgBlock> mb = (mb_video != nullptr) ? std::unique_ptr<MsgBlock>(mb_video) : VideoFrameToMsgBlock(video_frame);
+    msgblock_t mb = mb_video ? std::move(mb_video) : VideoFrameToMsgBlock(video_frame);
 
     if (!m_local_vidcapframes.Put(std::move(mb)))
     {
@@ -1374,16 +1374,16 @@ bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
 }
 
 bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
-                                            MsgBlock* mb_video)
+                                            msgblock_t mb_video)
 {
     // FOURCC of 'video_frame' must be RGB32 or I420
 
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED)
         return false;
 
-    if(mb_video != nullptr)
+    if (mb_video)
     {
-        m_vidcap_thread.QueueFrame(std::unique_ptr<MsgBlock>(mb_video));
+        m_vidcap_thread.QueueFrame(std::move(mb_video));
         return true;
     }
     
@@ -1393,14 +1393,14 @@ bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
 }
 
 bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
-                                          MsgBlock* mb_video)
+                                          msgblock_t mb_video)
 {
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED)
     {
-        return VideoCaptureEncodeCallback(video_frame, mb_video);
+        return VideoCaptureEncodeCallback(video_frame, std::move(mb_video));
     }
     
-            return VideoCaptureRGB32Callback(video_frame, mb_video);
+            return VideoCaptureRGB32Callback(video_frame, std::move(mb_video));
    
 }
 
@@ -3683,7 +3683,7 @@ bool ClientNode::EncodedVideoCaptureFrame(MsgBlock* org_frame,
         vid_frm.stream_id = m_vidcap_stream_id;
 
         if (vid_frm.fourcc == media::FOURCC_RGB32)
-            return VideoCaptureRGB32Callback(vid_frm, mb.release());
+            return VideoCaptureRGB32Callback(vid_frm, std::move(mb));
     }
 
     return false; //ignored 'org_frame'

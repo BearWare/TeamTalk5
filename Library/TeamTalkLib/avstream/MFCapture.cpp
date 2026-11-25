@@ -143,12 +143,12 @@ namespace vidcap {
         {
         }
 
-        bool PerformCallback(media::VideoFrame& video_frame, MsgBlock* mb)
+        bool PerformCallback(media::VideoFrame& video_frame, msgblock_t mb)
         {
             if (callbacks.find(video_frame.fourcc) != callbacks.end())
             {
                 auto m = callbacks[video_frame.fourcc];
-                return m(video_frame, mb);
+                return m(video_frame, std::move(mb));
             }
             return false;
         }
@@ -397,8 +397,7 @@ void MFCapture::Run(CaptureSession* session, tstring deviceid)
                     media::VideoFrame media_frame(mb.get());
                     assert(media_frame.frame_length);
                     media_frame.timestamp = uTimeStamp;
-                    if (session->PerformCallback(media_frame, mb.get()))
-                        mb.release();
+                    session->PerformCallback(media_frame, std::move(mb));
                 }
             }
         }
