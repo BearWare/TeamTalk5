@@ -24,7 +24,7 @@
 #if !defined(CLIENT_H)
 #define CLIENT_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/StreamHandler.h"
 
@@ -38,23 +38,24 @@
 #include <ace/SOCK_Stream.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Time_Value.h>
-
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_SOCK_Stream.h>
 #endif
 
+#include <chrono>
+#include <thread>
 #include <vector>
 
 namespace teamtalk {
 
     struct ServerInfo : public ServerProperties
     {
-        ACE_TString protocol;
+        tstring protocol;
         int packetprotocol = 0;
-        ACE_TString motd_raw;
+        tstring motd_raw;
         std::vector<ACE_INET_Addr> hostaddrs;
         ACE_INET_Addr udpaddr; // same as hostaddrs[0] but port number may be different
-        ACE_TString accesstoken;
+        tstring accesstoken;
         ServerInfo() = default;
     };
 
@@ -74,7 +75,7 @@ namespace teamtalk {
 
         ~SSL_Connector()
         {
-            MYTRACE(ACE_TEXT("~Connector()\n"));
+            MYTRACE(TTEXT("~Connector()\n"));
         }
 
         /* copy-paste from ACE_Connector::initialize_svc_handler except SSL handling */
@@ -105,8 +106,7 @@ namespace teamtalk {
                 // Win32 (at least prior to Windows 2000) has a timing problem.
                 // If you check to see if the connection has completed too fast,
                 // it will fail - so wait 35 milliseconds to let it catch up.
-                ACE_Time_Value tv (0, ACE_NON_BLOCKING_BUG_DELAY);
-                ACE_OS::sleep (tv);
+                std::this_thread::sleep_for(std::chrono::microseconds(ACE_NON_BLOCKING_BUG_DELAY));
                 if (svc_handler->peer ().get_remote_addr (raddr) != -1)
                     this->activate_svc_handler (svc_handler);
                 else // do the svc handler close below...

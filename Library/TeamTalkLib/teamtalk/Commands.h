@@ -25,199 +25,198 @@
 #define COMMANDS_H
 
 #include "Common.h"
+#include "mystd/MyStd.h"
 
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
-#include <ace/SString.h>
 
+#include <chrono>
 #include <map>
 #include <set>
 #include <vector>
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.14")
+constexpr auto TEAMTALK_PROTOCOL_VERSION = TTEXT("5.14");
 
 /* parameter names */
-#define TT_USERID ACE_TEXT("userid")
-#define TT_NICKNAME ACE_TEXT("nickname")
-#define TT_MSGCONTENT ACE_TEXT("content")
-#define TT_ERRORMSG ACE_TEXT("message")
-#define TT_PARAMNAME ACE_TEXT("param")
-#define TT_PASSWORD ACE_TEXT("password")
-#define TT_TOPIC ACE_TEXT("topic")
-#define TT_OPERATORS ACE_TEXT("operators")
-#define TT_STATUSMODE ACE_TEXT("statusmode")
-#define TT_STATUSMESSAGE ACE_TEXT("statusmsg")
-#define TT_IPADDR ACE_TEXT("ipaddr")
-#define TT_TCPPORT ACE_TEXT("tcpport")
-#define TT_UDPPORT ACE_TEXT("udpport")
-#define TT_VERSION ACE_TEXT("version")
-#define TT_SERVERNAME ACE_TEXT("servername")
-#define TT_USERRIGHTS ACE_TEXT("userrights")
-#define TT_CHANNELID ACE_TEXT("chanid")
-#define TT_PARENTID ACE_TEXT("parentid")
-#define TT_CHANNAME ACE_TEXT("name")
-#define TT_CHANNEL ACE_TEXT("channel")
-#define TT_INITCHANNEL ACE_TEXT("initchan")
-#define TT_REQPASSWORD ACE_TEXT("protected")
-#define TT_ERRORNUM ACE_TEXT("number")
-#define TT_PROTOCOL ACE_TEXT("protocol")
-#define TT_SRCUSERID ACE_TEXT("srcuserid")
-#define TT_DESTUSERID ACE_TEXT("destuserid")
-#define TT_KICKERID ACE_TEXT("kickerid")
-#define TT_MSGTYPE ACE_TEXT("type")
-#define TT_USERNAME ACE_TEXT("username")
-#define TT_FILENAME ACE_TEXT("filename")
-#define TT_FILESIZE ACE_TEXT("filesize")
-#define TT_FILEDATE ACE_TEXT("filedate")
-#define TT_FILEID ACE_TEXT("fileid")
-#define TT_FILEOWNER ACE_TEXT("owner")
-#define TT_TRANSFERID ACE_TEXT("transferid")
-#define TT_PROTOCOL ACE_TEXT("protocol")
-#define TT_PACKETPROTOCOL ACE_TEXT("packetprotocol")
-#define TT_MOTD ACE_TEXT("motd")
-#define TT_BANTIME ACE_TEXT("bantime")
-#define TT_CRYPTKEY ACE_TEXT("cryptkey")
-#define TT_TRANSFERID ACE_TEXT("transferid")
-#define TT_DISKQUOTA ACE_TEXT("diskquota")
-#define TT_FILESROOT ACE_TEXT("filesroot")
-#define TT_MAXUSERS ACE_TEXT("maxusers")
-#define TT_AUTOSAVE ACE_TEXT("autosave")
-#define TT_MAXDISKUSAGE ACE_TEXT("maxdiskusage")
-#define TT_OPPASSWORD ACE_TEXT("oppassword")
-#define TT_OPERATORSTATUS ACE_TEXT("opstatus")
-#define TT_LOCALSUBSCRIPTIONS ACE_TEXT("sublocal") 
-#define TT_PEERSUBSCRIPTIONS ACE_TEXT("subpeer")
-#define TT_USERTIMEOUT ACE_TEXT("usertimeout")
-#define TT_SUBSCRIBERS ACE_TEXT("subscribers")
-#define TT_AUDIOCODEC ACE_TEXT("audiocodec")
-#define TT_CMDID ACE_TEXT("id")
-#define TT_CHANNELTYPE ACE_TEXT("type")
-#define TT_USERTYPE ACE_TEXT("usertype")
-#define TT_INDEX ACE_TEXT("index")
-#define TT_COUNT ACE_TEXT("count")
-#define TT_NOTEFIELD ACE_TEXT("note")
-#define TT_USERDATA ACE_TEXT("userdata")
-#define TT_VOICEUSERS ACE_TEXT("voiceusers")
-#define TT_VIDEOUSERS ACE_TEXT("videousers")
-#define TT_MEDIAFILEUSERS ACE_TEXT("mediafileusers")
-#define TT_TOTALTX ACE_TEXT("totaltx")
-#define TT_TOTALRX ACE_TEXT("totalrx")
-#define TT_VOICETX ACE_TEXT("voicetx")
-#define TT_VOICERX ACE_TEXT("voicerx")
-#define TT_VIDEOCAPTX ACE_TEXT("videocaptx")
-#define TT_VIDEOCAPRX ACE_TEXT("videocaprx")
-#define TT_MEDIAFILETX ACE_TEXT("mediafiletx")
-#define TT_MEDIAFILERX ACE_TEXT("mediafilerx")
-#define TT_AUDIOCFG ACE_TEXT("audiocfg")
-#define TT_AUDIOBPSLIMIT ACE_TEXT("audiocodeclimit")
-#define TT_VOICETXLIMIT ACE_TEXT("voicetxlimit")
-#define TT_VIDEOTXLIMIT ACE_TEXT("videotxlimit")
-#define TT_MEDIAFILETXLIMIT ACE_TEXT("mediafiletxlimit")
-#define TT_DESKTOPTXLIMIT ACE_TEXT("desktoptxlimit")
-#define TT_TOTALTXLIMIT ACE_TEXT("totaltxlimit")
-#define TT_UPTIME ACE_TEXT("uptime")
-#define TT_USERSSERVED ACE_TEXT("usersserved")
-#define TT_USERSPEAK ACE_TEXT("userspeak")
-#define TT_FILESTX ACE_TEXT("filestx")
-#define TT_FILESRX ACE_TEXT("filesrx")
-#define TT_DESKTOPUSERS ACE_TEXT("desktopusers")
-#define TT_DESKTOPTX ACE_TEXT("desktoptx")
-#define TT_DESKTOPRX ACE_TEXT("desktoprx")
-#define TT_AUTOOPCHANNELS ACE_TEXT("opchannels")
-#define TT_MOTDRAW ACE_TEXT("motdraw")
-#define TT_MAXLOGINSPERIP ACE_TEXT("maxiplogins")
-#define TT_MAXLOGINATTEMPTS ACE_TEXT("maxloginattempts")
-#define TT_CLIENTNAME ACE_TEXT("clientname") // v5.1
-#define TT_TRANSMITQUEUE ACE_TEXT("transmitqueue") // v5.2
-#define TT_CMDFLOOD ACE_TEXT("cmdflood") // v5.3
-#define TT_BANTYPE ACE_TEXT("type") // v5.3
-#define TT_LOGINDELAY ACE_TEXT("logindelay") // v5.5
-#define TT_ACCESSTOKEN ACE_TEXT("accesstoken") // v5.6
-#define TT_CHANMSGUSERS ACE_TEXT("chanmsgusers") // v5.8
-#define TT_UPLOADTIME ACE_TEXT("uploadtime") // v5.9
-#define TT_MODIFIEDTIME ACE_TEXT("modifiedtime") // v5.9
-#define TT_TRANSMITSWITCHDELAY ACE_TEXT("switchdelay") // v5.10
-#define TT_LOGEVENTS ACE_TEXT("logevents") // v5.10
-#define TT_TEXTMSG_MORE ACE_TEXT("more") // v5.10
-#define TT_TOTVOICE ACE_TEXT("voicetot") // v5.12
-#define TT_TOTMEDIAFILE ACE_TEXT("mediafiletot") // v5.12
-#define TT_TRANSFERKEY ACE_TEXT("filetxkey") // v5.13
-#define TT_BANOWNER ACE_TEXT("owner") // v5.13
-#define TT_LASTLOGINTIME ACE_TEXT("lastlogin") // v5.14
+constexpr auto TT_USERID = TTEXT("userid");
+constexpr auto TT_NICKNAME = TTEXT("nickname");
+constexpr auto TT_MSGCONTENT = TTEXT("content");
+constexpr auto TT_ERRORMSG = TTEXT("message");
+constexpr auto TT_PARAMNAME = TTEXT("param");
+constexpr auto TT_PASSWORD = TTEXT("password");
+constexpr auto TT_TOPIC = TTEXT("topic");
+constexpr auto TT_OPERATORS = TTEXT("operators");
+constexpr auto TT_STATUSMODE = TTEXT("statusmode");
+constexpr auto TT_STATUSMESSAGE = TTEXT("statusmsg");
+constexpr auto TT_IPADDR = TTEXT("ipaddr");
+constexpr auto TT_TCPPORT = TTEXT("tcpport");
+constexpr auto TT_UDPPORT = TTEXT("udpport");
+constexpr auto TT_VERSION = TTEXT("version");
+constexpr auto TT_SERVERNAME = TTEXT("servername");
+constexpr auto TT_USERRIGHTS = TTEXT("userrights");
+constexpr auto TT_CHANNELID = TTEXT("chanid");
+constexpr auto TT_PARENTID = TTEXT("parentid");
+constexpr auto TT_CHANNAME = TTEXT("name");
+constexpr auto TT_CHANNEL = TTEXT("channel");
+constexpr auto TT_INITCHANNEL = TTEXT("initchan");
+constexpr auto TT_REQPASSWORD = TTEXT("protected");
+constexpr auto TT_ERRORNUM = TTEXT("number");
+constexpr auto TT_PROTOCOL = TTEXT("protocol");
+constexpr auto TT_SRCUSERID = TTEXT("srcuserid");
+constexpr auto TT_DESTUSERID = TTEXT("destuserid");
+constexpr auto TT_KICKERID = TTEXT("kickerid");
+constexpr auto TT_MSGTYPE = TTEXT("type");
+constexpr auto TT_USERNAME = TTEXT("username");
+constexpr auto TT_FILENAME = TTEXT("filename");
+constexpr auto TT_FILESIZE = TTEXT("filesize");
+constexpr auto TT_FILEDATE = TTEXT("filedate");
+constexpr auto TT_FILEID = TTEXT("fileid");
+constexpr auto TT_FILEOWNER = TTEXT("owner");
+constexpr auto TT_TRANSFERID = TTEXT("transferid");
+constexpr auto TT_PACKETPROTOCOL = TTEXT("packetprotocol");
+constexpr auto TT_MOTD = TTEXT("motd");
+constexpr auto TT_BANTIME = TTEXT("bantime");
+constexpr auto TT_CRYPTKEY = TTEXT("cryptkey");
+constexpr auto TT_DISKQUOTA = TTEXT("diskquota");
+constexpr auto TT_FILESROOT = TTEXT("filesroot");
+constexpr auto TT_MAXUSERS = TTEXT("maxusers");
+constexpr auto TT_AUTOSAVE = TTEXT("autosave");
+constexpr auto TT_MAXDISKUSAGE = TTEXT("maxdiskusage");
+constexpr auto TT_OPPASSWORD = TTEXT("oppassword");
+constexpr auto TT_OPERATORSTATUS = TTEXT("opstatus");
+constexpr auto TT_LOCALSUBSCRIPTIONS = TTEXT("sublocal");
+constexpr auto TT_PEERSUBSCRIPTIONS = TTEXT("subpeer");
+constexpr auto TT_USERTIMEOUT = TTEXT("usertimeout");
+constexpr auto TT_SUBSCRIBERS = TTEXT("subscribers");
+constexpr auto TT_AUDIOCODEC = TTEXT("audiocodec");
+constexpr auto TT_CMDID = TTEXT("id");
+constexpr auto TT_CHANNELTYPE = TTEXT("type");
+constexpr auto TT_USERTYPE = TTEXT("usertype");
+constexpr auto TT_INDEX = TTEXT("index");
+constexpr auto TT_COUNT = TTEXT("count");
+constexpr auto TT_NOTEFIELD = TTEXT("note");
+constexpr auto TT_USERDATA = TTEXT("userdata");
+constexpr auto TT_VOICEUSERS = TTEXT("voiceusers");
+constexpr auto TT_VIDEOUSERS = TTEXT("videousers");
+constexpr auto TT_MEDIAFILEUSERS = TTEXT("mediafileusers");
+constexpr auto TT_TOTALTX = TTEXT("totaltx");
+constexpr auto TT_TOTALRX = TTEXT("totalrx");
+constexpr auto TT_VOICETX = TTEXT("voicetx");
+constexpr auto TT_VOICERX = TTEXT("voicerx");
+constexpr auto TT_VIDEOCAPTX = TTEXT("videocaptx");
+constexpr auto TT_VIDEOCAPRX = TTEXT("videocaprx");
+constexpr auto TT_MEDIAFILETX = TTEXT("mediafiletx");
+constexpr auto TT_MEDIAFILERX = TTEXT("mediafilerx");
+constexpr auto TT_AUDIOCFG = TTEXT("audiocfg");
+constexpr auto TT_AUDIOBPSLIMIT = TTEXT("audiocodeclimit");
+constexpr auto TT_VOICETXLIMIT = TTEXT("voicetxlimit");
+constexpr auto TT_VIDEOTXLIMIT = TTEXT("videotxlimit");
+constexpr auto TT_MEDIAFILETXLIMIT = TTEXT("mediafiletxlimit");
+constexpr auto TT_DESKTOPTXLIMIT = TTEXT("desktoptxlimit");
+constexpr auto TT_TOTALTXLIMIT = TTEXT("totaltxlimit");
+constexpr auto TT_UPTIME = TTEXT("uptime");
+constexpr auto TT_USERSSERVED = TTEXT("usersserved");
+constexpr auto TT_USERSPEAK = TTEXT("userspeak");
+constexpr auto TT_FILESTX = TTEXT("filestx");
+constexpr auto TT_FILESRX = TTEXT("filesrx");
+constexpr auto TT_DESKTOPUSERS = TTEXT("desktopusers");
+constexpr auto TT_DESKTOPTX = TTEXT("desktoptx");
+constexpr auto TT_DESKTOPRX = TTEXT("desktoprx");
+constexpr auto TT_AUTOOPCHANNELS = TTEXT("opchannels");
+constexpr auto TT_MOTDRAW = TTEXT("motdraw");
+constexpr auto TT_MAXLOGINSPERIP = TTEXT("maxiplogins");
+constexpr auto TT_MAXLOGINATTEMPTS = TTEXT("maxloginattempts");
+constexpr auto TT_CLIENTNAME = TTEXT("clientname"); // v5.1
+constexpr auto TT_TRANSMITQUEUE = TTEXT("transmitqueue"); // v5.2
+constexpr auto TT_CMDFLOOD = TTEXT("cmdflood"); // v5.3
+constexpr auto TT_BANTYPE = TTEXT("type"); // v5.3
+constexpr auto TT_LOGINDELAY = TTEXT("logindelay"); // v5.5
+constexpr auto TT_ACCESSTOKEN = TTEXT("accesstoken"); // v5.6
+constexpr auto TT_CHANMSGUSERS = TTEXT("chanmsgusers"); // v5.8
+constexpr auto TT_UPLOADTIME = TTEXT("uploadtime"); // v5.9
+constexpr auto TT_MODIFIEDTIME = TTEXT("modifiedtime"); // v5.9
+constexpr auto TT_TRANSMITSWITCHDELAY = TTEXT("switchdelay"); // v5.10
+constexpr auto TT_LOGEVENTS = TTEXT("logevents"); // v5.10
+constexpr auto TT_TEXTMSG_MORE = TTEXT("more"); // v5.10
+constexpr auto TT_TOTVOICE = TTEXT("voicetot"); // v5.12
+constexpr auto TT_TOTMEDIAFILE = TTEXT("mediafiletot"); // v5.12
+constexpr auto TT_TRANSFERKEY = TTEXT("filetxkey"); // v5.13
+constexpr auto TT_BANOWNER = TTEXT("owner"); // v5.13
+constexpr auto TT_LASTLOGINTIME = TTEXT("lastlogin"); // v5.14
 
 //    Client ---> Server
 //    -------------------------
-#define CLIENT_LOGIN ACE_TEXT("login") 
-#define CLIENT_LOGOUT ACE_TEXT("logout") 
-#define CLIENT_CHANGENICK ACE_TEXT("changenick")
-#define CLIENT_CHANGESTATUS ACE_TEXT("changestatus")
-#define CLIENT_JOINCHANNEL ACE_TEXT("join")
-#define CLIENT_LEAVECHANNEL ACE_TEXT("leave")
-#define CLIENT_MESSAGE ACE_TEXT("message")
-#define CLIENT_KEEPALIVE ACE_TEXT("ping")
-#define CLIENT_KICK ACE_TEXT("kick")    //for ops and admins
-#define CLIENT_MAKECHANNEL ACE_TEXT("makechannel")
-#define CLIENT_UPDATECHANNEL ACE_TEXT("updatechannel")
-#define CLIENT_REMOVECHANNEL ACE_TEXT("removechannel")
-#define CLIENT_MOVEUSER ACE_TEXT("moveuser")
-#define CLIENT_UPDATESERVER ACE_TEXT("updateserver")
-#define CLIENT_SAVECONFIG ACE_TEXT("saveconfig")
-#define CLIENT_CHANNELOP ACE_TEXT("op") 
-#define CLIENT_BAN ACE_TEXT("ban") 
-#define CLIENT_UNBAN ACE_TEXT("unban")
-#define CLIENT_LISTBANS ACE_TEXT("listbans")
-#define CLIENT_LISTUSERACCOUNTS ACE_TEXT("listaccounts")
-#define CLIENT_NEWUSERACCOUNT ACE_TEXT("newaccount")
-#define CLIENT_DELUSERACCOUNT ACE_TEXT("delaccount")
-#define CLIENT_REGSENDFILE ACE_TEXT("regsendfile")
-#define CLIENT_REGRECVFILE ACE_TEXT("regrecvfile")
-#define CLIENT_SENDFILE ACE_TEXT("sendfile")
-#define CLIENT_RECVFILE ACE_TEXT("recvfile")
-#define CLIENT_DELIVERFILE ACE_TEXT("filedeliver")
-#define CLIENT_DELETEFILE ACE_TEXT("deletefile")
-#define CLIENT_QUIT ACE_TEXT("quit")
-#define CLIENT_SUBSCRIBE ACE_TEXT("subscribe")
-#define CLIENT_UNSUBSCRIBE ACE_TEXT("unsubscribe")
-#define CLIENT_QUERYSTATS ACE_TEXT("querystats")
+constexpr auto CLIENT_LOGIN = TTEXT("login");
+constexpr auto CLIENT_LOGOUT = TTEXT("logout");
+constexpr auto CLIENT_CHANGENICK = TTEXT("changenick");
+constexpr auto CLIENT_CHANGESTATUS = TTEXT("changestatus");
+constexpr auto CLIENT_JOINCHANNEL = TTEXT("join");
+constexpr auto CLIENT_LEAVECHANNEL = TTEXT("leave");
+constexpr auto CLIENT_MESSAGE = TTEXT("message");
+constexpr auto CLIENT_KEEPALIVE = TTEXT("ping");
+constexpr auto CLIENT_KICK = TTEXT("kick"); //for ops and admins
+constexpr auto CLIENT_MAKECHANNEL = TTEXT("makechannel");
+constexpr auto CLIENT_UPDATECHANNEL = TTEXT("updatechannel");
+constexpr auto CLIENT_REMOVECHANNEL = TTEXT("removechannel");
+constexpr auto CLIENT_MOVEUSER = TTEXT("moveuser");
+constexpr auto CLIENT_UPDATESERVER = TTEXT("updateserver");
+constexpr auto CLIENT_SAVECONFIG = TTEXT("saveconfig");
+constexpr auto CLIENT_CHANNELOP = TTEXT("op");
+constexpr auto CLIENT_BAN = TTEXT("ban");
+constexpr auto CLIENT_UNBAN = TTEXT("unban");
+constexpr auto CLIENT_LISTBANS = TTEXT("listbans");
+constexpr auto CLIENT_LISTUSERACCOUNTS = TTEXT("listaccounts");
+constexpr auto CLIENT_NEWUSERACCOUNT = TTEXT("newaccount");
+constexpr auto CLIENT_DELUSERACCOUNT = TTEXT("delaccount");
+constexpr auto CLIENT_REGSENDFILE = TTEXT("regsendfile");
+constexpr auto CLIENT_REGRECVFILE = TTEXT("regrecvfile");
+constexpr auto CLIENT_SENDFILE = TTEXT("sendfile");
+constexpr auto CLIENT_RECVFILE = TTEXT("recvfile");
+constexpr auto CLIENT_DELIVERFILE = TTEXT("filedeliver");
+constexpr auto CLIENT_DELETEFILE = TTEXT("deletefile");
+constexpr auto CLIENT_QUIT = TTEXT("quit");
+constexpr auto CLIENT_SUBSCRIBE = TTEXT("subscribe");
+constexpr auto CLIENT_UNSUBSCRIBE = TTEXT("unsubscribe");
+constexpr auto CLIENT_QUERYSTATS = TTEXT("querystats");
 
 //    Server ---> Client
 //    -------------------------
-#define SERVER_WELCOME ACE_TEXT("teamtalk")
-#define SERVER_LOGINACCEPTED ACE_TEXT("accepted")
-#define SERVER_SERVERUPDATE ACE_TEXT("serverupdate")
-#define SERVER_ERROR ACE_TEXT("error")
-#define SERVER_KEEPALIVE ACE_TEXT("pong")
-#define SERVER_ADDCHANNEL ACE_TEXT("addchannel")
-#define SERVER_UPDATECHANNEL ACE_TEXT("updatechannel")
-#define SERVER_REMOVECHANNEL ACE_TEXT("removechannel")
-#define SERVER_JOINED ACE_TEXT("joined")
-#define SERVER_LEFTCHANNEL ACE_TEXT("left")
-#define SERVER_LOGGEDIN ACE_TEXT("loggedin")
-#define SERVER_LOGGEDOUT ACE_TEXT("loggedout")
-#define SERVER_ADDUSER ACE_TEXT("adduser")
-#define SERVER_UPDATEUSER ACE_TEXT("updateuser")
-#define SERVER_REMOVEUSER ACE_TEXT("removeuser")
-#define SERVER_ADDFILE ACE_TEXT("addfile")
-#define SERVER_REMOVEFILE ACE_TEXT("removefile")
-#define SERVER_KICKED ACE_TEXT("kicked")
-#define SERVER_MESSAGE_DELIVER ACE_TEXT("messagedeliver")
-#define SERVER_BANNED ACE_TEXT("userbanned")
-#define SERVER_USERACCOUNT ACE_TEXT("useraccount")
-#define SERVER_ADDUSERACCOUNT ACE_TEXT("adduseraccount") //v5.11
-#define SERVER_REMOVEUSERACCOUNT ACE_TEXT("removeuseraccount") //v5.11
-#define SERVER_FILE_ACCEPTED ACE_TEXT("fileaccepted")
-#define SERVER_FILE_DELIVER ACE_TEXT("filedeliver")
-#define SERVER_FILE_COMPLETED ACE_TEXT("filecompleted")
-#define SERVER_FILE_READY ACE_TEXT("fileready")    //response to ACE_TEXT("recvfile") to tell client that file is ready to be downloaded
-#define SERVER_FILESHAREINFO ACE_TEXT("fileshareinfo") //response to ACE_TEXT("fileshare")
-#define SERVER_BEGINCMD ACE_TEXT("begin")
-#define SERVER_ENDCMD ACE_TEXT("end")
-#define SERVER_QUIT ACE_TEXT("quit")
-#define SERVER_COMMAND_OK ACE_TEXT("ok")
-#define SERVER_STATS ACE_TEXT("stats")
+constexpr auto SERVER_WELCOME = TTEXT("teamtalk");
+constexpr auto SERVER_LOGINACCEPTED = TTEXT("accepted");
+constexpr auto SERVER_SERVERUPDATE = TTEXT("serverupdate");
+constexpr auto SERVER_ERROR = TTEXT("error");
+constexpr auto SERVER_KEEPALIVE = TTEXT("pong");
+constexpr auto SERVER_ADDCHANNEL = TTEXT("addchannel");
+constexpr auto SERVER_UPDATECHANNEL = TTEXT("updatechannel");
+constexpr auto SERVER_REMOVECHANNEL = TTEXT("removechannel");
+constexpr auto SERVER_JOINED = TTEXT("joined");
+constexpr auto SERVER_LEFTCHANNEL = TTEXT("left");
+constexpr auto SERVER_LOGGEDIN = TTEXT("loggedin");
+constexpr auto SERVER_LOGGEDOUT = TTEXT("loggedout");
+constexpr auto SERVER_ADDUSER = TTEXT("adduser");
+constexpr auto SERVER_UPDATEUSER = TTEXT("updateuser");
+constexpr auto SERVER_REMOVEUSER = TTEXT("removeuser");
+constexpr auto SERVER_ADDFILE = TTEXT("addfile");
+constexpr auto SERVER_REMOVEFILE = TTEXT("removefile");
+constexpr auto SERVER_KICKED = TTEXT("kicked");
+constexpr auto SERVER_MESSAGE_DELIVER = TTEXT("messagedeliver");
+constexpr auto SERVER_BANNED = TTEXT("userbanned");
+constexpr auto SERVER_USERACCOUNT = TTEXT("useraccount");
+constexpr auto SERVER_ADDUSERACCOUNT = TTEXT("adduseraccount"); //v5.11
+constexpr auto SERVER_REMOVEUSERACCOUNT = TTEXT("removeuseraccount"); //v5.11
+constexpr auto SERVER_FILE_ACCEPTED = TTEXT("fileaccepted");
+constexpr auto SERVER_FILE_DELIVER = TTEXT("filedeliver");
+constexpr auto SERVER_FILE_COMPLETED = TTEXT("filecompleted");
+constexpr auto SERVER_FILE_READY = TTEXT("fileready"); //response to TTEXT("recvfile") to tell client that file is ready to be downloaded
+constexpr auto SERVER_FILESHAREINFO = TTEXT("fileshareinfo"); //response to TTEXT("fileshare")
+constexpr auto SERVER_BEGINCMD = TTEXT("begin");
+constexpr auto SERVER_ENDCMD = TTEXT("end");
+constexpr auto SERVER_QUIT = TTEXT("quit");
+constexpr auto SERVER_COMMAND_OK = TTEXT("ok");
+constexpr auto SERVER_STATS = TTEXT("stats");
 
 //command termination. If changed change PrepareString
-#define EOL ACE_TEXT("\r\n")
+constexpr auto EOL = TTEXT("\r\n");
 
 #define MAX_COMMAND_LENGTH (1024*1024)
 
@@ -286,20 +285,27 @@ namespace teamtalk {
         TT_INTERR_SNDEFFECT_FAILURE = 10005,
     };
 
-    using mstrings_t = std::map<ACE_TString, ACE_TString>;
+    using mstrings_t = std::map<tstring, tstring>;
 
     //obtain error message to error number TT_CMDERR_*
-    ACE_TString GetErrorDescription(int nError);
+    tstring GetErrorDescription(int nError);
 
     struct ErrorMsg
     {
         int errorno = TT_CMDERR_SUCCESS;
-        ACE_TString errmsg, paramname;
+        tstring errmsg, paramname;
         ErrorMsg() = default;
-        ErrorMsg(int cmderrno, const ACE_TString& param = ACE_TEXT(""))
+        ErrorMsg(int cmderrno, const tstring& msg = TTEXT(""), const tstring& param = TTEXT(""))
             : errorno(cmderrno), paramname(param)
         {
-            errmsg = GetErrorDescription(cmderrno);
+            if (!msg.empty())
+            {
+                errmsg = msg;
+            }
+            else
+            {
+                errmsg = GetErrorDescription(cmderrno);
+            }
         }
 
         bool Success() const
@@ -309,77 +315,77 @@ namespace teamtalk {
     };
 
     bool HasProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop);
+                     const tstring& prop);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_TString& value);
+                     const tstring& prop, tstring& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, int& value);
+                     const tstring& prop, int& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_UINT32& value);
+                     const tstring& prop, uint32_t& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, std::vector<int>& vec);
+                     const tstring& prop, std::vector<int>& vec);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, std::set<int>& myset);
+                     const tstring& prop, std::set<int>& myset);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, bool& value);
+                     const tstring& prop, bool& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_INT64& value);
+                     const tstring& prop, int64_t& value);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioCodec& codec);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioConfig& audcfg);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      ACE_INET_Addr& addr);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
-                     ACE_Time_Value& tv);
+    bool GetProperty(const mstrings_t& properties, const tstring& prop,
+                     std::chrono::system_clock::time_point& tp);
 
     void GetProperties(const mstrings_t& properties, UserAccount& useraccount);
 
-    ACE_TString PrepareIntegerArray(const std::vector<int>& array);
+    tstring PrepareIntegerArray(const std::vector<int>& array);
 
-    ACE_TString PrepareIntegerSet(const std::set<int>& myset);
+    tstring PrepareIntegerSet(const std::set<int>& myset);
 
-    ACE_TString PrepareString(const ACE_TString& str);
+    tstring PrepareString(const tstring& str);
 
-    ACE_TString RebuildString(const ACE_TString& str);
+    tstring RebuildString(const tstring& str);
 
     //@return Number of properties found, -1 on error.
-    int ExtractProperties(const ACE_TString& input, mstrings_t& properties);
+    int ExtractProperties(const tstring& input, mstrings_t& properties);
 
-    //appends a property to a command ACE_TString
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_TString& value, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
+    //appends a property to a command tstring
+    void AppendProperty(const tstring& prop, 
+                        const tstring& value, tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
                         const std::vector<int>& vecValues, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
                         const std::set<int>& setValues, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        ACE_INT64 value, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, const AudioCodec& codec, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, const AudioConfig& audcfg, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_INET_Addr& addr, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop,
-                        const ACE_Time_Value& tv, ACE_TString& dest_str);
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
+                        int64_t value, tstring& dest_str);
+    void AppendProperty(const tstring& prop, const AudioCodec& codec, 
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, const AudioConfig& audcfg, 
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
+                        const ACE_INET_Addr& addr, tstring& dest_str);
+    void AppendProperty(const tstring& prop,
+                        std::chrono::system_clock::time_point tp, tstring& dest_str);
 
-    bool GetCmdLine(const ACE_CString& input, 
-                    ACE_CString& cmd, ACE_CString& remain_input);
-    bool GetCmd(const ACE_CString& input, ACE_CString& cmd);
-    ACE_TString StripEol(const ACE_TString& input);
+    bool GetCmdLine(const std::string& input, 
+                    std::string& cmd, std::string& remain_input);
+    bool GetCmd(const std::string& input, std::string& cmd);
+    tstring StripEol(const tstring& input);
 } // namespace teamtalk
 #endif

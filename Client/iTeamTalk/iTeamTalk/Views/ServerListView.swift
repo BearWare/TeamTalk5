@@ -36,9 +36,10 @@ struct ServerListView: View {
                 serverList
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: .iTeamTalkOpenURL)) { notification in
-            guard let url = notification.object as? URL else { return }
-            model.openUrl(url)
+        .onOpenURL { url in
+            if url.absoluteString.starts(with: AppInfo.TTLINK_PREFIX) || url.isFileURL {
+                model.openUrl(url)
+            }
         }
     }
 

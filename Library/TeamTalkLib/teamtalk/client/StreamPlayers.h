@@ -27,7 +27,7 @@
 #include "avstream/AudioResampler.h"
 #include "avstream/SoundSystem.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHelper.h"
 #include "teamtalk/PacketLayout.h"
@@ -43,7 +43,6 @@
 #endif
 
 #include <ace/Message_Block.h>
-#include <ace/Recursive_Thread_Mutex.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -84,6 +83,8 @@ namespace teamtalk {
                     audio_resampler_t& resampler);
         ~AudioPlayer() override;
 
+        int GetUserID() const { return m_userid; }
+
         //returns reassembled AudioPacket if 'new_audpkt' has fragments
         audiopacket_t QueuePacket(const AudioPacket& new_audpkt);
 
@@ -112,13 +113,14 @@ namespace teamtalk {
         int GetNumAudioPacketsLost(bool reset);
 
         const AudioCodec& GetAudioCodec() const { return m_codec; }
+        int GetStreamID() const { return m_stream_id; }
 
     protected:
         void CleanUpAudioFragments(uint16_t too_old_packet_no);
-
         void AddPacket(const AudioPacket& packet);
         virtual void Reset();
 
+    private:
         int m_userid = 0;
         StreamType m_streamtype = STREAMTYPE_NONE;
         soundsystem::soundsystem_t m_sndsys;
@@ -130,7 +132,7 @@ namespace teamtalk {
         uint32_t m_play_stopped_delay = STOPPED_TALKING_DELAY; //wait for how long to stop playing
         uint32_t m_played_packet_time = 0; //time of last packet to be send to audio buffer
         //AudioMuxer attributes
-        ACE_UINT32 m_samples_played = 0;
+        uint32_t m_samples_played = 0;
         //Resample buffer
         audio_resampler_t m_resampler;
         std::vector<short> m_resample_buffer;
@@ -154,7 +156,7 @@ namespace teamtalk {
         //packet no -> fragments
         using fragments_queue_t = std::map<uint16_t, audiofragments_t>;
         fragments_queue_t m_audfragments;
-        ACE_Recursive_Thread_Mutex m_mutex;
+        std::recursive_mutex m_mutex;
     };
 
     using audio_player_t = std::shared_ptr< AudioPlayer >;
@@ -256,7 +258,7 @@ namespace teamtalk {
         VpxDecoder m_decoder;
         bool m_decoder_ready = false;
 
-        ACE_Recursive_Thread_Mutex m_mutex;
+        std::recursive_mutex m_mutex;
     };
 
     using webm_player_t = std::shared_ptr< WebMPlayer >;

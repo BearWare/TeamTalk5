@@ -27,7 +27,7 @@
 #include "ClientUser.h"
 
 #include "codec/WaveFile.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/TimerHandler.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketLayout.h"
@@ -50,22 +50,21 @@
 #endif
 
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Task.h>
-#include <ace/Time_Value.h>
 
+#include <chrono>
 #include <cstdint>
 #include <map>
 #include <memory>
+#include <thread>
 #include <vector>
 
-#define DEFAULT_VOICELOG_VARS ACE_TEXT("%Y%m%d-%H%M%S #%userid% %username%")
+#define DEFAULT_VOICELOG_VARS TTEXT("%Y%m%d-%H%M%S #%userid% %username%")
 
 namespace teamtalk {
 
     struct VoiceLogFile
     {
-        ACE_TString filename;
+        tstring filename;
         int samplerate = 0;
         int channels = 0;
         int duration = 0;
@@ -81,7 +80,7 @@ namespace teamtalk {
         //// no copying
         VoiceLog(const VoiceLog& log) = delete;
 
-        VoiceLog(int userid, const ACE_TString& filename,
+        VoiceLog(int userid, const tstring& filename,
                  const AudioCodec& codec, AudioFileFormat aff,
                  int stream_id, int stoppedtalking_delay);
         ~VoiceLog();
@@ -90,13 +89,13 @@ namespace teamtalk {
         void FlushLog();
 
         uint32_t GetLatestPacketTime() const;
-        ACE_Time_Value GetVoiceEndTime() const;
+        std::chrono::system_clock::time_point GetVoiceEndTime() const;
 
         VoiceLogFile GetVoiceLogFile();
 
         bool IsActive() const { return m_active; }
 
-        ACE_TString GetFileName() const { return m_filename; }
+        tstring GetFileName() const { return m_filename; }
         AudioFileFormat GetAFF() const { return m_aff; }
 
         int GetDuration();
@@ -113,11 +112,11 @@ namespace teamtalk {
         void WriteAudio(int packet_no);
         void WriteSilence(int msecs);
 
-        ACE_Recursive_Thread_Mutex m_mutex;
+        std::recursive_mutex m_mutex;
         mappackets_t m_mQueuePackets; //packetnum --> packet
         mappackets_t m_mFlushPackets; //packetnum --> packet
         int m_packet_current = -1;
-        ACE_Time_Value m_last;
+        std::chrono::system_clock::time_point m_last;
         uint32_t m_packet_timestamp = 0; // timestamp of most recent packet
         int m_tot_msec = 0; // auto close voice log after this timeout
 #if defined(ENABLE_SPEEX)
@@ -136,7 +135,7 @@ namespace teamtalk {
 #if defined(ENABLE_OPUSTOOLS)
         opusfile_t m_opusfile;
 #endif
-        ACE_TString m_filename;
+        tstring m_filename;
 
         teamtalk::AudioCodec m_codec;
         AudioFileFormat m_aff = AFF_NONE;
@@ -158,32 +157,32 @@ namespace teamtalk {
     };
 
     class VoiceLogger : public TimerListener
-                      , private ACE_Task_Base
     {
     public:
         VoiceLogger(VoiceLogListener* listener);
         ~VoiceLogger() override;
 
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         void AddVoicePacket(ClientUser& from_user, 
                             const ClientChannel& channel, 
                             const AudioPacket& packet);
 
         void CancelLog(int userid);
-        ACE_TString GetVoiceLogFileName(int userid);
+        tstring GetVoiceLogFileName(int userid);
 
     private:
-        int svc () override;
+        void Run();
+        std::thread m_thread;
         void BeginLog(ClientUser& user, 
                       const AudioCodec& codec, 
                       int stream_id,
-                      const ACE_TString& folderpath);
+                      const tstring& folderpath);
         bool EndLog(int userid);
         void FlushLogs();
         using mapvlogs_t = std::map<int, voicelog_t>;
         mapvlogs_t m_mLogs;
-        ACE_Recursive_Thread_Mutex m_add_mtx, m_flush_mtx;
+        std::recursive_mutex m_add_mtx, m_flush_mtx;
         ACE_Reactor m_reactor;
         int m_timerid = -1;
         VoiceLogListener* m_listener = nullptr;

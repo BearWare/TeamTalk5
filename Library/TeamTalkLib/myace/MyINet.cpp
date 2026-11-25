@@ -23,6 +23,7 @@
 
 #include "MyINet.h"
 #include "MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ace/INET_Addr.h>
 #include <ace/INet/HTTP_ClientRequestHandler.h>
@@ -40,14 +41,16 @@
 #endif
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cctype>
 #include <cerrno>
+#include <cstring>
 #include <iomanip>
 #include <memory>
 #include <sstream>
 
-std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_t port)
+std::vector<ACE_INET_Addr> DetermineHostAddress(const tstring& host, uint16_t port)
 {
     std::vector<ACE_INET_Addr> result;
 
@@ -65,7 +68,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 #endif
     if (addrinfoerror != 0)
     {
-        MYTRACE(ACE_TEXT("Failed to resolve %s. Error: %d"), host.c_str(), addrinfoerror);
+        MYTRACE(TTEXT("Failed to resolve %s. Error: %d"), host.c_str(), addrinfoerror);
         return {};
     }
 
@@ -79,7 +82,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 #endif /* ACE_HAS_IPV6 */
         } addr{};
 
-        ACE_OS::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
+        std::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
 #ifdef ACE_HAS_IPV6
         if (curr->ai_family == AF_INET6)
         {
@@ -116,11 +119,11 @@ static void AceSingletons()
 #endif /* ENABLE_ENCRYPTION */
 }
 
-int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
+int HttpGetRequest(const std::string& url, std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
     AceSingletons();
 
-    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url.c_str()));
     if (!url_safe)
         return -1;
 
@@ -133,10 +136,10 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
 
     ACE::HTTP::Status const httpCode = http.response().get_status();
 #if defined(UNICODE)
-    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
+    MYTRACE_COND(!httpCode.is_ok(), TTEXT("HTTP request failed:\n%s\n"),
         Utf8ToUnicode(result.c_str()).c_str());
 #else
-    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
+    MYTRACE_COND(!httpCode.is_ok(), TTEXT("HTTP request failed:\n%s\n"), result.c_str());
 #endif
     if (statusCode != nullptr)
         *statusCode = httpCode.get_status();
@@ -148,13 +151,13 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
     return httpCode.is_ok() ? 1 : 0;
 }
 
-int HttpPostRequest(const ACE_CString& url, const char* data, int len,
+int HttpPostRequest(const std::string& url, const char* data, int len,
                     const std::map<std::string, std::string>& headers,
                     std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
     AceSingletons();
 
-    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url.c_str()));
     if (!url_safe)
         return -1;
 
@@ -251,7 +254,7 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
     return httpCode.is_ok() ? 1 : 0;
 }
 
-int HttpPostRequest(const ACE_CString& url, const std::map<std::string,std::string>& unencodedformdata,
+int HttpPostRequest(const std::string& url, const std::map<std::string,std::string>& unencodedformdata,
                     std::string& result, ACE::HTTP::Status::Code* statusCode/* = nullptr*/)
 {
     std::string content;
@@ -291,24 +294,24 @@ std::string URLEncode(const std::string& utf8)
     return escaped.str();
 }
 
-ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
+tstring InetAddrToString(const ACE_INET_Addr& addr)
 {
-    ACE_TCHAR buf[INET6_ADDRSTRLEN+1] = {};
-    addr.addr_to_string(buf, INET6_ADDRSTRLEN);
-    return buf;
+    std::array<tchar, INET6_ADDRSTRLEN+1> buf{};
+    addr.addr_to_string(buf.data(), INET6_ADDRSTRLEN);
+    return buf.data();
 }
 
-int InetAddrFamily(const ACE_TString& addr_str)
+int InetAddrFamily(const tstring& addr_str)
 {
-    char buf[INET6_ADDRSTRLEN];
-    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+    std::array<char, INET6_ADDRSTRLEN> buf{};
+    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
         return AF_INET;
-    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
         return AF_INET6;
     return -1;
 }
 
-ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
+tstring INetAddrNetwork(const tstring& ipaddr, uint32_t prefix)
 {
     int const af = InetAddrFamily(ipaddr);
     switch (af)
@@ -324,9 +327,9 @@ ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
         ipv4addr.sin_addr.s_addr >>= shift;
         ipv4addr.sin_addr.s_addr <<= shift;
         ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
-        char strnet[INET_ADDRSTRLEN];
-        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet, INET_ADDRSTRLEN) != nullptr)
-            return Utf8ToUnicode(strnet);
+        std::array<char, INET_ADDRSTRLEN> strnet{};
+        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet.data(), strnet.size()) != nullptr)
+            return Utf8ToUnicode(strnet.data());
     }
     case AF_INET6 :
     {
@@ -342,9 +345,9 @@ ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
             prefix -= bits;
         }
 
-        char strnet[INET6_ADDRSTRLEN];
-        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet, INET6_ADDRSTRLEN) != nullptr)
-            return Utf8ToUnicode(strnet);
+        std::array<char, INET6_ADDRSTRLEN> strnet{};
+        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet.data(), strnet.size()) != nullptr)
+            return Utf8ToUnicode(strnet.data());
     }
     }
     return {};

@@ -22,7 +22,9 @@
  */
 
 #include "LibVidCap.h"
-#include <assert.h>
+#include "mystd/MyStd.h"
+#include <cassert>
+#include <chrono>
 
 using namespace std;
 using namespace media;
@@ -42,7 +44,7 @@ void Convert(const struct vidcap_fmt_info& fmt_info,
 {
     vidfmt.width = fmt_info.width;
     vidfmt.height = fmt_info.height;
-    vidfmt.fourcc = (media::FourCC)fmt_info.fourcc;
+    vidfmt.fourcc = static_cast<media::FourCC>(fmt_info.fourcc);
     vidfmt.fps_numerator = fmt_info.fps_numerator;
     vidfmt.fps_denominator = fmt_info.fps_denominator;
 }
@@ -84,7 +86,7 @@ vidcap_devices_t LibVidCap::GetDevices()
     std::vector<struct vidcap_sapi_info> sapi_infos;
     struct vidcap_sapi_info api;
     size_t i=0;
-    while(vidcap_sapi_enumerate(m_vc_state, (int)i++, &api))
+    while(vidcap_sapi_enumerate(m_vc_state, static_cast<int>(i++), &api))
         sapi_infos.push_back(api);
 
     for(i=0;i<sapi_infos.size();i++)
@@ -130,20 +132,20 @@ vidcap_devices_t LibVidCap::GetDevices()
     return devices;
 }
 
-bool LibVidCap::InitVideoCapture(const ACE_TString& deviceid,
+bool LibVidCap::InitVideoCapture(const tstring& deviceid,
                                   const media::VideoFormat& vidfmt)
 {
     if(!m_vc_state)
         return false;
 
 #if defined(WIN32)
-    const ACE_TString sapi_id = ACE_TEXT("DirectShow"); //from sapi_dshow.cpp
+    const tstring sapi_id = TTEXT("DirectShow"); //from sapi_dshow.cpp
 #elif defined(__APPLE__)
     //look in 'sapi_qt.c' for Mac support and 'sapi_v4l.c' for Linux support
-    const ACE_TString sapi_id = ACE_TEXT("quicktime"); //from sapi_dshow.cpp
+    const tstring sapi_id = TTEXT("quicktime"); //from sapi_dshow.cpp
 #else
     //look in 'sapi_v4l.c' for Linux support
-    const ACE_TString sapi_id = ACE_TEXT("video4linux"); //from sapi_v4l.cpp
+    const tstring sapi_id = TTEXT("video4linux"); //from sapi_v4l.cpp
 #endif
 
     int ret;
@@ -151,9 +153,9 @@ bool LibVidCap::InitVideoCapture(const ACE_TString& deviceid,
     struct vidcap_sapi_info sapi_info;
     struct vidcap_src_info src_info;
 
-    ACE_OS::strncpy(sapi_info.identifier, sapi_id.c_str(),
+    tstrncpy(sapi_info.identifier, sapi_id.c_str(),
         VIDCAP_NAME_LENGTH);
-    ACE_OS::strncpy(src_info.identifier, deviceid.c_str(),
+    tstrncpy(src_info.identifier, deviceid.c_str(),
         VIDCAP_NAME_LENGTH);
 
     m_vc_api = vidcap_sapi_acquire(m_vc_state, &sapi_info);
@@ -259,9 +261,10 @@ int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data,
     media::VideoFormat vidfmt = lsn->GetVideoCaptureFormat();
     if(vidfmt.IsValid() && cap_info->video_data && cap_info->video_data_size)
     {
-        ACE_Time_Value tm(cap_info->capture_time_sec, cap_info->capture_time_usec);
-        ACE_Time_Value diff = ACE_OS::gettimeofday() - tm;
-        ACE_UINT32 tm_msec = GETTIMESTAMP() - (ACE_UINT32)diff.msec();
+        auto const capture_tp = std::chrono::system_clock::time_point(
+            std::chrono::seconds(cap_info->capture_time_sec) + std::chrono::microseconds(cap_info->capture_time_usec));
+        auto const diff = " + NOW + " - capture_tp;
+        uint32_t tm_msec = GETTIMESTAMP() - static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(diff).count());
         media::VideoFrame vid_frm(const_cast<char*>(cap_info->video_data), cap_info->video_data_size,
                                   vidfmt.width, vidfmt.height, vidfmt.fourcc, true);
         vid_frm.timestamp = tm_msec;

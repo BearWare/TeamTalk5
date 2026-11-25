@@ -27,7 +27,6 @@
 #include "codec/MediaUtil.h"
 
 #include <ace/Message_Block.h>
-#include <ace/SString.h>
 
 #include <functional>
 #include <memory>
@@ -37,9 +36,9 @@ namespace vidcap {
 
     struct VidCapDevice
     {
-        ACE_TString api;
-        ACE_TString devicename;
-        ACE_TString deviceid;
+        tstring api;
+        tstring devicename;
+        tstring deviceid;
 
         std::vector<media::VideoFormat> vidcapformats;
     };
@@ -60,7 +59,7 @@ namespace vidcap {
 
         virtual vidcap_devices_t GetDevices() = 0;
 
-        virtual bool InitVideoCapture(const ACE_TString& deviceid,
+        virtual bool InitVideoCapture(const tstring& deviceid,
                                       const media::VideoFormat& vidfmt) = 0;
     
         virtual bool StartVideoCapture() = 0;

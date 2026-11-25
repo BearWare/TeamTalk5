@@ -27,8 +27,6 @@
 #include "Common.h"
 #include "codec/MediaUtil.h"
 
-#include <ace/SString.h>
-
 namespace teamtalk
 {
     bool ValidAudioCodec(const AudioCodec& codec);
@@ -57,7 +55,7 @@ namespace teamtalk
     int GetSpeexFramesDuration(int bandmode, int framecount);
     int GetSpeexSamplesCount(int bandmode, int framecount);
 
-    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec);
+    bool AudioCodecConvertBug(const tstring& streamprotocol, const AudioCodec& codec);
 } // namespace teamtalk
 
 #endif

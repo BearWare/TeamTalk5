@@ -22,7 +22,6 @@
  */
 
 #include "MediaPlayback.h"
-
 #include "myace/MyACE.h"
 
 #if defined(ENABLE_WEBRTC)
@@ -52,7 +51,7 @@ MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
     , m_userdata(userdata)
     , m_sndsys(std::move(std::move(sndsys)))
 {
-    MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d\n"), this, userdata);
+    MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("MediaPlayback - %p. ID: %d\n"), this, userdata);
 }
 
 MediaPlayback::~MediaPlayback()
@@ -66,7 +65,7 @@ MediaPlayback::~MediaPlayback()
     if (wait)
     {
         // block to ensure all audio has been played
-        MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("~MediaPlayback - %p. Waiting. ID: %d\n"), this, m_userdata);
+        MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("~MediaPlayback - %p. Waiting. ID: %d\n"), this, m_userdata);
         m_drained.get(wait);
     }
 
@@ -80,10 +79,10 @@ MediaPlayback::~MediaPlayback()
         m_audio_buffer.front()->release();
         m_audio_buffer.pop();
     }
-    MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("~MediaPlayback - %p. ID: %d\n"), this, m_userdata);
+    MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("~MediaPlayback - %p. ID: %d\n"), this, m_userdata);
 }
 
-bool MediaPlayback::OpenFile(const ACE_TString& filename)
+bool MediaPlayback::OpenFile(const tstring& filename)
 {
     if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;
@@ -170,7 +169,7 @@ bool MediaPlayback::Pause()
     return m_streamer->Pause();
 }
 
-bool MediaPlayback::Seek(ACE_UINT32 offset)
+bool MediaPlayback::Seek(uint32_t offset)
 {
     if(!m_streamer)
         return false;
@@ -234,7 +233,7 @@ bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/
     std::scoped_lock const g(m_mutex);
     if (m_audio_buffer.size() > 10)
     {
-        MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
+        MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("Media Playback buffer full. Discarding audio frame.\n"));
         return false;
     }
 
@@ -307,7 +306,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         }
     }
 
-    MYTRACE_COND(DEBUG_MEDIAPLAYBACK && !mb, ACE_TEXT("Media playback underflow\n"));
+    MYTRACE_COND(DEBUG_MEDIAPLAYBACK && !mb, TTEXT("Media playback underflow\n"));
 
     if (mb != nullptr)
     {
@@ -318,7 +317,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         {
             int const n_resampled = m_resampler->Resample(frm.input_buffer, buffer);
             MYTRACE_COND(n_resampled != samples,
-                         ACE_TEXT("Media playback. Unexpected number of samples returned from resampler. %d != %d\n"),
+                         TTEXT("Media playback. Unexpected number of samples returned from resampler. %d != %d\n"),
                          n_resampled, samples);
             assert(n_resampled <= samples);
         }
@@ -333,7 +332,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                   buffer, streamer.framesize);
         if (m_apm && WebRTCPreprocess(*m_apm, apm_frm, apm_frm) != streamer.framesize)
         {
-            MYTRACE(ACE_TEXT("WebRTC in media file playback failed to process audio\n"));
+            MYTRACE(TTEXT("WebRTC in media file playback failed to process audio\n"));
         }
 #endif
 
@@ -425,7 +424,7 @@ void MediaPlayback::SubmitPreProgress()
             break;
         case MEDIASTREAM_PLAYING :
         case MEDIASTREAM_STARTED :
-            MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
+            MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
                          this, m_userdata, progress.mfp.filename.c_str(), progress.status);
             if (m_statusfunc)
                 m_statusfunc(m_userdata, progress.mfp, progress.status);
@@ -489,7 +488,7 @@ void MediaPlayback::SubmitPostProgress()
         case MEDIASTREAM_ERROR :
         case MEDIASTREAM_PAUSED :
             m_status = progress.status;
-            MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
+            MYTRACE_COND(DEBUG_MEDIAPLAYBACK, TTEXT("MediaPlayback - %p. ID: %d. %s. Status: %d\n"),
                          this, m_userdata, progress.mfp.filename.c_str(), progress.status);
             if (m_statusfunc)
                 m_statusfunc(m_userdata, progress.mfp, progress.status);

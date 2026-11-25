@@ -70,6 +70,13 @@ KeyCompDlg::~KeyCompDlg()
 
 bool KeyCompDlg::captureActionShortcut(QKeyEvent* event)
 {
+    // Escape without modifiers cancels, so keyboard users are not trapped
+    if (event->key() == Qt::Key_Escape && event->modifiers() == Qt::NoModifier)
+    {
+        reject();
+        return true;
+    }
+
     if (!m_actionShortcut)
         return false;
 

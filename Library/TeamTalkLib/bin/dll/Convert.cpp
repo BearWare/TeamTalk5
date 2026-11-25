@@ -22,8 +22,7 @@
  */
 
 #include "Convert.h"
-
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 
 #if defined(ENABLE_OPUS)
@@ -42,8 +41,10 @@
 #endif /** __APPLE__ **/
 
 #include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <cstring>
 #include <map>
-#include <math.h>
 
 
 //some inspiration found here: http://www.vmware.com/support/ws45/doc/devices_linux_kb_ws.html
@@ -181,7 +182,7 @@ enum TTKey
     TTKEY_MIDDLEMOUSEBTN        = 0x00001002,
 };
 
-using key_map_t = std::map<ACE_UINT32, ACE_UINT32>;
+using key_map_t = std::map<uint32_t, uint32_t>;
 
 static key_map_t tt_keymap, local_keymap;
 
@@ -698,7 +699,7 @@ void FillKeys()
 */
 #endif
 
-static ACE_Recursive_Thread_Mutex keytransMtx;
+static std::recursive_mutex keytransMtx;
 
 bool TranslateDesktopInput(TTKeyTranslate nTranslate,
                            const DesktopInput& input,
@@ -1117,10 +1118,10 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
 
     result.nParentID = chanprop.parentid;
     result.nChannelID = chanprop.channelid;
-    ACE_OS::strsncpy(result.szName, chanprop.name.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szTopic, chanprop.topic.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szPassword, chanprop.passwd.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szOpPassword, chanprop.oppasswd.c_str(), TT_STRLEN);
+    tstrsncpy(result.szName, chanprop.name.c_str(), TT_STRLEN);
+    tstrsncpy(result.szTopic, chanprop.topic.c_str(), TT_STRLEN);
+    tstrsncpy(result.szPassword, chanprop.passwd.c_str(), TT_STRLEN);
+    tstrsncpy(result.szOpPassword, chanprop.oppasswd.c_str(), TT_STRLEN);
     result.bPassword = static_cast<TTBOOL>(chanprop.bProtected);
     result.nMaxUsers = chanprop.maxusers;
     result.uChannelType = chanprop.chantype;
@@ -1142,7 +1143,7 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG);
     userids.insert(tmp.begin(), tmp.end());
     
-    ACE_OS::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
+    std::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
     size_t i=0;
     for(ii=userids.begin();ii!=userids.end() && i < TT_TRANSMITUSERS_MAX;ii++, i++)
     {
@@ -1222,13 +1223,13 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
 static void Convert(const teamtalk::User& srcuser, User& result)
 {
     result.nUserID = srcuser.GetUserID();
-    ACE_OS::strsncpy(result.szNickname, srcuser.GetNickname().c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szUsername, srcuser.GetUsername().c_str(), TT_STRLEN);
+    tstrsncpy(result.szNickname, srcuser.GetNickname().c_str(), TT_STRLEN);
+    tstrsncpy(result.szUsername, srcuser.GetUsername().c_str(), TT_STRLEN);
     result.nStatusMode = srcuser.GetStatusMode();
-    ACE_OS::strsncpy(result.szStatusMsg, srcuser.GetStatusMessage().c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szIPAddress, srcuser.GetIpAddress().c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szClientName, srcuser.GetClientName().c_str(), TT_STRLEN);
-    strings_t tokens = Tokenize(srcuser.GetClientVersion(), ACE_TEXT("."));
+    tstrsncpy(result.szStatusMsg, srcuser.GetStatusMessage().c_str(), TT_STRLEN);
+    tstrsncpy(result.szIPAddress, srcuser.GetIpAddress().c_str(), TT_STRLEN);
+    tstrsncpy(result.szClientName, srcuser.GetClientName().c_str(), TT_STRLEN);
+    strings_t tokens = Tokenize(srcuser.GetClientVersion(), TTEXT("."));
     result.uVersion = 0;
     int shift = 16;
     while((!tokens.empty()) && shift >= 0)
@@ -1271,7 +1272,7 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
         result.uUserState |= USERSTATE_MEDIAFILE_VIDEO;
     if(clientuser.IsAudioActive(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO))
         result.uUserState |= USERSTATE_MEDIAFILE_AUDIO;
-    ACE_OS::strsncpy(result.szMediaStorageDir, clientuser.GetAudioFolder().c_str(), TT_STRLEN);
+    tstrsncpy(result.szMediaStorageDir, clientuser.GetAudioFolder().c_str(), TT_STRLEN);
     result.nVolumeVoice = clientuser.GetVolume(teamtalk::STREAMTYPE_VOICE);
     result.nVolumeMediaFile = clientuser.GetVolume(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
     result.nStoppedDelayVoice = clientuser.GetPlaybackStoppedDelay(teamtalk::STREAMTYPE_VOICE);
@@ -1330,26 +1331,26 @@ void Convert(const VideoCodec& vidcodec, teamtalk::VideoCodec& result)
         result.webm_vp8.encode_deadline = vidcodec.webm_vp8.nEncodeDeadline;
         break;
     }
-    assert(result.codec == (teamtalk::Codec)vidcodec.nCodec);
+    assert(result.codec == static_cast<teamtalk::Codec>(vidcodec.nCodec));
 }
 
 void Convert(const teamtalk::UserAccount& useraccount, UserAccount& result)
 {
     ZERO_STRUCT(result);
 
-    ACE_OS::strsncpy(result.szUsername, useraccount.username.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szPassword, useraccount.passwd.c_str(), TT_STRLEN);
+    tstrsncpy(result.szUsername, useraccount.username.c_str(), TT_STRLEN);
+    tstrsncpy(result.szPassword, useraccount.passwd.c_str(), TT_STRLEN);
     result.uUserType = useraccount.usertype;
     result.uUserRights = useraccount.userrights;
     result.nUserData = useraccount.userdata;
-    ACE_OS::strsncpy(result.szNote, useraccount.note.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szInitChannel, useraccount.init_channel.c_str(), TT_STRLEN);
+    tstrsncpy(result.szNote, useraccount.note.c_str(), TT_STRLEN);
+    tstrsncpy(result.szInitChannel, useraccount.init_channel.c_str(), TT_STRLEN);
     Convert(useraccount.auto_op_channels, result.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
     result.nAudioCodecBpsLimit = useraccount.audiobpslimit;
     result.abusePrevent.nCommandsLimit = useraccount.abuse.n_cmds;
     result.abusePrevent.nCommandsIntervalMSec = useraccount.abuse.cmd_msec;
-    ACE_OS::strsncpy(result.szLastModified, teamtalk::DateToString(useraccount.lastupdated).c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szLastLoginTime, teamtalk::DateToString(useraccount.lastlogin).c_str(), TT_STRLEN);
+    tstrsncpy(result.szLastModified, DateToString(useraccount.lastupdated, true /*local time*/).c_str(), TT_STRLEN);
+    tstrsncpy(result.szLastLoginTime, DateToString(useraccount.lastlogin, true /*local time*/).c_str(), TT_STRLEN);
 }
 
 void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result)
@@ -1373,8 +1374,8 @@ void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result
     result.nMaxLoginAttempts = srvprop.maxloginattempts;
     result.nMaxLoginsPerIPAddress = srvprop.max_logins_per_ipaddr;
     result.nUserTimeout = srvprop.usertimeout;
-    ACE_OS::strsncpy(result.szServerName, srvprop.servername.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szMOTD, srvprop.motd.c_str(), TT_STRLEN);
+    tstrsncpy(result.szServerName, srvprop.servername.c_str(), TT_STRLEN);
+    tstrsncpy(result.szMOTD, srvprop.motd.c_str(), TT_STRLEN);
     result.nMaxVoiceTxPerSecond = srvprop.voicetxlimit;
     result.nMaxVideoCaptureTxPerSecond = srvprop.videotxlimit;
     result.nMaxMediaFileTxPerSecond = srvprop.mediafiletxlimit;
@@ -1384,7 +1385,7 @@ void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result
     result.nMaxUsers = srvprop.maxusers;
     result.nUserTimeout = srvprop.usertimeout;
     result.nLoginDelayMSec = srvprop.logindelay;
-    ACE_OS::strsncpy(result.szServerVersion, srvprop.version.c_str(), TT_STRLEN);
+    tstrsncpy(result.szServerVersion, srvprop.version.c_str(), TT_STRLEN);
     result.uServerLogEvents = srvprop.logevents;
 }
 
@@ -1392,14 +1393,14 @@ void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
 {
     ZERO_STRUCT(result);
     Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
-    ACE_OS::strsncpy(result.szMOTDRaw, srvprop.motd_raw.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szServerProtocolVersion, srvprop.protocol.c_str(), TT_STRLEN);
+    tstrsncpy(result.szMOTDRaw, srvprop.motd_raw.c_str(), TT_STRLEN);
+    tstrsncpy(result.szServerProtocolVersion, srvprop.protocol.c_str(), TT_STRLEN);
     if (!srvprop.hostaddrs.empty())
     {
         result.nTcpPort = srvprop.hostaddrs[0].get_port_number();
         result.nUdpPort = srvprop.udpaddr.get_port_number();
     }
-    ACE_OS::strsncpy(result.szAccessToken, srvprop.accesstoken.c_str(), TT_STRLEN);
+    tstrsncpy(result.szAccessToken, srvprop.accesstoken.c_str(), TT_STRLEN);
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -1407,7 +1408,7 @@ void Convert(const teamtalk::ServerSettings& srvprop, ServerProperties& result)
 {
     ZERO_STRUCT(result);
     Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
-    ACE_OS::strsncpy(result.szServerProtocolVersion, TEAMTALK_PROTOCOL_VERSION, TT_STRLEN);
+    tstrsncpy(result.szServerProtocolVersion, TEAMTALK_PROTOCOL_VERSION, TT_STRLEN);
 
     if (!srvprop.tcpaddrs.empty())
         result.nTcpPort = srvprop.tcpaddrs[0].get_port_number();
@@ -1463,7 +1464,7 @@ ClientErrorMsg& Convert(const teamtalk::ErrorMsg& cmderr, ClientErrorMsg& result
 {
     ZERO_STRUCT(result);
 
-    ACE_OS::strsncpy(result.szErrorMsg, cmderr.errmsg.c_str(), TT_STRLEN);
+    tstrsncpy(result.szErrorMsg, cmderr.errmsg.c_str(), TT_STRLEN);
     result.nErrorNo = cmderr.errorno;
     return result;
 }
@@ -1479,12 +1480,12 @@ void Convert(const teamtalk::BannedUser& banuser, BannedUser& result)
 {
     ZERO_STRUCT(result);
 
-    ACE_OS::strsncpy(result.szChannelPath, banuser.chanpath.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szIPAddress, banuser.ipaddr.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szNickname, banuser.nickname.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szUsername, banuser.username.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szBanTime, teamtalk::DateToString( banuser.bantime ).c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szOwner, banuser.owner.c_str(), TT_STRLEN);
+    tstrsncpy(result.szChannelPath, banuser.chanpath.c_str(), TT_STRLEN);
+    tstrsncpy(result.szIPAddress, banuser.ipaddr.c_str(), TT_STRLEN);
+    tstrsncpy(result.szNickname, banuser.nickname.c_str(), TT_STRLEN);
+    tstrsncpy(result.szUsername, banuser.username.c_str(), TT_STRLEN);
+    tstrsncpy(result.szBanTime, DateToString(banuser.bantime, true /*local time*/).c_str(), TT_STRLEN);
+    tstrsncpy(result.szOwner, banuser.owner.c_str(), TT_STRLEN);
     result.uBanTypes = static_cast<BanTypes>(banuser.bantype);
 }
 
@@ -1503,12 +1504,12 @@ void Convert(const teamtalk::FileTransfer& transfer, FileTransfer& result)
     ZERO_STRUCT(result);
 
     result.nStatus = static_cast<FileTransferStatus>(transfer.status);
-    ACE_OS::strsncpy(result.szLocalFilePath, transfer.localfile.c_str(), TT_STRLEN);
+    tstrsncpy(result.szLocalFilePath, transfer.localfile.c_str(), TT_STRLEN);
     result.nTransferID = transfer.transferid;
     result.nFileSize = transfer.filesize;
     result.nTransferred = transfer.transferred;
     result.bInbound = static_cast<TTBOOL>(transfer.inbound);
-    ACE_OS::strsncpy(result.szRemoteFileName, transfer.filename.c_str(), TT_STRLEN);
+    tstrsncpy(result.szRemoteFileName, transfer.filename.c_str(), TT_STRLEN);
     result.nChannelID = transfer.channelid;
 }
 
@@ -1516,12 +1517,12 @@ void Convert(const teamtalk::RemoteFile& remotefile, RemoteFile& result)
 {
     ZERO_STRUCT(result);
 
-    ACE_OS::strsncpy(result.szFileName, remotefile.filename.c_str(), TT_STRLEN);
-    ACE_OS::strsncpy(result.szUsername,  remotefile.username.c_str(), TT_STRLEN);
+    tstrsncpy(result.szFileName, remotefile.filename.c_str(), TT_STRLEN);
+    tstrsncpy(result.szUsername,  remotefile.username.c_str(), TT_STRLEN);
     result.nFileID = remotefile.fileid;
     result.nFileSize = remotefile.filesize;
     result.nChannelID = remotefile.channelid;
-    ACE_OS::strsncpy(result.szUploadTime, teamtalk::DateToString(remotefile.uploadtime).c_str(), TT_STRLEN);
+    tstrsncpy(result.szUploadTime, DateToString(remotefile.uploadtime, true /*local time*/).c_str(), TT_STRLEN);
 }
 
 void Convert(const RemoteFile& remotefile, const TTCHAR* szPath, teamtalk::RemoteFile& result)
@@ -1553,9 +1554,8 @@ void Convert(const teamtalk::ServerStats& stats, ServerStatistics& result)
     result.nUsersPeak = stats.userspeak;
     result.nFilesTx = stats.files_bytessent;
     result.nFilesRx = stats.files_bytesreceived;
-    ACE_UINT64 msec = 0;
-    stats.starttime.msec(msec);
-    result.nUptimeMSec = msec;
+    result.nUptimeMSec = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(stats.starttime.time_since_epoch()).count());
 }
 
 void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)
@@ -1563,9 +1563,9 @@ void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)
     ZERO_STRUCT(result);
 
     result.nMsgType = static_cast<TextMsgType>(txtmsg.msgType);
-    ACE_OS::strsncpy(result.szMessage, txtmsg.content.c_str(), TT_STRLEN);
+    tstrsncpy(result.szMessage, txtmsg.content.c_str(), TT_STRLEN);
     result.nFromUserID = txtmsg.from_userid;
-    ACE_OS::strsncpy(result.szFromUsername, txtmsg.from_username.c_str(), TT_STRLEN);
+    tstrsncpy(result.szFromUsername, txtmsg.from_username.c_str(), TT_STRLEN);
     result.nToUserID = txtmsg.to_userid;
     result.nChannelID = txtmsg.channelid;
     result.bMore = static_cast<TTBOOL>(txtmsg.more);
@@ -1610,7 +1610,7 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)
     }
     result.uDurationMSec = mediaprop.duration_ms;
     result.uElapsedMSec = mediaprop.elapsed_ms;
-    ACE_OS::strsncpy(result.szFileName, mediaprop.filename.c_str(), TT_STRLEN);
+    tstrsncpy(result.szFileName, mediaprop.filename.c_str(), TT_STRLEN);
 }
 
 void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlog,
@@ -1624,8 +1624,8 @@ void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlo
     result.audioFmt.nSampleRate = vlog.samplerate;
     result.uDurationMSec = vlog.duration;
     result.uElapsedMSec = 0;
-    ACE_OS::strsncpy(result.szFileName, vlog.filename.c_str(), TT_STRLEN);
-    ACE_OS::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
+    tstrsncpy(result.szFileName, vlog.filename.c_str(), TT_STRLEN);
+    std::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
 }
 
 void Convert(const AudioInputStatus& ais, AudioInputProgress& result)
@@ -1784,15 +1784,15 @@ void Convert(const int* int_array, int max_elements, std::set<int>& intset)
 bool SetupEncryptionContext(const EncryptionContext& enccontext, ACE_SSL_Context* context)
 {
 #if defined(UNICODE)
-    ACE_CString cert = UnicodeToLocal(enccontext.szCertificateFile);
-    ACE_CString priv = UnicodeToLocal(enccontext.szPrivateKeyFile);
-    ACE_CString cafile = UnicodeToLocal(enccontext.szCAFile);
-    ACE_CString cadir = UnicodeToLocal(enccontext.szCADir);
+    std::string cert = UnicodeToLocal(enccontext.szCertificateFile);
+    std::string priv = UnicodeToLocal(enccontext.szPrivateKeyFile);
+    std::string cafile = UnicodeToLocal(enccontext.szCAFile);
+    std::string cadir = UnicodeToLocal(enccontext.szCADir);
 #else
-    ACE_CString const cert = enccontext.szCertificateFile;
-    ACE_CString const priv = enccontext.szPrivateKeyFile;
-    ACE_CString const cafile = enccontext.szCAFile;
-    ACE_CString const cadir = enccontext.szCADir;
+    std::string const cert = enccontext.szCertificateFile;
+    std::string const priv = enccontext.szPrivateKeyFile;
+    std::string const cafile = enccontext.szCAFile;
+    std::string const cadir = enccontext.szCADir;
 #endif
     
     if ((!cert.empty()) && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)

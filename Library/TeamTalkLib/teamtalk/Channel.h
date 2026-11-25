@@ -26,21 +26,19 @@
 
 #include "Common.h"
 #include "PacketLayout.h"
-#include "TeamTalkDefs.h"
 #include "TTAssert.h"
-#include "myace/MyACE.h"
-
-#include <ace/SString.h>
-#include <ace/Time_Value.h>
+#include "TeamTalkDefs.h"
+#include "mystd/MyStd.h"
 
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <map>
 #include <memory>
 #include <set>
 #include <vector>
 
-#define CHANNEL_SEPARATOR ACE_TEXT("/")
+constexpr auto CHANNEL_SEPARATOR = TTEXT("/");
 
 namespace teamtalk {
 
@@ -54,11 +52,7 @@ namespace teamtalk {
         using users_t = std::vector< user_t >;
 
     private:
-        // prevent copying
-        Channel(const Channel& ch) = delete;
-        const Channel& operator = (const Channel& ch) = delete;
-
-        Channel(channel_t parent, int channelid, ChannelTypes chantype, const ACE_TString& name)
+        Channel(channel_t parent, int channelid, ChannelTypes chantype, const tstring& name)
             : m_channelid(channelid)
             , m_chantype(chantype)
             , m_parent(parent)
@@ -73,12 +67,16 @@ namespace teamtalk {
         }
 
     public:
+        // prevent copying
+        Channel(const Channel& ch) = delete;
+        const Channel& operator = (const Channel& ch) = delete;
+
         explicit Channel(int channelid)    //create a root
-            : Channel(channel_t(), channelid, CHANNEL_DEFAULT | CHANNEL_PERMANENT, ACE_TString())
+            : Channel(channel_t(), channelid, CHANNEL_DEFAULT | CHANNEL_PERMANENT, tstring())
         {
             //MYTRACE("New channel: %s\n", m_name.c_str());
         }
-        Channel(channel_t parent, int channelid, const ACE_TString& name)    //create a sub channel
+        Channel(channel_t parent, int channelid, const tstring& name)    //create a sub channel
             : Channel(parent, channelid, CHANNEL_DEFAULT, name)
         {
             //MYTRACE("New channel: %s\n", name.c_str());
@@ -87,22 +85,22 @@ namespace teamtalk {
         {
             //TTASSERT(m_mUsers.empty());
             //TTASSERT(m_vecUsers.empty());
-            MYTRACE(ACE_TEXT("~Channel() - \"%s\"\n"), m_name.c_str());
+            MYTRACE(TTEXT("~Channel() - \"%s\"\n"), m_name.c_str());
         }
         channel_t GetParentChannel() const { return m_parent.lock(); }
         bool IsRootChannel() const { return !GetParentChannel(); }
-        void SetName(const ACE_TString& name) { m_name = name; }
-        const ACE_TString& GetName() const{return m_name;}
-        void SetPassword(const ACE_TString& password){ m_password = password; }
-        const ACE_TString& GetPassword() const {return m_password;}
-        void SetOpPassword(const ACE_TString& oppasswd) { m_oppasswd = oppasswd; }
-        const ACE_TString& GetOpPassword() const { return m_oppasswd; }
+        void SetName(const tstring& name) { m_name = name; }
+        const tstring& GetName() const{return m_name;}
+        void SetPassword(const tstring& password){ m_password = password; }
+        const tstring& GetPassword() const {return m_password;}
+        void SetOpPassword(const tstring& oppasswd) { m_oppasswd = oppasswd; }
+        const tstring& GetOpPassword() const { return m_oppasswd; }
         void SetPasswordProtected(bool protect){m_protected = protect;}
         bool IsPasswordProtected() const{return m_protected || !m_password.empty();}
-        void SetTopic(const ACE_TString& topic){m_topic = topic;}
-        const ACE_TString& GetTopic() const{return m_topic;}
-        void SetMaxDiskUsage(ACE_INT64 maxSize) { m_maxdiskusage = maxSize; }
-        ACE_INT64 GetMaxDiskUsage() const { return m_maxdiskusage; }
+        void SetTopic(const tstring& topic){m_topic = topic;}
+        const tstring& GetTopic() const{return m_topic;}
+        void SetMaxDiskUsage(int64_t maxSize) { m_maxdiskusage = maxSize; }
+        int64_t GetMaxDiskUsage() const { return m_maxdiskusage; }
         void SetMaxUsers(int maxusers) { m_maxusers = maxusers; }
         int GetMaxUsers() const { return m_maxusers; }
         int GetChannelID() const { return m_channelid; }
@@ -114,18 +112,18 @@ namespace teamtalk {
         const AudioConfig& GetAudioConfig() const { return m_audiocfg; }
         void SetUserData(int userdata) { m_userdata = userdata; }
         int GetUserData() const { return m_userdata; }
-        void SetTimeOutTimerVoice(const ACE_Time_Value& tm) { m_tot_voice = tm; }
-        ACE_Time_Value GetTimeOutTimerVoice() const { return m_tot_voice; }
-        void SetTimeOutTimerMediaFile(const ACE_Time_Value& tm) { m_tot_mediafile = tm; }
-        ACE_Time_Value GetTimeOutTimerMediaFile() const { return m_tot_mediafile; }
-        ACE_TString GetChannelPath() const
+        void SetTimeOutTimerVoice(std::chrono::milliseconds tm) { m_tot_voice = tm; }
+        std::chrono::milliseconds GetTimeOutTimerVoice() const { return m_tot_voice; }
+        void SetTimeOutTimerMediaFile(std::chrono::milliseconds tm) { m_tot_mediafile = tm; }
+        std::chrono::milliseconds GetTimeOutTimerMediaFile() const { return m_tot_mediafile; }
+        tstring GetChannelPath() const
         {
-            ACE_TString pwc = GetName() + ACE_TString(CHANNEL_SEPARATOR);
+            tstring pwc = GetName() + tstring(CHANNEL_SEPARATOR);
             channel_t channel = GetParentChannel();
 
             while(channel)
             {
-                pwc = channel->GetName() + ACE_TString(CHANNEL_SEPARATOR) + pwc;
+                pwc = channel->GetName() + tstring(CHANNEL_SEPARATOR) + pwc;
                 channel = channel->GetParentChannel();
             }
 
@@ -155,7 +153,7 @@ namespace teamtalk {
         }
         int GetUsersCount() const
         {
-            return (int)m_mUsers.size();
+            return static_cast<int>(m_mUsers.size());
         }
         const users_t& GetUsers() const
         {
@@ -169,7 +167,7 @@ namespace teamtalk {
                 for(size_t i=0;i<m_subChannels.size();i++)
                     m_subChannels[i]->GetUsers(users, recursive);
             }
-            return (int)users.size();
+            return static_cast<int>(users.size());
         }
         void SetOperators(const std::set<int>& setOps)
         {
@@ -275,7 +273,7 @@ namespace teamtalk {
             TTASSERT(new_channel->GetParentChannel());
             m_subChannels.push_back(new_channel);
         }
-        void RemoveSubChannel(const ACE_TString& name)
+        void RemoveSubChannel(const tstring& name)
         {
             for(size_t i=0;i<m_subChannels.size();i++)
             {
@@ -288,7 +286,7 @@ namespace teamtalk {
         }
         int GetSubChannelCount(bool recursive = false) const
         {
-            int count = (int)m_subChannels.size();
+            int count = static_cast<int>(m_subChannels.size());
             if(recursive)
             {
                 for(size_t i=0;i<m_subChannels.size();i++)
@@ -296,7 +294,7 @@ namespace teamtalk {
             }
             return count;
         }
-        channel_t GetSubChannel(const ACE_TString& name) const
+        channel_t GetSubChannel(const tstring& name) const
         {
             channel_t sub;
             for(size_t i=0;i<m_subChannels.size();i++)
@@ -333,9 +331,9 @@ namespace teamtalk {
             return channel;
         }
 
-        ACE_INT64 GetDiskUsage() const
+        int64_t GetDiskUsage() const
         {
-            ACE_INT64 total = 0;
+            int64_t total = 0;
             auto ite=m_files.begin();
             while(ite != m_files.end())
             {
@@ -349,7 +347,7 @@ namespace teamtalk {
             TTASSERT(remotefile.channelid == m_channelid);
             m_files[remotefile.filename] = remotefile;
         }
-        void RemoveFile(const ACE_TString& filename)
+        void RemoveFile(const tstring& filename)
         {
             m_files.erase(filename);
         }
@@ -357,7 +355,7 @@ namespace teamtalk {
         {
             m_files.clear();
         }
-        bool FileExists(const ACE_TString& filename) const
+        bool FileExists(const tstring& filename) const
         {
             return m_files.contains(filename);
         }
@@ -366,7 +364,7 @@ namespace teamtalk {
             RemoteFile rfile;
             return GetFile(fileid, rfile, recursive);
         }
-        bool GetFile(const ACE_TString& filename, RemoteFile& remotefile) const
+        bool GetFile(const tstring& filename, RemoteFile& remotefile) const
         {
             auto ite = m_files.find(filename);
             if(ite != m_files.end())
@@ -411,7 +409,7 @@ namespace teamtalk {
         }
         int GetFilesCount(bool recursive = false) const
         {
-            int count = (int)m_files.size();
+            int count = static_cast<int>(m_files.size());
             for(size_t i=0;i<m_subChannels.size() && recursive;i++)
                 count += m_subChannels[i]->GetFilesCount(recursive);
             return count;
@@ -436,7 +434,7 @@ namespace teamtalk {
         {
             const std::set<int>& txusers = m_transmitusers[txtype];
 
-            if (((m_chantype & CHANNEL_CLASSROOM) != 0U) &&
+            if (((m_chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT) &&
                 !txusers.contains(userid) &&
                 !txusers.contains(TRANSMITUSERS_FREEFORALL))
                 return false;
@@ -446,6 +444,16 @@ namespace teamtalk {
                 return false;
 
             return true;
+        }
+
+        const bannedusers_t& GetBans() const
+        {
+            return m_bans;
+        }
+
+        bannedusers_t& GetBans()
+        {
+            return m_bans;
         }
 
         void SetTransmitQueue(const std::vector<int>& users)
@@ -458,12 +466,17 @@ namespace teamtalk {
             return m_transmitqueue;
         }
 
-        void SetTransmitSwitchDelay(const ACE_Time_Value& tm)
+        std::vector<int>& GetTransmitQueue()
+        {
+            return m_transmitqueue;
+        }
+
+        void SetTransmitSwitchDelay(std::chrono::milliseconds tm)
         {
             m_transmitswitch_delay = tm;
         }
 
-        const ACE_Time_Value& GetTransmitSwitchDelay() const
+        std::chrono::milliseconds GetTransmitSwitchDelay() const
         {
             return m_transmitswitch_delay;
         }
@@ -490,9 +503,9 @@ namespace teamtalk {
             prop.audiocfg = m_audiocfg;
             GetFiles(prop.files, false);
             prop.transmitusers = m_transmitusers;
-            prop.transmitswitchdelay = int(GetTransmitSwitchDelay().msec());
-            prop.totvoice = int(GetTimeOutTimerVoice().msec());
-            prop.totmediafile = int(GetTimeOutTimerMediaFile().msec());
+            prop.transmitswitchdelay = int(GetTransmitSwitchDelay().count());
+            prop.totvoice = int(GetTimeOutTimerVoice().count());
+            prop.totmediafile = int(GetTimeOutTimerMediaFile().count());
             prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
@@ -503,9 +516,20 @@ namespace teamtalk {
         {
             m_cryptkey = cryptkey;
         }
+        // Set the key from a hex string, e.g. from the server. The key
+        // is only used if it has the correct size.
+        void SetEncryptKey(const tstring& crypt_key)
+        {
+            std::array<uint8_t, CRYPTKEY_SIZE> encrypt = {};
+            TTASSERT(crypt_key.length() == encrypt.size() * 2);
+            if (crypt_key.length() != encrypt.size() * 2)
+                return;
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
+            m_cryptkey = encrypt;
+        }
         const std::array<uint8_t, CRYPTKEY_SIZE>& GetEncryptKey() const { return m_cryptkey; }
     protected:
-        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey;
+        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey = {};
 #endif
 
     private:
@@ -516,15 +540,15 @@ namespace teamtalk {
         users_t m_vecUsers; //cached users for fast access (same as in 'm_mUsers')
         //child channels
         channels_t m_subChannels;
-        ACE_TString m_name;
-        ACE_TString m_password;
-        ACE_TString m_oppasswd;
-        ACE_TString m_topic;
+        tstring m_name;
+        tstring m_password;
+        tstring m_oppasswd;
+        tstring m_topic;
         std::set< int > m_setOps;
         std::weak_ptr< CHANNEL > m_parent;
         bool m_protected = false;
-        ACE_INT64 m_maxdiskusage = 0;
-        using mfiles_t = std::map<ACE_TString, RemoteFile>;
+        int64_t m_maxdiskusage = 0;
+        using mfiles_t = std::map<tstring, RemoteFile>;
         mfiles_t m_files;
         int m_maxusers = MAX_USERS_IN_CHANNEL;
         int m_channelid = 0;
@@ -532,21 +556,20 @@ namespace teamtalk {
         AudioCodec m_audiocodec;
         AudioConfig m_audiocfg;
         ChannelTypes m_chantype;
-        ACE_Time_Value m_tot_voice, m_tot_mediafile;
+        std::chrono::milliseconds m_tot_voice{}, m_tot_mediafile{};
         //classroom transmission
         transmitusers_t m_transmitusers;
         //solo transmission
-        ACE_Time_Value m_transmitswitch_delay;
-    protected:
+        std::chrono::milliseconds m_transmitswitch_delay{};
         bannedusers_t m_bans;
         std::vector<int> m_transmitqueue;
     };
 
     /**** Global helper functions ****/
 
-    strings_t TokenizeChannelPath(const ACE_TString& str);
+    strings_t TokenizeChannelPath(const tstring& str);
 
-    bool ChannelsEquals(const ACE_TString& chanpath1, const ACE_TString& chanpath2);
+    bool ChannelsEquals(const tstring& chanpath1, const tstring& chanpath2);
 
     template < class CHANNEL >
     std::shared_ptr< CHANNEL > ChangeChannel(std::shared_ptr< CHANNEL > channel, const strings_t& tokNames)
@@ -558,7 +581,7 @@ namespace teamtalk {
     }
 
     template < class CHANNEL >
-    std::shared_ptr< CHANNEL > ChangeChannel(std::shared_ptr< CHANNEL > channel, const ACE_TString& chanpath)
+    std::shared_ptr< CHANNEL > ChangeChannel(std::shared_ptr< CHANNEL > channel, const tstring& chanpath)
     {
         std::shared_ptr< CHANNEL > c;
         strings_t tokNames = TokenizeChannelPath(chanpath);

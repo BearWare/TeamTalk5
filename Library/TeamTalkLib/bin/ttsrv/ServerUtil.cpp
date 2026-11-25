@@ -25,21 +25,22 @@
 
 #include "AppInfo.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 #include "settings/Settings.h"
 #include "teamtalk/TTAssert.h"
 
-#include <ace/Dirent_Selector.h>
 #include <ace/INet/HTTP_Status.h>
 
 #include <algorithm>
 #include <cstdint>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <system_error>
 
 #if defined(WIN32)
 #include <windows.h>
@@ -59,8 +60,8 @@ using namespace teamtalk;
 
 static bool InputTrue(const std::string& input)
 {
-    std::string const tmp = String2Lower(input);
-    return tmp == "y" || tmp == "yes";
+    tstring const tmp = StringToLower(Utf8ToUnicode(input.c_str()));
+    return tmp == Utf8ToUnicode("y") || tmp == Utf8ToUnicode("yes");
 }
 
 std::string PrintGetString(const std::string& input)
@@ -135,37 +136,39 @@ int64_t PrintGetInt64(int64_t value)
     return value;
 }
 
-void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
+void RotateLogfile(const tstring& cwd, const tstring& logname,
                    std::ofstream& logfile)
 {
     logfile.close();
 
-    ACE_Dirent_Selector ds;
-    if(ds.open(cwd.c_str())<0)
+    std::error_code ec;
+    if (!std::filesystem::is_directory(cwd, ec))
         return;
 
     int max = 0;
-    for(int i=0;i<ds.length();i++)
+    for (const auto& entry : std::filesystem::directory_iterator(cwd, ec))
     {
-        ACE_TString const curfile = ds[i]->d_name;
+        tstring const curfile = entry.path().filename().native();
         if(curfile.length()>logname.length() &&
            curfile.substr(0, logname.length()) == logname)
         {
-            strings_t tokens = Tokenize(curfile, ACE_TEXT("."));
+            strings_t tokens = Tokenize(curfile, TTEXT("."));
             if(tokens.empty())
                 continue;
             int const val = String2I(tokens[tokens.size()-1]);
             max = std::max(val, max);
         }
     }
+    if (ec)
+        return;
 
     max++;
 
-    ACE_TString const tmp_logname = logname + ACE_TEXT(".") + I2String(max);
+    tstring const tmp_logname = logname + TTEXT(".") + I2String(max);
 
     //rename from LogFile.log to LogFile.log.1
-    int const ren = ACE_OS::rename(logname.c_str(), tmp_logname.c_str());
-    TTASSERT(ren>=0);
+    std::filesystem::rename(logname.c_str(), tmp_logname.c_str(), ec);
+    TTASSERT(!ec);
 
     logfile.open(logname.c_str());
     if(!logfile.good())
@@ -174,20 +177,20 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
 #if defined(ENABLE_TEAMTALKPRO)
 
-WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid)
+WebLoginResult LoginBearWareAccount(const tstring& username, const tstring& passwd, tstring& token, tstring& loginid)
 {
-    std::string const usernameUtf8 = UnicodeToUtf8(username).c_str();
-    std::string const passwdUtf8 = UnicodeToUtf8(passwd).c_str();
+    std::string const usernameUtf8 = UnicodeToUtf8(username);
+    std::string const passwdUtf8 = UnicodeToUtf8(passwd);
 
-    std::string url = WEBLOGIN_URL;
-    url += "client=" TEAMTALK_LIB_NAME;
-    url += "&version=" TEAMTALK_VERSION;
+    std::string url(WEBLOGIN_URL);
+    url += "client=" + std::string(TEAMTALK_LIB_NAME);
+    url += "&version=" + std::string(TEAMTALK_VERSION);
     url += "&service=bearware";
     url += "&action=auth";
     url += "&username=" + URLEncode(usernameUtf8);
     url += "&password=" + URLEncode(passwdUtf8);
     std::string utf8;
-    switch (HttpGetRequest(url.c_str(), utf8))
+    switch (HttpGetRequest(url, utf8))
     {
     default :
     case -1 :
@@ -208,14 +211,14 @@ WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TStri
     }
 }
 
-WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
+WebLoginResult AuthBearWareAccount(const tstring& username, const tstring& token)
 {
-    std::string const usernameUtf8 = UnicodeToUtf8(username).c_str();
-    std::string const tokenUtf8 = UnicodeToUtf8(token).c_str();
+    std::string const usernameUtf8 = UnicodeToUtf8(username);
+    std::string const tokenUtf8 = UnicodeToUtf8(token);
 
-    std::string url = WEBLOGIN_URL;
-    url += "client=" TEAMTALK_LIB_NAME;
-    url += "&version=" TEAMTALK_VERSION;
+    std::string url(WEBLOGIN_URL);
+    url += "client=" + std::string(TEAMTALK_LIB_NAME);
+    url += "&version=" + std::string(TEAMTALK_VERSION);
     url += "&service=bearware";
     url += "&action=clientauth";
     url += "&username=" + URLEncode(usernameUtf8);
@@ -223,7 +226,7 @@ WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TStrin
     url += "&accesstoken=proserver";
     ACE::HTTP::Status::Code httpCode = ACE::HTTP::Status::INVALID;
     std::string utf8;
-    switch (HttpGetRequest(url.c_str(), utf8, &httpCode))
+    switch (HttpGetRequest(url, utf8, &httpCode))
     {
     default :
     case -1 :

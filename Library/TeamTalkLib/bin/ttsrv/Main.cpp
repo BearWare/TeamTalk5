@@ -26,7 +26,6 @@
 #include "ServerGuard.h"
 #include "ServerUtil.h"
 #include "ServerXML.h"
-#include "TeamTalkDefs.h"
 #include "UPnP.h"
 #include "myace/MyACE.h"
 #include "teamtalk/Commands.h"
@@ -40,14 +39,18 @@
 #include <ace/Select_Reactor.h>
 #include <ace/Timer_Heap.h>
 
+#include <array>
 #include <csignal>
 #include <cstddef>
 #include <cstdlib>
+#include <filesystem>
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <system_error>
 #include <utility>
 
 #if !defined(WIN32)
@@ -67,7 +70,7 @@ static int RunServer(
 
 static void PrintCommandArgs();
 
-static int ParseArguments(int argc, ACE_TCHAR* argv[]
+static int ParseArguments(int argc, tchar* argv[]
 #if defined(BUILD_NT_SERVICE)
               , Service* service
 #endif
@@ -84,16 +87,16 @@ BOOL WINAPI ControlHandler(DWORD dwControlType)
     return FALSE;
 }
 
-ACE_TString GetWinError(DWORD err)
+tstring GetWinError(DWORD err)
 {
-    ACE_TString result;
+    tstring result;
     LPTSTR s = NULL;
     ::FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM,
         NULL,
         err,
         0,
-        (LPTSTR)&s,
+        reinterpret_cast<LPTSTR>(&s),
         0,
         NULL);
     if(s)
@@ -143,17 +146,17 @@ private:
 
 ACE_NT_SERVICE_DEFINE (TeamTalk,
                        Service,
-                       ACE_TEXT(TEAMTALK_DESCRIPTION));
+                       Utf8ToUnicode(TEAMTALK_DESCRIPTION.data()).c_str());
 
 #endif
 
 // overwritable options
-static ACE_TString bindip;
-static ACE_TString settingsfile;
-static ACE_TString logfile = ACE_TEXT(TEAMTALK_LOGFILE);
-static ACE_TString pidfile;
-static ACE_TString weblogin;
-static ACE_TString tokenlogin;
+static tstring bindip;
+static tstring settingsfile;
+static tstring logfile = Utf8ToUnicode(TEAMTALK_LOGFILE.data());
+static tstring pidfile;
+static tstring weblogin;
+static tstring tokenlogin;
 static int tcpport = 0;
 static int udpport = 0;
 static bool verbose = false;
@@ -164,9 +167,10 @@ static int rxloss = 0, txloss = 0;
 static bool cleanfiles = false;
 
 //setting files
-static ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
+static ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME.data());
 //log file
 static std::ofstream logstream;
+tstring TEAMTALK_NAME_UNICODE = Utf8ToUnicode(TEAMTALK_NAME.data());
 
 class SignalEventHandler : public ACE_Event_Handler
 {
@@ -187,9 +191,9 @@ public:
         case SIGHUP :
             if (!LoadConfig(xmlSettings, settingsfile))
             {
-                ACE_TCHAR error_msg[1024];
-                ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to reload settings file %s."), settingsfile.c_str());
-                TT_SYSLOG(error_msg);
+                std::array<tchar, 1024> error_msg{};
+                tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to reload settings file %s."), settingsfile.c_str());
+                TT_SYSLOG(error_msg.data());
             }
             else
             {
@@ -200,16 +204,16 @@ public:
                     logstream.open(logfile.c_str(), ios::app);
                 }
 
-                ACE_TCHAR msg[1024];
-                ACE_OS::snprintf(msg, 1024, ACE_TEXT("Reloaded settings file %s."), settingsfile.c_str());
-                TT_LOG(msg);
+                std::array<tchar, 1024> msg{};
+                tsnprintf(msg.data(), msg.size(), TTEXT("Reloaded settings file %s."), settingsfile.c_str());
+                TT_LOG(msg.data());
             }
         }
         return 0;
     }
 };
 
-int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
+int ACE_TMAIN(int argc, tchar* argv[])
 {
     ACE::init();
     int exitcode = EXIT_FAILURE;
@@ -217,7 +221,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 #if defined(BUILD_NT_SERVICE)
     Service service;
     service.reactor(ACE_Reactor::instance());
-    service.name(ACE_TEXT(TEAMTALK_NAME), ACE_TEXT(TEAMTALK_NAME));
+    service.name(TEAMTALK_NAME_UNICODE.c_str(), TEAMTALK_NAME_UNICODE.c_str());
     int parse_result = ParseArguments(argc, argv, &service);
     if (parse_result > 0)
     {
@@ -253,11 +257,11 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 }
 
 static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
-                  const ACE_TString& workdir)
+                  const tstring& workdir)
 {
     int const ret = ACE_Thread_Manager::instance ()->spawn(EventLoop, udpReactor);
     if(ret < 0)
-        TT_LOG(ACE_TEXT("Failed to spawn UDP reactor."));
+        TT_LOG(TTEXT("Failed to spawn UDP reactor."));
 
     SyncReactor(*udpReactor);
 
@@ -296,7 +300,7 @@ int RunServer(
               )
 {
     //avoid SIGPIPE
-    ACE_Sig_Action no_sigpipe ((ACE_SignalHandler) SIG_IGN);
+    ACE_Sig_Action no_sigpipe (static_cast<ACE_SignalHandler>(SIG_IGN));
     ACE_Sig_Action original_action;
     no_sigpipe.register_action (SIGPIPE, &original_action);
 
@@ -323,13 +327,13 @@ int RunServer(
 
     //init logger
 #if defined(BUILD_NT_SERVICE)
-    ACE_LOG_MSG->open(ACE_TEXT(TEAMTALK_NAME), ACE_Log_Msg::SYSLOG | ACE_Log_Msg::OSTREAM);
+    ACE_LOG_MSG->open(TEAMTALK_NAME_UNICODE.c_str(), ACE_Log_Msg::SYSLOG | ACE_Log_Msg::OSTREAM);
 #else
-    ACE_LOG_MSG->open(ACE_TEXT(TEAMTALK_NAME));
+    ACE_LOG_MSG->open(TEAMTALK_NAME_UNICODE.c_str(), ACE_Log_Msg::SYSLOG | ACE_Log_Msg::OSTREAM);
 #endif
 
-    ACE_TCHAR workdir[512] = {};
-    ACE_OS::getcwd(workdir, 512);
+    std::error_code ec;
+    tstring workdir = std::filesystem::current_path(ec).native();
 
     //enable logging
     if (xmlSettings.GetServerLogMaxSize() != 0)
@@ -344,17 +348,17 @@ int RunServer(
 
     //create listener
     ServerGuard srvguard(xmlSettings);
-    ServerNode servernode(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, &srvguard);
+    ServerNode servernode(Utf8ToUnicode( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, &srvguard);
 
     ServerSettings prop = servernode.GetServerProperties();
 
     statchannels_t channels;
     if(!ReadServerProperties(xmlSettings, prop, channels))
     {
-        ACE_TCHAR error_msg[1024];
-        ACE_OS::snprintf(error_msg, 1024,
-                         ACE_TEXT("Failed to read server properties from settings file %s."), settingsfile.c_str());
-        TT_SYSLOG(error_msg);
+        std::array<tchar, 1024> error_msg{};
+        tsnprintf(error_msg.data(), error_msg.size(),
+                         TTEXT("Failed to read server properties from settings file %s."), settingsfile.c_str());
+        TT_SYSLOG(error_msg.data());
         return -1;
     }
 
@@ -364,7 +368,7 @@ int RunServer(
     //check for override options
     if (tcpport > 0)
     {
-        ACE_INET_Addr const addr((u_short)tcpport, (!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_host_addr() : nullptr);
+        ACE_INET_Addr const addr(static_cast<u_short>(tcpport), (!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_host_addr() : nullptr);
         prop.tcpaddrs.clear();
         prop.tcpaddrs.push_back(addr);
     }
@@ -375,7 +379,7 @@ int RunServer(
 
     if (udpport > 0)
     {
-        ACE_INET_Addr const addr((u_short)udpport, (!prop.udpaddrs.empty()) ? prop.udpaddrs[0].get_host_addr(): nullptr);
+        ACE_INET_Addr const addr(static_cast<u_short>(udpport), (!prop.udpaddrs.empty()) ? prop.udpaddrs[0].get_host_addr(): nullptr);
         prop.udpaddrs.clear();
         prop.udpaddrs.push_back(addr);
     }
@@ -396,10 +400,10 @@ int RunServer(
 
     if (!ConfigureServer(servernode, prop, channels))
     {
-        ACE_TCHAR error_msg[1024];
-        ACE_OS::snprintf(error_msg, 1024,
-                         ACE_TEXT("Failed to configure the server from settings file %s."), settingsfile.c_str());
-        TT_SYSLOG(error_msg);
+        std::array<tchar, 1024> error_msg{};
+        tsnprintf(error_msg.data(), error_msg.size(),
+                         TTEXT("Failed to configure the server from settings file %s."), settingsfile.c_str());
+        TT_SYSLOG(error_msg.data());
         return -1;
     }
     channels.clear();
@@ -411,7 +415,7 @@ int RunServer(
         return -1;
 #endif
 
-    ACE_TString systemid = SERVER_WELCOME;
+    tstring systemid = SERVER_WELCOME;
 #if defined(ENABLE_TEAMTALKPRO)
     systemid = Utf8ToUnicode(xmlSettings.GetSystemID(UnicodeToUtf8(systemid).c_str()).c_str());
     if (!servernode.StartServer(encrypted, systemid))
@@ -419,20 +423,20 @@ int RunServer(
     if (!servernode.StartServer(false, systemid))
 #endif
     {
-        ACE_TCHAR error_msg[1024];
+        std::array<tchar, 1024> error_msg{};
         if(bindip.empty())
-            ACE_OS::snprintf(error_msg, 1024,
-            ACE_TEXT("Unable to launch server using TCP port %d UDP port %d.\n")
-            ACE_TEXT("Make sure the ports are not currently in use."),
-            (int)prop.tcpaddrs[0].get_port_number(), (int)prop.udpaddrs[0].get_port_number());
+            tsnprintf(error_msg.data(), error_msg.size(),
+            TTEXT("Unable to launch server using TCP port %d UDP port %d.\n")
+            TTEXT("Make sure the ports are not currently in use."),
+            prop.tcpaddrs[0].get_port_number(), prop.udpaddrs[0].get_port_number());
         else
-            ACE_OS::snprintf(error_msg, 1024,
-            ACE_TEXT("Unable to launch server using IP-address %s TCP port %d UDP port %d.\n")
-            ACE_TEXT("Make sure the ports are not currently in use."),
-            prop.tcpaddrs[0].get_host_addr(), (int)prop.tcpaddrs[0].get_port_number(),
-            (int)prop.udpaddrs[0].get_port_number());
+            tsnprintf(error_msg.data(), error_msg.size(),
+            TTEXT("Unable to launch server using IP-address %s TCP port %d UDP port %d.\n")
+            TTEXT("Make sure the ports are not currently in use."),
+            prop.tcpaddrs[0].get_host_addr(), prop.tcpaddrs[0].get_port_number(),
+            prop.udpaddrs[0].get_port_number());
 
-        TT_SYSLOG(error_msg);
+        TT_SYSLOG(error_msg.data());
         return -1;
     }
 
@@ -441,19 +445,20 @@ int RunServer(
         std::string externalIP;
         if (UPnP_AddPortMapping(tcpport, udpport, externalIP))
         {
-            ACE_TCHAR msg[256];
-            ACE_OS::snprintf(msg, 256,
-                ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
-                (int)tcpport, (int)udpport, externalIP.c_str());
-            TT_LOG(msg);
+            std::array<tchar, 256> msg{};
+            tsnprintf(msg.data(), msg.size(),
+                TTEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
+                tcpport, udpport, externalIP.c_str());
+            TT_LOG(msg.data());
         }
         else
         {
-            TT_SYSLOG(ACE_TEXT("UPnP: Failed to add port mappings. Check if your router supports UPnP."));
+            TT_SYSLOG(TTEXT("UPnP: Failed to add port mappings. Check if your router supports UPnP."));
         }
     }
 
-    TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
+    std::string startmsg = std::string("Started {} v.{}.") + std::string(TEAMTALK_NAME) + TEAMTALK_VERSION;
+    TT_LOG(Utf8ToUnicode(startmsg.c_str()));
     if(!verbose)
         ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
 
@@ -478,7 +483,8 @@ int RunServer(
         pid = fork();
         if (pid < 0)
         {
-            TT_SYSLOG(ACE_TEXT("Failed to start ") ACE_TEXT( TEAMTALK_NAME ));
+            auto failmsg = TTEXT("Failed to start ") + TEAMTALK_NAME_UNICODE;
+            TT_SYSLOG(failmsg.c_str());
             exit(EXIT_FAILURE);
         }
 
@@ -535,7 +541,8 @@ int RunServer(
     }
 
     servernode.StopServer();
-    TT_LOG(ACE_TEXT("Stopped ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("."));
+    tstring stopmsg = tstring(TTEXT("Stopped {}.")) + TEAMTALK_NAME_UNICODE;
+    TT_LOG(stopmsg.c_str());
 
     ACE_Thread_Manager::instance ()->wait ();
 
@@ -547,34 +554,34 @@ int RunServer(
     return 0;
 }
 
-int ParseArguments(int argc, ACE_TCHAR* argv[]
+int ParseArguments(int argc, tchar* argv[]
 #if defined(BUILD_NT_SERVICE)
               , Service* service
 #endif
 )
 {
-    std::map<ACE_TString,ACE_TString> args;
+    std::map<tstring,tstring> args;
 
     for(int i=0;i<argc;i++)
     {
-        ACE_TString const str(argv[i]);
-        pair<ACE_TString,ACE_TString> newPair;
+        tstring const str(argv[i]);
+        pair<tstring,tstring> newPair;
         newPair.first = str;
-        if ((str == ACE_TEXT("-wd") ||
-            str == ACE_TEXT("-tcpport") ||
-            str == ACE_TEXT("-udpport") ||
-            str == ACE_TEXT("-ip") ||
-            str == ACE_TEXT("-c") ||
-            str == ACE_TEXT("-l") ||
-            str == ACE_TEXT("-pid-file") ||
-            str == ACE_TEXT("-rxloss") ||
-            str == ACE_TEXT("-txloss") ||
-            str == ACE_TEXT("-weblogin") ||
-            str == ACE_TEXT("-tokenlogin")))
+        if ((str == TTEXT("-wd") ||
+            str == TTEXT("-tcpport") ||
+            str == TTEXT("-udpport") ||
+            str == TTEXT("-ip") ||
+            str == TTEXT("-c") ||
+            str == TTEXT("-l") ||
+            str == TTEXT("-pid-file") ||
+            str == TTEXT("-rxloss") ||
+            str == TTEXT("-txloss") ||
+            str == TTEXT("-weblogin") ||
+            str == TTEXT("-tokenlogin")))
         {
             if(i+1 >= argc)
             {
-                cerr << "Missing option for parameter " << str << endl;
+                cerr << "Missing option for parameter " << UnicodeToLocal(str) << endl;
                 return 0;
             }
 
@@ -583,96 +590,97 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         }
         else
         {
-            newPair.second = ACE_TEXT("");
+            newPair.second = TTEXT("");
         }
         args.insert(newPair);
     }
 
-    std::map<ACE_TString,ACE_TString>::iterator ite;
+    std::map<tstring,tstring>::iterator ite;
 
-    if(args.contains(ACE_TEXT("--version")))
+    if(args.contains(TTEXT("--version")))
     {
         cout << TEAMTALK_NAME << " version " << TEAMTALK_VERSION_FRIENDLY << endl;
         return 0;
     }
-    if(args.contains(ACE_TEXT("--help")) ||
-        args.contains(ACE_TEXT("-help")) ||
-        args.contains(ACE_TEXT("/help")) ||
-        args.contains(ACE_TEXT("-h")) ||
-        args.contains(ACE_TEXT("/h")) ||
-        args.contains(ACE_TEXT("-?")) ||
-        args.contains(ACE_TEXT("/?"))
+    if(args.contains(TTEXT("--help")) ||
+        args.contains(TTEXT("-help")) ||
+        args.contains(TTEXT("/help")) ||
+        args.contains(TTEXT("-h")) ||
+        args.contains(TTEXT("/h")) ||
+        args.contains(TTEXT("-?")) ||
+        args.contains(TTEXT("/?"))
         )
     {
         PrintCommandArgs();
         return 0;
     }
-    if(args.contains(ACE_TEXT("-d")))
+    if(args.contains(TTEXT("-d")))
     {
         daemon_mode = true;
     }
-    if(args.contains(ACE_TEXT("-nd")))
+    if(args.contains(TTEXT("-nd")))
     {
         nondaemon = true;
     }
-    if(args.contains(ACE_TEXT("-daemon-pid")))
+    if(args.contains(TTEXT("-daemon-pid")))
     {
         daemon_pid = true;
     }
-    if((ite = args.find(ACE_TEXT("-pid-file"))) != args.end())
+    if((ite = args.find(TTEXT("-pid-file"))) != args.end())
     {
         pidfile = (*ite).second.c_str();
     }
-    if( (ite = args.find(ACE_TEXT("-tcpport"))) != args.end())
+    if( (ite = args.find(TTEXT("-tcpport"))) != args.end())
     {
         tcpport = int(String2I((*ite).second.c_str()));
     }
-    if( (ite = args.find(ACE_TEXT("-udpport"))) != args.end())
+    if( (ite = args.find(TTEXT("-udpport"))) != args.end())
     {
         udpport = int(String2I((*ite).second.c_str()));
     }
-    if( (ite = args.find(ACE_TEXT("-ip"))) != args.end())
+    if( (ite = args.find(TTEXT("-ip"))) != args.end())
     {
         bindip = (*ite).second;
     }
-    if( (ite = args.find(ACE_TEXT("-verbose"))) != args.end())
+    if( (ite = args.find(TTEXT("-verbose"))) != args.end())
     {
         verbose = true;
     }
-    if( (ite = args.find(ACE_TEXT("-rxloss"))) != args.end())
+    if( (ite = args.find(TTEXT("-rxloss"))) != args.end())
     {
-        rxloss = ACE_OS::atoi((*ite).second.c_str());
+        rxloss = static_cast<int>(String2I((*ite).second));
     }
-    if( (ite = args.find(ACE_TEXT("-txloss"))) != args.end())
+    if( (ite = args.find(TTEXT("-txloss"))) != args.end())
     {
-        txloss = ACE_OS::atoi((*ite).second.c_str());
+        txloss = static_cast<int>(String2I((*ite).second));
     }
-    if( (ite = args.find(ACE_TEXT("-wd"))) != args.end())
+    if( (ite = args.find(TTEXT("-wd"))) != args.end())
     {
-        ACE_TString const workdir = (*ite).second;
-        int const ret = ACE_OS::chdir(workdir.c_str());
-        if(ret != 0)
+        tstring const workdir = (*ite).second;
+        std::error_code ec;
+        std::filesystem::current_path(workdir, ec);
+        if(ec)
         {
-            ACE_TCHAR error_msg[1024];
-            ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("%s failed to change to directory \"%s\"."),
-                             ACE_TEXT(TEAMTALK_NAME), workdir.c_str());
-            TT_SYSLOG(error_msg);
+            std::array<tchar, 1024> error_msg{};
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("%s failed to change to directory \"%s\"."),
+                             TEAMTALK_NAME_UNICODE.c_str(), workdir.c_str());
+            TT_SYSLOG(error_msg.data());
             return -1;
         }
     }
-    if( (ite = args.find(ACE_TEXT("-c"))) != args.end())
+    if( (ite = args.find(TTEXT("-c"))) != args.end())
     {
         settingsfile = ite->second;
     }
-    if ((ite = args.find(ACE_TEXT("-weblogin"))) != args.end())
+    if ((ite = args.find(TTEXT("-weblogin"))) != args.end())
     {
         weblogin = ite->second;
     }
-    if ((ite = args.find(ACE_TEXT("-tokenlogin"))) != args.end())
+    if ((ite = args.find(TTEXT("-tokenlogin"))) != args.end())
     {
         tokenlogin = ite->second;
     }
-    if( (ite = args.find(ACE_TEXT("-l"))) != args.end())
+    if( (ite = args.find(TTEXT("-l"))) != args.end())
     {
         logfile = ite->second;
     }
@@ -681,84 +689,96 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         //load config file from same directory as
         //executable file when running as NT service.
-        ACE_TCHAR bufPath[MAX_PATH] = {};
-        if(GetModuleFileName(NULL, bufPath, MAX_PATH)>0)
+        std::array<tchar, MAX_PATH> bufPath{};
+        if(GetModuleFileName(NULL, bufPath.data(), MAX_PATH)>0)
         {
-            TCHAR* pChr = ACE_OS::strrchr(bufPath, '\\');
-            TTASSERT(pChr);
-            if(pChr)
+            tstring workdir = bufPath.data();
+            std::wstring::size_type pos = workdir.find_last_of(DIRECTORY_SEPARATOR_CHAR);
+            if (pos != std::wstring::npos)
             {
-                pChr++;
-                *pChr = 0;
-                ACE_OS::chdir(bufPath);
+                workdir = workdir.substr(0, pos + 1); // include '\'
+                std::error_code ec;
+                std::filesystem::current_path(workdir, ec);
             }
-            settingsfile = bufPath;
-            settingsfile += ACE_TEXT( TEAMTALK_SETTINGSFILE );
+            settingsfile = workdir;
+            settingsfile += Utf8ToUnicode(TEAMTALK_SETTINGSFILE.data());
         }
     }
     //pick out options related to NT services
 
-    if( (ite = args.find(ACE_TEXT("-i"))) != args.end())
+    if( (ite = args.find(TTEXT("-i"))) != args.end())
     {
         if (service->insert(SERVICE_AUTO_START) < 0)
         {
-            ACE_TCHAR error_msg[1024];
-            ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to install ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
-                         GetWinError(ACE_OS::last_error()).c_str());
-            TT_SYSLOG(error_msg);
+            std::array<tchar, 1024> error_msg{};
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to install %s\nError: %s"),
+                         TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
+            TT_SYSLOG(error_msg.data());
             return -1;
         }
         else
         {
-            TT_LOG(ACE_TEXT(TEAMTALK_NAME) ACE_TEXT(" installed successfully."));
+            std::array<tchar, 1024> success_msg{};
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s installed successfully."),
+                TEAMTALK_NAME_UNICODE.c_str());
+            TT_LOG(success_msg.data());
         }
         return 0;
     }
-    if( (ite = args.find(ACE_TEXT("-u"))) != args.end())
+    if( (ite = args.find(TTEXT("-u"))) != args.end())
     {
         if (service->remove() < 0)
         {
-            ACE_TCHAR error_msg[1024];
-            ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to remove ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
-                         GetWinError(ACE_OS::last_error()).c_str());
-            TT_SYSLOG(error_msg);
+            std::array<tchar, 1024> error_msg{};
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to remove %s\nError: %s"),
+                TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
+            TT_SYSLOG(error_msg.data());
             return -1;
         }
         else
         {
-            TT_LOG(ACE_TEXT(TEAMTALK_NAME) ACE_TEXT(" uninstalled successfully."));
+            std::array<tchar, 1024> success_msg{};
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s uninstalled successfully."),
+                TEAMTALK_NAME_UNICODE.c_str());
+            TT_LOG(success_msg.data());
         }
         return 0;
     }
-    if( (ite = args.find(ACE_TEXT("-s"))) != args.end())
+    if( (ite = args.find(TTEXT("-s"))) != args.end())
     {
         if (service->start_svc() < 0)
         {
-            ACE_TCHAR error_msg[1024];
-            ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to start ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
-                         GetWinError(ACE_OS::last_error()).c_str());
-            TT_SYSLOG(error_msg);
+            std::array<tchar, 1024> error_msg{};
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to start %s\nError: %s"),
+                TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
+            TT_SYSLOG(error_msg.data());
             return -1;
         }
         else
         {
-            TT_LOG(ACE_TEXT(TEAMTALK_NAME) ACE_TEXT(" started successfully."));
+            std::array<tchar, 1024> success_msg{};
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s started successfully."),
+                TEAMTALK_NAME_UNICODE.c_str());
+            TT_LOG(success_msg.data());
         }
         return 0;
     }
-    if( (ite = args.find(ACE_TEXT("-e"))) != args.end())
+    if( (ite = args.find(TTEXT("-e"))) != args.end())
     {
         if (service->stop_svc() < 0)
         {
-            ACE_TCHAR error_msg[1024];
-            ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to stop ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
-                         GetWinError(ACE_OS::last_error()).c_str());
-            TT_SYSLOG(error_msg);
+            std::array<tchar, 1024> error_msg{};
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to stop %s\nError: %s"),
+                         TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
+            TT_SYSLOG(error_msg.data());
             return -1;
         }
         else
         {
-            TT_LOG(ACE_TEXT(TEAMTALK_NAME) ACE_TEXT(" stopped successfully."));
+            std::array<tchar, 1024> success_msg{};
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s stopped successfully."),
+                TEAMTALK_NAME_UNICODE.c_str());
+            TT_LOG(success_msg.data());
         }
         return 0;
     }
@@ -766,9 +786,9 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 
     if(!LoadConfig(xmlSettings, settingsfile))
     {
-        ACE_TCHAR error_msg[1024];
-        ACE_OS::snprintf(error_msg, 1024, ACE_TEXT("Failed to load settings file %s."), settingsfile.c_str());
-        TT_SYSLOG(error_msg);
+        std::array<tchar, 1024> error_msg{};
+        tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to load settings file %s."), settingsfile.c_str());
+        TT_SYSLOG(error_msg.data());
         return -1;
     }
 
@@ -778,7 +798,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     // -tokenlogin foo@bearware.dk:fedeabe0912345
     if (!tokenlogin.empty())
     {
-        const ACE_TString rgxtokenlogin = ACE_TEXT("^(.*):(.*)$");
+        const tstring rgxtokenlogin = TTEXT("^(.*):(.*)$");
 #if defined(UNICODE)
         std::wsmatch sm;
         std::wstring const tokenstr = tokenlogin.c_str();
@@ -788,21 +808,21 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #endif
         if (std::regex_search(tokenstr, sm, BuildRegex(rgxtokenlogin.c_str())) && sm.size() == 3)
         {
-            ACE_TString const loginid = sm[1].str().c_str();
-            ACE_TString const newtoken = sm[2].str().c_str();
+            tstring const loginid = sm[1].str().c_str();
+            tstring const newtoken = sm[2].str().c_str();
             if (AuthBearWareAccount(loginid, newtoken) != WEBLOGIN_SUCCESS)
             {
-                TT_SYSLOG(ACE_TEXT("Failed to authenticate BearWare.dk WebLogin."));
+                TT_SYSLOG(TTEXT("Failed to authenticate BearWare.dk WebLogin."));
                 return 0;
             }
 
             xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
             xmlSettings.SaveFile();
-            TT_SYSLOG(ACE_TEXT("BearWare.dk WebLogin succedded. Token stored."));
+            TT_SYSLOG(TTEXT("BearWare.dk WebLogin succedded. Token stored."));
         }
         else
         {
-            TT_SYSLOG(ACE_TEXT("Invalid format for TOKEN. Should be \"bear_dk@bearware.dk:aefd43fea\""));
+            TT_SYSLOG(TTEXT("Invalid format for TOKEN. Should be \"bear_dk@bearware.dk:aefd43fea\""));
             return 0;
         }
     }
@@ -810,7 +830,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     // -weblogin foo@bearware.dk:mysecretpassword
     if (!weblogin.empty())
     {
-        const ACE_TString rgxweblogin = ACE_TEXT("^(.*):(.*)$");
+        const tstring rgxweblogin = TTEXT("^(.*):(.*)$");
 #if defined(UNICODE)
         std::wsmatch sm;
         std::wstring webloginstr = weblogin.c_str();
@@ -820,22 +840,22 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #endif
         if (std::regex_search(webloginstr, sm, BuildRegex(rgxweblogin.c_str())) && sm.size() == 3)
         {
-            ACE_TString const loginid = sm[1].str().c_str();
-            ACE_TString const passwd = sm[2].str().c_str();
-            ACE_TString bearwareid, token;
+            tstring const loginid = sm[1].str().c_str();
+            tstring const passwd = sm[2].str().c_str();
+            tstring bearwareid, token;
             if (LoginBearWareAccount(loginid, passwd, token, bearwareid) != WEBLOGIN_SUCCESS)
             {
-                TT_SYSLOG(ACE_TEXT("Failed to authenticate BearWare.dk WebLogin."));
+                TT_SYSLOG(TTEXT("Failed to authenticate BearWare.dk WebLogin."));
                 return 0;
             }
 
             xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bearwareid).c_str(), UnicodeToUtf8(token).c_str());
             xmlSettings.SaveFile();
-            TT_SYSLOG(ACE_TEXT("BearWare.dk WebLogin succedded. Token stored."));
+            TT_SYSLOG(TTEXT("BearWare.dk WebLogin succedded. Token stored."));
         }
         else
         {
-            TT_SYSLOG(ACE_TEXT("Invalid format for AUTH. Should be \"bear_dk:mysecretpassword\""));
+            TT_SYSLOG(TTEXT("Invalid format for AUTH. Should be \"bear_dk:mysecretpassword\""));
             return 0;
         }
     }
@@ -843,13 +863,13 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 
     bool skipstart_output = false;
 
-    if( (ite = args.find(ACE_TEXT("-wizard"))) != args.end())
+    if( (ite = args.find(TTEXT("-wizard"))) != args.end())
     {
         RunWizard(xmlSettings);
         skipstart_output = true;
     }
 
-    if (args.contains(ACE_TEXT("-cleanfiles")))
+    if (args.contains(TTEXT("-cleanfiles")))
     {
         RemoveUnusedFiles(xmlSettings);
         skipstart_output = true;
@@ -859,7 +879,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     if(!nondaemon && !daemon_mode)
     {
         if (!skipstart_output)
-            TT_LOG(ACE_TEXT("Missing either -d or -nd parameter in order to start."));
+            TT_LOG(TTEXT("Missing either -d or -nd parameter in order to start."));
         return 0;
     }
 #endif
@@ -867,7 +887,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #if defined(ENABLE_TEAMTALKPRO)
     while (!LoginBearWare(xmlSettings))
     {
-        TT_LOG(ACE_TEXT("Failed to log on using BearWare.dk WebLogin."));
+        TT_LOG(TTEXT("Failed to log on using BearWare.dk WebLogin."));
     }
 #endif
 

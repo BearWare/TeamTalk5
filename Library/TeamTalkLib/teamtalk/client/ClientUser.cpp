@@ -26,7 +26,6 @@
 #include "ClientNodeEvent.h"
 
 #include "avstream/AudioResampler.h"
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Commands.h"
@@ -43,6 +42,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <deque>
 #include <list>
 #include <memory>
@@ -125,7 +125,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         if (m_use_adaptive_jitter_control != 0)
             jitter_delay += m_adaptive_delay;
 
-        MYTRACE_COND((jitter_delay > 0), ACE_TEXT("Jitter delay for new stream of user #%d: %d ms.\n"), m_userid, jitter_delay);
+        MYTRACE_COND((jitter_delay > 0), TTEXT("Jitter delay for new stream of user #%d: %d ms.\n"), m_userid, jitter_delay);
     }
     else if (m_use_adaptive_jitter_control != 0)
     {
@@ -141,7 +141,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         // even though the inter-packet delay was completely nominal.
         // This makes the adaptive jitter delay downward adjustments slightly slower.
         int jitter_last_packet = (msec_since_last_packet - nominal_delay);
-        //MYTRACE(ACE_TEXT("Jitter of last packet %d ms. Nominal delay %d msec_since_last: %d\n"),
+        //MYTRACE(TTEXT("Jitter of last packet %d ms. Nominal delay %d msec_since_last: %d\n"),
         //                    jitter_last_packet, nominal_delay, msec_since_last_packet);
 
         // Keep track of the actual jitter buffer in the playout buffer by adding/removing the last jitter (might be negative jitter)
@@ -155,7 +155,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
 
             m_stream_silence += std::abs(m_current_playout_buffer);
 
-            MYTRACE(ACE_TEXT("Jitter exceeds buffered playout time of user #%d. Silence: %d ms. Accumulated silence: %d ms. Accumulated delay %d ms\n"),
+            MYTRACE(TTEXT("Jitter exceeds buffered playout time of user #%d. Silence: %d ms. Accumulated silence: %d ms. Accumulated delay %d ms\n"),
                 m_userid, std::abs(m_current_playout_buffer), m_stream_silence, m_stream_delay);
 
             //Set the playout buffer tracker to zero (ignore the underrun)
@@ -183,7 +183,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         // Cap the jitter delay to the configured max.
         if ((m_max_adaptive_delay_msec > 0) && (jitter_last_packet > m_max_adaptive_delay_msec))
         {
-            MYTRACE(ACE_TEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
+            MYTRACE(TTEXT("Adaptive jitter delay capped to configured maximum of %d for user #%d. Received jitter %d, .\n"),
                 m_max_adaptive_delay_msec, m_userid, jitter_last_packet);
             jitter_last_packet = m_max_adaptive_delay_msec;
         }
@@ -206,7 +206,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
                 {
                     m_adaptive_delay = std::max(*ii, m_adaptive_delay);
                 }
-                MYTRACE(ACE_TEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d ms for user #%d.\n"),
+                MYTRACE(TTEXT("Adaptive delay was dequeued. New adaptive jitter delay determined: %d ms for user #%d.\n"),
                                     m_adaptive_delay, m_userid);
             }
         }
@@ -215,7 +215,7 @@ int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay
         {
             //Last jitter is the highest measured. This will be the new highest
             m_adaptive_delay = jitter_last_packet;
-            MYTRACE(ACE_TEXT("New adaptive jitter delay for user #%d: %d ms.\n"), m_userid, m_adaptive_delay);
+            MYTRACE(TTEXT("New adaptive jitter delay for user #%d: %d ms.\n"), m_userid, m_adaptive_delay);
         }
     }
 
@@ -339,13 +339,13 @@ int ClientUser::TimerMonitorVoicePlayback()
     m_stats.voicepackets_recv += m_voice_player->GetNumAudioPacketsRecv(true);
     m_stats.voicepackets_lost += m_voice_player->GetNumAudioPacketsLost(true);
 
-    //MYTRACE_COND(n_blocks, ACE_TEXT("User #%d has %d new voice block at %u\n"), GetUserID(), n_blocks, GETTIMESTAMP());
+    //MYTRACE_COND(n_blocks, TTEXT("User #%d has %d new voice block at %u\n"), GetUserID(), n_blocks, GETTIMESTAMP());
 
     //check if player should be reset
     if((m_voice_player->GetLastPlaytime() != 0u) &&
        W32_GEQ(GETTIMESTAMP(), m_voice_player->GetLastPlaytime() + TIMEOUT_STOP_AUDIO_PLAYBACK))
     {
-        MYTRACE(ACE_TEXT("Resetting voice stream for %s\n"), GetNickname().c_str());
+        MYTRACE(TTEXT("Resetting voice stream for %s\n"), GetNickname().c_str());
         ResetVoicePlayer();
         return -1;
     }
@@ -371,7 +371,7 @@ int ClientUser::TimerMonitorAudioFilePlayback()
     if((m_audiofile_player->GetLastPlaytime() != 0u) &&
        W32_GEQ(GETTIMESTAMP(), m_audiofile_player->GetLastPlaytime() + TIMEOUT_STOP_AUDIO_PLAYBACK))
     {
-        MYTRACE(ACE_TEXT("Resetting media file stream for %s\n"), GetNickname().c_str());
+        MYTRACE(TTEXT("Resetting media file stream for %s\n"), GetNickname().c_str());
         ResetAudioFilePlayer();
         return -1;
     }
@@ -417,17 +417,16 @@ int ClientUser::TimerDesktopDelayedAck()
     std::set<uint16_t> ack_single;
     GetPacketRanges(acked_packets, ack_range, ack_single);
 
-    DesktopAckPacket* ack_packet = nullptr;
-    ACE_NEW_RETURN(ack_packet, DesktopAckPacket(m_clientnode->GetUserID(),
-                                                GETTIMESTAMP(),
-                                                GetUserID(), session_id,
-                                                upd_time, ack_single,
-                                                ack_range), -1);
+    auto ack_packet = std::make_unique<DesktopAckPacket>(m_clientnode->GetUserID(),
+                                                         GETTIMESTAMP(),
+                                                         GetUserID(), session_id,
+                                                         upd_time, ack_single,
+                                                         ack_range);
 
     ack_packet->SetChannel(chan->GetChannelID());
 
-    if(!m_clientnode->QueuePacket(ack_packet))
-        delete ack_packet;
+    if (m_clientnode->QueuePacket(ack_packet.get()))
+        ack_packet.release(); // NOLINT(bugprone-unused-return-value)
 
     return -1;
 }
@@ -439,10 +438,10 @@ int ClientUser::TimerVoiceJitterBuffer()
     {
         auto queuedVoicePacket = m_jitterbuffer.front();
         m_jitterbuffer.pop();
-        //MYTRACE(ACE_TEXT("Feed packet from jitter buffer to playout\n"));
+        //MYTRACE(TTEXT("Feed packet from jitter buffer to playout\n"));
         FeedVoicePacketToPlayer(*queuedVoicePacket);
     }
-    //MYTRACE(ACE_TEXT("Jitter buffer emptied\n"));
+    //MYTRACE(TTEXT("Jitter buffer emptied\n"));
     return -1; //Single shot time
 }
 
@@ -456,7 +455,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     clientchannel_t const chan = GetChannel();
     if (!chan || chan->GetChannelID() != audpkt.GetChannel())
     {
-        MYTRACE(ACE_TEXT("Received voice packet #%d outside channel, %d != %d\n"),
+        MYTRACE(TTEXT("Received voice packet #%d outside channel, %d != %d\n"),
                 GetUserID(), audpkt.GetChannel(),
                 !chan? 0 : chan->GetChannelID());
         return;
@@ -495,7 +494,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     // Put packets in the jitter buffer if we're already queueing or if the jitter calculation resulted in a delay
     if ((jitter_delay > 0) || (!m_jitterbuffer.empty()))
     {
-        //MYTRACE(ACE_TEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"),
+        //MYTRACE(TTEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"),
         //                      (audpkt.GetStreamID() != m_current_stream), (!m_jitterbuffer.empty()));
 
         audiopacket_t const queuedVoicePacket = std::make_shared<VoicePacket>(audpkt);
@@ -514,7 +513,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     else
     {
         // Immediate enqueueing into the playout buffer
-        //MYTRACE(ACE_TEXT("Direct playout of voice packet.\n"));
+        //MYTRACE(TTEXT("Direct playout of voice packet.\n"));
         FeedVoicePacketToPlayer(audpkt);
     }
 }
@@ -543,14 +542,14 @@ void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
         }
     }
 
-    // MYTRACE(ACE_TEXT("Added audio packet #%d, TS: %u, Local TS: %u\n"),
+    // MYTRACE(TTEXT("Added audio packet #%d, TS: %u, Local TS: %u\n"),
     //         (int)audpkt.GetPacketNumber(), audpkt.GetTime(), GETTIMESTAMP());
     if(!m_snd_duplexmode)
     {
         if (m_soundsystem->IsStreamStopped(m_voice_player.get()) )
         {
             m_soundsystem->StartStream(m_voice_player.get());
-            MYTRACE(ACE_TEXT("Starting voice stream for #%d\n"), GetUserID());
+            MYTRACE(TTEXT("Starting voice stream for #%d\n"), GetUserID());
         }
     }
 }
@@ -563,7 +562,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     clientchannel_t const chan = GetChannel();
     if (!chan || chan->GetChannelID() != audpkt.GetChannel())
     {
-        MYTRACE(ACE_TEXT("Received media file packet #%d outside channel, %d != %d\n"),
+        MYTRACE(TTEXT("Received media file packet #%d outside channel, %d != %d\n"),
                 GetUserID(), audpkt.GetChannel(),
                 !chan? 0 : chan->GetChannelID());
         return;
@@ -581,7 +580,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     if (!m_audiofile_player)
         return;
 
-    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u;
+    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
     m_audiofile_player->SetNoRecording(no_record);
 
     assert(m_audiofile_player->GetAudioCodec() == chan->GetAudioCodec());
@@ -591,7 +590,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
         if (m_soundsystem->IsStreamStopped(m_audiofile_player.get()) )
         {
             m_soundsystem->StartStream(m_audiofile_player.get());
-            MYTRACE(ACE_TEXT("Starting media audio stream for #%d\n"), GetUserID());
+            MYTRACE(TTEXT("Starting media audio stream for #%d\n"), GetUserID());
         }
     }
 }
@@ -735,7 +734,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     bool is_set = false;
     if(W32_LT(p.GetTime(), GetLastTimeStamp(p, &is_set)) && is_set)
     {
-        MYTRACE(ACE_TEXT("Dropped old desktop packet: %d:%u\n"),
+        MYTRACE(TTEXT("Dropped old desktop packet: %d:%u\n"),
                 static_cast<int>(session_id), p.GetTime());
         return;
     }
@@ -820,7 +819,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     TTASSERT(GetLastTimeStamp(p) == p.GetTime());
 
     MYTRACE_COND(m_acked_desktoppackets.find(pkt_index) != m_acked_desktoppackets.end(),
-        ACE_TEXT("Desktop Dup ACK for #%d on %d:%u - pkt %d\n"), GetUserID(),
+        TTEXT("Desktop Dup ACK for #%d on %d:%u - pkt %d\n"), GetUserID(),
         m_desktop->GetSessionID(), GetLastTimeStamp(p), pkt_index);
 
     //don't process packet if it's a DUP ack
@@ -908,13 +907,13 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     }
 
 
-    //MYTRACE(ACE_TEXT("Fragments left: %d\n"), m_block_fragments.size());
+    //MYTRACE(TTEXT("Fragments left: %d\n"), m_block_fragments.size());
 
     //TTASSERT(m_acked_desktoppackets.size() < pkt_count ||
     //    (m_acked_desktoppackets.size() == pkt_count && m_block_fragments.empty()));
 
     MYTRACE_COND(m_acked_desktoppackets.size() == m_desktop_packets_expected,
-        ACE_TEXT("Desktop update for #%d update id %d:%u\n"), GetUserID(),
+        TTEXT("Desktop update for #%d update id %d:%u\n"), GetUserID(),
         m_desktop->GetSessionID(), GetLastTimeStamp(p));
 
     if(updated_window)
@@ -988,7 +987,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
     if (W32_LEQ(p.GetTime(), GetLastTimeStamp(p, &is_set)) && is_set &&
         W8_LT(packetno, m_desktop_input_rx_pktno))
     {
-        MYTRACE(ACE_TEXT("Dropped desktop input rtx: %d:%u, pkt: %d\n"),
+        MYTRACE(TTEXT("Dropped desktop input rtx: %d:%u, pkt: %d\n"),
                 static_cast<int>(p.GetSessionID()), p.GetTime(), packetno);
         return;
     }
@@ -1001,7 +1000,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
             break;
         if((*ii)->GetPacketNo() == packetno) //already have packet
         {
-            MYTRACE(ACE_TEXT("Duplicate desktop input. Pkt: %d\n"),
+            MYTRACE(TTEXT("Duplicate desktop input. Pkt: %d\n"),
                     static_cast<int>(packetno));
             return;
         }
@@ -1010,14 +1009,14 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
 
     m_desktop_input_rx.insert(ii, std::make_shared<DesktopInputPacket>(p));
 
-    MYTRACE(ACE_TEXT("DesktopInput in queue: "));
+    MYTRACE(TTEXT("DesktopInput in queue: "));
     ii = m_desktop_input_rx.begin();
     while(ii != m_desktop_input_rx.end())
     {
-       MYTRACE(ACE_TEXT("%u, "), static_cast<ACE_UINT32>((*ii)->GetPacketNo()));
+       MYTRACE(TTEXT("%u, "), static_cast<uint32_t>((*ii)->GetPacketNo()));
        ii++;
     }
-    MYTRACE(ACE_TEXT(". Next: %d\n"), static_cast<int>(m_desktop_input_rx_pktno));
+    MYTRACE(TTEXT(". Next: %d\n"), static_cast<int>(m_desktop_input_rx_pktno));
 
     if(m_desktop_input_rx.size() > DESKTOPINPUT_QUEUE_MAX_SIZE)
     {
@@ -1047,7 +1046,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         for(auto input : inputs)
             m_listener->OnUserDesktopInput(GetUserID(), input);
 
-        MYTRACE(ACE_TEXT("Ejected desktop input pkt: %d\n"),
+        MYTRACE(TTEXT("Ejected desktop input pkt: %d\n"),
                 (*m_desktop_input_rx.begin())->GetPacketNo());
         m_desktop_input_rx.erase(m_desktop_input_rx.begin());
     }
@@ -1062,7 +1061,7 @@ bool ClientUser::IsAudioActive(StreamType stream_type) const
     case STREAMTYPE_MEDIAFILE_AUDIO :
         return m_audiofile_active;
     default :
-        MYTRACE(ACE_TEXT("Querying incorrect stream type 0x%x\n"), stream_type);
+        MYTRACE(TTEXT("Querying incorrect stream type 0x%x\n"), stream_type);
         return false;
     }
 }
@@ -1317,7 +1316,7 @@ void ClientUser::ResetVoicePlayer()
     if(!GetAudioFolder().empty())
         m_clientnode->GetVoiceLogger().CancelLog(GetUserID());
 
-    MYTRACE(ACE_TEXT("Shutdown voice player for %s\n"), GetNickname().c_str());
+    MYTRACE(TTEXT("Shutdown voice player for %s\n"), GetNickname().c_str());
 }
 
 void ClientUser::ResetAudioFilePlayer()
@@ -1344,7 +1343,7 @@ void ClientUser::ResetAudioFilePlayer()
     if(active)
         m_listener->OnUserStateChange(*this);
 
-    MYTRACE(ACE_TEXT("Shutdown media file player for %s\n"), GetNickname().c_str());
+    MYTRACE(TTEXT("Shutdown media file player for %s\n"), GetNickname().c_str());
 }
 
 audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
@@ -1419,7 +1418,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         break;
 #endif
     default:
-        MYTRACE(ACE_TEXT("Cannot launch player for user #%d. Codec %d is unknown\n"),
+        MYTRACE(TTEXT("Cannot launch player for user #%d. Codec %d is unknown\n"),
                 GetUserID(), codec.codec);
         return {};
     }
@@ -1431,20 +1430,20 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     bool success = false;
     if (m_snd_duplexmode)
     {
-        MYTRACE(ACE_TEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
+        MYTRACE(TTEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
         success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player.get());
     }
     else
     {
-        MYTRACE(ACE_TEXT("Launching player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
+        MYTRACE(TTEXT("Launching player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
         success = m_soundsystem->OpenOutputStream(audio_player.get(), sndprop.outputdeviceid,
                                                   sndprop.soundgroupid, output_samplerate,
                                                   output_channels, output_samples);
     }
 
-    MYTRACE_COND(!success, ACE_TEXT("Failed to launch player for #%d\n"), GetUserID());
+    MYTRACE_COND(!success, TTEXT("Failed to launch player for #%d\n"), GetUserID());
     
     if (success)
     {
@@ -1457,7 +1456,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     {
         m_snddev_error = true;
         m_listener->OnInternalError(TT_INTERR_SNDOUTPUT_FAILURE,
-                                    ACE_TEXT("Failed to open sound output device"));
+                                    TTEXT("Failed to open sound output device"));
         return {};
     }
 
@@ -1542,10 +1541,13 @@ void ClientUser::SetDirtyProps()
 }
 
 
-ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
+ACE_Message_Block* ClientUser::GetVideoCaptureFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
-    if (m_vidcap_player)
+    // copy while 'g' is held so the reactor thread cannot delete the
+    // player while it is decoding
+    webm_player_t const player = m_vidcap_player;
+    if (player)
     {
         //if(m_voice_player && GetMediaFileBufferSize() &&
         //   m_voice_player->GetPlayedPacketNo())
@@ -1558,7 +1560,10 @@ ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
 
         //    return m_vidcap_player->GetNextFrame();
         //}
-        return m_vidcap_player->GetNextFrame();
+        g.release(); //don't hold lock while decoding
+        ACE_Message_Block* mb = player->GetNextFrame();
+        g.acquire();
+        return mb;
     }
 #endif /* ENABLE_VPX */
     return nullptr;
@@ -1591,18 +1596,21 @@ void ClientUser::CloseVideoCapturePlayer()
 #endif
 }
 
-ACE_Message_Block* ClientUser::GetVideoFileFrame()
+ACE_Message_Block* ClientUser::GetVideoFileFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
-    if (m_videofile_player)
+    // copy while 'g' is held so the reactor thread cannot delete the
+    // player while it is decoding
+    webm_player_t const player = m_videofile_player;
+    if (player)
     {
-        if (m_audiofile_player && (GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) != 0) &&
-           (m_audiofile_player->GetPlayedPacketNo() != 0u))
-        {
-            uint32_t audio_tm = m_audiofile_player->GetPlayedPacketTime();
-            return m_videofile_player->GetNextFrame(&audio_tm);
-        }
-        return m_videofile_player->GetNextFrame();
+        bool const sync = m_audiofile_player && (GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) != 0) &&
+           (m_audiofile_player->GetPlayedPacketNo() != 0u);
+        uint32_t audio_tm = sync ? m_audiofile_player->GetPlayedPacketTime() : 0;
+        g.release(); //don't hold lock while decoding
+        ACE_Message_Block* mb = player->GetNextFrame(sync ? &audio_tm : nullptr);
+        g.acquire();
+        return mb;
     }
 #endif /* ENABLE_VPX */
 
@@ -1660,7 +1668,7 @@ bool ClientUser::GetDesktopWindow(char* buffer, int length)
     TTASSERT(length == bmp_size);
     if((bmp != nullptr) && length == bmp_size)
     {
-        ACE_OS::memcpy(buffer, bmp, bmp_size);
+        std::memcpy(buffer, bmp, bmp_size);
         return true;
     }
     return false;
@@ -1750,14 +1758,14 @@ bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
     int const mychanid = m_clientnode->GetChannelID();
     int const userchanid = (GetChannel() ? GetChannel()->GetChannelID() : 0);
 
-    if((local_subs != 0u) && (local_intercept_subs != 0u))
+    if((local_subs != SUBSCRIBE_NONE) && (local_intercept_subs != SUBSCRIBE_NONE))
     {
-        if (((m_localsubscriptions & local_subs) != 0u) && mychanid > 0)
+        if (((m_localsubscriptions & local_subs) != SUBSCRIBE_NONE) && mychanid > 0)
         {
             if (std::cmp_equal(mychanid , packet.GetChannel()))
                 return true;
         }
-        if (((m_localsubscriptions & local_intercept_subs) != 0u) && userchanid > 0)
+        if (((m_localsubscriptions & local_intercept_subs) != SUBSCRIBE_NONE) && userchanid > 0)
         {
             if (std::cmp_equal(userchanid , packet.GetChannel()))
                 return true;
@@ -1797,14 +1805,14 @@ bool ClientUser::PeerSubscribes(const FieldPacket& packet) const
     case PACKET_KIND_DESKTOPINPUT_CRYPT :
     case PACKET_KIND_DESKTOPINPUT_ACK :
     case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
-        return (m_peersubscriptions & SUBSCRIBE_DESKTOPINPUT) != 0u;
+        return (m_peersubscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE;
     default :
         assert(0);
     }
     return true;
 }
 
-ACE_TString ClientUser::GetAudioFileName() const
+tstring ClientUser::GetAudioFileName() const
 {
     return m_clientnode->GetVoiceLogger().GetVoiceLogFileName(GetUserID());
 }

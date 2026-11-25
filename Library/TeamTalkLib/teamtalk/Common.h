@@ -24,17 +24,16 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include "TeamTalkDefs.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #if defined(ENABLE_WEBRTC)
 #include "avstream/WebRTCPreprocess.h"
 #endif
 
-#include "TeamTalkDefs.h"
+#include <ace/OS.h>
 
-#include <ace/SString.h>
-#include <ace/Time_Value.h>
-
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <map>
@@ -85,17 +84,17 @@ namespace teamtalk {
 
     struct ServerProperties
     {
-        ACE_TString systemid;
-        ACE_TString version;
+        tstring systemid;
+        tstring version;
         bool autosave = false;
-        ACE_TString motd;
-        ACE_TString servername;
+        tstring motd;
+        tstring servername;
         int maxusers = 0;
         int maxloginattempts = 0; //max login attempts with wrong password
         int max_logins_per_ipaddr = 0;
         int logindelay = 0; // msec before IP-address can log in again
-        ACE_INT64 diskquota = 0; //max bytes for each channel to store files
-        ACE_INT64 maxdiskusage = 0; //max bytes to use for storage of files
+        int64_t diskquota = 0; //max bytes for each channel to store files
+        int64_t maxdiskusage = 0; //max bytes to use for storage of files
         int usertimeout = 0;
         int voicetxlimit = 0;
         int videotxlimit = 0;
@@ -108,33 +107,33 @@ namespace teamtalk {
 
     struct ServerStats
     {
-        ACE_INT64 total_bytessent = 0;
-        ACE_INT64 total_bytesreceived = 0;
-        ACE_INT64 last_bytessent = 0;
-        ACE_INT64 last_bytesreceived = 0;
-        ACE_INT64 avg_bytessent = 0;
-        ACE_INT64 avg_bytesreceived = 0;
-        ACE_INT64 voice_bytesreceived = 0;
-        ACE_INT64 voice_bytessent = 0;
-        ACE_INT64 last_voice_bytessent = 0;
-        ACE_INT64 vidcap_bytesreceived = 0;
-        ACE_INT64 vidcap_bytessent = 0;
-        ACE_INT64 last_vidcap_bytessent = 0;
-        ACE_INT64 mediafile_bytesreceived = 0;
-        ACE_INT64 mediafile_bytessent = 0;
-        ACE_INT64 last_mediafile_bytessent = 0;
-        ACE_INT64 desktop_bytesreceived = 0;
-        ACE_INT64 desktop_bytessent = 0;
-        ACE_INT64 last_desktop_bytessent = 0;
-        ACE_INT64 files_bytesreceived = 0;
-        ACE_INT64 files_bytessent = 0;
+        int64_t total_bytessent = 0;
+        int64_t total_bytesreceived = 0;
+        int64_t last_bytessent = 0;
+        int64_t last_bytesreceived = 0;
+        int64_t avg_bytessent = 0;
+        int64_t avg_bytesreceived = 0;
+        int64_t voice_bytesreceived = 0;
+        int64_t voice_bytessent = 0;
+        int64_t last_voice_bytessent = 0;
+        int64_t vidcap_bytesreceived = 0;
+        int64_t vidcap_bytessent = 0;
+        int64_t last_vidcap_bytessent = 0;
+        int64_t mediafile_bytesreceived = 0;
+        int64_t mediafile_bytessent = 0;
+        int64_t last_mediafile_bytessent = 0;
+        int64_t desktop_bytesreceived = 0;
+        int64_t desktop_bytessent = 0;
+        int64_t last_desktop_bytessent = 0;
+        int64_t files_bytesreceived = 0;
+        int64_t files_bytessent = 0;
 
         int userspeak = 0;
         int usersservered = 0;
         //uptime
-        ACE_Time_Value starttime;
+        std::chrono::system_clock::time_point starttime;
         
-        ACE_INT64 packets_received = 0, packets_sent = 0; // only used internally
+        int64_t packets_received = 0, packets_sent = 0; // only used internally
 
         ServerStats() = default;
     };
@@ -154,9 +153,9 @@ namespace teamtalk {
     {
         MsgType msgType = TTNoneMsg;
         int from_userid = 0;
-        ACE_TString from_username;
+        tstring from_username;
         int to_userid = 0;
-        ACE_TString content;
+        tstring content;
         int channelid = 0;
         bool more = false;
     };
@@ -169,7 +168,7 @@ namespace teamtalk {
         USERTYPE_ADMIN        = 0x02,
     };
 
-    using UserTypes = ACE_UINT32;
+    using UserTypes = uint32_t;
 
     /* Remember to updated DLL header file when modifying this */
     enum UserRight
@@ -219,7 +218,7 @@ namespace teamtalk {
         USERRIGHT_KNOWN_MASK                = ~0xFF000000
     };
 
-    using UserRights = ACE_UINT32;
+    using UserRights = uint32_t;
 
     struct Abuse
     {
@@ -246,19 +245,19 @@ namespace teamtalk {
 
     struct UserAccount
     {
-        ACE_TString username;
-        ACE_TString passwd;
-        ACE_TString note;
+        tstring username;
+        tstring passwd;
+        tstring note;
         UserTypes usertype = USERTYPE_NONE;
         UserRights userrights = USERRIGHT_NONE; /* Mask of UserRight */
         int userdata = 0;
-        ACE_TString init_channel;
+        tstring init_channel;
         intset_t auto_op_channels;
         int audiobpslimit = 0;
         Abuse abuse;
-        ACE_TString nickname; /* TODO: add to TT API */
-        ACE_Time_Value lastupdated;
-        ACE_Time_Value lastlogin;
+        tstring nickname; /* TODO: add to TT API */
+        std::chrono::system_clock::time_point lastupdated;
+        std::chrono::system_clock::time_point lastlogin;
         
         UserAccount();
         bool IsWebLogin() const;
@@ -273,25 +272,24 @@ namespace teamtalk {
         BANTYPE_USERNAME        = 0x04,
         BANTYPE_DEFAULT = BANTYPE_IPADDR,
     };
-    using BanTypes = ACE_UINT32;
+    using BanTypes = uint32_t;
 
     struct BannedUser
     {
         BanTypes bantype{BANTYPE_NONE};
-        ACE_TString ipaddr;
-        ACE_TString chanpath;
-        ACE_Time_Value bantime;
-        ACE_TString nickname;
-        ACE_TString username; // banned username
-        ACE_TString owner; // who made the ban
-        BannedUser()  { bantime = ACE_OS::gettimeofday(); }
+        tstring ipaddr;
+        tstring chanpath;
+        std::chrono::system_clock::time_point bantime;
+        tstring nickname;
+        tstring username; // banned username
+        tstring owner; // who made the ban
+        BannedUser()  { bantime = std::chrono::system_clock::now(); }
         bool Same(const BannedUser& user) const;
         bool Match(const BannedUser& user) const;
     };
 
     using bannedusers_t = std::vector<BannedUser>;
 
-    ACE_TString DateToString(const ACE_Time_Value& tv);
 
     enum StreamType //ensure DLL compliance
     {
@@ -311,7 +309,7 @@ namespace teamtalk {
         STREAMTYPE_ALL                      = 0x0000ffff,
     };
 
-    using StreamTypes = ACE_UINT32;
+    using StreamTypes = uint32_t;
 
 
     enum FileTransferStatus
@@ -328,14 +326,14 @@ namespace teamtalk {
     {
         FileTransferStatus status = FILETRANSFER_CLOSED;
         int channelid = 0;
-        ACE_TString localfile;
-        ACE_TString filename;
+        tstring localfile;
+        tstring filename;
         int userid = 0;
-        ACE_INT64 filesize = 0;
-        ACE_INT64 transferred = 0;
+        int64_t filesize = 0;
+        int64_t transferred = 0;
         int transferid = 0;
         bool inbound = true;
-        ACE_TString transferkey;
+        tstring transferkey;
         FileTransfer() = default;
     };
 
@@ -506,11 +504,11 @@ namespace teamtalk {
     {
         int channelid = 0;
         int fileid = 0;
-        ACE_TString filename;
-        ACE_TString internalname;
-        ACE_INT64 filesize;
-        ACE_TString username;
-        ACE_Time_Value uploadtime;
+        tstring filename;
+        tstring internalname;
+        int64_t filesize;
+        tstring username;
+        std::chrono::system_clock::time_point uploadtime;
         RemoteFile();
     };
 
@@ -563,17 +561,17 @@ namespace teamtalk {
         CHANNEL_HIDDEN              = 0x0040,
     };
 
-    using ChannelTypes = ACE_UINT32;
+    using ChannelTypes = uint32_t;
 
     using transmitusers_t = std::map< StreamType, std::set<int> >;
 
     struct ChannelProp
     {
-        ACE_TString name;
-        ACE_TString passwd;
-        ACE_TString topic;
-        ACE_TString oppasswd;
-        ACE_INT64 diskquota = 0;
+        tstring name;
+        tstring passwd;
+        tstring topic;
+        tstring oppasswd;
+        int64_t diskquota = 0;
         int maxusers = MAX_USERS_IN_CHANNEL;
         bool bProtected = false;
         std::set<int> setops;
@@ -583,7 +581,7 @@ namespace teamtalk {
         AudioConfig audiocfg;
         files_t files;
         ChannelTypes chantype = CHANNEL_DEFAULT;
-        ACE_UINT32 chankey = 0;
+        uint32_t chankey = 0;
         int userdata = 0;
         transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
@@ -618,13 +616,13 @@ namespace teamtalk {
         KEYSTATE_UP         = 0x00000002,
     };
 
-    using KeyStateMask = ACE_UINT32;
+    using KeyStateMask = uint32_t;
 
     struct DesktopInput
     {
-        ACE_UINT16 x = -1;
-        ACE_UINT16 y = -1;
-        ACE_UINT32 keycode = -1;
+        uint16_t x = -1;
+        uint16_t y = -1;
+        uint32_t keycode = -1;
         KeyStateMask keystate = KEYSTATE_NONE;
         DesktopInput() = default;
     };
@@ -659,7 +657,7 @@ namespace teamtalk {
 
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */
-    enum
+    enum Subscribe
     {
         SUBSCRIBE_NONE                                  = 0x00000000,
         SUBSCRIBE_USER_MSG                              = 0x00000001,
@@ -697,7 +695,7 @@ namespace teamtalk {
         SUBSCRIBE_INTERCEPT_ALL                         = 0x017B0000,
     };
 
-    using Subscriptions = ACE_UINT32;
+    using Subscriptions = uint32_t;
 
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in);
     int SumFrameSizes(const std::vector<uint16_t>& in);

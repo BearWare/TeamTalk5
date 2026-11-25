@@ -23,17 +23,20 @@
 
 #include "VoiceLogger.h"
 
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Log.h"
 #include "teamtalk/TTAssert.h"
 
 #include <ace/Date_Time.h>
-#include <ace/FILE_IO.h>
 #include <ace/Sched_Params.h>
 
 #include <array>
+#include <filesystem>
 #include <cstddef>
 #include <ctime>
+#include <memory>
 #include <utility>
 
 enum
@@ -46,7 +49,7 @@ enum
 
 using namespace teamtalk;
 
-VoiceLog::VoiceLog(int userid, const ACE_TString& filename, 
+VoiceLog::VoiceLog(int userid, const tstring& filename, 
                    const AudioCodec& codec, AudioFileFormat aff,
                    int stream_id, int stoppedtalking_delay)
 : m_tot_msec(stoppedtalking_delay)
@@ -66,7 +69,6 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 #if defined(ENABLE_OGG)
     {
         bool vbr = true;
-        ACE_UNUSED_ARG(vbr);
         switch(m_codec.codec)
         {
         case CODEC_SPEEX :
@@ -77,7 +79,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             m_speexfile = std::make_shared<SpeexFile>();
             if(!m_speexfile->Open(filename, GetSpeexBandMode(m_codec), vbr))
             {
-                ACE_TString const error = ACE_TEXT("Failed to open Speex file ") + filename;
+                tstring const error = TTEXT("Failed to open Speex file ") + filename;
                 TT_ERROR(error.c_str());
                 m_active = false;
                 return;
@@ -92,7 +94,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             int const framesize = GetAudioCodecFrameSize(m_codec);
             if (!m_opusfile->NewFile(filename, channels, samplerate, framesize))
             {
-                ACE_TString const error = ACE_TEXT("Failed to open OPUS file ") + filename;
+                tstring const error = TTEXT("Failed to open OPUS file ") + filename;
                 TT_ERROR(error.c_str());
                 m_active = false;
                 return;
@@ -122,7 +124,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         m_mp3transform = MFTransform::CreateMP3(media::AudioFormat(samplerate, channels), mp3bitrate, filename.c_str());
         if (!m_mp3transform)
         {
-            ACE_TString error = ACE_TEXT("Failed to open file ") + filename;
+            tstring error = TTEXT("Failed to open file ") + filename;
             TT_ERROR(error.c_str());
             m_active = false;
             m_mp3transform.reset();
@@ -134,9 +136,9 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
     case AFF_WAVE_FORMAT :
     {
         m_wavfile = std::make_shared<WavePCMFile>();
-        if(!m_wavfile->NewFile(filename.c_str(), samplerate, channels))
+        if(!m_wavfile->NewFile(filename, samplerate, channels))
         {
-            ACE_TString const error = ACE_TEXT("Failed to open file ") + filename;
+            tstring const error = TTEXT("Failed to open file ") + filename;
             TT_ERROR(error.c_str());
             m_active = false;
             return;
@@ -176,12 +178,12 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         m_samples_buf.resize(static_cast<size_t>(cbsamples) * channels);
         m_active = true;
     }
-    MYTRACE(ACE_TEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
+    MYTRACE(TTEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
 }
 
 VoiceLog::~VoiceLog()
 {
-    MYTRACE(ACE_TEXT("VoiceLog ended: %s\n"), this->GetFileName().c_str());
+    MYTRACE(TTEXT("VoiceLog ended: %s\n"), this->GetFileName().c_str());
 }
 
 void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
@@ -191,9 +193,18 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
     if (std::cmp_not_equal(packet.GetStreamID(), m_streamid) || packet.HasFragments())
         return;
 
+    // the writers decode 'fpp' frames into m_samples_buf, so drop a packet
+    // with another number of frames or with frames bigger than its data
+    uint16_t enc_len = 0;
+    std::vector<uint16_t> const frame_sizes = GetAudioPacketFrameSizes(packet, m_codec);
+    if (packet.GetEncodedAudio(enc_len) == nullptr ||
+        std::cmp_not_equal(frame_sizes.size(), GetAudioCodecFramesPerPacket(m_codec)) ||
+        SumFrameSizes(frame_sizes) > enc_len)
+        return;
+
     wguard_t const g(m_mutex);
 
-    m_last = ACE_OS::gettimeofday();
+    m_last = std::chrono::system_clock::now();
 
     int const packet_no = packet.GetPacketNumber();
     bool first = false;
@@ -205,7 +216,7 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 
     if (W16_LT(packet_no, m_packet_current))
     {
-        MYTRACE(ACE_TEXT("Skipped delayed packet %d from #%d voice log\n"),
+        MYTRACE(TTEXT("Skipped delayed packet %d from #%d voice log\n"),
                 packet_no, m_userid);
         return;
     }
@@ -222,7 +233,7 @@ void VoiceLog::FlushLog()
     m_mFlushPackets.insert(m_mQueuePackets.begin(),m_mQueuePackets.end());
     m_mQueuePackets.clear();
 
-    g.release();
+    g.unlock();
 
     m_packet_current = WritePackets(m_packet_current);
 }
@@ -340,7 +351,7 @@ void VoiceLog::WriteAudio(int packet_no)
 #if defined(ENABLE_SPEEX)
             if(m_speex != nullptr)
             {
-                std::vector<uint16_t> const frame_sizes = packet.GetEncodedFrameSizes();
+                std::vector<uint16_t> const frame_sizes = GetAudioPacketFrameSizes(packet, m_codec);
                 m_speex->DecodeMultiple(enc_data,
                                         ConvertFrameSizes(frame_sizes),
                                         m_samples_buf.data());
@@ -362,7 +373,7 @@ void VoiceLog::WriteAudio(int packet_no)
                 {
                     ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
                                          &m_samples_buf[static_cast<size_t>(framesize) * channels * i],
-                                         cb_samples);
+                                         framesize);
                     assert(ret > 0);
                     decsamples += ret;
                     sum_dec += frame_sizes[i];
@@ -394,13 +405,13 @@ void VoiceLog::WriteAudio(int packet_no)
             if(m_opus != nullptr)
             {
                 int const fpp = GetAudioCodecFramesPerPacket(m_codec);
-                int const cb_samples = GetAudioCodecCbSamples(m_codec);
+                int const framesize = GetAudioCodecFrameSize(m_codec);
                 int const channels = GetAudioCodecChannels(m_codec);
                 for(int i=0;i<fpp;i++)
                 {
                     m_opus->Decode(nullptr, 0,
-                                   &m_samples_buf[static_cast<size_t>(cb_samples)*channels*i],
-                                   cb_samples);
+                                   &m_samples_buf[static_cast<size_t>(framesize)*channels*i],
+                                   framesize);
                 }
             }
 #endif        
@@ -454,9 +465,9 @@ void VoiceLog::WriteSilence(int msecs)
     }
 }
 
-ACE_Time_Value VoiceLog::GetVoiceEndTime() const
+std::chrono::system_clock::time_point VoiceLog::GetVoiceEndTime() const
 {
-    return m_last + ToTimeValue(m_tot_msec);
+    return m_last + std::chrono::milliseconds(m_tot_msec);
 }
 
 uint32_t VoiceLog::GetLatestPacketTime() const
@@ -507,12 +518,13 @@ VoiceLogger::~VoiceLogger()
     if(m_timerid != -1)
         m_reactor.cancel_timer(m_timerid, nullptr, 0);
     m_reactor.end_reactor_event_loop();
-    this->wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
-    MYTRACE(ACE_TEXT("~VoiceLogger()\n"));
+    MYTRACE(TTEXT("~VoiceLogger()\n"));
 }
 
-int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+int VoiceLogger::TimerEvent(uint32_t timer_event_id, long userdata)
 {
     switch(timer_event_id)
     {
@@ -529,47 +541,40 @@ int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 void VoiceLogger::BeginLog(ClientUser& from_user, 
                            const AudioCodec& codec, 
                            int stream_id,
-                           const ACE_TString& folderpath)
+                           const tstring& folderpath)
 {
     //spawn thread?
-    if(this->thr_count() == 0)
+    if(!m_thread.joinable())
     {
         TTASSERT(m_timerid == -1);
-        long const prio = ACE_Sched_Params::priority_min (ACE_SCHED_FIFO);
+        m_thread = std::thread([this] { Run(); });
 
-        int const ret = this->activate(THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED, 
-            1, 0, prio);
-        TTASSERT(ret>=0);
-
-        TimerHandler* th = nullptr;
-        ACE_NEW(th, TimerHandler(*this, TIMER_WRITELOG_ID));
-        m_timerid = m_reactor.schedule_timer(th, nullptr, FLUSH_INTERVAL, FLUSH_INTERVAL);
+        auto th = std::make_unique<TimerHandler>(*this, TIMER_WRITELOG_ID);
+        m_timerid = m_reactor.schedule_timer(th.release(), nullptr, FLUSH_INTERVAL, FLUSH_INTERVAL); // NOLINT(bugprone-unused-return-value)
         TTASSERT(m_timerid>=0);
     }
 
     wguard_t const g1(m_add_mtx);
     wguard_t const g2(m_flush_mtx);
 
-    ACE_Time_Value const tv = ACE_OS::gettimeofday();
-    ACE_Date_Time const dt(tv);
     constexpr int STR_SIZE = 512;
-    std::array<ACE_TCHAR, STR_SIZE> buf;
-    ACE_TString const username = from_user.GetUsername();
+    std::array<tchar, STR_SIZE> buf;
+    tstring const username = from_user.GetUsername();
     int const userid = from_user.GetUserID();
 
-    ACE_TString var = from_user.GetAudioFileVariables();
+    tstring var = from_user.GetAudioFileVariables();
     
-    if(var.is_empty())
+    if(var.empty())
         var = DEFAULT_VOICELOG_VARS;
 
-    ReplaceAll(var, ACE_TEXT("%starttick%"), I2String(GETTIMESTAMP()));
-    ReplaceAll(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
-    ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
-    ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
-    ACE_UINT32 const counter = from_user.IncVoiceLogCounter();
-    std::array<ACE_TCHAR, 100> str_count;
-    ACE_OS::snprintf(str_count.data(), 100, ACE_TEXT("%09u"), counter);
-    ReplaceAll(var, ACE_TEXT("%counter%"), str_count.data());
+    ReplaceAll(var, TTEXT("%starttick%"), I2String(GETTIMESTAMP()));
+    ReplaceAll(var, TTEXT("%nickname%"), from_user.GetNickname());
+    ReplaceAll(var, TTEXT("%username%"), from_user.GetUsername());
+    ReplaceAll(var, TTEXT("%userid%"), I2String(from_user.GetUserID()));
+    uint32_t const counter = from_user.IncVoiceLogCounter();
+    std::array<tchar, 100> str_count;
+    tsnprintf(str_count.data(), 100, TTEXT("%09u"), counter);
+    ReplaceAll(var, TTEXT("%counter%"), str_count.data());
 
     time_t const now = time(nullptr);
     struct tm* ttt = localtime(&now);
@@ -580,13 +585,13 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 #endif
 
     // if(username.length())
-    //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d %s"), 
+    //     tsnprintf(buf, STR_SIZE, TTEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d %s"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid, username.c_str());
     // else
-    //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
+    //     tsnprintf(buf, STR_SIZE, TTEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid);
 
-    ACE_TString filename = buf.data();
+    tstring filename = buf.data();
     int mp3bitrate = 0;
     AudioFileFormat aff = AFF_WAVE_FORMAT;
     switch(from_user.GetAudioFileFormat())
@@ -598,7 +603,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         case CODEC_SPEEX_VBR :
         case CODEC_OPUS :
             aff = from_user.GetAudioFileFormat();
-            filename += ACE_TEXT(".ogg");
+            filename += TTEXT(".ogg");
             break;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
@@ -617,21 +622,21 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     case AFF_WAVE_FORMAT :
     default :
         aff = AFF_WAVE_FORMAT;
-        filename += ACE_TEXT(".wav");
+        filename += TTEXT(".wav");
         break;
     }
 
     if (mp3bitrate != 0)
     {
         aff = from_user.GetAudioFileFormat();
-        filename += ACE_TEXT(".mp3");
+        filename += TTEXT(".mp3");
     }
 
-    ACE_TString const filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;
+    tstring const filepath = (std::filesystem::path(folderpath) / filename).native();
 
     voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
                                                 codec, aff, stream_id,
-                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
+                             static_cast<uint32_t>(from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
 
     bool const active = log->IsActive();
     if(active)
@@ -682,7 +687,7 @@ void VoiceLogger::AddVoicePacket(ClientUser& from_user,
 
     if(channel.GetChannelID() != packet.GetChannel())
     {
-        MYTRACE(ACE_TEXT("Dropped packet destined for incorrect channel\n"));
+        MYTRACE(TTEXT("Dropped packet destined for incorrect channel\n"));
         return;
     }
 
@@ -696,7 +701,7 @@ void VoiceLogger::AddVoicePacket(ClientUser& from_user,
     {
         if (W32_LT(packet.GetTime(), ite->second->GetLatestPacketTime()))
         {
-            MYTRACE(ACE_TEXT("Ignored packet %d from #%d. Packet older than latest\n"),
+            MYTRACE(TTEXT("Ignored packet %d from #%d. Packet older than latest\n"),
                     packet.GetPacketNumber(), from_user.GetUserID());
             return;
         }
@@ -712,13 +717,12 @@ void VoiceLogger::AddVoicePacket(ClientUser& from_user,
 
 void VoiceLogger::CancelLog(int userid)
 {
-    TimerHandler* th = nullptr;
-    ACE_NEW(th, TimerHandler(*this, TIMER_CANCELLOG_ID, userid));
-    long const tid = m_reactor.schedule_timer(th, nullptr, ACE_Time_Value::zero);
+    auto th = std::make_unique<TimerHandler>(*this, TIMER_CANCELLOG_ID, userid);
+    long const tid = m_reactor.schedule_timer(th.release(), nullptr, ACE_Time_Value::zero); // NOLINT(bugprone-unused-return-value)
     TTASSERT(tid >= 0);
 }
 
-ACE_TString VoiceLogger::GetVoiceLogFileName(int userid)
+tstring VoiceLogger::GetVoiceLogFileName(int userid)
 {
     wguard_t const g1(m_add_mtx);
 
@@ -736,18 +740,17 @@ void VoiceLogger::FlushLogs()
     for(auto & m_mLog : m_mLogs)
     {
         m_mLog.second->FlushLog();
-        if (m_mLog.second->GetVoiceEndTime() < ACE_OS::gettimeofday())
+        if (m_mLog.second->GetVoiceEndTime() < std::chrono::system_clock::now())
             closeLogs.push_back(m_mLog.first);
     }
-    g.release(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong
+    g.unlock(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong
 
     for(int closeLog : closeLogs)
         EndLog(closeLog);
 }
 
-int VoiceLogger::svc ()
+void VoiceLogger::Run()
 {
     m_reactor.owner (ACE_OS::thr_self ());
     m_reactor.run_reactor_event_loop ();
-    return 0;
 }

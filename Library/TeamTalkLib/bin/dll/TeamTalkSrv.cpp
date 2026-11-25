@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2005-2018, BearWare.dk
  * 
  * Contact Information:
@@ -38,7 +38,6 @@
 #include <ace/OS_NS_Thread.h>
 #include <ace/OS_NS_string.h>
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/SSL/SSL_Context.h>
 #include <ace/Select_Reactor.h>
 
@@ -68,13 +67,11 @@ struct ServerInstance
         : tcpReactor(&selectReactor)
          
         {
-            ServerMonitor* m = nullptr;
-            ServerNode* s = nullptr;
-            ACE_NEW(m, ServerMonitor());
+            auto m = std::make_unique<ServerMonitor>();
             m->m_ttInst = this;
-            ACE_NEW(s, ServerNode(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, m));
-            monitor.reset(m);
-            server.reset(s);
+            auto s = std::make_unique<ServerNode>(Utf8ToUnicode(TEAMTALK_VERSION), &tcpReactor, &tcpReactor, &udpReactor, m.get());
+            monitor = std::move(m);
+            server = std::move(s);
 
             udp_thread = ACE_Thread_Manager::instance()->spawn(EventLoop, &udpReactor);
             SyncReactor(udpReactor);
@@ -100,7 +97,7 @@ using thread_owners_t = std::map<TTSInstance*, ACE_thread_t>;
 
 static servers_t servers;
 static thread_owners_t threads;
-static ACE_Recursive_Thread_Mutex servers_mutex;
+static std::recursive_mutex servers_mutex;
 
 static ServerInstance* GetServerinst(TTSInstance* pInstance)
 {
@@ -111,13 +108,8 @@ static ServerInstance* GetServerinst(TTSInstance* pInstance)
     {
         if(i->second != ACE_OS::thr_self())
         {
-#if defined(UNICODE)
-            std::wcerr << TEAMTALK_LIB_NAME << " server does not support multi threading. Thread " 
-                       << ACE_OS::thr_self() << " != " << i->second << std::endl;
-#else
             std::cerr << TEAMTALK_LIB_NAME << " server does not support multi threading. Thread " 
                       << ACE_OS::thr_self() << " != " << i->second << std::endl;
-#endif
         }
     }
     threads[pInstance] = ACE_OS::thr_self();
@@ -168,8 +160,8 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
 
     EncryptionContext context = {};
     context.bVerifyClientOnce = 1;
-    ACE_OS::strsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
-    ACE_OS::strsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
+    tstrsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
+    tstrsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
 
     return TTS_SetEncryptionContextEx(lpTTSInstance, &context);
 }
@@ -195,14 +187,13 @@ TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()
 
     LicenseCheck();
 
-    ServerInstance* ttInst = nullptr;
-    ACE_NEW_RETURN(ttInst, ServerInstance(false), nullptr);
+    auto ttInst = std::make_unique<ServerInstance>(false);
 
     wguard_t const g(servers_mutex);
 
-    servers.insert(ttInst);
+    servers.insert(ttInst.get());
 
-    return ttInst;
+    return ttInst.release(); // NOLINT(bugprone-unused-return-value)
 }
 
 TEAMTALKDLL_API TTBOOL TTS_CloseTeamTalk(IN TTSInstance* lpTTSInstance)

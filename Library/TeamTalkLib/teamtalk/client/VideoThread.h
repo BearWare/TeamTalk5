@@ -25,16 +25,18 @@
 #define VIDEOTHREAD_H
 
 #include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 #include "teamtalk/Common.h"
+
 #if defined(ENABLE_VPX)
 #include "codec/VpxEncoder.h"
 #endif
 
 #include <ace/Message_Block.h>
-#include <ace/Task_T.h>
 
 #include <functional>
 #include <memory>
+#include <thread>
 
 //Get VideoFrame from ACE_Message_Block
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \
@@ -45,14 +47,14 @@
 
 using videoencodercallback_t = std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
                              const char* enc_data, int enc_len,
-                             ACE_UINT32 packet_no,
-                             ACE_UINT32 timestamp) >;
+                             uint32_t packet_no,
+                             uint32_t timestamp) >;
 
-class VideoThread : protected ACE_Task<ACE_MT_SYNCH>
+class VideoThread
 {
 public:
     VideoThread();
-    ~VideoThread() override;
+    ~VideoThread();
 
     bool StartEncoder(videoencodercallback_t m_callback,
                       const media::VideoFormat& cap_format,
@@ -69,15 +71,16 @@ public:
     const media::VideoFormat& GetVideoFormat() const { return m_cap_format; }
 
 private:
-    int close(u_long /*flags*/) override;
-    int svc() override;
+    void Run();
+    msg_queue_t m_msg_queue;
+    std::thread m_thread;
 
     videoencodercallback_t m_callback;
     
 #if defined(ENABLE_VPX)
     VpxEncoder m_vpx_encoder;
 #endif
-    ACE_UINT32 m_packet_counter = 0;
+    uint32_t m_packet_counter = 0;
     media::VideoFormat m_cap_format;
     teamtalk::VideoCodec m_codec;
 
@@ -95,8 +98,8 @@ public:
     virtual bool EncodedVideoFrame(const VideoThread* video_encoder,
                                    ACE_Message_Block* org_frame, /* can be NULL */
                                    const char* enc_data, int enc_len,
-                                   ACE_UINT32 packet_no,
-                                   ACE_UINT32 timestamp) = 0;
+                                   uint32_t packet_no,
+                                   uint32_t timestamp) = 0;
 };
 
 #endif

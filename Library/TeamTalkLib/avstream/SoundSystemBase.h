@@ -28,7 +28,7 @@
 #include "SoundSystemShared.h"
 
 #include "avstream/SoundSystem.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <cassert>
 #include <cstddef>
@@ -285,7 +285,7 @@ namespace soundsystem {
 
                 m_shared_streamcaptures[inputdeviceid]->AddInputStreamer(streamer);
 
-                MYTRACE(ACE_TEXT("Added shared capture stream %p, samplerate %d, channels %d\n"),
+                MYTRACE(TTEXT("Added shared capture stream %p, samplerate %d, channels %d\n"),
                         capture, samplerate, channels);
 
                 return streamer;
@@ -315,7 +315,7 @@ namespace soundsystem {
             }
             else
             {
-                MYTRACE(ACE_TEXT("Opening shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
+                MYTRACE(TTEXT("Opening shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(),
                                       snddev.id & SOUND_DEVICEID_MASK,
                                       newsndgrpid, sharedsamplerate,
@@ -324,7 +324,7 @@ namespace soundsystem {
 
             if (!orgstream)
             {
-                MYTRACE(ACE_TEXT("Failed to open shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
+                MYTRACE(TTEXT("Failed to open shared input device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 RemoveSoundGroup(newsndgrpid);
                 return inputstreamer_t();
             }
@@ -356,7 +356,7 @@ namespace soundsystem {
                 return inputstreamer_t();
             }
 
-            MYTRACE(ACE_TEXT("Opened shared capture stream %p on device #%d, samplerate %d, channels %d\n"),
+            MYTRACE(TTEXT("Opened shared capture stream %p on device #%d, samplerate %d, channels %d\n"),
                     capture, (inputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
 
             return streamer;
@@ -423,7 +423,7 @@ namespace soundsystem {
             }
             else
             {
-                MYTRACE(ACE_TEXT("Opening shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
+                MYTRACE(TTEXT("Opening shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 orgstream = NewStream(sharedstream.get(), snddev.id & SOUND_DEVICEID_MASK,
                                       newsndgrpid, sharedsamplerate, sharedchannels, sharedframesize);
             }
@@ -433,7 +433,7 @@ namespace soundsystem {
                 RemoveSoundGroup(newsndgrpid);
 
                 m_shared_streamplayers.erase(outputdeviceid);
-                MYTRACE(ACE_TEXT("Failed to open shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
+                MYTRACE(TTEXT("Failed to open shared output device on #%d\n"), snddev.id & SOUND_DEVICEID_MASK);
                 return outputstreamer_t();
             }
 
@@ -456,7 +456,7 @@ namespace soundsystem {
                 return outputstreamer_t();
             }
 
-            MYTRACE(ACE_TEXT("Opened shared output stream %p on device #%d, samplerate %d, channels %d\n"),
+            MYTRACE(TTEXT("Opened shared output stream %p on device #%d, samplerate %d, channels %d\n"),
                     player, (outputdeviceid & SOUND_DEVICEID_MASK), samplerate, channels);
 
             return streamer;
@@ -500,7 +500,7 @@ namespace soundsystem {
                 sndgrpid++;
 
             m_sndgrps[sndgrpid] = sg;
-            MYTRACE(ACE_TEXT("Active sound groups %d\n"), int(m_sndgrps.size()));
+            MYTRACE(TTEXT("Active sound groups %d\n"), int(m_sndgrps.size()));
             return sndgrpid;
         }
 
@@ -524,7 +524,7 @@ namespace soundsystem {
                              int sndgrpid, int samplerate, int channels,
                              int framesize) override
         {
-            MYTRACE(ACE_TEXT("Opening StreamCapture %p, sample rate %d, channels %d, framesize %d, device #%d\n"),
+            MYTRACE(TTEXT("Opening StreamCapture %p, sample rate %d, channels %d, framesize %d, device #%d\n"),
                     capture, samplerate, channels, framesize, inputdeviceid);
 
             assert(channels <= SHAREDSTREAM_MAX_CHANNELS);
@@ -547,7 +547,7 @@ namespace soundsystem {
                                      samplerate, channels, framesize);
             }
 
-            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open StreamCapture %p on device #%d\n"),
+            MYTRACE_COND(!streamer, TTEXT("Failed to open StreamCapture %p on device #%d\n"),
                          capture, inputdeviceid);
 
             if (!streamer)
@@ -599,7 +599,7 @@ namespace soundsystem {
                 auto sharedstream = m_shared_streamcaptures[streamer->inputdeviceid];
                 sharedstream->RemoveInputStreamer(streamer);
 
-                MYTRACE(ACE_TEXT("Closed shared capture stream %p\n"), streamer->recorder);
+                MYTRACE(TTEXT("Closed shared capture stream %p\n"), streamer->recorder);
 
                 if (!sharedstream->InputStreamsExists())
                 {
@@ -620,7 +620,7 @@ namespace soundsystem {
                 CloseStream(streamer);
             }
 
-            MYTRACE(ACE_TEXT("Closed StreamCapture %p\n"), capture);
+            MYTRACE(TTEXT("Closed StreamCapture %p\n"), capture);
 
             std::scoped_lock<std::recursive_mutex> g(CaptureLock());
             m_input_streamers.erase(capture);
@@ -647,7 +647,7 @@ namespace soundsystem {
                               int sndgrpid, int samplerate, int channels,
                               int framesize) override
         {
-            MYTRACE(ACE_TEXT("Opening StreamPlayer %p, sample rate %d, channels %d, framesize %d, device #%d\n"),
+            MYTRACE(TTEXT("Opening StreamPlayer %p, sample rate %d, channels %d, framesize %d, device #%d\n"),
                     player, samplerate, channels, framesize, outputdeviceid);
 
             outputstreamer_t streamer;
@@ -662,7 +662,7 @@ namespace soundsystem {
                 streamer = NewStream(player, outputdeviceid, sndgrpid,
                                      samplerate, channels, framesize);
 
-            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open StreamPlayer %p on device #%d\n"),
+            MYTRACE_COND(!streamer, TTEXT("Failed to open StreamPlayer %p on device #%d\n"),
                          player, outputdeviceid);
 
             if (!streamer)
@@ -676,7 +676,7 @@ namespace soundsystem {
 
         bool CloseOutputStream(StreamPlayer* player) override
         {
-            MYTRACE(ACE_TEXT("Closing StreamPlayer %p\n"), player);
+            MYTRACE(TTEXT("Closing StreamPlayer %p\n"), player);
 
             outputstreamer_t streamer = GetStream(player);
             if (!streamer)
@@ -719,7 +719,7 @@ namespace soundsystem {
             std::scoped_lock<std::recursive_mutex> g(PlayersLock());
             m_output_streamers.erase(player);
 
-            MYTRACE(ACE_TEXT("Closed StreamPlayer %p\n"), player);
+            MYTRACE(TTEXT("Closed StreamPlayer %p\n"), player);
 
             return true;
         }
@@ -802,7 +802,7 @@ namespace soundsystem {
                               int samplerate, int input_channels,
                               int output_channels, int framesize) override
         {
-            MYTRACE(ACE_TEXT("Opening StreamDuplex %p, sample rate %d, channels %d-%d, framesize %d, devices #%d-#%d\n"),
+            MYTRACE(TTEXT("Opening StreamDuplex %p, sample rate %d, channels %d-%d, framesize %d, devices #%d-#%d\n"),
                 duplex, samplerate, input_channels, output_channels, framesize, inputdeviceid, outputdeviceid);
 
             duplexstreamer_t streamer;
@@ -825,7 +825,7 @@ namespace soundsystem {
                                     output_channels, framesize);
             }
 
-            MYTRACE_COND(!streamer, ACE_TEXT("Failed to open StreamDuplex %p on devices input #%d output %d\n"),
+            MYTRACE_COND(!streamer, TTEXT("Failed to open StreamDuplex %p on devices input #%d output %d\n"),
                          duplex, inputdeviceid, outputdeviceid);
 
             if (!streamer)
@@ -867,7 +867,7 @@ namespace soundsystem {
             std::scoped_lock<std::recursive_mutex> g(DuplexLock());
             m_duplex_streamers.erase(duplex);
 
-            MYTRACE(ACE_TEXT("Closed StreamDuplex %p\n"), duplex);
+            MYTRACE(TTEXT("Closed StreamDuplex %p\n"), duplex);
 
             return true;
         }
@@ -1125,7 +1125,7 @@ namespace soundsystem {
                 dev = ii->second;
                 return true;
             }
-            MYTRACE(ACE_TEXT("Cannot find sound device #%d\n"), id);
+            MYTRACE(TTEXT("Cannot find sound device #%d\n"), id);
             return false;
         }
 
@@ -1193,8 +1193,7 @@ namespace soundsystem {
             std::scoped_lock g(m_virtdev_lock);
             m_virtual_streams[streamer.get()] = scc;
 
-            int const ret = scc->activate();
-            MYTRACE_COND(ret < 0, ACE_TEXT("Failed to activate StreamCaller\n"));
+            scc->Start();
         }
 
         void StartVirtualStream(outputstreamer_t streamer)
@@ -1204,8 +1203,7 @@ namespace soundsystem {
             std::scoped_lock g(m_virtdev_lock);
             m_virtual_streams[streamer.get()] = scc;
 
-            int const ret = scc->activate();
-            MYTRACE_COND(ret < 0, ACE_TEXT("Failed to activate StreamCaller\n"));
+            scc->Start();
         }
 
         void StartVirtualStream(duplexstreamer_t streamer)
@@ -1215,8 +1213,7 @@ namespace soundsystem {
             std::scoped_lock g(m_virtdev_lock);
             m_virtual_streams[streamer.get()] = scc;
 
-            int const ret = scc->activate();
-            MYTRACE_COND(ret < 0, ACE_TEXT("Failed to activate StreamCaller\n"));
+            scc->Start();
         }
 
         void StopVirtualStream(SoundStreamer* streamer)
@@ -1234,8 +1231,8 @@ namespace soundsystem {
         void AddVirtualDevice()
         {
             DeviceInfo device;
-            device.devicename = ACE_TEXT("TeamTalk Virtual Sound Device");
-            device.deviceid = ACE_TEXT("TeamTalk Sound Device #1");
+            device.devicename = TTEXT("TeamTalk Virtual Sound Device");
+            device.deviceid = TTEXT("TeamTalk Sound Device #1");
             device.soundsystem = SOUND_API_NOSOUND;
             device.max_input_channels = 2;
             device.max_output_channels = 2;

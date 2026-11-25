@@ -1269,7 +1269,7 @@ namespace teamtalk
         fields += DESKTOPPACKET_BLOCKUSAGE(static_cast<uint16_t>(single_entries), static_cast<uint16_t>(single_blocks));
         fields += DESKTOPPACKET_BLOCKRANGEUSAGE(static_cast<uint16_t>(range_blocks));
 
-        assert(fields + data_size == fieldsize_alloced + (uint16_t)v.iov_len);
+        assert(fields + data_size == fieldsize_alloced + static_cast<uint16_t>(v.iov_len));
         assert(GetPacketSize() <= MAX_PACKET_SIZE);
 #endif
     }
@@ -1347,7 +1347,7 @@ namespace teamtalk
         fields += DESKTOPPACKET_BLOCKUSAGE(single_entries, single_blocks);
         fields += DESKTOPPACKET_BLOCKRANGEUSAGE(range_blocks);
 
-        assert(fields + data_size == fieldsize_alloced + (uint16_t)v.iov_len);
+        assert(fields + data_size == fieldsize_alloced + static_cast<uint16_t>(v.iov_len));
         assert(GetPacketSize() <= MAX_PACKET_SIZE);
 #endif
     }

@@ -21,7 +21,8 @@
  *
  */
 
-#include "mixer.h"
+#include "Mixer.h"
+#include "mystd/MyStd.h"
 
 #include <tchar.h>
 #include <windows.h>
@@ -41,7 +42,7 @@ bool MixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
     if (res != MMSYSERR_NOERROR)
         return false;
 
-    auto hMixer = (HMIXEROBJ)hTmpMixer;
+    auto hMixer = reinterpret_cast<HMIXEROBJ>(hTmpMixer);
 
     MIXERLINE ml = {};
     ml.cbStruct = sizeof(MIXERLINE);
@@ -152,7 +153,7 @@ bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
     if (res != MMSYSERR_NOERROR)
         return false;
 
-    auto hMixer = (HMIXEROBJ)hTmpMixer;
+    auto hMixer = reinterpret_cast<HMIXEROBJ>(hTmpMixer);
 
     MIXERLINE ml = {};
     ml.cbStruct = sizeof(MIXERLINE);
@@ -298,14 +299,14 @@ bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
                 goto end;
             }
 
-            MIXERCONTROLDETAILS_LISTTEXT mcdString[100] = {};
+            std::array<MIXERCONTROLDETAILS_LISTTEXT, 100> mcdString{};
 
             MIXERCONTROLDETAILS mcd = {}; 
             mcd.cbStruct = sizeof(MIXERCONTROLDETAILS); 
             mcd.dwControlID = mc.dwControlID; 
             mcd.cChannels = 1; 
             mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_LISTTEXT); 
-            mcd.paDetails = mcdString;
+            mcd.paDetails = mcdString.data();
             mcd.cMultipleItems = mc.cMultipleItems;
 
             if(mixerGetControlDetails(hMixer, &mcd, MIXER_OBJECTF_HMIXER | MIXER_GETCONTROLDETAILSF_LISTTEXT) != MMSYSERR_NOERROR)
@@ -344,7 +345,7 @@ bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
                     dwComponentTypeID = mxl.dwComponentType;
                     if( (mixerMask & MIXER_WAVEIN_NAME) == MIXER_WAVEIN_NAME)
                     {
-                        _tcsncpy(inoutValue.name, mxl.szName, sizeof(inoutValue.name)/sizeof(TCHAR));
+                        _tcsncpy(inoutValue.name.data(), mxl.szName, inoutValue.name.size());
                         result = true;
                         goto end;
                     }
@@ -356,12 +357,12 @@ bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
             if(dwCompIndex>=mcd.cMultipleItems)
                 goto end;
 
-            MIXERCONTROLDETAILS_BOOLEAN mcdBool[100] = {}; 
+            std::array<MIXERCONTROLDETAILS_BOOLEAN, 100> mcdBool{};
             mcd.cbStruct = sizeof(MIXERCONTROLDETAILS); 
             mcd.dwControlID = mc.dwControlID; 
             mcd.cChannels = 1; 
             mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN); 
-            mcd.paDetails = mcdBool;
+            mcd.paDetails = mcdBool.data();
             mcd.cMultipleItems = mc.cMultipleItems;
 
             if(mixerGetControlDetails(hMixer, &mcd, MIXER_OBJECTF_HMIXER | MIXER_GETCONTROLDETAILSF_VALUE) != MMSYSERR_NOERROR)
@@ -374,7 +375,7 @@ bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
 
             if ((mixerMask & MIXER_WAVEIN_SET) != 0) {
                 if(mlc.dwControlType == MIXERCONTROL_CONTROLTYPE_MUX)
-                    memset(mcdBool, 0, sizeof(mcdBool));
+                    memset(mcdBool.data(), 0, mcdBool.size() * sizeof(mcdBool[0]));
 
                 mcdBool[dwCompIndex].fValue = 1;
                 res = mixerSetControlDetails(hMixer, &mcd, MIXER_SETCONTROLDETAILSF_VALUE);
@@ -418,7 +419,7 @@ bool MixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
     if(res != MMSYSERR_NOERROR)
         return false;
 
-    res = mixerGetDevCaps((UINT_PTR)hMixer, reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
+    res = mixerGetDevCaps(reinterpret_cast<UINT_PTR>(hMixer), reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
     if(res != MMSYSERR_NOERROR)
     {
         mixerClose(hMixer);
@@ -440,7 +441,7 @@ bool MixerGetWaveOutName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
 	if(res != MMSYSERR_NOERROR)
 		return false;
 
-    res = mixerGetDevCaps((UINT_PTR)hMixer, reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
+    res = mixerGetDevCaps(reinterpret_cast<UINT_PTR>(hMixer), reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
 	if(res != MMSYSERR_NOERROR)
     {
         mixerClose(hMixer);

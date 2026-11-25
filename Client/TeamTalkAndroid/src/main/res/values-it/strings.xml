@@ -28,8 +28,8 @@
     <string name="text_cmd_leftchan">Canale sinistro:</string>
     <string name="text_cmd_joinroot">Canale principale unito</string>
     <string name="text_cmd_leftroot">Canale principale sinistro</string>
-    <string name="text_cmd_userjoinchan">si unì al canale</string>
-    <string name="text_cmd_userleftchan">lasciare il canale</string>
+    <string name="text_cmd_userjoinchan">%1$s si unì al canale</string>
+    <string name="text_cmd_userleftchan">%1$s lasciare il canale</string>
     <string name="pref_cat_subscriptions">Abbonamenti</string>
     <string name="pref_cat_tts">Configura messaggi di sintesi vocale</string>
     <string name="pref_header_general">Generale</string>
@@ -108,10 +108,10 @@
     <string name="pref_title_voice_processing_checkbox">Attiva l\'elaborazione vocale</string>
     <string name="pref_summary_voice_processing_checkbox">Usa la cancellazione dell\'eco e il controllo automatico del volume</string>
 
-    <string name="text_tts_loggedin">ha connesso</string>
-    <string name="text_tts_loggedout">ha disconnesso</string>
-    <string name="text_tts_joined_chan">si è unito al canale</string>
-    <string name="text_tts_left_chan">lasciato il canale</string>
+    <string name="text_tts_loggedin">%1$s ha connesso</string>
+    <string name="text_tts_loggedout">%1$s ha disconnesso</string>
+    <string name="text_tts_joined_chan">%1$s si è unito al canale</string>
+    <string name="text_tts_left_chan">%1$s lasciato il canale</string>
     <string name="text_tts_private_message">Messaggio privato da %1$s: %2$s</string>
     <string name="text_tts_channel_message">Messaggio del canale da %1$s: %2$s</string>
     <string name="text_tts_broadcast_message">Messaggio generale da %1$s: %2$s</string>

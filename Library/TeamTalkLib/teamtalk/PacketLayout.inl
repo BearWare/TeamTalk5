@@ -21,6 +21,52 @@
  *
  */
 
+#include <ace/ACE.h> // ACE::crc32
+#include <ace/OS.h> // ACE_NEW
+
+#if defined(ENABLE_ENCRYPTION)
+#include <openssl/evp.h>
+#endif
+
+namespace teamtalk {
+
+    constexpr auto  CRYPTKEY_SIZE = 32;
+
+    template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
+    class CryptPacket : public FieldPacket
+    {
+        using decrypt_pkt_t = std::unique_ptr< PACKETTYPE >;
+    public:
+        CryptPacket(const PACKETTYPE& p, const std::array<uint8_t, CRYPTKEY_SIZE>& encryptkey);
+        CryptPacket(const char* packet, uint16_t packet_size);
+        CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
+        std::unique_ptr< PACKETTYPE > Decrypt(const std::array<uint8_t, CRYPTKEY_SIZE>& decryptkey) const;
+
+        enum : uint8_t
+        {
+            FIELDTYPE_CRYPTDATA = FIELDTYPE_LAST + 1,
+        };
+    };
+
+    using CryptVoicePacket = CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE>;
+    using CryptAudioFilePacket = CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO>;
+
+    using CryptVideoCapturePacket = CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO>;
+    using CryptVideoFilePacket = CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO>;
+
+    using CryptDesktopPacket = CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP>;
+
+    using CryptDesktopAckPacket = CryptPacket<DesktopAckPacket, PACKET_KIND_DESKTOP_ACK_CRYPT, PACKET_KIND_DESKTOP_ACK>;
+
+    using CryptDesktopNakPacket = CryptPacket<DesktopNakPacket, PACKET_KIND_DESKTOP_NAK_CRYPT, PACKET_KIND_DESKTOP_NAK>;
+
+    using CryptDesktopCursorPacket = CryptPacket<DesktopCursorPacket, PACKET_KIND_DESKTOPCURSOR_CRYPT, PACKET_KIND_DESKTOPCURSOR>;
+
+    using CryptDesktopInputPacket = CryptPacket<DesktopInputPacket, PACKET_KIND_DESKTOPINPUT_CRYPT, PACKET_KIND_DESKTOPINPUT>;
+
+    using CryptDesktopInputAckPacket = CryptPacket<DesktopInputAckPacket, PACKET_KIND_DESKTOPINPUT_ACK_CRYPT, PACKET_KIND_DESKTOPINPUT_ACK>;
+
+
 template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
 CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket(const char* packet, uint16_t packet_size)
 : FieldPacket(packet, packet_size)
@@ -167,11 +213,20 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     decrypt_len += tmpLen;
     assert(decrypt_len <= alloc_size);
     tmpLen = 0;
-    status = EVP_DecryptFinal(aesDecCtx, 
-                              reinterpret_cast<uint8_t*>(&decrypt_buf[decrypt_len]), 
-                              &tmpLen);
+    if(status == 1)
+        status = EVP_DecryptFinal(aesDecCtx,
+                                  reinterpret_cast<uint8_t*>(&decrypt_buf[decrypt_len]),
+                                  &tmpLen);
     decrypt_len += tmpLen;
     assert(decrypt_len <= alloc_size);
+
+    //data must decrypt and have room for the crc16
+    if(status != 1 || decrypt_len < 2)
+    {
+        MYTRACE(ACE_TEXT("Failed to decrypt packet %d from #%d\n"), PACKET_KIND_CRYPT, GetSrcUserID());
+        delete [] decrypt_buf;
+        return decrypt_pkt_t();
+    }
 
     //crc16 is last 2 bytes of decrypted data chunk
     const uint8_t* ptr = decrypt_buf;
@@ -196,3 +251,4 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     return p;
 }
 
+} // namespace teamtalk

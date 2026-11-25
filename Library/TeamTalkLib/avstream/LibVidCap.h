@@ -26,12 +26,9 @@
 
 #include "VideoCapture.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
-#include <ace/Singleton.h>
 #include <vidcap/vidcap.h>
-
-#include <map>
 
 class LibVidCap : public vidcap::VideoCapture
 {
@@ -41,7 +38,7 @@ public:
 
     vidcap::vidcap_devices_t GetDevices();
 
-    bool InitVideoCapture(const ACE_TString& deviceid,
+    bool InitVideoCapture(const tstring& deviceid,
                           const media::VideoFormat& vidfmt);
 
     bool StartVideoCapture();

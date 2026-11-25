@@ -28,7 +28,7 @@
 #include "PacketLayout.h"
 
 #include <ace/Basic_Types.h>
-#include <ace/SString.h>
+
 #include <map>
 
 namespace teamtalk {
@@ -43,35 +43,35 @@ namespace teamtalk {
 
         int GetUserID() const { return m_userid; }
 
-        void SetNickname(const ACE_TString& name){m_nickname = name;}
-        const ACE_TString& GetNickname() const {return m_nickname;}
+        void SetNickname(const tstring& name){m_nickname = name;}
+        const tstring& GetNickname() const {return m_nickname;}
 
-        virtual const ACE_TString& GetUsername() const = 0;
+        virtual const tstring& GetUsername() const = 0;
         virtual UserTypes GetUserType() const = 0;
         virtual int GetUserData() const = 0;
 
-        void SetIpAddress(const ACE_TString& ipaddr){ m_ipaddr = ipaddr; }
-        const ACE_TString& GetIpAddress() const { return m_ipaddr; }
+        void SetIpAddress(const tstring& ipaddr){ m_ipaddr = ipaddr; }
+        const tstring& GetIpAddress() const { return m_ipaddr; }
 
         void SetStatusMode(int nStatusMode){m_statusmode = nStatusMode;}
         int GetStatusMode() const { return m_statusmode; }
 
-        void SetStatusMessage(const ACE_TString& msg){ m_statusmsg = msg; }
-        ACE_TString GetStatusMessage() const { return m_statusmsg; }
+        void SetStatusMessage(const tstring& msg){ m_statusmsg = msg; }
+        tstring GetStatusMessage() const { return m_statusmsg; }
 
-        void SetClientVersion(const ACE_TString& version){m_version = version;}
-        ACE_TString GetClientVersion() const {return m_version;}
+        void SetClientVersion(const tstring& version){m_version = version;}
+        tstring GetClientVersion() const {return m_version;}
 
         void SetPacketProtocol(int protocol){ m_packet_protocol = protocol; }
         int GetPacketProtocol() const { return m_packet_protocol; }
 
-        void UpdateLastTimeStamp(ACE_UINT32 tm);
-        void UpdateLastTimeStamp(PacketKind packet_kind, ACE_UINT32 tm);
+        void UpdateLastTimeStamp(uint32_t tm);
+        void UpdateLastTimeStamp(PacketKind packet_kind, uint32_t tm);
         void UpdateLastTimeStamp(const FieldPacket& pkt);
 
-        ACE_UINT32 GetLastTimeStamp(bool* is_set = nullptr) const;
-        ACE_UINT32 GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = nullptr) const;
-        ACE_UINT32 GetLastTimeStamp(PacketKind packet_kind, bool* is_set = nullptr) const;
+        uint32_t GetLastTimeStamp(bool* is_set = nullptr) const;
+        uint32_t GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = nullptr) const;
+        uint32_t GetLastTimeStamp(PacketKind packet_kind, bool* is_set = nullptr) const;
         // MAX_PAYLOAD_DATA_SIZE
         void SetMaxDataChunkSize(int size) { m_mtu_data_size = size; }
         int GetMaxDataChunkSize() const { return m_mtu_data_size; }
@@ -79,24 +79,24 @@ namespace teamtalk {
         void SetMaxPayloadSize(int size) { m_mtu_max_payload_size = size; }
         int GetMaxPayloadSize() const { return m_mtu_max_payload_size; }
 
-        void SetClientName(const ACE_TString& name) { m_clientname = name; }
-        ACE_TString GetClientName() const { return m_clientname; }
+        void SetClientName(const tstring& name) { m_clientname = name; }
+        tstring GetClientName() const { return m_clientname; }
 
     private:
         int m_userid = 0;
         int m_packet_protocol = 0;
-        ACE_TString m_ipaddr;
+        tstring m_ipaddr;
         int m_statusmode = 0;
-        ACE_TString m_statusmsg;
+        tstring m_statusmsg;
         bool m_tm_ok = false;
-        ACE_UINT32 m_timestamp = 0;
+        uint32_t m_timestamp = 0;
         int m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
-        using packet_timestamps_t = std::map<PacketKind, ACE_UINT32>;
+        using packet_timestamps_t = std::map<PacketKind, uint32_t>;
         packet_timestamps_t m_pkt_timestamps;
     protected:
-        ACE_TString m_nickname;
-        ACE_TString m_version;
-        ACE_TString m_clientname;
+        tstring m_nickname;
+        tstring m_version;
+        tstring m_clientname;
     };
 } // namespace teamtalk
 #endif

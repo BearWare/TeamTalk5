@@ -30,32 +30,33 @@
 
 #include <cstdint>
 #include <cstring>
+#include <span>
 #include <vector>
 
 constexpr auto ONE_SEC_MILLIS = 1000;
 
 // Returns number of bytes from number of 'samples' with 'channels'
-constexpr auto PCM16_BYTES(int samples, int channels)
+constexpr size_t PCM16_BYTES(size_t samples, size_t channels)
 {
-    return static_cast<size_t>(samples) * channels * sizeof(short);
+    return samples * channels * sizeof(short);
 }
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
-constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)
+constexpr size_t PCM16_BYTES_DURATION(size_t bytes, size_t channels, size_t samplerate)
 {
     return ((bytes / channels / sizeof(short)) * ONE_SEC_MILLIS) / samplerate;
 }
 // Returns number of msec from number of 'samples' at given 'samplerate'
-constexpr auto PCM16_SAMPLES_DURATION(int samples, int samplerate)
+constexpr size_t PCM16_SAMPLES_DURATION(size_t samples, size_t samplerate)
 {
     return ((samples / samplerate) * ONE_SEC_MILLIS) + (((samples % samplerate) * ONE_SEC_MILLIS) / samplerate);
 }
 // Returns number of samples from 'duration' msec at given 'samplerate'
-constexpr auto PCM16_DURATION_SAMPLES(int duration, int samplerate)
+constexpr size_t PCM16_DURATION_SAMPLES(size_t duration, size_t samplerate)
 {
     return ((duration / ONE_SEC_MILLIS) * samplerate) + (((duration % ONE_SEC_MILLIS) != 0) ? ((samplerate * (duration % ONE_SEC_MILLIS)) / ONE_SEC_MILLIS) : 0);
 }
 
-constexpr auto RGB32_BYTES(int w, int h)
+constexpr auto RGB32_BYTES(size_t w, size_t h)
 {
     return h * w * 4;
 }
@@ -158,31 +159,27 @@ namespace media
     {
         short* input_buffer = nullptr; //for recorded frame
         const short* output_buffer = nullptr; //for echo cancel frame
-        int input_samples;
-        int output_samples;
+        int input_samples = 0;
+        int output_samples = 0;
         AudioFormat inputfmt;
         AudioFormat outputfmt;
         int streamid = 0;
-        int soundgrpid;
-        uint32_t userdata;
-        bool force_enc; //force encoding of frame
-        bool voiceact_enc; //encode if voice active
-        uint32_t timestamp;
+        int soundgrpid = 0;
+        uint32_t userdata = 0;
+        bool force_enc = false; //force encoding of frame
+        bool voiceact_enc = false; //encode if voice active
+        uint32_t timestamp = 0;
         uint32_t sample_no = 0;
         int duplex_callback_delay = 0; // The time between capture and expected rendering of the samples, taken from the PortAudio duplex callback timing
-        Rational gain; // if != 1 then apply gain
+        Rational gain = {1, 1}; // if != 1 then apply gain
 
-        AudioFrame()
-        : soundgrpid(0), userdata(0), timestamp(GETTIMESTAMP()), gain(1, 1)
+        std::span<short> InputSamples() const
         {
-            input_samples = output_samples = 0;
-            
-            
-            force_enc = voiceact_enc = false;
-            
+            return std::span(input_buffer, input_samples * static_cast<size_t>(inputfmt.channels));
         }
+        AudioFrame() = default;
 
-        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, ACE_UINT32 sampleindex = 0)
+        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, uint32_t sampleindex = 0)
         : AudioFrame()
         {
             inputfmt = infmt;
@@ -192,7 +189,6 @@ namespace media
         }
 
         AudioFrame(ACE_Message_Block* mb)
-        : gain(1, 1)
         {
             auto* frm = reinterpret_cast<AudioFrame*>(mb->base());
             *this = *frm;

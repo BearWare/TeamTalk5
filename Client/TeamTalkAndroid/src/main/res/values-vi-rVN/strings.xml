@@ -29,10 +29,10 @@
     <string name="text_cmd_leftchan">Đã rời khỏi kênh:</string>
     <string name="text_cmd_joinroot">Đã tham gia kênh root</string>
     <string name="text_cmd_leftroot">Rời khỏi kênh root</string>
-    <string name="text_cmd_userjoinchan">Đã tham gia kênh</string>
-    <string name="text_cmd_userleftchan">Rời khỏi kênh</string>
-    <string name="text_cmd_userloggedout">đã đăng xuất</string>
-    <string name="text_cmd_userloggedin">đã đăng nhập</string>
+    <string name="text_cmd_userjoinchan">%1$s Đã tham gia kênh</string>
+    <string name="text_cmd_userleftchan">%1$s Rời khỏi kênh</string>
+    <string name="text_cmd_userloggedout">%1$s đã đăng xuất</string>
+    <string name="text_cmd_userloggedin">%1$s đã đăng nhập</string>
     <string name="pref_cat_subscriptions">Đăng ký</string>
     <string name="pref_cat_connection_general">Chung</string>
     <string name="pref_cat_tts">Định cấu hình các tin nhắn thông báo</string>
@@ -164,10 +164,10 @@
     <string name="pref_title_voice_processing_checkbox">Bật xử lý giọng nói</string>
     <string name="pref_summary_voice_processing_checkbox">Sử dụng loại bỏ tiếng vang và điều khiển khuếch đại tự động</string>
 
-    <string name="text_tts_loggedin">Đã đăng nhập</string>
-    <string name="text_tts_loggedout">đã đăng xuất</string>
-    <string name="text_tts_joined_chan">đã tham gia kênh</string>
-    <string name="text_tts_left_chan">đã rời khỏi kênh</string>
+    <string name="text_tts_loggedin">%1$s Đã đăng nhập</string>
+    <string name="text_tts_loggedout">%1$s đã đăng xuất</string>
+    <string name="text_tts_joined_chan">%1$s đã tham gia kênh</string>
+    <string name="text_tts_left_chan">%1$s đã rời khỏi kênh</string>
     <string name="text_tts_private_message">Tin nhắn riêng từ %1$s - %2$s</string>
     <string name="text_tts_channel_message">Tin nhắn từ %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Tin nhắn thông báo từ %1$s - %2$s</string>

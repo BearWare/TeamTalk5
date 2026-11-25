@@ -25,7 +25,6 @@
 #define FFMPEGRESAMPLER_H
 
 #include "AudioResampler.h"
-
 #include "codec/MediaUtil.h"
 
 class FFMPEGResampler : public AudioResampler

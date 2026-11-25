@@ -33,11 +33,11 @@ void tt_assert(const char* assertion, const char* file, int line);
 
 #if defined(NDEBUG)
 
-#define TTASSERT(_EX) ((_EX) ? (void)0 : tt_assert(#_EX, __FILE__, __LINE__))
+#define TTASSERT(_EX) ((_EX) ? static_cast<void>(0) : tt_assert(#_EX, __FILE__, __LINE__))
 
 #else  // !NDEBUG
 
-#define TTASSERT(_EX) do { (_EX)? (void)0 : tt_assert(#_EX, __FILE__, __LINE__);  assert(_EX); } while(0) /* NOLINT(cppcoreguidelines-avoid-do-while) */
+#define TTASSERT(_EX) do { (_EX)? static_cast<void>(0) : tt_assert(#_EX, __FILE__, __LINE__);  assert(_EX); } while(0) /* NOLINT(cppcoreguidelines-avoid-do-while) */
 
 #endif
 
@@ -45,7 +45,7 @@ void tt_assert(const char* assertion, const char* file, int line);
 #if defined(_DEBUG)
 
 //ensure that it's the thread owner of the reactor which is executing
-constexpr void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
+static void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
 {
     ACE_thread_t tid {};
     int ret = reactor.owner(&tid);
@@ -53,7 +53,7 @@ constexpr void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
     TTASSERT(ACE_Thread::self() == tid);
 }
 
-constexpr void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
+static void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
 {
     ACE_thread_t tid {};
     int ret = reactor.owner(&tid);
@@ -70,9 +70,9 @@ constexpr void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
 #endif /* ACE_WIN32 */
 
 #else
-#define ASSERT_REACTOR_THREAD(...)             (void)0
-#define ASSERT_NOT_REACTOR_THREAD(...)         (void)0
-#define ASSERT_MUTEX_LOCKED(...)               (void)0
+#define ASSERT_REACTOR_THREAD(...)             static_cast<void>(0)
+#define ASSERT_NOT_REACTOR_THREAD(...)         static_cast<void>(0)
+#define ASSERT_MUTEX_LOCKED(...)               static_cast<void>(0)
 #endif
 
 #endif // _TTASSERT_H

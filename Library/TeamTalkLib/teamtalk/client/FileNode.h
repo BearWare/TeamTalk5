@@ -25,7 +25,6 @@
 #define FILENODE_H
 
 #include "Client.h"
-#include "myace/MyACE.h"
 #include "myace/TimerHandler.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
@@ -35,6 +34,8 @@
 #include <ace/Basic_Types.h>
 #include <ace/INET_Addr.h>
 #include <ace/Message_Queue.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Reactor.h>
 
 #include <vector>
@@ -70,7 +71,7 @@ namespace teamtalk {
         const teamtalk::FileTransfer& GetFileTransferInfo() const { return m_transfer; }
 
         //TimerListener functions
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)
@@ -94,7 +95,7 @@ namespace teamtalk {
         void InitTransfer();
         void UpdateBytesTransferred();
 
-        void ProcessCommand(const ACE_CString& cmdline);
+        void ProcessCommand(const std::string& cmdline);
         void HandleWelcome(const mstrings_t& properties);
         void HandleError(const mstrings_t& properties);
         void HandleFileDeliver(const mstrings_t& properties);
@@ -110,7 +111,7 @@ namespace teamtalk {
 
 
     private:
-        void TransmitCommand(const ACE_TString& command);
+        void TransmitCommand(const tstring& command);
 
         void SendFile(ACE_Message_Queue_Base& msg_queue);
 
@@ -123,7 +124,7 @@ namespace teamtalk {
         ACE_INET_Addr m_remoteAddr;
         ServerProperties m_srvprop;
         bool m_binarymode = false;
-        ACE_CString m_readbuffer, m_sendbuffer;
+        std::string m_readbuffer, m_sendbuffer;
         std::vector<char> m_filebuffer;
 
         bool m_pending_complete = false, m_completed = false;

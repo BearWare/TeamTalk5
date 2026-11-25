@@ -23,7 +23,7 @@
 
 #include "HotKey.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ace/OS_NS_Thread.h>
 #include <ace/Thread_Manager.h>
@@ -87,7 +87,7 @@ void HotKey::KeyToggle(UINT vkcode, BOOL keydown)
                 if (res.size() == m_hotkey.keys.size()) {
                     m_hotkey.listener->OnHotKeyActive(m_hotkey.hotkeyid);
                     m_hotkey.active = true;
-                    MYTRACE(ACE_TEXT("HK Active %d\n"), m_hotkey.hotkeyid);
+                    MYTRACE(TTEXT("HK Active %d\n"), m_hotkey.hotkeyid);
                 }
             }
         }
@@ -108,7 +108,7 @@ void HotKey::KeyToggle(UINT vkcode, BOOL keydown)
             if(m_hotkeys[i].active && 
                 m_hotkeys[i].keys.contains(vkcode))
             {
-                MYTRACE(ACE_TEXT("HK Inactive %d\n"), m_hotkeys[i].hotkeyid);
+                MYTRACE(TTEXT("HK Inactive %d\n"), m_hotkeys[i].hotkeyid);
                 m_hotkeys[i].listener->OnHotKeyInactive(m_hotkeys[i].hotkeyid);
                 m_hotkeys[i].active = false;
             }
@@ -182,10 +182,10 @@ static LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if ((lParam & 0x80000000) != 0) //a key is up
         {
-            HOTKEY->KeyToggle((UINT) wParam, FALSE);
+            HOTKEY->KeyToggle(static_cast<UINT>(wParam), FALSE);
         } else if (((0x40000000 & lParam) == 0) && ((lParam & 0x80000000) == 0)) //key is down
         {
-            HOTKEY->KeyToggle((UINT)wParam, TRUE);
+            HOTKEY->KeyToggle(static_cast<UINT>(wParam), TRUE);
         }
     }
     return (CallNextHookEx(hKeyHook,

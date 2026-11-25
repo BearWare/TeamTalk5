@@ -45,7 +45,7 @@ QStringList FilesView::selectedFiles()
 
 void FilesView::dragEnterEvent(QDragEnterEvent *event)
 {
-    if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) == CLIENT_CLOSED)
         return;
     foreach(QUrl url, event->mimeData()->urls())
         if (!url.isEmpty())
@@ -57,7 +57,7 @@ void FilesView::dragEnterEvent(QDragEnterEvent *event)
 
 void FilesView::dragMoveEvent(QDragMoveEvent * event)
 {
-    if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) == CLIENT_CLOSED)
         return;
 
     foreach(QUrl url, event->mimeData()->urls())

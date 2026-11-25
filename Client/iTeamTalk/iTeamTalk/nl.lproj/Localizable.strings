@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ is het kanaal binnengekomen";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ heeft het kanaal verlaten";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ has logged on";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ has logged out";
+
 /* log entry */
 "%@ joined channel" = "%@ is kanaal binnengekomen";
 
@@ -243,18 +255,6 @@
    user detail */
 "General" = "Algemeen";
 
-/* TTS EVENT */
-"has joined the channel" = "is het kanaal binnengekomen";
-
-/* TTS EVENT */
-"has left the channel" = "heeft het kanaal verlaten";
-
-/* TTS EVENT */
-"has logged on" = "has logged on";
-
-/* TTS EVENT */
-"has logged out" = "has logged out";
-
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
 
@@ -322,6 +322,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Mediabestand- vs. stemvolume";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Message of the Day";
@@ -484,6 +487,9 @@
 /* serverlist */
 "Public server" = "Publieke server";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Push-to-talk-blokkade";
 
@@ -603,6 +609,9 @@
 /* server entry */
 "TCP Port" = "TCP-poort";
 
+/* accessibility label */
+"Text Messaging" = "Tekstberichten";
+
 /* preferences */
 "Text To Speech Events" = "Tekst-naar-spraak-gebeurtenissen";
 
@@ -660,6 +669,9 @@
 
 /* channel list */
 "User female" = "User female";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "Gebruiker komt kanaal binnen";

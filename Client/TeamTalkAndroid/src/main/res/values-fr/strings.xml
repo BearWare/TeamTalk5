@@ -28,8 +28,8 @@
     <string name="text_cmd_leftchan">Canal quitté :</string>
     <string name="text_cmd_joinroot">Canal principal rejoint</string>
     <string name="text_cmd_leftroot">Canal principal quitté</string>
-    <string name="text_cmd_userjoinchan">a rejoint le canal</string>
-    <string name="text_cmd_userleftchan">a quitté le canal</string>
+    <string name="text_cmd_userjoinchan">%1$s a rejoint le canal</string>
+    <string name="text_cmd_userleftchan">%1$s a quitté le canal</string>
     <string name="pref_cat_subscriptions">Abonnements</string>
     <string name="pref_cat_tts">Paramètres de synthèse vocale</string>
     <string name="pref_cat_tts_events">Configurer les messages par synthèse vocale</string>
@@ -109,10 +109,10 @@
     <string name="pref_title_voice_processing_checkbox">Activer le traitement de la voix</string>
     <string name="pref_summary_voice_processing_checkbox">Utiliser l\'annulation d\'écho et le contrôle automatique du volume</string>
 
-    <string name="text_tts_loggedin">s\'est connecté</string>
-    <string name="text_tts_loggedout">s\'est déconnecté</string>
-    <string name="text_tts_joined_chan">a rejoint le canal</string>
-    <string name="text_tts_left_chan">a quitté le canal</string>
+    <string name="text_tts_loggedin">%1$s s\'est connecté</string>
+    <string name="text_tts_loggedout">%1$s s\'est déconnecté</string>
+    <string name="text_tts_joined_chan">%1$s a rejoint le canal</string>
+    <string name="text_tts_left_chan">%1$s a quitté le canal</string>
     <string name="text_tts_private_message">Message privé de %1$s : %2$s</string>
     <string name="text_tts_channel_message">Message de canal de %1$s : %2$s</string>
     <string name="text_tts_broadcast_message">Message général de %1$s : %2$s</string>
@@ -383,8 +383,8 @@
     <string name="speexvbrinterval">Intervalle de transmission</string>
     <string name="voicevolume">Volume de la voix</string>
     <string name="mediavolume">Volume des fichiers média</string>
-    <string name="text_cmd_userloggedout">Déconnecté</string>
-    <string name="text_cmd_userloggedin">Connecté</string>
+    <string name="text_cmd_userloggedout">%1$s Déconnecté</string>
+    <string name="text_cmd_userloggedin">%1$s Connecté</string>
     <string name="stat_unauthorized">Non Autorisé</string>
     <string name="online_users">Utilisateurs en ligne</string>
     <string name="online_user_info_nickname">Pseudo</string>

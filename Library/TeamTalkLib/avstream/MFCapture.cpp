@@ -31,6 +31,7 @@
 #include <mfidl.h>
 #include <mfreadwrite.h>
 
+#include <array>
 #include <cassert>
 #include <map>
 #include <thread>
@@ -39,7 +40,7 @@ using namespace vidcap;
 
 MFCapture::~MFCapture()
 {
-    MYTRACE(ACE_TEXT("~MFCapture()\n"));
+    MYTRACE(TTEXT("~MFCapture()\n"));
 
     StopVideoCapture();
 }
@@ -100,15 +101,15 @@ vidcap_devices_t MFCapture::GetDevices()
             pInputType.Release();
         }
 
-        ACE_TCHAR* lpszName;
+        tchar* lpszName;
         if (SUCCEEDED(ppDevices[i]->GetAllocatedString(MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME,
                       &lpszName, NULL)))
         {
             dev.devicename = lpszName;
-            dev.api = ACE_TEXT("Microsoft Media Foundation");
-            ACE_TCHAR buff[20];
-            ACE_OS::snprintf(buff, 20, ACE_TEXT("%d"), i);
-            dev.deviceid = buff;
+            dev.api = TTEXT("Microsoft Media Foundation");
+            std::array<tchar, 20> buff{};
+            tsnprintf(buff.data(), buff.size(), TTEXT("%d"), i);
+            dev.deviceid = buff.data();
             devs.push_back(dev);
             CoTaskMemFree(lpszName);
         }
@@ -182,7 +183,7 @@ namespace vidcap {
 
 }
 
-bool MFCapture::InitVideoCapture(const ACE_TString& deviceid,
+bool MFCapture::InitVideoCapture(const tstring& deviceid,
                                  const media::VideoFormat& vidfmt)
 {
     if(m_session)
@@ -245,7 +246,7 @@ void MFCapture::UnregisterVideoFormat(media::FourCC fcc)
         m_session->RemoveCallback(fcc);
 }
 
-void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
+void MFCapture::Run(CaptureSession* session, tstring deviceid)
 {
     HRESULT hr;
     UINT32 cDevices = 0;
@@ -257,7 +258,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
     CComPtr<IMFMediaType> pInputType;
     DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
-    unsigned devid = ACE_OS::atoi(deviceid.c_str());
+    unsigned const devid = static_cast<unsigned>(String2I(deviceid));
     bool start = false;
 
 #define RETURNONERROR(error)                \
@@ -294,7 +295,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
     RETURNONERROR(FAILED(hr));
 
     hr = pReaderAttributes->SetUINT32(MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING, TRUE);
-    MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to enable video processing\n"));
+    MYTRACE_COND(FAILED(hr), TTEXT("Failed to enable video processing\n"));
 
     hr = MFCreateSourceReaderFromMediaSource(pSource, pReaderAttributes, &pReader);
     RETURNONERROR(FAILED(hr));
@@ -342,7 +343,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
         CComPtr<IMFSample> pSample;
         DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
         LONGLONG llVideoTimestamp = 0;
-        ACE_UINT32 uTimeStamp;
+        uint32_t uTimeStamp;
 
         hr = pReader->ReadSample(dwVideoStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llVideoTimestamp, &pSample);
         if (FAILED(hr))
@@ -354,7 +355,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
         if (dwStreamFlags & MF_SOURCE_READERF_ERROR)
             break;
 
-        uTimeStamp = ACE_UINT32(llVideoTimestamp / 10000);
+        uTimeStamp = uint32_t(llVideoTimestamp / 10000);
         uTimeStamp = GETTIMESTAMP();
 
         DWORD dwBufCount = 0;

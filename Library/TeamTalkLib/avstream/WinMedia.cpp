@@ -21,6 +21,7 @@
  *
  */
 
+#include "mystd/MyStd.h"
 #include "WinMedia.h"
 #include "AudioResampler.h"
 
@@ -32,9 +33,10 @@
 #include <initguid.h>
 #include <streams.h>
 #include <assert.h>
+#include <memory>
 
 
-bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
+bool GetDSMediaFileProp(const tstring& filename, MediaFileProp& fileprop)
 {
     DSWrapperThread ds_thread(NULL);
 
@@ -78,7 +80,7 @@ public:
         pMediaSample->GetTime(&tStart, &tStop);
 
         tStart = tStart / 10000; //turn to msec
-        double SampleTime = (double)tStart / 1000.0;
+        double SampleTime = static_cast<double>(tStart) / 1000.0;
         long nBufferLen = pMediaSample->GetActualDataLength();
         PBYTE pBuffer;
         HRESULT hr = pMediaSample->GetPointer(&pBuffer);
@@ -91,10 +93,10 @@ public:
                                       m_media_in.video.width,
                                       m_media_in.video.height,
                                       m_media_out.video.fourcc, false);
-        media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
+        media_frame.timestamp = static_cast<uint32_t>(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-        MYTRACE(ACE_TEXT("Video frame submitting %u. Frames: %u\n"),
+        MYTRACE(TTEXT("Video frame submitting %u. Frames: %u\n"),
                 media_frame.timestamp, unsigned(m_video_queue.message_count()));
 
         ACE_Time_Value tvzero;
@@ -104,14 +106,14 @@ public:
             //ACE_Message_Block* tmp;
             //if (m_video_queue.dequeue_tail(tmp, &tvzero) >= 0)
             //{
-            //    MYTRACE(ACE_TEXT("Video replaced tail. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //    MYTRACE(TTEXT("Video replaced tail. Frames: %u\n"), unsigned(m_video_queue.message_count()));
             //    tmp->release();
             //}
 
             //if (m_video_queue.enqueue(mb) < 0)
             //{
             //    mb->release();
-            //    MYTRACE(ACE_TEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //    MYTRACE(TTEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
             //}
         }
 
@@ -176,7 +178,7 @@ public:
         pMediaSample->GetTime(&tStart, &tStop);
 
         tStart = tStart / 10000; //turn to msec
-        double SampleTime = (double)tStart / 1000.0;
+        double SampleTime = static_cast<double>(tStart) / 1000.0;
         long nBufferLen = pMediaSample->GetActualDataLength();
         PBYTE pBuffer;
         HRESULT hr = pMediaSample->GetPointer(&pBuffer);
@@ -195,15 +197,13 @@ public:
         //Windows' DMO resampler only wants to work with even number of samples
         if(output_samples_total % 2)
             output_samples_total++;
-        //MYTRACE(ACE_TEXT("Sample time: %g, buffer: %d\n"), SampleTime, nBufferLen);
+        //MYTRACE(TTEXT("Sample time: %g, buffer: %d\n"), SampleTime, nBufferLen);
         size_t bytes_total = PCM16_BYTES(output_samples_total,
                                          m_media_out.audio.channels);
-        ACE_Message_Block* mb;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(bytes_total + sizeof(media::AudioFrame)),
-                       S_OK);
+        auto mb = std::make_unique<ACE_Message_Block>(bytes_total + sizeof(media::AudioFrame));
         
         media::AudioFrame media_frame;
-        media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
+        media_frame.timestamp = static_cast<uint32_t>(SampleTime * 1000.0);
         media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
         media_frame.input_samples = output_samples_total; //overwrite later
         media_frame.inputfmt = m_media_out.audio;
@@ -220,14 +220,17 @@ public:
         mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
         mb->wr_ptr(resampled_bytes); //advance past resampled output
 
-        MYTRACE(ACE_TEXT("Audio - Frame submitting %u. . Frames: %u\n"), media_frame.timestamp, unsigned(m_audio_queue.message_count()));
+        MYTRACE(TTEXT("Audio - Frame submitting %u. . Frames: %u\n"), media_frame.timestamp, unsigned(m_audio_queue.message_count()));
 
         //store audio
         ACE_Time_Value tvzero;
-        if (m_audio_queue.enqueue(mb/*, &tvzero*/) < 0)
+        if (m_audio_queue.enqueue(mb.get()/*, &tvzero*/) < 0)
         {
-            MYTRACE(ACE_TEXT("DSWrapper audio buffer closed\n"));
-            mb->release();
+            MYTRACE(TTEXT("DSWrapper audio buffer closed\n"));
+        }
+        else
+        {
+            mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
         }
         return S_OK;
     }
@@ -281,26 +284,22 @@ DSWrapperThread::DSWrapperThread(MediaStreamListener* listener)
 DSWrapperThread::~DSWrapperThread()
 {
     Close();
-    MYTRACE(ACE_TEXT("~DSWrapperThread()\n"));
+    MYTRACE(TTEXT("~DSWrapperThread()\n"));
 }
 
 bool DSWrapperThread::OpenFile(const MediaFileProp& in_prop,
                                const MediaStreamOutput& out_prop)
 {
-    if(this->thr_count())
+    if(m_thread.joinable())
         return false;
 
     m_media_in = in_prop;
     m_media_out = out_prop;
 
-    int ret = activate();
-    if(ret<0)
-        goto fail;
+    m_thread = std::thread([this] { Run(); });
 
     bool success = false;
-    ret = m_open.get(success);
-
-    if(success)
+    if (m_open.get(success) && success)
     {
         return true;
     }
@@ -326,7 +325,8 @@ void DSWrapperThread::Close()
 
     m_start.set(false);
 
-    this->wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
     //reset semaphore
     m_open.cancel();
@@ -335,7 +335,7 @@ void DSWrapperThread::Close()
     Reset();
 }
 
-int DSWrapperThread::svc()
+void DSWrapperThread::Run()
 {
     HRESULT hr;
     CComPtr<IGraphBuilder> pGraph;
@@ -405,7 +405,7 @@ int DSWrapperThread::svc()
                                          m_media_out.audio.samplerate);
 
         //MYTRACE_COND(output_samples != m_media_out.audio_samples,
-        //             ACE_TEXT("WinMedia, unexpected samples output: %d, got %d\n"),
+        //             TTEXT("WinMedia, unexpected samples output: %d, got %d\n"),
         //             m_media_out.audio_samplerate, output_samples);
         resampler = MakeAudioResampler(pwav->nChannels, pwav->nSamplesPerSec,
                                        m_media_out.audio.channels,
@@ -459,7 +459,7 @@ no_audio:
         pVih = reinterpret_cast<VIDEOINFOHEADER*>(mt_vid.Format());
         BITMAPINFOHEADER bmp_hdr;  // info header of frames of the video
         memcpy(&bmp_hdr, &pVih->bmiHeader, sizeof(bmp_hdr));
-        int video_ms = (int)(pVih->AvgTimePerFrame / 10000);
+        int video_ms = static_cast<int>(pVih->AvgTimePerFrame / 10000);
 /* Example of connect/disconnect pins
         CComPtr<IPin> pVideoGrabPin, pVideoSrcPin;
         hr = GetPin(pVideoGrabberFilter, PINDIR_INPUT, &pVideoGrabPin);
@@ -537,16 +537,16 @@ no_video:
         goto fail_open;
 
     hr = pGraph->QueryInterface(IID_IMediaSeeking, reinterpret_cast<void**>(&pMediaSeeking));
-    MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to query IMediaSeeking\n"));
+    MYTRACE_COND(FAILED(hr), TTEXT("Failed to query IMediaSeeking\n"));
     if(SUCCEEDED(hr))
     {
         hr = pMediaSeeking->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
         assert(SUCCEEDED(hr));
         LONGLONG llTime = 0;
         hr = pMediaSeeking->GetDuration(&llTime);
-        MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to query duration of media file: %s\n"),
+        MYTRACE_COND(!SUCCEEDED(hr), TTEXT("Failed to query duration of media file: %s\n"),
             m_media_in.filename.c_str());
-        m_media_in.duration_ms = (ACE_UINT32)(llTime / 10000);
+        m_media_in.duration_ms = static_cast<uint32_t>(llTime / 10000);
     }
 
     // Turn off the sync clock for max speed
@@ -570,7 +570,7 @@ no_video:
     if(!m_stop && m_listener)
         m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);
 
-    ACE_UINT32 start_time = GETTIMESTAMP();
+    uint32_t start_time = GETTIMESTAMP();
 
     //now run when we have the start time
     hr = pMediaControl->Run();

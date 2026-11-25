@@ -103,7 +103,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel = new NotificationChannel(
                     TRANSFER_NOTIFICATION_CHANNEL_ID,
-                    "File Transfers",
+                    context.getString(R.string.notification_channel_file_transfers),
                     NotificationManager.IMPORTANCE_LOW);
             mChannel.setSound(null, null);
             mChannel.enableVibration(false);

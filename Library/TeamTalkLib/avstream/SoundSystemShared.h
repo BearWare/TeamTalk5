@@ -32,10 +32,8 @@
 
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue_T.h>
-#include <ace/OS_Memory.h>
 #include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
-#include <ace/ace_wchar.h>
 
 #include <algorithm>
 #include <cassert>
@@ -117,7 +115,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             if (m_resample_thread)
                 m_resample_thread->join();
 
-            MYTRACE(ACE_TEXT("~SharedCaptureStream()\n"));
+            MYTRACE(TTEXT("~SharedCaptureStream()\n"));
         }
 
         SoundDeviceFeatures GetCaptureFeatures() override
@@ -131,7 +129,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             m_originalstream = streamer;
             m_sndgrpid = sndgrpid;
 
-            int buffersize = PCM16_BYTES(streamer->framesize, streamer->channels);
+            size_t buffersize = PCM16_BYTES(streamer->framesize, streamer->channels);
             buffersize *= 3; //TODO: what is a good number??
             m_samples_queue.low_water_mark(buffersize);
             m_samples_queue.high_water_mark(buffersize);
@@ -159,7 +157,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 assert(m_keysamplerates.size() <= SHAREDSTREAM_MAX_SAMPLERATES);
             }
 
-            MYTRACE(ACE_TEXT("Number of active inputs on sound device #%d: %u\n"),
+            MYTRACE(TTEXT("Number of active inputs on sound device #%d: %u\n"),
                     streamer->inputdeviceid & SOUND_DEVICEID_MASK, uint32_t(m_resamplers.size()));
 
             // create audio resampler if samplerate/framesize/channels
@@ -189,7 +187,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 }
             }
 
-            MYTRACE(ACE_TEXT("Number of active input resamplers on sound device #%d: %u\n"),
+            MYTRACE(TTEXT("Number of active input resamplers on sound device #%d: %u\n"),
                     streamer->inputdeviceid & SOUND_DEVICEID_MASK, uint32_t(m_resamplers.size()));
 
             return true;
@@ -244,7 +242,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             std::scoped_lock g(m_mutex);
 
-            MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Original for %p samplerate %d, framesize %d, channels %d\n"),
+            MYTRACE_COND(DEBUG_RESAMPLER, TTEXT("Original for %p samplerate %d, framesize %d, channels %d\n"),
                     streamer.recorder, streamer.samplerate,
                     streamer.framesize, streamer.channels);
 
@@ -254,7 +252,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 if (SameStreamProperties(*stream, streamer))
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
-                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Shared for %p samplerate %d, framesize %d, channels %d\n"),
+                    MYTRACE_COND(DEBUG_RESAMPLER, TTEXT("Shared for %p samplerate %d, framesize %d, channels %d\n"),
                                  stream->recorder, stream->samplerate,
                                  stream->framesize, stream->channels);
                 }
@@ -266,20 +264,13 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             if (resample)
             {
-                ACE_Message_Block* mb = nullptr;
-                int const size = PCM16_BYTES(samples, streamer.channels);
-                ACE_NEW(mb, ACE_Message_Block(size));
-                if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
-                {
-                    mb->release();
-                }
-                else
+                size_t const size = PCM16_BYTES(samples, streamer.channels);
+                auto mb = std::make_unique<ACE_Message_Block>(size);
+                if (mb->copy(reinterpret_cast<const char*>(buffer), size) == 0)
                 {
                     ACE_Time_Value tm = ACE_Time_Value::zero;
-                    if (m_samples_queue.enqueue(mb, &tm) < 0)
-                    {
-                        mb->release();
-                    }
+                    if (m_samples_queue.enqueue(mb.get(), &tm) >= 0)
+                        mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
                 }
             }
         }
@@ -310,10 +301,10 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsframesize);
-                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Resampled for samplerate %d, framesize %d, channels %d\n"),
+                    MYTRACE_COND(DEBUG_RESAMPLER, TTEXT("Resampled for samplerate %d, framesize %d, channels %d\n"),
                             cbsr, cbframesize, cbch);
                     MYTRACE_COND(samples != rsframesize,
-                                 ACE_TEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
+                                 TTEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
                                  cbsr, cbch, rsframesize, samples);
 
                     // Now copy samples from m_resample_buffer[key] to
@@ -336,7 +327,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         std::size_t const n_samples = std::min(cbbufspace, rsremain);
 
                         //where to copy from
-                        MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n"),
+                        MYTRACE_COND(DEBUG_RESAMPLER, TTEXT("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n"),
                                 int(cbpos), rspos, cbsr, cbframesize, cbch);
                         assert(rspos + n_samples <= m_resample_buffers[key].size());
                         assert(cbpos + n_samples <= m_callback_buffers[key].size());
@@ -354,7 +345,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                                 if (MakeKey(*streamer) == key)
                                 {
                                     streamer->recorder->StreamCaptureCb(*streamer, cbbufptr, cbframesize);
-                                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Callback for %p samplerate %d, framesize %d, channels %d\n"),
+                                    MYTRACE_COND(DEBUG_RESAMPLER, TTEXT("Callback for %p samplerate %d, framesize %d, channels %d\n"),
                                             streamer->recorder, cbsr, cbframesize, cbch);
                                 }
                             }
@@ -407,12 +398,12 @@ constexpr auto DEBUG_RESAMPLER = 0;
         SharedStreamPlayer(SoundSystem* sndsys)
         : m_sndsys(sndsys)
         {
-            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("SharedStreamPlayer() - %p\n"), this);
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, TTEXT("SharedStreamPlayer() - %p\n"), this);
         }
 
         ~SharedStreamPlayer() override
         {
-            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("~SharedStreamPlayer() - %p\n"), this);
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, TTEXT("~SharedStreamPlayer() - %p\n"), this);
             assert(m_outputs.empty());
         }
 
@@ -427,7 +418,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             std::scoped_lock g(m_mutex);
 
             MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER,
-                         ACE_TEXT("--------------------- Mixer inputs %d -----------------------------\n"),
+                         TTEXT("--------------------- Mixer inputs %d -----------------------------\n"),
                          int(m_active_outputs.size()));
 
             for (auto i : m_outputs)
@@ -436,7 +427,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     continue;
 
                 MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER,
-                             ACE_TEXT("Resample source: %d samples %d channels @ %d Hz duration %d msec. Destination %p: %d samples %d channels @ %d Hz duration %d msec\n"),
+                             TTEXT("Resample source: %d samples %d channels @ %d Hz duration %d msec. Destination %p: %d samples %d channels @ %d Hz duration %d msec\n"),
                              m_orgstream->framesize, m_orgstream->channels, m_orgstream->samplerate,
                              int(PCM16_SAMPLES_DURATION(m_orgstream->framesize, m_orgstream->samplerate)),
                              i.first, i.second->framesize, i.second->channels, i.second->samplerate,
@@ -449,7 +440,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     int mastervol = m_sndsys->GetMasterVolume(i.second->sndgrpid);
                     bool mastermute = m_sndsys->IsAllMute(i.second->sndgrpid);
                     SoftVolume(*i.second, m_tmpbuffer.data(), samples, mastervol, mastermute);
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Same stream properties. Destination: %p\n"), i.first);
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Same stream properties. Destination: %p\n"), i.first);
                 }
                 else
                 {
@@ -461,7 +452,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     int outputsamples = CalcSamples(streamer_resam->samplerate, streamer_resam->framesize, m_orgstream->samplerate);
                     const size_t outputbytes = PCM16_BYTES(outputsamples, m_orgstream->channels);
 
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Duration of queue before: %d msec\n"),
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue before: %d msec\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)));
 
@@ -474,26 +465,19 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         SoftVolume(*streamer_resam, input, streamer_resam->framesize, mastervol, mastermute);
                         short* output = resampler->Resample(input);
 
-                        ACE_Message_Block* mb = nullptr;
-                        ACE_NEW_NORETURN(mb, ACE_Message_Block(outputbytes));
-                        if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) < 0)
-                        {
-                            mb->release();
-                        }
-                        else
+                        auto mb = std::make_unique<ACE_Message_Block>(outputbytes);
+                        if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) >= 0)
                         {
                             ACE_Time_Value tv;
-                            int ret = msgq->enqueue(mb, &tv);
-                            assert(ret >= 0);
-                            if (ret < 0)
-                            {
+                            int ret = msgq->enqueue(mb.get(), &tv);
+                            if (ret >= 0)
+                                mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
+                            else
                                 msgq->close();
-                                mb->release();
-                            }
                         }
                     }
 
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)), unsigned(msgq->message_length()));
 
@@ -539,7 +523,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     }
                     assert(copied == reqbytes);
 
-                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Duration of queue after dequeue: %d msec\n"),
+                    MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue after dequeue: %d msec\n"),
                                  int(PCM16_BYTES_DURATION(msgq->message_length(), streamer.channels,
                                                           streamer.samplerate)));
 
@@ -582,11 +566,11 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             assert(m_outputs.find(player) == m_outputs.end());
 
-            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Added player %p to SharedStreamPlayer %p\n"), player, this);
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, TTEXT("Added player %p to SharedStreamPlayer %p\n"), player, this);
 
             m_outputs[player] = streamer;
 
-            MYTRACE(ACE_TEXT("Number of output streams from sound device #%d: %d\n"),
+            MYTRACE(TTEXT("Number of output streams from sound device #%d: %d\n"),
                     streamer->outputdeviceid & SOUND_DEVICEID_MASK, int(m_outputs.size()));
 
             if (SameStreamProperties(*m_orgstream, *streamer))
@@ -614,7 +598,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
         {
             std::scoped_lock g(m_mutex);
 
-            MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Removed player %p from SharedStreamPlayer %p\n"), player, this);
+            MYTRACE_COND(DEBUG_SHAREDPLAYER, TTEXT("Removed player %p from SharedStreamPlayer %p\n"), player, this);
 
             m_active_outputs.erase(player);
             m_outputs.erase(player);

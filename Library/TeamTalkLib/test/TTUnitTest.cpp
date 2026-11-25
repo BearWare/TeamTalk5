@@ -25,8 +25,10 @@
 
 #include "mystd/MyStd.h"
 
+#include <cstdlib>
+
 std::string g_server_ipaddr = "127.0.0.1";
-const bool GITHUBSKIP = ACE_OS::getenv(ACE_TEXT("GITHUBSKIP")) ? ACE_OS::atoi(ACE_OS::getenv(ACE_TEXT("GITHUBSKIP"))) == 1 : false;
+const bool GITHUBSKIP = std::getenv("GITHUBSKIP") ? std::atoi(std::getenv("GITHUBSKIP")) == 1 : false;
 
 TTInstPtr InitTeamTalk()
 {
@@ -118,29 +120,29 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
 
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/* = SOUNDDEVICEID_DEFAULT*/, INT32 outdev/* = SOUNDDEVICEID_DEFAULT*/)
 {
-    const int DEVMAX = 100;
-    std::vector<SoundDevice> devs(DEVMAX);
+    constexpr int MAX_SOUND_DEVICES = 100;
+    std::vector<SoundDevice> devs(MAX_SOUND_DEVICES);
     INT32 howmany = INT32(devs.size());
     TT_GetSoundDevices(&devs[0], &howmany);
     devs.resize(howmany);
-    if (howmany == DEVMAX)
+    if (howmany == MAX_SOUND_DEVICES)
     {
         TT_GetSoundDevices(&devs[0], &howmany);
     }
 
     int defaultin, defaultout;
     
-    ACE_TCHAR* envindev = ACE_OS::getenv(ACE_TEXT("INPUTDEVICEID"));
-    ACE_TCHAR* envoutdev = ACE_OS::getenv(ACE_TEXT("OUTPUTDEVICEID"));
+    char* envindev = std::getenv("INPUTDEVICEID");
+    char* envoutdev = std::getenv("OUTPUTDEVICEID");
     if (envindev || envoutdev)
     {
         if (envindev)
-            defaultin = ACE_OS::atoi(envindev);
+            defaultin = static_cast<int>(String2I(Utf8ToUnicode(envindev)));
         else if (!TT_GetDefaultSoundDevices(indev != SOUNDDEVICEID_IGNORE ? &defaultin : nullptr, nullptr))
             return false;
 
         if (envoutdev)
-            defaultout = ACE_OS::atoi(envoutdev);
+            defaultout = static_cast<int>(String2I(Utf8ToUnicode(envoutdev)));
         else if (!TT_GetDefaultSoundDevices(nullptr, outdev != SOUNDDEVICEID_IGNORE ? &defaultout : nullptr))
             return false;
     }
@@ -210,7 +212,7 @@ bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR*
 bool JoinRoot(TTInstance* ttClient)
 {
     auto chanid = TT_GetRootChannelID(ttClient);
-    return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, ACE_TEXT("")));
+    return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, TTEXT("")));
 }
 
 AudioCodec MakeDefaultAudioCodec(Codec codec)
@@ -257,7 +259,7 @@ Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, cons
 {
     Channel chan = {};
     chan.nParentID = parentid;
-    ACE_OS::strsncpy(chan.szName, name, TT_STRLEN);
+    tstrsncpy(chan.szName, name, TT_STRLEN);
     chan.audiocodec = codec;
     return chan;
 }

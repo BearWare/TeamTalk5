@@ -24,6 +24,7 @@
 #include "MFTransform.h"
 
 #include "codec/WaveFile.h"
+#include "mystd/MyStd.h"
 
 #include <mfapi.h>
 #include <mfidl.h>
@@ -31,10 +32,7 @@
 #include <mferror.h>
 #include <atlbase.h>
 
-#include <assert.h>
-#include <complex>
-#include <queue>
-
+#include <cassert>
 
 constexpr auto MFT_INIT_FLAGS = (MFT_ENUM_FLAG_SORTANDFILTER |
                                  MFT_ENUM_FLAG_LOCALMFT |
@@ -77,7 +75,7 @@ public:
 
         m_outputvideofmt = media::VideoFormat(w, h, numerator, denominator, ConvertSubType(dest_videoformat));
 
-        MYTRACE(ACE_TEXT("MFTransform %s -> %s, %dx%d@%u\n"), FourCCToString(ConvertSubType(tininfo.guidSubtype)).c_str(),
+        MYTRACE(TTEXT("MFTransform %s -> %s, %dx%d@%u\n"), FourCCToString(ConvertSubType(tininfo.guidSubtype)).c_str(),
             FourCCToString(m_outputvideofmt.fourcc).c_str(), m_outputvideofmt.width, m_outputvideofmt.height, numerator / std::max(denominator, 1u));
 
         // https://docs.microsoft.com/en-us/windows/desktop/medfound/video-processor-mft
@@ -169,7 +167,7 @@ public:
     }
 
     MFTransformImpl(IMFMediaType* pInputType, IMFMediaType* pOutputType, int nAudioOutputSamples,
-                    const ACE_TCHAR* szOutputFilename = nullptr)
+                    const tchar* szOutputFilename = nullptr)
     {
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
@@ -257,7 +255,7 @@ public:
 
 
     MFTransformImpl(IMFMediaType* pInputType, const GUID& audiooutputformat, UINT uBitrate,
-                    const ACE_TCHAR* szOutputFilename = nullptr)
+                    const tchar* szOutputFilename = nullptr)
     {
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo = { MFMediaType_Audio, audiooutputformat };
@@ -300,7 +298,7 @@ public:
                 continue;
 
             UINT uSelectedBytesPerSecond = 0;
-            MYTRACE(ACE_TEXT("%u@%u Requested bitrate: %u. Available bitrates:\n"), uInputChannels, uInputSampleRate, uBitrate);
+            MYTRACE(TTEXT("%u@%u Requested bitrate: %u. Available bitrates:\n"), uInputChannels, uInputSampleRate, uBitrate);
             while(SUCCEEDED(m_pMFT->GetOutputAvailableType(m_dwOutputID, dwTypeIndex, &pTmpMedia)))
             {
                 UINT uChannels, uSampleRate, uBytesPerSecond;
@@ -315,7 +313,7 @@ public:
 
                 if(uInputSampleRate == uSampleRate && uInputChannels == uChannels)
                 {
-                    MYTRACE(ACE_TEXT("%u bps\n"), uBytesPerSecond * 8);
+                    MYTRACE(TTEXT("%u bps\n"), uBytesPerSecond * 8);
                     if (!pOutputType)
                         pOutputType = pTmpMedia;
 
@@ -339,7 +337,7 @@ public:
                 continue;
 
             hr = pOutputType->GetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, &uSelectedBytesPerSecond);
-            MYTRACE(ACE_TEXT(". Selected %u.\n"), uSelectedBytesPerSecond * 8);
+            MYTRACE(TTEXT(". Selected %u.\n"), uSelectedBytesPerSecond * 8);
 
             hr = m_pMFT->SetOutputType(m_dwOutputID, pOutputType, 0);
             if(FAILED(hr))
@@ -424,7 +422,7 @@ public:
 
         HRESULT hr;
         hr = m_pMFT->ProcessInput(m_dwInputID, pInSample, 0);
-        MYTRACE_COND(hr == MF_E_NOTACCEPTING, ACE_TEXT("Now enough input to generate output\n"));
+        MYTRACE_COND(hr == MF_E_NOTACCEPTING, TTEXT("Now enough input to generate output\n"));
         switch(hr)
         {
         case MF_E_NOTACCEPTING :
@@ -724,7 +722,7 @@ public:
             {
                 samples = RetrieveSample();
                 result.insert(result.end(), samples.begin(), samples.end());
-                MYTRACE_COND(result.empty(), ACE_TEXT("Transform output reported but no samples retrieved.\n"));
+                MYTRACE_COND(result.empty(), TTEXT("Transform output reported but no samples retrieved.\n"));
                 break;
             }
             case TRANSFORM_SUBMITTED:
@@ -739,13 +737,13 @@ public:
         {
             auto samples = RetrieveSample();
             result.insert(result.end(), samples.begin(), samples.end());
-            MYTRACE_COND(result.empty(), ACE_TEXT("Audio submitted but no encoder output produced\n"));
-            //MYTRACE(ACE_TEXT("Got frame from I/O success: %d\n"), ++frames);
+            MYTRACE_COND(result.empty(), TTEXT("Audio submitted but no encoder output produced\n"));
+            //MYTRACE(TTEXT("Got frame from I/O success: %d\n"), ++frames);
             break;
         }
         default:
-            MYTRACE_COND(uTransform & TRANSFORM_SUBMITTED, ACE_TEXT("Submitted but no output\n"));
-            MYTRACE_COND(uTransform & TRANSFORM_ERROR, ACE_TEXT("Transform error\n"));
+            MYTRACE_COND(uTransform & TRANSFORM_SUBMITTED, TTEXT("Submitted but no output\n"));
+            MYTRACE_COND(uTransform & TRANSFORM_ERROR, TTEXT("Transform error\n"));
             break;
         }
 
@@ -983,7 +981,7 @@ mftransform_t MFTransform::Create(media::AudioFormat inputfmt, media::AudioForma
     return result;
 }
 
-mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const ACE_TCHAR* szOutputFilename)
+mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const tchar* szOutputFilename)
 {
     std::unique_ptr<MFTransformImpl> result;
 
@@ -1000,7 +998,7 @@ mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID
     return result;
 }
 
-mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename/* = nullptr*/)
+mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const tchar* szOutputFilename/* = nullptr*/)
 {
     return MFTransform::Create(inputfmt, MFAudioFormat_MP3, uBitrate, szOutputFilename);
 
@@ -1053,18 +1051,18 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uB
 }
 
 mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate,
-                                     const ACE_TCHAR* szOutputFilename/* = nullptr*/)
+                                     const tchar* szOutputFilename/* = nullptr*/)
 {
     return MFTransform::Create(inputfmt, MFAudioFormat_WMAudioV9, uBitrate, szOutputFilename);
 }
 
 mftransform_t MFTransform::CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate,
-                                     const ACE_TCHAR* szOutputFilename /*= nullptr*/)
+                                     const tchar* szOutputFilename /*= nullptr*/)
 {
     return MFTransform::Create(inputfmt, MFAudioFormat_AAC, uBitrate, szOutputFilename);
 }
 
-mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const ACE_TCHAR* szOutputFilename)
+mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const tchar* szOutputFilename)
 {
     std::unique_ptr<MFTransformImpl> result;
 
@@ -1146,26 +1144,26 @@ const GUID& ConvertFourCC(media::FourCC fcc)
     }
 }
 
-ACE_TString FourCCToString(media::FourCC fcc)
+tstring FourCCToString(media::FourCC fcc)
 {
     switch(fcc)
     {
     case media::FOURCC_RGB32:
-        return ACE_TEXT("RGB32");
+        return TTEXT("RGB32");
     case media::FOURCC_I420:
-        return ACE_TEXT("I420");
+        return TTEXT("I420");
     case media::FOURCC_YUY2:
-        return ACE_TEXT("YUY2");
+        return TTEXT("YUY2");
     case media::FOURCC_RGB24:
-        return ACE_TEXT("RGB24");
+        return TTEXT("RGB24");
     case media::FOURCC_NV12:
-        return ACE_TEXT("NV12");
+        return TTEXT("NV12");
     case media::FOURCC_H264:
-        return ACE_TEXT("H264");
+        return TTEXT("H264");
     case media::FOURCC_MJPEG:
-        return ACE_TEXT("MJPEG");
+        return TTEXT("MJPEG");
     default:
-        return ACE_TEXT("NONE");
+        return TTEXT("NONE");
     }
 }
 
@@ -1258,7 +1256,7 @@ fail:
 ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt)
 {
     HRESULT hr;
-    ACE_UINT32 timestamp = 0;
+    uint32_t timestamp = 0;
     DWORD dwBufCount = 0;
     ACE_Message_Block* mb = nullptr;
     assert(fmt.IsValid());
@@ -1268,7 +1266,7 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
         assert(SUCCEEDED(hr));
         LONGLONG llSampleTime = 0;
         if(SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
-            timestamp = ACE_UINT32(llSampleTime / 10000);
+            timestamp = uint32_t(llSampleTime / 10000);
     }
 
     for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
@@ -1299,7 +1297,7 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
 ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt)
 {
     HRESULT hr;
-    ACE_UINT32 timestamp = 0;
+    uint32_t timestamp = 0;
     DWORD dwBufCount = 0;
     ACE_Message_Block* mb = nullptr;
     assert(fmt.IsValid());
@@ -1309,7 +1307,7 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
         assert(SUCCEEDED(hr));
         LONGLONG llSampleTime = 0;
         if(SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
-            timestamp = ACE_UINT32(llSampleTime / 10000);
+            timestamp = uint32_t(llSampleTime / 10000);
     }
 
     for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
@@ -1394,7 +1392,7 @@ CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
     hr = MFCreateSample(&pSample);
     RETURNONERROR(FAILED(hr));
 
-    LONGLONG hnsSampleDuration = (frame.input_samples * (LONGLONG)10000000 ) / frame.inputfmt.samplerate;
+    LONGLONG hnsSampleDuration = (frame.input_samples * static_cast<LONGLONG>(10000000)) / frame.inputfmt.samplerate;
     hr = pSample->SetSampleDuration(hnsSampleDuration);
     RETURNONERROR(FAILED(hr));
 

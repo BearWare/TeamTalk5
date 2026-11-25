@@ -22,16 +22,14 @@
  */
 
 #include "OpusFileStreamer.h"
-
 #include "codec/OggFileIO.h"
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
 #include <cassert>
 #include <cstdint>
 #include <vector>
 
-bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp)
+bool GetOpusFileMediaFileProp(const tstring& filename, MediaFileProp& mfp)
 {
     OpusDecFile odf;
     if (odf.Open(filename))
@@ -44,7 +42,7 @@ bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp)
     return false;
 }
 
-OpusFileStreamer::OpusFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+OpusFileStreamer::OpusFileStreamer(const tstring& filename, const MediaStreamOutput& out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
 }
@@ -96,7 +94,7 @@ void OpusFileStreamer::Run()
     InitBuffers();
 
     //wait for start signal
-    MYTRACE(ACE_TEXT("OpusFileStreamer waiting to start streaming: %s\n"), m_media_in.filename.c_str());
+    MYTRACE(TTEXT("OpusFileStreamer waiting to start streaming: %s\n"), m_media_in.filename.c_str());
     bool start = false;
     m_run.get(start);
 
@@ -120,7 +118,7 @@ void OpusFileStreamer::Run()
             auto pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
             {
-                MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
+                MYTRACE(TTEXT("Media playback aborted during pause\n"));
                 break;
             }
 
@@ -128,7 +126,7 @@ void OpusFileStreamer::Run()
             status = MEDIASTREAM_STARTED;
 
             pausetime = GETTIMESTAMP() - pausetime;
-            MYTRACE_COND(pausetime > 0, ACE_TEXT("Paused %s for %u msec\n"), m_media_in.filename.c_str(), pausetime);
+            MYTRACE_COND(pausetime > 0, TTEXT("Paused %s for %u msec\n"), m_media_in.filename.c_str(), pausetime);
 
             totalpausetime += pausetime;
         }
@@ -189,7 +187,7 @@ void OpusFileStreamer::Run()
             submitted = QueueAudio(frm);
         }
 
-        MYTRACE_COND(!submitted, ACE_TEXT("Failed to submit OPUS audio from media streamer. File: %s. Elapsed: %u\n"),
+        MYTRACE_COND(!submitted, TTEXT("Failed to submit OPUS audio from media streamer. File: %s. Elapsed: %u\n"),
                      m_media_in.filename.c_str(), m_media_in.elapsed_ms);
 
         // update elapsed

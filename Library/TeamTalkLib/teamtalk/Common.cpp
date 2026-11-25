@@ -25,41 +25,35 @@
 
 #include "Channel.h"
 #include "Commands.h"
-#include "myace/MyACE.h"
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 
-#include <ace/Date_Time.h>
-
-#include <cstdint>
+#include <ctime>
 #include <regex>
 #include <string>
-#include <ctime>
-#include <vector>
 
 namespace teamtalk
 {
 
     ServerProperties::ServerProperties() : systemid(SERVER_WELCOME)
     {
-        
     }
 
     RemoteFile::RemoteFile()
     {
-        uploadtime = ACE_OS::gettimeofday();
+        uploadtime = std::chrono::system_clock::now();
     }
 
     UserAccount::UserAccount()
     {
-        lastupdated = ACE_OS::gettimeofday();
+        lastupdated = std::chrono::system_clock::now();
     }
 
     bool UserAccount::IsWebLogin() const
     {
 #if defined(ENABLE_TEAMTALKPRO)
-        ACE_TString const bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-        return std::regex_search(username.c_str(), BuildRegex(bwregex.c_str()));
+        tstring const bwregex = Utf8ToUnicode(WEBLOGIN_BEARWARE_POSTFIX.data()) + tstring(TTEXT("$"));
+        return std::regex_search(username.c_str(), BuildRegex(bwregex));
 #else
         return false;
 #endif
@@ -68,11 +62,11 @@ namespace teamtalk
     bool BannedUser::Same(const BannedUser& user) const
     {
         bool same = user.bantype == this->bantype;
-        if ((bantype & BANTYPE_IPADDR) != 0u)
+        if ((bantype & BANTYPE_IPADDR) != BANTYPE_NONE)
             same &= user.ipaddr == this->ipaddr;
-        if ((bantype & BANTYPE_CHANNEL) != 0u)
+        if ((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             same &= user.chanpath == this->chanpath;
-        if ((bantype & BANTYPE_USERNAME) != 0u)
+        if ((bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
             same &= user.username == this->username;
         return same;
     }
@@ -81,55 +75,45 @@ namespace teamtalk
     {
         bool match = bantype != BANTYPE_NONE;
 
-        if (((bantype & BANTYPE_IPADDR) != 0u) && (!ipaddr.empty()))
+        if (((bantype & BANTYPE_IPADDR) != BANTYPE_NONE) && (!ipaddr.empty()))
         {
-            const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
+            const tstring rgxsubnet = TTEXT("^") TTEXT("(.*)/(\\d+)") TTEXT("$");
 #if defined(UNICODE)
             std::wsmatch sm;
-            std::wstring bannedip = ipaddr.c_str();
+            std::wstring bannedip = ipaddr;
 #else
             std::smatch sm;
             std::string const bannedip = ipaddr.c_str();
 #endif
-            if (user.ipaddr.is_empty())
+            if (user.ipaddr.empty())
             {
                 match = false; // do not report banned if user has no IP-address
             }
-            else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet.c_str())) && sm.size() == 3)
+            else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet)) && sm.size() == 3)
             {
                 // check if network ban
-                ACE_TString const net = sm[1].str().c_str();
-                uint32_t const prefix = String2I(sm[2].str().c_str());
+                tstring const net = sm[1].str();
+                uint32_t const prefix = String2I(sm[2].str());
                 // match &= INetAddrNetwork(user.ipaddr, prefix) == net;
                 // to prevent invalid network (192.168.1.0/23 = 192.168.0.0/23) ?
                 match &= INetAddrNetwork(user.ipaddr, prefix) == INetAddrNetwork(net, prefix);
             }
             else
             {
-                ACE_TString const rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
-                match &= std::regex_search(user.ipaddr.c_str(), BuildRegex(rgx.c_str()));
+                tstring const rgx = TTEXT("^") + ipaddr + TTEXT("$");
+                match &= std::regex_search(user.ipaddr.c_str(), BuildRegex(rgx));
             }
         }
 
-        if ((bantype & BANTYPE_USERNAME) != 0u)
+        if ((bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
             match &= username == user.username;
 
-        if ((bantype & BANTYPE_CHANNEL) != 0u)
+        if ((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             match &= ChannelsEquals(chanpath, user.chanpath);
 
         return match;
     }
 
-
-    ACE_TString DateToString(const ACE_Time_Value& tv)
-    {
-        ACE_Date_Time const date(tv);
-        ACE_TCHAR buf[200];
-        ACE_OS::sprintf(buf, ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"), 
-                        static_cast<int>(date.year()), static_cast<int>(date.month()), static_cast<int>(date.day()), 
-                        static_cast<int>(date.hour()), static_cast<int>(date.minute()));
-        return buf;
-    }
 
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in)
     {

@@ -335,7 +335,7 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
         chan.nMaxUsers = env->GetIntField(lpChannel, fid_maxusers);
         memset(chan.transmitUsers, 0, sizeof(chan.transmitUsers));
         auto outer = jobjectArray(env->GetObjectField(lpChannel, fid_txusers));
-        for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
+        for (int i=0;i<TT_TRANSMITUSERS_MAX;++i) {
             auto intArr = jintArray(env->GetObjectArrayElement(outer, i));
             jint tmp[TRANSMITUSER_ARRAY_SIZE];
             env->GetIntArrayRegion(intArr, 0, TRANSMITUSER_ARRAY_SIZE, tmp);

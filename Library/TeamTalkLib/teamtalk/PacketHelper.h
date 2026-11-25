@@ -25,10 +25,10 @@
 #define CODECHELPER_H
 
 #include "PacketLayout.h"
+
 #include "Common.h"
 
-#include <ace/Time_Value.h>
-
+#include <chrono>
 #include <cstdint>
 #include <list>
 #include <map>
@@ -60,7 +60,7 @@ namespace teamtalk {
                                                    const AudioCodec& codec);
 
     /* Video packets */
-    using videopackets_t = std::vector<VideoPacket*>;
+    using videopackets_t = std::vector<std::unique_ptr<VideoPacket>>;
     videopackets_t BuildVideoPackets(uint8_t kind,
                                      uint16_t src_userid,
                                      uint32_t time,
@@ -168,7 +168,7 @@ namespace teamtalk {
 
         void GetDupAckLostDesktopPackets(desktoppackets_t& packets);
 
-        void GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout,
+        void GetLostDesktopPackets(std::chrono::milliseconds rtx_timeout,
                                    desktoppackets_t& packets, int count);
 
         uint8_t GetSessionID() const { return m_session_id; }
@@ -218,7 +218,7 @@ namespace teamtalk {
                          packet_range_t& pkt_index_ranges, 
                          std::set<uint16_t>& pkt_single_indexes);
 
-    ACE_Time_Value GetDesktopPacketRTxTimeout(int udp_pingtime);
+    std::chrono::milliseconds GetDesktopPacketRTxTimeout(int udp_pingtime);
 
 } // namespace teamtalk
 #endif

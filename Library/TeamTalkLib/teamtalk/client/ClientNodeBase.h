@@ -28,14 +28,13 @@
 #include "avstream/SoundSystem.h"
 #include "codec/MediaUtil.h"
 #include "myace/TimerHandler.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/TTAssert.h"
 
 #include <ace/Lock.h>
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Task_T.h>
 #include <ace/Thread.h>
 #include <ace/Time_Value.h>
 #include <ace/Timer_Heap.h>
@@ -43,6 +42,7 @@
 #include <condition_variable>
 #include <cstdint>
 #include <mutex>
+#include <thread>
 
 constexpr auto TIMERID_MASK             = 0x0000FFFF;
 constexpr auto USER_TIMER_START         = 0x00008000;
@@ -121,30 +121,30 @@ namespace teamtalk {
     };
 
     // subclass must implement TimerEvent()
-    class ClientNodeBase : protected ACE_Task<ACE_MT_SYNCH>
-                         , public TimerListener
+    class ClientNodeBase : public TimerListener
                          , public soundsystem::StreamDuplex
                          , public EventSuspender
     {
         // Thread func running ClientNode's main event-loop
-        int svc() override;
+        void Run();
 
         //timer queue we can change to high-resolution timer (monotomic)
         ACE_Timer_Heap m_timer_queue;
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
+        std::thread m_thread;
         ACE_thread_t m_reactor_thread = ACE_thread_t();
 
         // sync reactor thread start/stop
         std::condition_variable m_reactor_wait_cv;
         std::mutex m_reactor_wait_mtx;
 
-        ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
+        std::recursive_mutex m_timers_lock; //mutexes must be the last to be destroyed
 
         //set of timers currently in use. Protected by lock_timers().
         timer_handlers_t m_timers;
 
-        ACE_Recursive_Thread_Mutex& LockTimers() { return m_timers_lock; }
+        std::recursive_mutex& LockTimers() { return m_timers_lock; }
 
     protected:
         //Start/stop timers handled by ClientNode
@@ -172,7 +172,7 @@ namespace teamtalk {
 #endif
 
         // Get reactor running timers
-        ACE_Reactor* GetEventLoop() { return reactor(); }
+        ACE_Reactor* GetEventLoop() { return &m_reactor; }
 
         // Start timer running in GetEventLoop()
         virtual long StartUserTimer(uint16_t timer_id, uint16_t userid,
@@ -204,18 +204,18 @@ namespace teamtalk {
 
 #if defined(_DEBUG)
 
-constexpr void ASSERT_CLIENTNODE_LOCKED(ClientNodeBase* clientnode)
- {
+static void ASSERT_CLIENTNODE_LOCKED(ClientNodeBase* clientnode)
+{
     TTASSERT(clientnode->m_reactorlock_thr_id == ACE_Thread::self());
- }
+}
 
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g( (this_obj)->ReactorLock() );             \
-    /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
+    /*PROFILER_ST(TTEXT("Thread"));*/                \
     (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 
-#define ASSERT_CLIENTNODE_LOCKED(...)    (void)0
+#define ASSERT_CLIENTNODE_LOCKED(...)    static_cast<void>(0)
 
 #define GUARD_REACTOR(this_obj)                 \
     guard_t g(this_obj->ReactorLock())

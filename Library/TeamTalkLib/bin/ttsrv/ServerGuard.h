@@ -44,15 +44,15 @@ namespace teamtalk {
         /* begin logging functions */
         void OnUserConnected(const ServerUser& user) override;
         void OnUserLogin(const ServerUser& user) override;
-        void OnUserAuthFailed(const ServerUser& user, const ACE_TString& username) override;
+        void OnUserAuthFailed(const ServerUser& user, const tstring& username) override;
         void OnUserLoginBanned(const ServerUser& user) override;
         void OnUserLoggedOut(const ServerUser& user) override;
         void OnUserDisconnected(const ServerUser& user) override;
-        void OnUserCryptError(const ServerUser& user, int sslerr, const ACE_TString& msg) override;
+        void OnUserCryptError(const ServerUser& user, int sslerr, const tstring& msg) override;
         void OnUserDropped(const ServerUser& user) override;
         void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) override;
         void OnUserBanned(const ServerUser& banee, const ServerUser& banner) override;
-        void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) override;
+        void OnUserBanned(const tstring& ipaddr, const ServerUser& banner) override;
         void OnUserBanned(const ServerUser& banner, const BannedUser& ban) override;
         void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) override;
         void OnUserUpdated(const ServerUser& user) override;
@@ -88,23 +88,23 @@ namespace teamtalk {
         ErrorMsg GetUserAccount(const ServerUser& user, UserAccount& useraccount) override;
         ErrorMsg GetRegUsers(const ServerUser& user, useraccounts_t& users) override;
         ErrorMsg AddRegUser(const ServerUser& user, const UserAccount& useraccount) override;
-        ErrorMsg DeleteRegUser(const ServerUser& user, const ACE_TString& username) override;
+        ErrorMsg DeleteRegUser(const ServerUser& user, const tstring& username) override;
 
         ErrorMsg AddUserBan(const ServerUser& user, const ServerUser& banee, BanTypes bantype) override;
         ErrorMsg AddUserBan(const ServerUser& user, const BannedUser& ban) override;
         ErrorMsg RemoveUserBan(const ServerUser& user, const BannedUser& ban) override;
         ErrorMsg GetUserBans(const ServerUser& user, std::vector<BannedUser>& bans) override;
 
-        ErrorMsg ChangeNickname(const ServerUser& user, const ACE_TString& newnick) override;
-        ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status) override;
+        ErrorMsg ChangeNickname(const ServerUser& user, const tstring& newnick) override;
+        ErrorMsg ChangeStatus(const ServerUser& user, int mode, const tstring& status) override;
 
         ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) override;
 
     private:
 #if defined(ENABLE_TEAMTALKPRO)
-        void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        void WebLoginBearWare(ServerNode* servernode, uint32_t userid, UserAccount useraccount);
         ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
-        void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);
+        void WebLoginComplete(ServerNode* servernode, uint32_t userid, const UserAccount& useraccount, const ErrorMsg& err);
         std::map<int, UserAccount> m_pendinglogin;
 #endif
         teamtalk::ServerXML& m_settings;

@@ -23,7 +23,7 @@
 
 #include "CodecCommon.h"
 #include "PacketLayout.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <cassert>
 
@@ -354,7 +354,7 @@ namespace teamtalk
 
         int const maxbitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
         MYTRACE_COND(GetAudioCodecBitRate(codec) > maxbitrate,
-                     ACE_TEXT("Max packet bitrate exceeded: %d > %d\n"),
+                     TTEXT("Max packet bitrate exceeded: %d > %d\n"),
                      GetAudioCodecBitRate(codec), maxbitrate);
         return maxbitrate;
     }
@@ -460,12 +460,12 @@ namespace teamtalk
         }
     }
 
-    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec)
+    bool AudioCodecConvertBug(const tstring& streamprotocol, const AudioCodec& codec)
     {
         // Deprecated: Ignore in TeamTalk 6.
         // Handle crash issue in pre-protocol v5.7 (TeamTalk v5.4).
         // See git hash 02045445862fc62dec34701888eafebf0b5b5418.
-        if (!VersionSameOrLater(streamprotocol, ACE_TEXT("5.7")))
+        if (!VersionSameOrLater(streamprotocol, TTEXT("5.7")))
         {
             switch(codec.codec)
             {

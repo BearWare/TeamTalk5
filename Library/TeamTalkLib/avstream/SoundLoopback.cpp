@@ -22,8 +22,7 @@
  */
 
 #include "SoundLoopback.h"
-
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #if defined(ENABLE_WEBRTC)
 #include "avstream/WebRTCPreprocess.h"
@@ -34,6 +33,7 @@
 #include <cassert>
 #include <cstring>
 #include <mutex>
+#include <utility>
 #include <vector>
 
 using namespace soundsystem;
@@ -296,7 +296,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
 
         if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {
-            MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
+            MYTRACE(TTEXT("WebRTC failed to process audio\n"));
         }
     }
 #endif
@@ -311,7 +311,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         const short* resampled = m_capture_resampler->Resample(input_buffer, &ret);
         assert(resampled);
         MYTRACE_COND(ret != output_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     TTEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
 
         if (output_channels == 1)
@@ -380,7 +380,7 @@ bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer&  /*streame
     int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
     if(!m_buf_queue.empty())
     {
-        assert((int)m_buf_queue.front().size() / output_channels == samples);
+        assert(static_cast<int>(m_buf_queue.front().size()) / output_channels == samples);
         std::memcpy(buffer, m_buf_queue.front().data(), m_buf_queue.front().size()*sizeof(short));
         m_buf_queue.pop();
     }
@@ -424,7 +424,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 
         if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {
-            MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
+            MYTRACE(TTEXT("WebRTC failed to process audio\n"));
         }
         std::memcpy(m_prev_buffer.data(), output_buffer, PCM16_BYTES(samples, streamer.output_channels));
         return;
@@ -440,7 +440,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         assert(tmp_input_buffer);
         assert(ret <= output_samples);
         MYTRACE_COND(ret != output_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     TTEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
     }
 

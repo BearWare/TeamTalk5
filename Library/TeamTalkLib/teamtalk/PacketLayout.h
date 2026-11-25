@@ -24,18 +24,19 @@
 #if !defined(PACKETLAYOUT_H)
 #define PACKETLAYOUT_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
-#include <ace/ACE.h>
-
-#if defined(ENABLE_ENCRYPTION)
-#include <openssl/evp.h>
+#if defined(WIN32)
+#include <ace/OS_NS_sys_uio.h> // iovec
+#else
+#include <sys/uio.h>
 #endif
 
 #include <array>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <list>
 #include <map>
 #include <memory>
@@ -62,8 +63,8 @@ constexpr auto MIN_PACKET_PAYLOAD_SIZE = MIN_PAYLOAD_DATA_SIZE + FIELDHEADER_PAY
 constexpr auto MAX_PAYLOAD_DATA_SIZE = 1250;   //The raw data must be split in at most this size;
 constexpr auto MAX_PACKET_PAYLOAD_SIZE = MAX_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD;   //The maximum size of fields and raw data
 
-static constexpr uint16_t MTU_QUERY_SIZES[] = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
-constexpr auto MTU_QUERY_SIZES_COUNT = sizeof(MTU_QUERY_SIZES) / sizeof(MTU_QUERY_SIZES[0]);
+static constexpr std::array<uint16_t, 4> MTU_QUERY_SIZES = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
+constexpr auto MTU_QUERY_SIZES_COUNT = MTU_QUERY_SIZES.size();
 
 constexpr auto MAX_PACKET_SIZE = 1350;           //The maximum size of a packet
 
@@ -219,7 +220,7 @@ constexpr void GET_UINT12_UINT4(const uint8_t* buf, T1& val1, T2& val2)
 template<typename T1>
 constexpr uint8_t* SET_UINT16_PTR(uint8_t* buf, T1 val)
 {
-    assert((int)val <= 0xFFFF);
+    assert(static_cast<int>(val) <= 0xFFFF);
     buf[0] = static_cast<char>(val & 0xFF);
     buf[1] = static_cast<char>(val >> 8);
     return buf += 2;
@@ -410,7 +411,7 @@ template<typename FIELDTYPE, typename T2, typename T3>
 constexpr uint8_t* WRITEFIELD_DATA(uint8_t* buf, FIELDTYPE fieldtype, T2 data, T3 size)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, size);
-    memcpy(buf, data, size);
+    std::memcpy(buf, data, size);
     buf += size;
     return buf;
 }
@@ -1126,49 +1127,11 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         };
     };
 
+} // namespace teamtalk
 
 #if defined(ENABLE_ENCRYPTION)
-
-    constexpr auto  CRYPTKEY_SIZE = 32;
-
-    template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
-    class CryptPacket : public FieldPacket
-    {
-        using decrypt_pkt_t = std::unique_ptr< PACKETTYPE >;
-    public:
-        CryptPacket(const PACKETTYPE& p, const std::array<uint8_t, CRYPTKEY_SIZE>& encryptkey);
-        CryptPacket(const char* packet, uint16_t packet_size);
-        CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
-        std::unique_ptr< PACKETTYPE > Decrypt(const std::array<uint8_t, CRYPTKEY_SIZE>& decryptkey) const;
-
-        enum : uint8_t
-        {
-            FIELDTYPE_CRYPTDATA = FIELDTYPE_LAST+1,
-        };
-    };
-
 #include "PacketLayout.inl"
-
-    using CryptVoicePacket = CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE>;
-    using CryptAudioFilePacket = CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO>;
-
-    using CryptVideoCapturePacket = CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO>;
-    using CryptVideoFilePacket = CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO>;
-
-    using CryptDesktopPacket = CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP>;
-
-    using CryptDesktopAckPacket = CryptPacket<DesktopAckPacket, PACKET_KIND_DESKTOP_ACK_CRYPT, PACKET_KIND_DESKTOP_ACK>;
-
-    using CryptDesktopNakPacket = CryptPacket<DesktopNakPacket, PACKET_KIND_DESKTOP_NAK_CRYPT, PACKET_KIND_DESKTOP_NAK>;
-    
-    using CryptDesktopCursorPacket = CryptPacket<DesktopCursorPacket, PACKET_KIND_DESKTOPCURSOR_CRYPT, PACKET_KIND_DESKTOPCURSOR>;
-
-    using CryptDesktopInputPacket = CryptPacket<DesktopInputPacket, PACKET_KIND_DESKTOPINPUT_CRYPT, PACKET_KIND_DESKTOPINPUT>;
-
-    using CryptDesktopInputAckPacket = CryptPacket<DesktopInputAckPacket, PACKET_KIND_DESKTOPINPUT_ACK_CRYPT, PACKET_KIND_DESKTOPINPUT_ACK>;
-    
 #endif
-} // namespace teamtalk
 
 // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic,readability-magic-numbers,misc-use-anonymous-namespace)
 // NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)

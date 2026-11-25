@@ -22,6 +22,7 @@
  */
 
 #include "UPnP.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Log.h"
 
 #include <miniupnpc/miniupnpc.h>
@@ -42,7 +43,7 @@ bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& extern
     struct UPNPDev* devlist = upnpDiscover(2000, nullptr, nullptr, 0, 0, 2, &error);
     if (!devlist)
     {
-        TT_LOG(ACE_TEXT("UPnP: No IGD devices found."));
+        TT_LOG(TTEXT("UPnP: No IGD devices found."));
         return false;
     }
 
@@ -68,7 +69,7 @@ bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& extern
 #endif
         break;
     default :
-        TT_LOG(ACE_TEXT("UPnP: No valid IGD found."));
+        TT_LOG(TTEXT("UPnP: No valid IGD found."));
         return false;
     }
 
@@ -80,7 +81,7 @@ bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& extern
         externalIP = extIP.data();
         break;
     default :
-        TT_LOG(ACE_TEXT("UPnP: Failed to get the external IP-address."));
+        TT_LOG(TTEXT("UPnP: Failed to get the external IP-address."));
         return false;
     }
 
@@ -101,7 +102,7 @@ bool UPnP_RenewPortMapping(uint16_t tcpport, uint16_t udpport)
         "TeamTalk Server", "TCP", "", "0");
     if (ret != UPNPCOMMAND_SUCCESS)
     {
-        TT_LOG(ACE_TEXT("UPnP: Failed to add TCP port mapping."));
+        TT_LOG(TTEXT("UPnP: Failed to add TCP port mapping."));
         return false;
     }
 
@@ -112,7 +113,7 @@ bool UPnP_RenewPortMapping(uint16_t tcpport, uint16_t udpport)
         "TeamTalk Server", "UDP", "", "0");
     if (ret != UPNPCOMMAND_SUCCESS)
     {
-        TT_LOG(ACE_TEXT("UPnP: Failed to add UDP port mapping."));
+        TT_LOG(TTEXT("UPnP: Failed to add UDP port mapping."));
         return false;
     }
 
@@ -135,5 +136,5 @@ void UPnP_RemovePortMapping(uint16_t tcpport, uint16_t udpport)
     FreeUPNPUrls(&s_urls);
     lanIPAddr.clear();
 
-    TT_LOG(ACE_TEXT("UPnP: Port mappings removed."));
+    TT_LOG(TTEXT("UPnP: Port mappings removed."));
 }

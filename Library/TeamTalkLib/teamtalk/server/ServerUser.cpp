@@ -29,7 +29,9 @@
 #include "teamtalk/TTAssert.h"
 
 #include <cstdio>
+#include <filesystem>
 #include <queue>
+#include <system_error>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
@@ -39,10 +41,10 @@ using namespace teamtalk;
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-do-while)
 
-#define GET_PROP_OR_RETURN(properties, name, value)                     \
-    do {                                                                \
-        if(!GetProperty(properties, name, value))                       \
-            return ErrorMsg(TT_CMDERR_MISSING_PARAMETER, name);         \
+#define GET_PROP_OR_RETURN(properties, name, value)                             \
+    do {                                                                        \
+        if(!GetProperty(properties, name, value))                               \
+            return ErrorMsg(TT_CMDERR_MISSING_PARAMETER, ACE_TEXT(""), name);   \
     }while(0)
 
 
@@ -64,7 +66,7 @@ ServerUser::ServerUser(int userid,
 ServerUser::~ServerUser()
 {
     CloseTransfer();
-    MYTRACE( ACE_TEXT("~ServerUser #%d\r\n"), GetUserID());
+    MYTRACE( TTEXT("~ServerUser #%d\r\n"), GetUserID());
 }
 
 bool ServerUser::ReceiveData(const char* data, int len)
@@ -113,23 +115,23 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
 
         if(QueueStreamData(msg_queue, m_sendbuf.c_str(), static_cast<int>(m_sendbuf.length()), &tm) < 0)
         {
-            MYTRACE(ACE_TEXT("Forcing disconnect of #%d %s. Buffer full\n"),
+            MYTRACE(TTEXT("Forcing disconnect of #%d %s. Buffer full\n"),
                     GetUserID(), GetNickname().c_str());
             return false;
         }
 #if defined(UNICODE)
-        MYTRACE(ACE_TEXT("SERVERUSER > #%d: %s"), GetUserID(), Utf8ToUnicode(m_sendbuf.c_str()).c_str());
+        MYTRACE(TTEXT("SERVERUSER > #%d: %s"), GetUserID(), Utf8ToUnicode(m_sendbuf.c_str()).c_str());
 #else
-        MYTRACE(ACE_TEXT("SERVERUSER > #%d: %s"), GetUserID(), m_sendbuf.c_str());
+        MYTRACE(TTEXT("SERVERUSER > #%d: %s"), GetUserID(), m_sendbuf.c_str());
 #endif
         m_sendbuf.clear();
     }
     return true;
 }
 
-ACE_Time_Value ServerUser::GetDuration() const 
+std::chrono::system_clock::duration ServerUser::GetDuration() const
 {
-    return ACE_OS::gettimeofday() - m_LogonTime;
+    return std::chrono::system_clock::now() - m_LogonTime;
 }
 
 void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
@@ -148,7 +150,7 @@ void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
         for(const auto & sub : subs)
             chanqueue.push(sub);
 
-        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != 0u) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
             continue;
         
         DoAddChannel(*ch.get(), encrypted);
@@ -171,7 +173,7 @@ void ServerUser::ForwardUsers(const serverchannel_t& channel, bool recursive)
         for(size_t i=0;i<subs.size() && recursive;i++)
             chanqueue.push(subs[i]);
 
-        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != 0u) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
             continue;
         
         ServerChannel::users_t const users = ch->GetUsers();
@@ -208,8 +210,8 @@ bool ServerUser::ProcessCommandQueue(bool clearsuspended)
     if(clearsuspended)
         m_cmdsuspended = false;
     
-    ACE_CString cmd;
-    ACE_CString remain;
+    std::string cmd;
+    std::string remain;
     while(!m_cmdsuspended && GetCmdLine(m_recvbuf, cmd, remain))
     {
         switch(ProcessCommand(cmd, clearsuspended))
@@ -228,9 +230,9 @@ bool ServerUser::ProcessCommandQueue(bool clearsuspended)
     return true;
  }
 
-ServerUser::CmdProcessing ServerUser::ProcessCommand(const ACE_CString& cmdline, bool was_suspended)
+ServerUser::CmdProcessing ServerUser::ProcessCommand(const std::string& cmdline, bool was_suspended)
 {
-    MYTRACE(ACE_TEXT("SERVERUSER < #%d: %s"), GetUserID(),
+    MYTRACE(TTEXT("SERVERUSER < #%d: %s"), GetUserID(),
 #if defined(UNICODE)
         Utf8ToUnicode(cmdline.c_str()).c_str()
 #else
@@ -238,7 +240,7 @@ ServerUser::CmdProcessing ServerUser::ProcessCommand(const ACE_CString& cmdline,
 #endif
     );
 
-    ACE_CString tmp_cmd;
+    std::string tmp_cmd;
     if(!GetCmd(cmdline, tmp_cmd))
     {
         DoError(TT_CMDERR_UNKNOWN_COMMAND);
@@ -252,11 +254,11 @@ ServerUser::CmdProcessing ServerUser::ProcessCommand(const ACE_CString& cmdline,
     }
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), int(tmp_cmd.length()));
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), int(cmdline.length()));
+    tstring cmd = Utf8ToUnicode(tmp_cmd.c_str(), int(tmp_cmd.length()));
+    tstring command = Utf8ToUnicode(cmdline.c_str(), int(cmdline.length()));
 #else
-    const ACE_TString& cmd = tmp_cmd;
-    const ACE_CString& command = cmdline;
+    tstring const cmd = tmp_cmd.c_str();
+    tstring const command = cmdline.c_str();
 #endif
 
     mstrings_t properties;
@@ -266,7 +268,7 @@ ServerUser::CmdProcessing ServerUser::ProcessCommand(const ACE_CString& cmdline,
         return CMD_DONE;
     }
 
-    if(cmd == ACE_TString(CLIENT_QUIT))
+    if(cmd == tstring(CLIENT_QUIT))
     {
         return CMD_ABORT;
     }
@@ -311,7 +313,7 @@ ServerUser::CmdProcessing ServerUser::ProcessCommand(const ACE_CString& cmdline,
     return CMD_DONE;
 }
 
-ErrorMsg ServerUser::HandleCommand(const ACE_TString& cmd, const mstrings_t& properties)
+ErrorMsg ServerUser::HandleCommand(const tstring& cmd, const mstrings_t& properties)
 {
     //determine which commands will be executed and perform
     //state check
@@ -507,8 +509,8 @@ ErrorMsg ServerUser::HandleCommand(const ACE_TString& cmd, const mstrings_t& pro
 //////////////////////////////
 ErrorMsg ServerUser::HandleLogin(const mstrings_t& properties)
 {
-    ACE_TString username;
-    ACE_TString passwd;
+    tstring username;
+    tstring passwd;
     //get protocol
     GetProperty(properties, TT_PROTOCOL, m_stream_protocol);
     GetProperty(properties, TT_VERSION, m_version);
@@ -526,7 +528,7 @@ ErrorMsg ServerUser::HandleLogin(const mstrings_t& properties)
     }
     else
     {
-        m_LogonTime = ACE_OS::gettimeofday();
+        m_LogonTime = std::chrono::system_clock::now();
     }
     return err;
 }
@@ -538,7 +540,7 @@ ErrorMsg ServerUser::HandleLogout(const mstrings_t&  /*properties*/)
 
 ErrorMsg ServerUser::HandleChangeNick(const mstrings_t& properties)
 {
-    ACE_TString nick;
+    tstring nick;
     GET_PROP_OR_RETURN(properties, TT_NICKNAME, nick);
 
     return m_servernode.UserChangeNickname(GetUserID(), nick);
@@ -547,7 +549,7 @@ ErrorMsg ServerUser::HandleChangeNick(const mstrings_t& properties)
 ErrorMsg ServerUser::HandleChangeStatus(const mstrings_t& properties)
 {
     int mode = 0;
-    ACE_TString msg;
+    tstring msg;
     GET_PROP_OR_RETURN(properties, TT_STATUSMODE, mode);
 
     GetProperty(properties, TT_STATUSMESSAGE, msg);
@@ -617,7 +619,7 @@ ErrorMsg ServerUser::HandleJoinChannel(const mstrings_t& properties)
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
-    if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
+    if(chanprop.name.find(CHANNEL_SEPARATOR) != tstring::npos)
     {
         return TT_CMDERR_SYNTAX_ERROR;
     }
@@ -656,7 +658,7 @@ ErrorMsg ServerUser::HandleChannelOp(const mstrings_t& properties)
 {
     int userid = 0;
     int channelid = 0;
-    ACE_TString oppasswd;
+    tstring oppasswd;
     bool op = false;
     GET_PROP_OR_RETURN(properties, TT_USERID, userid);
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, channelid);
@@ -669,7 +671,7 @@ ErrorMsg ServerUser::HandleChannelOp(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
 {
-    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -698,7 +700,7 @@ ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
-    if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
+    if(chanprop.name.find(CHANNEL_SEPARATOR) != tstring::npos)
     {
         return TT_CMDERR_SYNTAX_ERROR;
     }
@@ -743,7 +745,7 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
-    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u)
+    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)
     {
         //only admin can change these properties
         GetProperty(properties, TT_DISKQUOTA, chanprop.diskquota);
@@ -758,7 +760,7 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     }
     GetProperty(properties, TT_AUDIOCFG, chanprop.audiocfg);
 
-    if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
+    if(chanprop.name.find(CHANNEL_SEPARATOR) != tstring::npos)
     {
         return TT_CMDERR_SYNTAX_ERROR;
     }
@@ -771,7 +773,7 @@ ErrorMsg ServerUser::HandleRemoveChannel(const mstrings_t& properties)
     int channelid = 0;
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, channelid);
 
-    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -837,7 +839,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleSaveConfig(const mstrings_t&  /*properties*/)
 {
-    if((GetUserType() & USERTYPE_ADMIN) == 0)
+    if((GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -847,7 +849,7 @@ ErrorMsg ServerUser::HandleSaveConfig(const mstrings_t&  /*properties*/)
 
 ErrorMsg ServerUser::HandleListUserAccounts(const mstrings_t& properties)
 {
-    if( (GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -870,7 +872,7 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
     GetProperties(properties, account);
 
-    if (!VersionSameOrLater(GetStreamProtocol(), ACE_TEXT("5.13")))
+    if (!VersionSameOrLater(GetStreamProtocol(), TTEXT("5.13")))
     {
         account.userrights |= USERRIGHT_TEXTMESSAGE_USER;
         account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
@@ -881,7 +883,7 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleDeleteUserAccount(const mstrings_t& properties)
 {
-    ACE_TString username;
+    tstring username;
     GET_PROP_OR_RETURN(properties, TT_USERNAME, username);
 
     return m_servernode.UserDeleteUserAccount(GetUserID(), username);
@@ -955,6 +957,12 @@ ErrorMsg ServerUser::HandleRegSendFile(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_FILESIZE, transfer.filesize);
     GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
 
+    if ((GetUserRights() & USERRIGHT_UPLOAD_FILES) == USERRIGHT_NONE)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
+    if (transfer.filesize < 0)
+        return ErrorMsg(TT_CMDERR_SYNTAX_ERROR);
+
     return m_servernode.UserRegFileTransfer(transfer);
 }
 
@@ -968,6 +976,9 @@ ErrorMsg ServerUser::HandleRegRecvFile(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, transfer.channelid);
     GET_PROP_OR_RETURN(properties, TT_FILENAME, transfer.filename);
     GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
+
+    if ((GetUserRights() & USERRIGHT_DOWNLOAD_FILES) == USERRIGHT_NONE)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     return m_servernode.UserRegFileTransfer(transfer);
 }
@@ -1041,7 +1052,7 @@ ErrorMsg ServerUser::HandleFileDeliver(const mstrings_t&  /*properties*/)
 ErrorMsg ServerUser::HandleDeleteFile(const mstrings_t& properties)
 {
     int channelid = 0;
-    ACE_TString filename;
+    tstring filename;
     GET_PROP_OR_RETURN(properties, TT_FILENAME, filename);
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, channelid);
 
@@ -1070,7 +1081,7 @@ ErrorMsg ServerUser::HandleUnsubscribe(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleQueryStats(const mstrings_t&  /*properties*/)
 {
-    if((GetUserType() & USERTYPE_ADMIN) == 0)
+    if((GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -1078,13 +1089,13 @@ ErrorMsg ServerUser::HandleQueryStats(const mstrings_t&  /*properties*/)
     return TT_CMDERR_SUCCESS;
 }
 
-BannedUser ServerUser::GenerateBan(BanTypes bantype, const ACE_TString& chanpath) const
+BannedUser ServerUser::GenerateBan(BanTypes bantype, const tstring& chanpath) const
 {
     BannedUser ban;
     ban.bantype = bantype;
     ban.nickname = GetNickname();
     ban.username = GetUsername();
-    if (((bantype & BANTYPE_CHANNEL) != 0u) && (!chanpath.empty()))
+    if (((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE) && (!chanpath.empty()))
         ban.chanpath = chanpath;
     else if (GetChannel())
         ban.chanpath = GetChannel()->GetChannelPath();
@@ -1095,15 +1106,15 @@ BannedUser ServerUser::GenerateBan(BanTypes bantype, const ACE_TString& chanpath
 void ServerUser::AddSubscriptions(const ServerUser& user, Subscriptions subscribe)
 {
 #ifdef _DEBUG
-    MYTRACE(ACE_TEXT("Added subscription: %d -> %d, "), GetUserID(), user.GetUserID());
-    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
-    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
-    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
-    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
-    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
-    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
-    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
-    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
+    MYTRACE(TTEXT("Added subscription: %d -> %d, "), GetUserID(), user.GetUserID());
+    MYTRACE(TTEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
+    MYTRACE(TTEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
+    MYTRACE(TTEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
+    MYTRACE(TTEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
+    MYTRACE(TTEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
+    MYTRACE(TTEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
+    MYTRACE(TTEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
+    MYTRACE(TTEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
 #endif
 
     Subscriptions const cur_subscriptions = GetSubscriptions(user);
@@ -1134,15 +1145,15 @@ void ServerUser::ClearSubscriptions(const ServerUser& user, Subscriptions subscr
     TTASSERT((GetSubscriptions(user) & subscribe) == SUBSCRIBE_NONE);
 
 #ifdef _DEBUG
-    MYTRACE(ACE_TEXT("Cleared subscription: %d -> %d, "), GetUserID(), user.GetUserID());
-    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
-    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
-    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
-    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
-    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
-    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
-    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
-    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
+    MYTRACE(TTEXT("Cleared subscription: %d -> %d, "), GetUserID(), user.GetUserID());
+    MYTRACE(TTEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
+    MYTRACE(TTEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
+    MYTRACE(TTEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
+    MYTRACE(TTEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
+    MYTRACE(TTEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
+    MYTRACE(TTEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
+    MYTRACE(TTEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
+    MYTRACE(TTEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
 #endif
 }
 
@@ -1198,7 +1209,7 @@ void ServerUser::HandleBinaryFileWrite(const char* buff, int len, bool& bContinu
 
         ErrorMsg const err = m_servernode.UserEndFileTransfer(transferid);
         MYTRACE_COND(err.errorno != TT_CMDERR_SUCCESS, 
-                     ACE_TEXT("File transfer %d failed\n"), transferid);
+                     TTEXT("File transfer %d failed\n"), transferid);
     }
     else if (m_filetransfer->file.Tell() > m_filetransfer->filesize)
     {
@@ -1222,12 +1233,12 @@ void ServerUser::DoError(const ErrorMsg& cmderr)
     }
     else
     {
-        ACE_TString command = ACE_TString( SERVER_ERROR );
+        tstring command = tstring( SERVER_ERROR );
         AppendProperty(TT_ERRORNUM, cmderr.errorno, command);
         AppendProperty(TT_ERRORMSG, cmderr.errmsg, command);
         if(cmderr.errorno == TT_CMDERR_MISSING_PARAMETER)
             AppendProperty(TT_PARAMNAME, cmderr.paramname, command);
-        command += ACE_TString(EOL);
+        command += tstring(EOL);
 
         TransmitCommand(command);
     }
@@ -1235,20 +1246,20 @@ void ServerUser::DoError(const ErrorMsg& cmderr)
 
 void ServerUser::DoWelcome(const ServerSettings& properties)
 {
-    ACE_TString command = properties.systemid;
+    tstring command = properties.systemid;
     AppendProperty(TT_USERID, GetUserID(), command);
     if (!properties.servername.empty())
         AppendProperty(TT_SERVERNAME, properties.servername, command);
     AppendProperty(TT_MAXUSERS, properties.maxusers, command);
     AppendProperty(TT_MAXLOGINSPERIP, properties.max_logins_per_ipaddr, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
-    AppendProperty(TT_PROTOCOL, ACE_TString(TEAMTALK_PROTOCOL_VERSION), command);
+    AppendProperty(TT_PROTOCOL, tstring(TEAMTALK_PROTOCOL_VERSION), command);
 
 #if defined(ENABLE_TEAMTALKPRO)
     AppendProperty(TT_ACCESSTOKEN, GetAccessToken(), command);
 #endif
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1257,19 +1268,19 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_SERVERUPDATE);
+    tstring command;
+    command = tstring(SERVER_SERVERUPDATE);
     AppendProperty(TT_SERVERNAME, properties.servername, command);
     AppendProperty(TT_MAXUSERS, properties.maxusers, command);
     AppendProperty(TT_MAXLOGINSPERIP, properties.max_logins_per_ipaddr, command);
     AppendProperty(TT_LOGINDELAY, properties.logindelay, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_MOTD, m_servernode.GetMessageOfTheDay(), command);
-    if((GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) != 0u)
+    if((GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) != USERRIGHT_NONE)
     {
         AppendProperty(TT_MOTDRAW, properties.motd, command);
         AppendProperty(TT_MAXLOGINATTEMPTS, properties.maxloginattempts, command);
-        AppendProperty(TT_AUTOSAVE, static_cast<ACE_INT64>(properties.autosave), command);
+        AppendProperty(TT_AUTOSAVE, static_cast<int64_t>(properties.autosave), command);
         if (!properties.tcpaddrs.empty())
             AppendProperty(TT_TCPPORT, properties.tcpaddrs[0].get_port_number(), command);
         if (!properties.udpaddrs.empty())
@@ -1284,12 +1295,12 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
 
     AppendProperty(TT_VERSION, properties.version, command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
 
-static void AppendUserAccount(const UserAccount& useraccount, ACE_TString& command)
+static void AppendUserAccount(const UserAccount& useraccount, tstring& command)
 {
     AppendProperty(TT_USERNAME, useraccount.username, command);
     AppendProperty(TT_PASSWORD, useraccount.passwd, command);
@@ -1310,8 +1321,8 @@ static void AppendUserAccount(const UserAccount& useraccount, ACE_TString& comma
 
 void ServerUser::DoAccepted(const UserAccount& useraccount)
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_LOGINACCEPTED);
+    tstring command;
+    command = tstring(SERVER_LOGINACCEPTED);
     AppendProperty(TT_USERID, GetUserID(), command);
 
     if (!GetNickname().empty())
@@ -1321,7 +1332,7 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
 
     AppendUserAccount(useraccount, command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1329,9 +1340,9 @@ void ServerUser::DoAccepted(const UserAccount& useraccount)
 void ServerUser::DoLoggedOut()
 {
     TTASSERT(IsAuthorized());
-    ACE_TString command;
-    command = ACE_TString(SERVER_LOGGEDOUT);
-    command += ACE_TString(EOL);
+    tstring command;
+    command = tstring(SERVER_LOGGEDOUT);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1339,15 +1350,15 @@ void ServerUser::DoLoggedOut()
 void ServerUser::DoLoggedIn(const ServerUser& user)
 {
     TTASSERT(IsAuthorized());
-    ACE_TString command;
-    command = ACE_TString(SERVER_LOGGEDIN);
+    tstring command;
+    command = tstring(SERVER_LOGGEDIN);
     AppendProperty(TT_USERID, user.GetUserID(), command);
 
     if (!user.GetNickname().empty())
         AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     if (!user.GetUsername().empty())
         AppendProperty(TT_USERNAME, user.GetUsername(), command);
-    if(((GetUserRights() & USERRIGHT_BAN_USERS) != 0u) ||
+    if(((GetUserRights() & USERRIGHT_BAN_USERS) != USERRIGHT_NONE) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
@@ -1363,7 +1374,7 @@ void ServerUser::DoLoggedIn(const ServerUser& user)
     AppendProperty(TT_USERDATA, user.GetUserData(), command);
     if (!user.GetClientName().empty())
         AppendProperty(TT_CLIENTNAME, user.GetClientName(), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1371,10 +1382,10 @@ void ServerUser::DoLoggedIn(const ServerUser& user)
 void ServerUser::DoLoggedOut(const ServerUser& user)
 {
     TTASSERT(IsAuthorized());
-    ACE_TString command;
-    command = ACE_TString(SERVER_LOGGEDOUT);
+    tstring command;
+    command = tstring(SERVER_LOGGEDOUT);
     AppendProperty(TT_USERID, user.GetUserID(), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1387,14 +1398,14 @@ void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
              (GetUserRights() & (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS)) == (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS) ||
              GetChannel().get() == &channel);
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_ADDUSER);
+    tstring command;
+    command = tstring(SERVER_ADDUSER);
     AppendProperty(TT_USERID, user.GetUserID(), command);
     if (!user.GetNickname().empty())
         AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     if (!user.GetUsername().empty())
         AppendProperty(TT_USERNAME, user.GetUsername(), command);
-    if(((GetUserRights() & USERRIGHT_BAN_USERS) != 0u) ||
+    if(((GetUserRights() & USERRIGHT_BAN_USERS) != USERRIGHT_NONE) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
@@ -1411,7 +1422,7 @@ void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
     AppendProperty(TT_USERDATA, user.GetUserData(), command);
     if (!user.GetClientName().empty())
         AppendProperty(TT_CLIENTNAME, user.GetClientName(), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1420,15 +1431,15 @@ void ServerUser::DoUpdateUser(const ServerUser& user)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_UPDATEUSER);
+    tstring command;
+    command = tstring(SERVER_UPDATEUSER);
     AppendProperty(TT_USERID, user.GetUserID(), command);
     AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     AppendProperty(TT_STATUSMODE, user.GetStatusMode(), command);
     AppendProperty(TT_STATUSMESSAGE, user.GetStatusMessage(), command);
     AppendProperty(TT_LOCALSUBSCRIPTIONS, GetSubscriptions(user), command);
     AppendProperty(TT_PEERSUBSCRIPTIONS, user.GetSubscriptions(*this), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1442,11 +1453,11 @@ void ServerUser::DoRemoveUser(const ServerUser& user, const ServerChannel& chann
              (GetUserRights() & (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS)) == (USERRIGHT_VIEW_ALL_USERS | USERRIGHT_VIEW_HIDDEN_CHANNELS) ||
              GetChannel().get() == &channel);
     
-    ACE_TString command;
-    command = ACE_TString(SERVER_REMOVEUSER);
+    tstring command;
+    command = tstring(SERVER_REMOVEUSER);
     AppendProperty(TT_USERID, user.GetUserID(), command);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1460,8 +1471,8 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
              ((channel.GetChannelType() & CHANNEL_HIDDEN) && GetChannel().get() == &channel));
 
     const std::set<int>& setOps = channel.GetOperators();
-    ACE_TString command;
-    command = ACE_TString(SERVER_ADDCHANNEL);
+    tstring command;
+    command = tstring(SERVER_ADDCHANNEL);
 
     AppendProperty(TT_CHANNEL, channel.GetChannelPath(), command);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
@@ -1474,7 +1485,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
         AppendProperty(TT_PARENTID, channel.GetParentChannel()->GetChannelID(), command);
         AppendProperty(TT_CHANNAME, channel.GetName(), command);
     }
-    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u) ||
+    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE) ||
         channel.IsOperator(GetUserID()) ||
         GetUserAccount().auto_op_channels.contains(channel.GetChannelID()))
     {
@@ -1484,7 +1495,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
             AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
-    if((GetUserType() & USERTYPE_ADMIN) != 0u)  //admins should see password
+    if((GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)  //admins should see password
     {
 #if defined(ENABLE_ENCRYPTION)
         TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
@@ -1493,7 +1504,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
                            channel.GetEncryptKey().size()), command);
 #endif
     }
-    AppendProperty(TT_REQPASSWORD, static_cast<ACE_INT64>(channel.IsPasswordProtected()), command);
+    AppendProperty(TT_REQPASSWORD, static_cast<int64_t>(channel.IsPasswordProtected()), command);
 
     if (!channel.GetTopic().empty())
         AppendProperty(TT_TOPIC, channel.GetTopic(), command);
@@ -1511,22 +1522,22 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
     // Deprecated: Ignore in TeamTalk 6.
     // If class-room channel type then we must forward the channel due 
     // to compatibility of TeamTalk TCP protocol v5.3
-    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
-    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
-    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
-    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
     if (!channel.GetChannelTextMsgUsers().empty())
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
-    if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
-        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
+    if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
+        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().count(), command);
 
-    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
-    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().msec(), command);
-    command += ACE_TString(EOL);
+    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().count(), command);
+    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().count(), command);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1541,12 +1552,12 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     
     const std::set<int>& setOps = channel.GetOperators();
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_UPDATECHANNEL);
+    tstring command;
+    command = tstring(SERVER_UPDATECHANNEL);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
     AppendProperty(TT_CHANNAME, channel.GetName(), command);
 
-    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u) ||
+    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE) ||
         channel.IsOperator(GetUserID()) ||
         GetUserAccount().auto_op_channels.contains(channel.GetChannelID()))
     {
@@ -1554,7 +1565,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
-    if((GetUserType() & USERTYPE_ADMIN) != 0u)
+    if((GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)
     {
 #if defined(ENABLE_ENCRYPTION)
         TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
@@ -1566,7 +1577,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         }
 #endif
     }
-    AppendProperty(TT_REQPASSWORD, static_cast<ACE_INT64>(channel.IsPasswordProtected()), command);
+    AppendProperty(TT_REQPASSWORD, static_cast<int64_t>(channel.IsPasswordProtected()), command);
     AppendProperty(TT_TOPIC, channel.GetTopic(), command);
     AppendProperty(TT_OPERATORS, setOps, command);
     AppendProperty(TT_DISKQUOTA, channel.GetMaxDiskUsage(), command);
@@ -1577,26 +1588,26 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     if (!AudioCodecConvertBug(GetStreamProtocol(), channel.GetAudioCodec()))
         AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
-    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
-    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
-    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
-    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
     if (!channel.GetChannelTextMsgUsers().empty())
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
 
-    if((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
+    if((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
     {
         AppendProperty(TT_TRANSMITQUEUE, channel.GetTransmitQueue(), command);
-        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
+        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().count(), command);
     }
-    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
-    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().msec(), command);
+    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().count(), command);
+    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().count(), command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1609,38 +1620,38 @@ void ServerUser::DoRemoveChannel(const ServerChannel& channel)
              (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_VIEW_HIDDEN_CHANNELS ||
              ((channel.GetChannelType() & CHANNEL_HIDDEN) && GetChannel().get() == &channel));
     
-    ACE_TString command;
-    command = ACE_TString(SERVER_REMOVECHANNEL);
+    tstring command;
+    command = tstring(SERVER_REMOVECHANNEL);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
 
 void ServerUser::DoPingReply()
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_KEEPALIVE) + ACE_TString(EOL);
+    tstring command;
+    command = tstring(SERVER_KEEPALIVE) + tstring(EOL);
 
     TransmitCommand(command);
 }
 
 void ServerUser::DoBeginCmd(int cmdID)
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_BEGINCMD);
+    tstring command;
+    command = tstring(SERVER_BEGINCMD);
     AppendProperty(TT_CMDID, cmdID, command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
 
 void ServerUser::DoEndCmd(int cmdID)
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_ENDCMD);
+    tstring command;
+    command = tstring(SERVER_ENDCMD);
     AppendProperty(TT_CMDID, cmdID, command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1649,12 +1660,12 @@ void ServerUser::DoTextMessage(const ServerUser&  /*fromuser*/, const TextMessag
 {
     TTASSERT(IsAuthorized());
     //check whether user is subscribing to events
-    ACE_TString command;
-    command = ACE_TString(SERVER_MESSAGE_DELIVER);
+    tstring command;
+    command = tstring(SERVER_MESSAGE_DELIVER);
     AppendProperty(TT_MSGTYPE, msg.msgType, command);
     AppendProperty(TT_SRCUSERID, msg.from_userid, command);
     AppendProperty(TT_MSGCONTENT, msg.content, command);
-    AppendProperty(TT_TEXTMSG_MORE, static_cast<ACE_INT64>(msg.more), command);
+    AppendProperty(TT_TEXTMSG_MORE, static_cast<int64_t>(msg.more), command);
 
     switch(msg.msgType)
     {
@@ -1669,7 +1680,7 @@ void ServerUser::DoTextMessage(const ServerUser&  /*fromuser*/, const TextMessag
     case TTNoneMsg :
         break;
     }
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1678,12 +1689,12 @@ void ServerUser::DoTextMessage(const TextMessage& msg)
 {
     TTASSERT(IsAuthorized());
     //check whether user is subscribing to events
-    ACE_TString command;
-    command = ACE_TString(SERVER_MESSAGE_DELIVER);
+    tstring command;
+    command = tstring(SERVER_MESSAGE_DELIVER);
     AppendProperty(TT_MSGTYPE, msg.msgType, command);
     AppendProperty(TT_SRCUSERID, msg.from_userid, command);
     AppendProperty(TT_MSGCONTENT, msg.content, command);
-    AppendProperty(TT_TEXTMSG_MORE, static_cast<ACE_INT64>(msg.more), command);
+    AppendProperty(TT_TEXTMSG_MORE, static_cast<int64_t>(msg.more), command);
 
     switch(msg.msgType)
     {
@@ -1698,20 +1709,20 @@ void ServerUser::DoTextMessage(const TextMessage& msg)
     case TTBroadcastMsg :
         break;
     }
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
 
 void ServerUser::DoKicked(int kicker_userid, bool channel_kick)
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_KICKED);
+    tstring command;
+    command = tstring(SERVER_KICKED);
     AppendProperty(TT_KICKERID, kicker_userid, command);
     if(channel_kick && GetChannel())
         AppendProperty(TT_CHANNELID, GetChannel()->GetChannelID(), command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1719,8 +1730,8 @@ void ServerUser::DoKicked(int kicker_userid, bool channel_kick)
 void ServerUser::DoJoinedChannel(const ServerChannel& channel, bool encrypted)
 {
     TTASSERT(IsAuthorized());
-    ACE_TString command;
-    command = ACE_TString(SERVER_JOINED);
+    tstring command;
+    command = tstring(SERVER_JOINED);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
 #if defined(ENABLE_ENCRYPTION)
     TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
@@ -1731,7 +1742,7 @@ void ServerUser::DoJoinedChannel(const ServerChannel& channel, bool encrypted)
                        command);
     }
 #endif
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1739,10 +1750,10 @@ void ServerUser::DoJoinedChannel(const ServerChannel& channel, bool encrypted)
 void ServerUser::DoLeftChannel(const ServerChannel& channel)
 {
     TTASSERT(IsAuthorized());
-    ACE_TString command;
-    command = ACE_TString(SERVER_LEFTCHANNEL);
+    tstring command;
+    command = tstring(SERVER_LEFTCHANNEL);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1751,8 +1762,8 @@ void ServerUser::DoShowBan(const BannedUser& ban)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_BANNED);
+    tstring command;
+    command = tstring(SERVER_BANNED);
 
     AppendProperty(TT_BANTYPE, ban.bantype, command);
     AppendProperty(TT_IPADDR, ban.ipaddr, command);
@@ -1761,7 +1772,7 @@ void ServerUser::DoShowBan(const BannedUser& ban)
     AppendProperty(TT_USERNAME, ban.username, command);
     AppendProperty(TT_BANTIME, ban.bantime, command);
     AppendProperty(TT_BANOWNER, ban.owner, command);
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1770,12 +1781,12 @@ void ServerUser::DoShowUserAccount(const UserAccount& user)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_USERACCOUNT);
+    tstring command;
+    command = tstring(SERVER_USERACCOUNT);
 
     AppendUserAccount(user, command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1784,26 +1795,26 @@ void ServerUser::DoAddUserAccount(const UserAccount& user)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_ADDUSERACCOUNT);
+    tstring command;
+    command = tstring(SERVER_ADDUSERACCOUNT);
 
     AppendUserAccount(user, command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
 
-void ServerUser::DoRemoveUserAccount(const ACE_TString& username)
+void ServerUser::DoRemoveUserAccount(const tstring& username)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
-    command = ACE_TString(SERVER_REMOVEUSERACCOUNT);
+    tstring command;
+    command = tstring(SERVER_REMOVEUSERACCOUNT);
 
     AppendProperty(TT_USERNAME, username, command);
 
-    command += ACE_TString(EOL);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
@@ -1814,7 +1825,7 @@ void ServerUser::DoFileDeliver(const FileTransfer& transfer)
     if(m_filetransfer == nullptr)
         return;
 
-    ACE_TString command = SERVER_FILE_DELIVER;
+    tstring command = SERVER_FILE_DELIVER;
 
     TTASSERT(transfer.filesize == m_filetransfer->filesize);
     AppendProperty(TT_FILESIZE, transfer.filesize, command);
@@ -1826,7 +1837,7 @@ void ServerUser::DoFileDeliver(const FileTransfer& transfer)
 
 void ServerUser::DoFileCompleted()
 {
-    ACE_TString command = SERVER_FILE_COMPLETED;
+    tstring command = SERVER_FILE_COMPLETED;
     command += EOL;
 
     TransmitCommand(command);
@@ -1838,9 +1849,9 @@ void ServerUser::DoFileReady()
     if(m_filetransfer == nullptr)
         return;
 
-    ACE_TString command = SERVER_FILE_READY;
+    tstring command = SERVER_FILE_READY;
     AppendProperty(TT_TRANSFERID, m_filetransfer->transferid, command);
-    AppendProperty(TT_FILESIZE, static_cast<ACE_INT64>(m_filetransfer->filesize), command);
+    AppendProperty(TT_FILESIZE, static_cast<int64_t>(m_filetransfer->filesize), command);
     command += EOL;
 
     TransmitCommand(command);
@@ -1850,7 +1861,7 @@ void ServerUser::DoFileAccepted(const FileTransfer& transfer)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
+    tstring command;
     command = SERVER_FILE_ACCEPTED;
     AppendProperty(TT_TRANSFERID, transfer.transferid, command);
     command += EOL;
@@ -1862,7 +1873,7 @@ void ServerUser::DoAddFile(const RemoteFile& file)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
+    tstring command;
     command = SERVER_ADDFILE;
     AppendProperty(TT_FILENAME, file.filename, command);
     AppendProperty(TT_FILESIZE, file.filesize, command);
@@ -1875,11 +1886,11 @@ void ServerUser::DoAddFile(const RemoteFile& file)
     TransmitCommand(command);
 }
 
-void ServerUser::DoRemoveFile(const ACE_TString& filename, const ServerChannel& channel)
+void ServerUser::DoRemoveFile(const tstring& filename, const ServerChannel& channel)
 {
     TTASSERT(IsAuthorized());
 
-    ACE_TString command;
+    tstring command;
     command = SERVER_REMOVEFILE;
     AppendProperty(TT_FILENAME, filename, command);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
@@ -1891,11 +1902,11 @@ void ServerUser::DoRemoveFile(const ACE_TString& filename, const ServerChannel& 
 void ServerUser::DoServerStats()
 {
     const ServerStats& stats = m_servernode.GetServerStats();
-    ACE_Time_Value tm = ACE_OS::gettimeofday() - stats.starttime;
-    ACE_UINT64 msec = 0;
-    tm.msec(msec);
+    auto const uptime = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now() - stats.starttime);
+    uint64_t const msec = static_cast<uint64_t>(uptime.count());
 
-    ACE_TString command;
+    tstring command;
     command = SERVER_STATS;
     AppendProperty(TT_TOTALTX, stats.total_bytessent, command);
     AppendProperty(TT_TOTALRX, stats.total_bytesreceived, command);
@@ -1911,7 +1922,7 @@ void ServerUser::DoServerStats()
     AppendProperty(TT_USERSPEAK, stats.userspeak, command);
     AppendProperty(TT_FILESTX, stats.files_bytessent, command);
     AppendProperty(TT_FILESRX, stats.files_bytesreceived, command);
-    AppendProperty(TT_UPTIME, static_cast<ACE_INT64>(msec), command);
+    AppendProperty(TT_UPTIME, static_cast<int64_t>(msec), command);
     command += EOL;
 
     TransmitCommand(command);
@@ -1919,33 +1930,33 @@ void ServerUser::DoServerStats()
 
 void ServerUser::DoOk()
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_COMMAND_OK);
-    command += ACE_TString(EOL);
+    tstring command;
+    command = tstring(SERVER_COMMAND_OK);
+    command += tstring(EOL);
 
     TransmitCommand(command);
 }
 
 void ServerUser::DoQuit()
 {
-    ACE_TString command;
-    command = ACE_TString(SERVER_QUIT) + ACE_TString(EOL);
+    tstring command;
+    command = tstring(SERVER_QUIT) + tstring(EOL);
 
     TransmitCommand(command);
 
     //TRACE("SERVER: Sent quit to #%d nickname: %s channel: \"%s\"\n", GetUserID(), GetNickname().c_str(), (GetChannel()==NULL)? "" : GetChannel()->GetChannelPath().c_str());
 }
 
-void ServerUser::TransmitCommand(const ACE_TString& cmdline)
+void ServerUser::TransmitCommand(const tstring& cmdline)
 {
     TTASSERT(!m_filetransfer.get() || !m_filetransfer->active);
 
     if(m_stream_handle != ACE_INVALID_HANDLE)
     {
 #if defined(UNICODE)
-        m_sendbuf += UnicodeToUtf8(cmdline.c_str());
+        m_sendbuf += UnicodeToUtf8(cmdline);
 #else
-        m_sendbuf += cmdline;
+        m_sendbuf += cmdline.c_str();
 #endif
         m_servernode.RegisterStreamCallback(m_stream_handle);
     }
@@ -1978,7 +1989,7 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
             //queue packet until we get its session properties
             auto p = std::make_shared<DesktopPacket>(packet);
             m_desktop_queue.push_back(p);
-            MYTRACE(ACE_TEXT("Queued packet #%d due to missing header - size %d\n"), 
+            MYTRACE(TTEXT("Queued packet #%d due to missing header - size %d\n"), 
                     p->GetPacketIndex(), static_cast<int>(m_desktop_queue.size()));
             return true;
         }
@@ -1990,8 +2001,8 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
         m_desktop_cache = std::make_shared<DesktopCache>(GetUserID(), wnd, packet.GetTime());
 
         MYTRACE_COND(m_desktop_cache->GetBlocksCount() == 0,
-                     ACE_TEXT("Desktop session %d from #%d is invalid with 0 blocks\n"), session_id, GetUserID());
-        MYTRACE_COND(!m_desktop_cache->IsValid(), ACE_TEXT("Desktop session %d from #%d is invalid. Dimensions: %dx%d mode %d, blocks: %d\n"),
+                     TTEXT("Desktop session %d from #%d is invalid with 0 blocks\n"), session_id, GetUserID());
+        MYTRACE_COND(!m_desktop_cache->IsValid(), TTEXT("Desktop session %d from #%d is invalid. Dimensions: %dx%d mode %d, blocks: %d\n"),
             session_id, GetUserID(), wnd.width, wnd.height, wnd.rgb_mode, m_desktop_cache->GetBlocksCount());
         if (!m_desktop_cache->IsValid())
         {
@@ -2053,7 +2064,7 @@ desktop_transmitter_t ServerUser::StartDesktopTransmitter(
 
     m_user_desktop_tx[src_user.GetUserID()] = dtx;
 
-    MYTRACE(ACE_TEXT("Started Desktop TX for #%d -> #%d update %d:%u\n"),
+    MYTRACE(TTEXT("Started Desktop TX for #%d -> #%d update %d:%u\n"),
         src_user.GetUserID(), GetUserID(), dtx->GetSessionID(), dtx->GetUpdateID());
 
     return dtx;
@@ -2095,7 +2106,7 @@ desktop_transmitter_t ServerUser::ResumeDesktopTransmitter(
 
     m_user_desktop_tx[src_user.GetUserID()] = dtx;
 
-    MYTRACE(ACE_TEXT("Resumed Desktop TX for #%d -> #%d update %d:%u\n"),
+    MYTRACE(TTEXT("Resumed Desktop TX for #%d -> #%d update %d:%u\n"),
         src_user.GetUserID(), GetUserID(), dtx->GetSessionID(), dtx->GetUpdateID());
 
     return dtx;
@@ -2117,7 +2128,7 @@ void ServerUser::CloseDesktopTransmitter(int src_userid, bool store_closed_sessi
         auto const ii = m_user_desktop_tx.find(src_userid);
         if(ii != m_user_desktop_tx.end())
         {
-            MYTRACE(ACE_TEXT("Closed Desktop TX for #%d -> #%d\n"),
+            MYTRACE(TTEXT("Closed Desktop TX for #%d -> #%d\n"),
                     src_userid, GetUserID());
 
             ClosedDesktopSession session;
@@ -2196,7 +2207,8 @@ void ServerUser::CloseTransfer()
     if (m_filetransfer->inbound && m_filetransfer->file.Tell() < m_filetransfer->filesize)
     {
         m_filetransfer->file.Close();
-        ACE_OS::unlink(m_filetransfer->filename.c_str());
+        std::error_code ec;
+        std::filesystem::remove(m_filetransfer->filename.c_str(), ec);
     }
 
     m_filetransfer.reset();

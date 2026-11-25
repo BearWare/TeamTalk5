@@ -22,7 +22,6 @@
  */
 
 #include "AudioThread.h"
-
 #include "myace/MyACE.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/PacketLayout.h"
@@ -35,6 +34,7 @@
 #endif
 
 #include <cassert>
+#include <chrono>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -50,17 +50,17 @@ AudioThread::AudioThread()
 
 AudioThread::~AudioThread()
 {
-    MYTRACE(ACE_TEXT("AudioThread\n"));
+    MYTRACE(TTEXT("AudioThread\n"));
 }
 
 bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
                                const teamtalk::AudioCodec& codec,
                                bool spawn_thread)
 {
-    if(this->thr_count() != 0)
+    if (m_thread.joinable())
         return false;
 
-    TTASSERT(this->msg_queue()->is_empty());
+    TTASSERT(m_msg_queue.is_empty());
 
     int const callback_samples = GetAudioCodecCbSamples(codec);
     int const sample_rate = GetAudioCodecSampleRate(codec);
@@ -156,31 +156,34 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
     m_callback = callback;
 
     //allow one second of audio to build up in the queue
-    int max_queue = PCM16_BYTES(sample_rate, GetAudioCodecChannels(codec));
+    size_t max_queue = PCM16_BYTES(sample_rate, GetAudioCodecChannels(codec));
     max_queue += (1 + (sample_rate / callback_samples)) * sizeof(media::AudioFrame);
 
-    this->msg_queue()->activate();
-    this->msg_queue()->high_water_mark(max_queue);
-    this->msg_queue()->low_water_mark(max_queue);
+    m_msg_queue.activate();
+    m_msg_queue.high_water_mark(max_queue);
+    m_msg_queue.low_water_mark(max_queue);
 
-    if(spawn_thread && this->activate() < 0)
+    if (spawn_thread)
     {
-        StopEncoder();
-        return false;
+        try { m_thread = std::thread([this] { Run(); }); }
+        catch (const std::system_error&) {
+            StopEncoder();
+            return false;
+        }
     }
 
     MYTRACE_COND(codec.codec == CODEC_SPEEX,
-                 ACE_TEXT("Launched Speex encoder, samplerate %d, bitrate %d, cb %d, fpp %d\n"),
+                 TTEXT("Launched Speex encoder, samplerate %d, bitrate %d, cb %d, fpp %d\n"),
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
                  GetAudioCodecFrameSize(codec), GetAudioCodecFramesPerPacket(codec));
 
     MYTRACE_COND(codec.codec == CODEC_SPEEX_VBR,
-                 ACE_TEXT("Launched Speex VBR encoder, samplerate %d, bitrate %d, cb %d, fpp %d\n"),
+                 TTEXT("Launched Speex VBR encoder, samplerate %d, bitrate %d, cb %d, fpp %d\n"),
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
                  GetAudioCodecFrameSize(codec), GetAudioCodecFramesPerPacket(codec));
 
     MYTRACE_COND(codec.codec == CODEC_OPUS,
-                 ACE_TEXT("Launched OPUS VBR encoder, samplerate %d, bitrate %d, cb %d, channels %d\n"),
+                 TTEXT("Launched OPUS VBR encoder, samplerate %d, bitrate %d, cb %d, channels %d\n"),
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
                  GetAudioCodecFrameSize(codec), GetAudioCodecChannels(codec));
 
@@ -189,9 +192,10 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
 
 void AudioThread::StopEncoder()
 {
-    int const ret = this->msg_queue()->close();
+    int const ret = m_msg_queue.close();
     TTASSERT(ret >= 0);
-    wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
 #if defined(ENABLE_SPEEXDSP)
     m_preprocess_left.reset();
@@ -218,12 +222,6 @@ void AudioThread::StopEncoder()
 
     memset(&m_codec, 0, sizeof(m_codec));
     m_codec.codec = teamtalk::CODEC_NO_CODEC;
-}
-
-int AudioThread::close(u_long /*flags*/)
-{
-    MYTRACE( ACE_TEXT("Audio Encoder thread closed\n") );
-    return 0;
 }
 
 bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess)
@@ -254,7 +252,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
     if (Codec().codec == CODEC_NO_CODEC)
         return true;
 
-    MYTRACE(ACE_TEXT("Setting up audio preprocessor: %d\n"), preprocess.preprocessor);
+    MYTRACE(TTEXT("Setting up audio preprocessor: %d\n"), preprocess.preprocessor);
     switch (preprocess.preprocessor)
     {
     case AUDIOPREPROCESSOR_WEBRTC_OBSOLETE_R4332 :
@@ -274,7 +272,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         // WebRTC requires 10 msec audio frames
         if (GetAudioCodecCbMillis(m_codec) % 10 != 0)
         {
-            MYTRACE(ACE_TEXT("Failed to initialize WebRTC audio preprocessor. Not 10 msec frames.\n"));
+            MYTRACE(TTEXT("Failed to initialize WebRTC audio preprocessor. Not 10 msec frames.\n"));
             return false;
         }
 
@@ -284,11 +282,11 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
         {
             m_apm.release();
-            MYTRACE(ACE_TEXT("Failed to initialize WebRTC audio preprocessor\n"));
+            MYTRACE(TTEXT("Failed to initialize WebRTC audio preprocessor\n"));
             return false;
         }
         
-                    MYTRACE(ACE_TEXT("Initialized WebRTC: gain2=%d level=%g, denoise=%d suppress=%d, echo%d\n"),
+                    MYTRACE(TTEXT("Initialized WebRTC: gain2=%d level=%g, denoise=%d suppress=%d, echo%d\n"),
                     static_cast<int>(m_apm->GetConfig().gain_controller2.enabled),
                     static_cast<double>(m_apm->GetConfig().gain_controller2.fixed_digital.gain_db),
                     static_cast<int>(m_apm->GetConfig().noise_suppression.enabled),
@@ -382,18 +380,18 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
         m_preprocess_right->EnableDereverb(dereverb);
 
     MYTRACE_COND(!agc_success && speexdsp.enable_agc,
-                 ACE_TEXT("Failed to set SpeexDSP AGC settings\n"));
+                 TTEXT("Failed to set SpeexDSP AGC settings\n"));
     MYTRACE_COND(!denoise_success && speexdsp.enable_denoise,
-                 ACE_TEXT("Failed to set SpeexDSP denoise settings\n"));
+                 TTEXT("Failed to set SpeexDSP denoise settings\n"));
     MYTRACE_COND(!aec_success && speexdsp.enable_aec,
-                 ACE_TEXT("Failed to set SpeexDSP AEC settings\n"));
+                 TTEXT("Failed to set SpeexDSP AEC settings\n"));
 
     if ((speexdsp.enable_agc && !agc_success) ||
         (speexdsp.enable_denoise && !denoise_success) ||
         (speexdsp.enable_aec && !aec_success))
         return false;
 
-    MYTRACE(ACE_TEXT("Set audio cfg. AGC: %d, %d, %d, %d, %d. Denoise: %d, %d. AEC: %d, %d, %d.\n"),
+    MYTRACE(TTEXT("Set audio cfg. AGC: %d, %d, %d, %d, %d. Denoise: %d, %d. AEC: %d, %d, %d.\n"),
             static_cast<int>(speexdsp.enable_agc), speexdsp.agc_gainlevel,
             speexdsp.agc_maxincdbsec, speexdsp.agc_maxdecdbsec,
             speexdsp.agc_maxgaindb, static_cast<int>(speexdsp.enable_denoise),
@@ -426,9 +424,9 @@ void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
 {
     //add audio
     ACE_Time_Value tv;
-    if(putq(mb_audio, &tv)<0)
+    if(m_msg_queue.enqueue(mb_audio, &tv)<0)
     {
-        MYTRACE(ACE_TEXT("AudioThread msg_q full, dropped frame\n"));
+        MYTRACE(TTEXT("AudioThread msg_q full, dropped frame\n"));
         mb_audio->release();
     }
 }
@@ -442,11 +440,11 @@ bool AudioThread::IsVoiceActive()
     {
         assert(m_aps);
         return m_aps->voice_detected.value_or(false) ||
-            m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
+            m_lastActive + m_voiceact_delay > std::chrono::system_clock::now();
     }
 #endif
     return m_voicelevel >= m_voiceactlevel ||
-        m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
+        m_lastActive + m_voiceact_delay > std::chrono::system_clock::now();
 }
 
 int AudioThread::GetCurrentVoiceLevel() const
@@ -459,7 +457,7 @@ void AudioThread::ProcessQueue(ACE_Time_Value* tm)
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
     TTASSERT(m_callback);
     ACE_Message_Block* mb = nullptr;
-    while (getq(mb, tm) >= 0)
+    while (m_msg_queue.dequeue(mb, tm) >= 0)
     {
         MBGuard const g(mb);
         media::AudioFrame af(mb);
@@ -467,10 +465,9 @@ void AudioThread::ProcessQueue(ACE_Time_Value* tm)
     }
 }
 
-int AudioThread::svc()
+void AudioThread::Run()
 {
     ProcessQueue(nullptr);
-    return 0;
 }
 
 void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
@@ -559,8 +556,8 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 
 void AudioThread::MeasureVoiceLevel(const media::AudioFrame& audblock)
 {
-    const int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
-    const int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
+    constexpr int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
+    constexpr int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
 
     int lsum = 0;
     int rsum = 0;
@@ -599,7 +596,7 @@ void AudioThread::MeasureVoiceLevel(const media::AudioFrame& audblock)
     this->m_voicelevel = avg > VU_METER_MAX ? VU_METER_MAX : avg;
 
     if (this->m_voicelevel >= this->m_voiceactlevel)
-        m_lastActive = ACE_OS::gettimeofday();
+        m_lastActive = std::chrono::system_clock::now();
 }
 
 #if defined(ENABLE_SPEEXDSP)
@@ -682,7 +679,7 @@ void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock)
 
     if (WebRTCPreprocess(*m_apm, audblock, audblock, m_aps.get()) != audblock.input_samples)
     {
-        MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
+        MYTRACE(TTEXT("WebRTC failed to process audio\n"));
     }
 }
 #endif

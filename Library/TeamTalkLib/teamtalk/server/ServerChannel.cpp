@@ -32,6 +32,7 @@
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
+#include <chrono>
 #endif
 
 using namespace teamtalk;
@@ -42,7 +43,7 @@ ServerChannel::ServerChannel(int channelid)
     Init();
 }
 
-ServerChannel::ServerChannel(channel_t& parent, int channelid, const ACE_TString& name) 
+ServerChannel::ServerChannel(channel_t& parent, int channelid, const tstring& name) 
     : PARENT(parent, channelid, name)
 {
     Init();
@@ -58,7 +59,7 @@ void ServerChannel::Init()
 #if defined(ENABLE_ENCRYPTION)
     RAND_bytes(m_cryptkey.data(), sizeof(m_cryptkey));
 #endif
-    SetTransmitSwitchDelay(ACE_Time_Value(0, 500000));
+    SetTransmitSwitchDelay(std::chrono::milliseconds(500));
 }
 
 static constexpr auto STREAMKEY(int uid, int tx)
@@ -82,7 +83,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
     if (!PARENT::CanTransmit(userid, txtype))
     {
-        if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
+        if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
         {
             // If transmitter is head we have to trigger channel update
             if (ClearFromTransmitQueue(userid) && (modified != nullptr))
@@ -98,55 +99,55 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
     if (newstreamid || (streamid == 0))
     {
         // !streamid handles SERVER_USERID
-        m_streamstart[streamkey] = ACE_OS::gettimeofday();
+        m_streamstart[streamkey] = std::chrono::system_clock::now();
     }
-    else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
-             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
+    else if (GetTimeOutTimerVoice() != std::chrono::milliseconds::zero() && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
+             std::chrono::system_clock::now() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
     {
-        MYTRACE(ACE_TEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
-                streamid, userid, GetTimeOutTimerVoice().msec());
+        MYTRACE(TTEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+                streamid, userid, static_cast<int>(GetTimeOutTimerVoice().count()));
         return false;
     }
-    else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
-             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
+    else if (GetTimeOutTimerMediaFile() != std::chrono::milliseconds::zero() && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
+             std::chrono::system_clock::now() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
     {
-        MYTRACE(ACE_TEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
-                streamid, userid, GetTimeOutTimerMediaFile().msec());
+        MYTRACE(TTEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+                streamid, userid, static_cast<int>(GetTimeOutTimerMediaFile().count()));
         return false;
     }
 
-    if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
+    if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
     {
-        //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
+        //MYTRACE(TTEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
 
         /* Don't allow user to transmit until a new stream (id) is started */
         if ((userid != 0) && m_blockStreams[STREAMKEY(userid, txtype)] == streamid)
             return false;
 
         /* Update queue list */
-        if (std::ranges::find(m_transmitqueue, userid) == m_transmitqueue.end())
+        if (std::ranges::find(GetTransmitQueue(), userid) == GetTransmitQueue().end())
         {
             if (modified != nullptr)
                 *modified = true;
-            m_transmitqueue.push_back(userid);
+            GetTransmitQueue().push_back(userid);
         }
 
-        m_lastUserPacket[userid] = ACE_OS::gettimeofday();
+        m_lastUserPacket[userid] = std::chrono::system_clock::now();
 
         /* Can transmit if head of queue, transmitted within GetTransmitSwitchDelay() and started new stream */
-        TTASSERT(!m_transmitqueue.empty());
-        int const head_userid = *m_transmitqueue.begin();
+        TTASSERT(!GetTransmitQueue().empty());
+        int const head_userid = *GetTransmitQueue().begin();
         auto const itePkt = m_lastUserPacket.find(head_userid);
-        if (itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
+        if (itePkt->second + GetTransmitSwitchDelay() >= std::chrono::system_clock::now())
         {
             return userid == head_userid;
         }
         
-                    ClearFromTransmitQueue(head_userid);
-            BlockAudioStream(head_userid);
-            if (modified != nullptr)
-                *modified = true;
-            return CanTransmit(userid, txtype, streamid, modified);
+        ClearFromTransmitQueue(head_userid);
+        BlockAudioStream(head_userid);
+        if (modified != nullptr)
+            *modified = true;
+        return CanTransmit(userid, txtype, streamid, modified);
        
     }
     return true;
@@ -155,10 +156,10 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 bool ServerChannel::ClearFromTransmitQueue(int userid)
 {
     m_lastUserPacket.erase(userid);
-    auto i = std::ranges::find(m_transmitqueue, userid);
-    if (i != m_transmitqueue.end())
+    auto i = std::ranges::find(GetTransmitQueue(), userid);
+    if (i != GetTransmitQueue().end())
     {
-        m_transmitqueue.erase(i);
+        GetTransmitQueue().erase(i);
         return true;
     }
     return false;
@@ -188,9 +189,9 @@ void ServerChannel::RemoveUser(int userid)
 
 void ServerChannel::UpdateChannelBans()
 {
-    for (auto& b : m_bans)
+    for (auto& b : GetBans())
     {
-        if ((b.bantype & BANTYPE_CHANNEL) != 0u)
+        if ((b.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             b.chanpath = GetChannelPath();
     }
 }
@@ -206,33 +207,33 @@ bool ServerChannel::IsOwner(const ServerUser& user) const
     return user.GetUserAccount().IsWebLogin() && m_usernameOwner == user.GetUserAccount().username;
 }
 
-bool ServerChannel::IsAutoOperator(const ServerUser& user) 
+bool ServerChannel::IsAutoOperator(const ServerUser& user) const
 {
-    return user.GetUserAccount().auto_op_channels.contains(user.GetUserID());
+    return user.GetUserAccount().auto_op_channels.contains(GetChannelID());
 }
 
 void ServerChannel::AddUserBan(const BannedUser& ban)
 {
-    RemoveUserBan(ban); m_bans.push_back(ban);
+    RemoveUserBan(ban); GetBans().push_back(ban);
 }
 
 bool ServerChannel::IsBanned(const BannedUser& testban) const
 {
-    auto i = std::ranges::find_if(m_bans,
+    auto i = std::ranges::find_if(GetBans(),
                           [testban](const BannedUser& ban)
                           {
                               return ban.Match(testban);
                           });
-    return i != m_bans.end();
+    return i != GetBans().end();
 }
 
 void ServerChannel::RemoveUserBan(const BannedUser& ban)
 {
-    auto i = std::ranges::find_if(m_bans,
+    auto i = std::ranges::find_if(GetBans(),
                           [ban](const BannedUser& testban)
                           {
                               return ban.Same(testban);
                           });
-    if(i != m_bans.end())
-        m_bans.erase(i);
+    if(i != GetBans().end())
+        GetBans().erase(i);
 }

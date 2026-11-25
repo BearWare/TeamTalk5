@@ -22,12 +22,13 @@
  */
 
 #include "FileNode.h"
-
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/TTAssert.h"
 
 #include <cerrno>
 #include <cstdint>
+#include <memory>
 #include <utility>
 
 using namespace teamtalk;
@@ -53,14 +54,14 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor)); // NOLINT(cppcoreguidelines-owning-memory)
+        m_crypt_stream = std::make_unique<CryptStreamHandler>(&m_reactor).release(); // NOLINT(bugprone-unused-return-value)
         m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_crypt_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
     else
 #endif
     {
-        ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor)); // NOLINT(cppcoreguidelines-owning-memory)
+        m_def_stream = std::make_unique<DefaultStreamHandler>(&m_reactor).release(); // NOLINT(bugprone-unused-return-value)
         m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_def_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
@@ -76,12 +77,12 @@ FileNode::~FileNode()
 #endif
     if(m_def_stream != nullptr)
         m_def_stream->SetListener(nullptr);
-    MYTRACE(ACE_TEXT("~FileNode()\n"));
+    MYTRACE(TTEXT("~FileNode()\n"));
 }
 
 void FileNode::BeginTransfer()
 {
-    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1)); // NOLINT(cppcoreguidelines-owning-memory)
+    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1)); // NOLINT(bugprone-unused-return-value)
     TTASSERT(m_timerid>=0);
 }
 
@@ -234,15 +235,15 @@ void FileNode::Disconnect()
     TTASSERT(m_reactor.find_handler(h) == nullptr);
 }
 
-void FileNode::TransmitCommand(const ACE_TString& command)
+void FileNode::TransmitCommand(const tstring& command)
 {
-    MYTRACE(ACE_TEXT("FILENODE: %s"), command.c_str());
+    MYTRACE(TTEXT("FILENODE: %s"), command.c_str());
     int ret = -1;
     ACE_Time_Value const tm = ACE_Time_Value::zero;
 #if defined(UNICODE)
-    ACE_CString data = UnicodeToUtf8(command.c_str());
+    std::string data(UnicodeToUtf8(command));
 #else
-    const ACE_CString& data = command;
+    std::string data(command.c_str());
 #endif
 
     bool const empty = m_sendbuffer.empty();
@@ -261,7 +262,7 @@ void FileNode::TransmitCommand(const ACE_TString& command)
     }
 }
 
-int FileNode::TimerEvent(ACE_UINT32  /*timer_event_id*/, long  /*userdata*/)
+int FileNode::TimerEvent(uint32_t  /*timer_event_id*/, long  /*userdata*/)
 {
     m_timerid = -1;
     InitTransfer();
@@ -271,7 +272,7 @@ int FileNode::TimerEvent(ACE_UINT32  /*timer_event_id*/, long  /*userdata*/)
 #if defined(ENABLE_ENCRYPTION)
 void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 {
-    MYTRACE(ACE_TEXT("FILENODE: Connected successfully on TCP\n") );
+    MYTRACE(TTEXT("FILENODE: Connected successfully on TCP\n") );
     int size = FILEBUFFERSIZE;
     int optlen = sizeof(size);
     int ret = 0;
@@ -285,7 +286,7 @@ void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 
 void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
 {
-    MYTRACE(ACE_TEXT("FILENODE: Connected successfully on TCP\n") );
+    MYTRACE(TTEXT("FILENODE: Connected successfully on TCP\n") );
     int size = FILEBUFFERSIZE;
     int optlen = sizeof(size);
     int ret = 0;
@@ -331,11 +332,11 @@ bool FileNode::OnReceive(const char* buff, int len)
     if (m_binarymode)
     {
         TTASSERT(m_transfer.inbound);
-        ACE_INT64 writebytes = len;
+        int64_t writebytes = len;
         if (m_file.Tell() + len > m_transfer.filesize)
             writebytes = m_transfer.filesize - m_file.Tell();
         auto ret = m_file.Write(buff, writebytes);
-        MYTRACE_COND(ret != writebytes, ACE_TEXT("Write failed to %s\n"), m_transfer.localfile.c_str());
+        MYTRACE_COND(ret != writebytes, TTEXT("Write failed to %s\n"), m_transfer.localfile.c_str());
 
         UpdateBytesTransferred();
 
@@ -354,8 +355,8 @@ bool FileNode::OnReceive(const char* buff, int len)
     else
     {
         m_readbuffer.append(buff, len);
-        ACE_CString cmd;
-        ACE_CString remain;
+        std::string cmd;
+        std::string remain;
         while(GetCmdLine(m_readbuffer, cmd, remain))
         {
             ProcessCommand(cmd);
@@ -419,7 +420,7 @@ bool FileNode::OnSend(DefaultStreamHandler::StreamHandler_t& handler)
 
 void FileNode::DoRecvFile()
 {
-    ACE_TString cmd;
+    tstring cmd;
     cmd = CLIENT_RECVFILE;
     AppendProperty(TT_TRANSFERID, m_transfer.transferid, cmd);
     AppendProperty(TT_TRANSFERKEY, m_transfer.transferkey, cmd);
@@ -430,7 +431,7 @@ void FileNode::DoRecvFile()
 
 void FileNode::DoSendFile()
 {
-    ACE_TString cmd;
+    tstring cmd;
     cmd = CLIENT_SENDFILE;
     AppendProperty(TT_TRANSFERID, m_transfer.transferid, cmd);
     AppendProperty(TT_TRANSFERKEY, m_transfer.transferkey, cmd);
@@ -441,42 +442,42 @@ void FileNode::DoSendFile()
 
 void FileNode::DoFileDeliver()
 {
-    ACE_TString cmd;
+    tstring cmd;
     cmd = CLIENT_DELIVERFILE;
     cmd += EOL;
 
     TransmitCommand(cmd);
 }
 
-void FileNode::ProcessCommand(const ACE_CString& cmdline)
+void FileNode::ProcessCommand(const std::string& cmdline)
 {
-    ACE_CString tmp_cmd;
+    std::string tmp_cmd;
     if(!GetCmd(cmdline, tmp_cmd))
         return;
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), (int)tmp_cmd.length());
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), (int)cmdline.length());
+    tstring cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
+    tstring command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
 #else
-    ACE_TString const cmd = tmp_cmd;
-    const ACE_TString& command = cmdline;
+    tstring const cmd = tmp_cmd.c_str();
+    tstring const command = cmdline.c_str();
 #endif
 
-    MYTRACE(ACE_TEXT("SERVER: %s"), command.c_str());
+    MYTRACE(TTEXT("SERVER: %s"), command.c_str());
 
     mstrings_t properties;
     if(ExtractProperties(command, properties)<0)
         return;
 
-    if(StringCmpNoCase(cmd, SERVER_ERROR))
+    if(cmd == SERVER_ERROR)
         HandleError(properties);
-    else if(StringCmpNoCase(cmd, m_srvprop.systemid))
+    else if(cmd == m_srvprop.systemid)
         HandleWelcome(properties);
-    else if(StringCmpNoCase(cmd, SERVER_FILE_DELIVER))
+    else if(cmd == SERVER_FILE_DELIVER)
         HandleFileDeliver(properties);
-    else if(StringCmpNoCase(cmd, SERVER_FILE_READY))
+    else if(cmd == SERVER_FILE_READY)
         HandleFileReady(properties);
-    else if(StringCmpNoCase(cmd, SERVER_FILE_COMPLETED))
+    else if(cmd == SERVER_FILE_COMPLETED)
         HandleFileCompleted(properties);
 }
 
@@ -503,7 +504,7 @@ void FileNode::HandleError(const mstrings_t& properties)
 
 void FileNode::HandleFileDeliver(const mstrings_t& properties)
 {
-    ACE_INT64 filesize = 0;
+    int64_t filesize = 0;
     int const transid = 0;
     GetProperty(properties, TT_FILESIZE, filesize);
     TTASSERT(filesize == m_transfer.filesize);

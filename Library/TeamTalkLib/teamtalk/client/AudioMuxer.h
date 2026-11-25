@@ -50,8 +50,9 @@
 
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue_T.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Reactor.h>
-#include <ace/SString.h>
 #include <ace/Time_Value.h>
 
 #include <cstdint>
@@ -80,7 +81,7 @@ public:
     void RegisterMuxTick(audiomuxer_tick_t cb);
 
     bool SaveFile(const teamtalk::AudioCodec& codec,
-                  const ACE_TString& filename,
+                  const tstring& filename,
                   teamtalk::AudioFileFormat aff);
     void CloseFile();
 
@@ -93,7 +94,7 @@ private:
     bool StartThread(const media::AudioInputFormat& fmt);
     void StopThread();
     void Run();
-    int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+    int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
@@ -170,7 +171,7 @@ public:
 
     bool SaveFile(int channelid, const teamtalk::AudioCodec& codec,
                   teamtalk::StreamTypes sts,
-                  const ACE_TString& filename,
+                  const tstring& filename,
                   teamtalk::AudioFileFormat aff);
     bool CloseFile(int channelid);
 

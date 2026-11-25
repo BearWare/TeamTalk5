@@ -52,7 +52,7 @@ void ServerMonitor::OnUserLogin(const teamtalk::ServerUser& user)
 }
 
 void ServerMonitor::OnUserAuthFailed(const teamtalk::ServerUser& user,
-                                     const ACE_TString& username)
+                                     const tstring& username)
 {
 }
 
@@ -81,7 +81,7 @@ void ServerMonitor::OnUserDisconnected(const teamtalk::ServerUser& user)
 }
 
 void ServerMonitor::OnUserCryptError(const teamtalk::ServerUser& user, int sslerr,
-                                     const ACE_TString& msg)
+                                     const tstring& msg)
 {
 
 }
@@ -125,12 +125,12 @@ void ServerMonitor::OnUserBanned(const teamtalk::ServerUser& banee,
         i->second(m_ttInst, i->first, &sbanner, &sbanee, NULL);
 }
 
-void ServerMonitor::OnUserBanned(const ACE_TString& ipaddr,
+void ServerMonitor::OnUserBanned(const tstring& ipaddr,
                                  const teamtalk::ServerUser& banner)
 {
     User sbanner = {}, sbanee = {};
     Convert(banner, sbanner);
-    ACE_OS::strsncpy(sbanee.szIPAddress, ipaddr.c_str(), TT_STRLEN);
+    tstrsncpy(sbanee.szIPAddress, ipaddr.c_str(), TT_STRLEN);
 
     userbanned_t::iterator i=m_userbanned.begin();
     for(;i!=m_userbanned.end();i++)
@@ -449,7 +449,7 @@ teamtalk::ErrorMsg ServerMonitor::AddRegUser(const teamtalk::ServerUser& user,
 }
 
 teamtalk::ErrorMsg ServerMonitor::DeleteRegUser(const teamtalk::ServerUser& user,
-                                                const ACE_TString& username)
+                                                const tstring& username)
 {
     ClientErrorMsg err;
     ZERO_STRUCT(err);
@@ -521,7 +521,7 @@ teamtalk::ErrorMsg ServerMonitor::GetUserBans(const teamtalk::ServerUser& user,
 }
 
 teamtalk::ErrorMsg ServerMonitor::ChangeNickname(const teamtalk::ServerUser& user, 
-                                                 const ACE_TString& newnick)
+                                                 const tstring& newnick)
 {
     ClientErrorMsg err;
     ZERO_STRUCT(err);
@@ -537,7 +537,7 @@ teamtalk::ErrorMsg ServerMonitor::ChangeNickname(const teamtalk::ServerUser& use
 }
 
 teamtalk::ErrorMsg ServerMonitor::ChangeStatus(const teamtalk::ServerUser& user, 
-                                               int mode, const ACE_TString& status)
+                                               int mode, const tstring& status)
 {
     ClientErrorMsg err;
     ZERO_STRUCT(err);

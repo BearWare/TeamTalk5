@@ -28,8 +28,8 @@
     <string name="text_cmd_leftchan">Izašao s kanala:</string>
     <string name="text_cmd_joinroot">Ušao si na glavni kanal</string>
     <string name="text_cmd_leftroot">Izašao si s glavnog kanala</string>
-    <string name="text_cmd_userjoinchan">Pridružio se kanalu</string>
-    <string name="text_cmd_userleftchan">izašao je s kanala</string>
+    <string name="text_cmd_userjoinchan">%1$s Pridružio se kanalu</string>
+    <string name="text_cmd_userleftchan">%1$s izašao je s kanala</string>
     <string name="pref_cat_subscriptions">pretplate</string>
     <string name="pref_cat_tts">Konfiguriraj poruke koje će govorna jedinica izgovarati</string>
     <string name="pref_header_general">Općenito</string>
@@ -106,10 +106,10 @@
     <string name="pref_title_voice_processing_checkbox">Omogući prethodno procesiranje zvuka</string>
     <string name="pref_summary_voice_processing_checkbox">Koristi poništavanje jeke i automatsku kontrolu glasnoće</string>
 
-    <string name="text_tts_loggedin">se prijavio</string>
-    <string name="text_tts_loggedout">Se odjavio</string>
-    <string name="text_tts_joined_chan">je ušao na kanal</string>
-    <string name="text_tts_left_chan">je izašao s kanala</string>
+    <string name="text_tts_loggedin">%1$s se prijavio</string>
+    <string name="text_tts_loggedout">%1$s Se odjavio</string>
+    <string name="text_tts_joined_chan">%1$s je ušao na kanal</string>
+    <string name="text_tts_left_chan">%1$s je izašao s kanala</string>
     <string name="text_tts_private_message">Privatna poruka od %1$s - %2$s</string>
     <string name="text_tts_channel_message">Javna poruka od %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Administratorska poruka od %1$s - %2$s</string>

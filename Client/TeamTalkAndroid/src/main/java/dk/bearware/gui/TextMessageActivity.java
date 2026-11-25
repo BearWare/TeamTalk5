@@ -154,9 +154,9 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             if(newmsg.isEmpty())
                 return;
 
-            User myself = service.getUsers().get(ttclient.getMyUserID());
+            User myself = Utils.getUserForDisplay(service.getUsers(), ttclient.getMyUserID());
             String name = Utils.getDisplayName(getBaseContext(), myself);
-            MyTextMessage textmsg = new MyTextMessage(myself == null? "" : name);
+            MyTextMessage textmsg = new MyTextMessage(name);
             textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
             textmsg.nChannelID = 0;
             textmsg.nFromUserID = ttclient.getMyUserID();

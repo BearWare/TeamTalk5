@@ -30,6 +30,7 @@
 #include <ace/INet/HTTP_URL.h>
 #include <ace/Thread_Manager.h>
 
+#include <array>
 #include <atomic>
 #include <cassert>
 #include <cstdint>
@@ -42,8 +43,8 @@
 #include <tchar.h>
 #endif
 
-ACE_TString g_lpszRegName;
-ACE_TString g_lpszRegKey;
+tstring g_lpszRegName;
+tstring g_lpszRegKey;
 bool g_LicenseValid = true;
 
 void LicenseCheck()
@@ -66,43 +67,41 @@ void LicenseCheck()
 }
 
 #if defined(WIN32)
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
-    ACE_TCHAR buff[MAX_PATH] = ACE_TEXT(""), *p;
-    GetModuleFileName(NULL, buff, MAX_PATH);
+    std::array<tchar, MAX_PATH> buff{};
+    GetModuleFileName(NULL, buff.data(), MAX_PATH);
 
-    p = ACE_OS::strrchr(buff, ACE_DIRECTORY_SEPARATOR_CHAR);
+    const tchar* p = tstrrchr(buff.data(), DIRECTORY_SEPARATOR_CHAR);
     if(p)
         return ++p;
 
-    return buff;
+    return buff.data();
 }
 #elif defined(ACE_ANDROID)
 extern char *__progname;
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
     if(__progname)
     {
-        ACE_TCHAR* p = ACE_OS::strrchr(__progname,
-                                       ACE_DIRECTORY_SEPARATOR_CHAR);
+        const tchar* p = tstrrchr(__progname, DIRECTORY_SEPARATOR_CHAR);
         if(p)
             return ++p;
         return __progname;
     }
-    return ACE_TString();
+    return tstring();
 }
 #elif !defined(__APPLE__)
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
     if(program_invocation_short_name)
     {
-        ACE_TCHAR* p = ACE_OS::strrchr(program_invocation_short_name,
-                                       ACE_DIRECTORY_SEPARATOR_CHAR);
+        const tchar* p = tstrrchr(program_invocation_short_name, DIRECTORY_SEPARATOR_CHAR);
         if(p)
             return ++p;
         return program_invocation_short_name;
     }
-    return ACE_TString();
+    return tstring();
 }
 #elif defined(__APPLE__)
 /* process name found in TrialObjC.mm */
@@ -110,11 +109,11 @@ ACE_TString GetProcessName()
 #error "Cannot get process name"
 #endif
 
-using http_prop_t = std::map<ACE_CString, ACE_CString>;
+using http_prop_t = std::map<std::string, std::string>;
 
 ACE_THR_FUNC_RETURN perform_check(void *arg)
 {
-    ACE_CString url = TEAMTALK_SDK_URL;
+    std::string url(TEAMTALK_SDK_URL);
 
     http_prop_t http_prop;
 
@@ -132,17 +131,17 @@ ACE_THR_FUNC_RETURN perform_check(void *arg)
     http_prop["client"] = TEAMTALK_LIB_NAME;
     http_prop["version"] = TEAMTALK_VERSION;
 
-    ACE_CString process = UnicodeToUtf8(GetProcessName().c_str());
-    http_prop["program"] = URLEncode(process.c_str()).c_str();
+    std::string process = UnicodeToUtf8(GetProcessName().c_str());
+    http_prop["program"] = URLEncode(process.c_str());
     if (!g_lpszRegName.empty())
     {
-        ACE_CString regname = UnicodeToUtf8(g_lpszRegName).c_str();
-        http_prop["regname"] = URLEncode(regname.c_str()).c_str();
+        std::string regname = UnicodeToUtf8(g_lpszRegName);
+        http_prop["regname"] = URLEncode(regname.c_str());
     }
     if (!g_lpszRegKey.empty())
     {
-        ACE_CString regkey = UnicodeToUtf8(g_lpszRegKey).c_str();
-        http_prop["regkey"] = URLEncode(regkey.c_str()).c_str();
+        std::string regkey = UnicodeToUtf8(g_lpszRegKey);
+        http_prop["regkey"] = URLEncode(regkey.c_str());
     }
 
     for(http_prop_t::const_iterator i=http_prop.begin();i!=http_prop.end();)

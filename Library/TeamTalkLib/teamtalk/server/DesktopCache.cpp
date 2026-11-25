@@ -23,7 +23,7 @@
 
 #include "DesktopCache.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
 #include <cassert>
@@ -50,7 +50,7 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
     TTASSERT(packet.GetPacketIndex() != DesktopPacket::INVALID_PACKET_INDEX);
     uint32_t const packet_time = packet.GetTime();
 
-//     MYTRACE(ACE_TEXT("Desktop packet index %d, upd %u\n"), 
+//     MYTRACE(TTEXT("Desktop packet index %d, upd %u\n"), 
 //             packet.GetPacketIndex(), packet.GetTime());
     if(packet.GetSessionID() != GetSessionID() ||
        !W32_GEQ(packet_time, m_pending_update_time))
@@ -66,7 +66,7 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
 
     TTASSERT(pkt_count);
 
-//     MYTRACE(ACE_TEXT("Packet index %d/%d, upd %u\n"),
+//     MYTRACE(TTEXT("Packet index %d/%d, upd %u\n"),
 //             pkt_index, pkt_count, packet_time);
 
     //special case for initial packet
@@ -85,7 +85,7 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
         m_expected_packets.resize(pkt_count);
         m_expected_packets.assign(pkt_count, false);
         m_pending_update_time = packet_time;
-        MYTRACE(ACE_TEXT("Starting new desktop update %d:%u for #%d\n"),
+        MYTRACE(TTEXT("Starting new desktop update %d:%u for #%d\n"),
             GetSessionID(), packet_time, m_userid);
     }
 
@@ -95,7 +95,7 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
     if(pkt_index < m_expected_packets.size())
     {
         MYTRACE_COND(m_expected_packets[pkt_index], 
-            ACE_TEXT("Desktop RTX for index %d user #%d update %d:%u\n"),
+            TTEXT("Desktop RTX for index %d user #%d update %d:%u\n"),
                      pkt_index, m_userid, GetSessionID(), GetPendingUpdateTime());
         if(m_expected_packets[pkt_index])
             return true; //this is a retransmission
@@ -321,7 +321,7 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
     //reassemble fragments
     ReassembleDesktopBlocks(block_fragments, m_blocks);
 
-    //MYTRACE(ACE_TEXT("Update %u\n"), m_current_desktop_time);
+    //MYTRACE(TTEXT("Update %u\n"), m_current_desktop_time);
     //process duplicate blocks
     dpi = update_packets.begin();
     for(;dpi!=update_packets.end();dpi++)
@@ -330,7 +330,7 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
         (*dpi)->GetDuplicateBlocks(dup_blocks);
         InsertDuplicateBlocks(dup_blocks, m_blocks, upd_block_nums);
     }
-    //MYTRACE(ACE_TEXT("Ended %u\n"), m_current_desktop_time);
+    //MYTRACE(TTEXT("Ended %u\n"), m_current_desktop_time);
 
     //update CRC values for updated window
     UpdateBlocksCRC(m_blocks, upd_block_nums, m_block_crcs, m_crc_blocks);
@@ -339,7 +339,7 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
     TTASSERT(!m_updated_blocks.contains(m_current_desktop_time));
     m_updated_blocks[m_current_desktop_time] = upd_block_nums;
 
-    TTASSERT(m_blocks.size() == (size_t)GetBlocksCount());
+    TTASSERT(m_blocks.size() == static_cast<size_t>(GetBlocksCount()));
 }
 
 void DesktopCache::LimitUpdateHistory(uint32_t update_ref_time, int count)

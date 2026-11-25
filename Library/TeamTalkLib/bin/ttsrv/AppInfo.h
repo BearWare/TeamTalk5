@@ -21,42 +21,51 @@
  *
  */
 
+#if !defined(APPINFO_H)
+#define APPINFO_H
+
+#include "TeamTalkDefs.h"
+
+#include <string_view>
+
 #if defined(ENABLE_TEAMTALKPRO)
 
-#define TEAMTALK_SETTINGSFILE "tt5prosrv.xml"
-#define TEAMTALK_LOGFILE "tt5prosrv.log"
+constexpr std::string_view TEAMTALK_SETTINGSFILE = "tt5prosrv.xml";
+constexpr std::string_view TEAMTALK_LOGFILE = "tt5prosrv.log";
 
 #if defined(BUILD_NT_SERVICE)
-#define TEAMTALK_NAME "TeamTalk Professional NT Service"
-#define TEAMTALK_EXE "tt5prosvc"
+constexpr std::string_view TEAMTALK_NAME = "TeamTalk Professional NT Service";
+constexpr std::string_view TEAMTALK_EXE = "tt5prosvc";
 #else
-#define TEAMTALK_NAME "TeamTalk Professional Server"
-#define TEAMTALK_EXE "tt5prosrv"
+constexpr std::string_view TEAMTALK_NAME = "TeamTalk Professional Server";
+constexpr std::string_view TEAMTALK_EXE = "tt5prosrv";
 #endif /* BUILD_NT_SERVICE */
 
-#define TEAMTALK_DESCRIPTION "TeamTalk Professional Conferencing Server"
+constexpr std::string_view TEAMTALK_DESCRIPTION = "TeamTalk Professional Conferencing Server";
 
 #else
 
-#define TEAMTALK_SETTINGSFILE "tt5srv.xml"
-#define TEAMTALK_LOGFILE "tt5srv.log"
+constexpr std::string_view TEAMTALK_SETTINGSFILE = "tt5srv.xml";
+constexpr std::string_view TEAMTALK_LOGFILE = "tt5srv.log";
 
 #if defined(BUILD_NT_SERVICE)
 
-#define TEAMTALK_NAME "TeamTalk NT Service"
-#define TEAMTALK_EXE "tt5svc"
+constexpr std::string_view TEAMTALK_NAME = "TeamTalk NT Service";
+constexpr std::string_view TEAMTALK_EXE = "tt5svc";
 
 #else
 
-#define TEAMTALK_NAME "TeamTalk Server"
-#define TEAMTALK_EXE "tt5srv"
+constexpr std::string_view TEAMTALK_NAME = "TeamTalk Server";
+constexpr std::string_view TEAMTALK_EXE = "tt5srv";
 
 #endif /* BUILD_NT_SERVICE */
 
-#define TEAMTALK_DESCRIPTION "TeamTalk Conferencing Server"
+constexpr std::string_view TEAMTALK_DESCRIPTION = "TeamTalk Conferencing Server";
 
 #endif /* ENABLE_TEAMTALKPRO */
 
-#define TEAMTALK_VERSION_FRIENDLY TEAMTALK_VERSION TEAMTALK_VERSION_POSTFIX
+constexpr std::string_view TEAMTALK_VERSION_FRIENDLY = TEAMTALK_VERSION TEAMTALK_VERSION_POSTFIX;
 
-#define TEAMTALK_XML_ROOTNAME "teamtalk"
+constexpr std::string_view TEAMTALK_XML_ROOTNAME = "teamtalk";
+
+#endif /* APPINFO_H */

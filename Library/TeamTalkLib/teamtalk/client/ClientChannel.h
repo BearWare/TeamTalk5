@@ -39,7 +39,7 @@ namespace teamtalk {
     public:
         explicit ClientChannel(int channelid); //create a root
         ClientChannel(channel_t& parent, int channelid, 
-                      const ACE_TString& name);//create a subchannel
+                      const tstring& name);//create a subchannel
     };
 } // namespace teamtalk
 #endif

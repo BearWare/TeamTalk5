@@ -33,12 +33,11 @@
 #include "SpeexPreprocess.h"
 #endif
 #if defined(ENABLE_WEBRTC)
-#include "avstream/WebRTCPreprocess.h"
+#include "avstream/WebRTCPreprocess.h" // NOLINT(misc-include-cleaner)
 #endif
 
 #include <ace/Future.h>
 #include <ace/Message_Block.h>
-#include <ace/SString.h>
 
 #include <cstdint>
 #include <functional>
@@ -61,7 +60,7 @@ public:
                   mediaplayback_audio_t audiofunc);
     ~MediaPlayback() override;
     
-    bool OpenFile(const ACE_TString& filename);
+    bool OpenFile(const tstring& filename);
 
     bool OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speexdsp = false);
 
@@ -69,7 +68,7 @@ public:
 
     bool Pause();
 
-    bool Seek(ACE_UINT32 offset);
+    bool Seek(uint32_t offset);
 
     // required by TeamTalkAudioPreprocessor
     void MuteSound(bool left, bool right);

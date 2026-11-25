@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ đã tham gia kênh";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ đã rời khỏi kênh";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ đã đăng nhập";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ đã đăng xuất";
+
 /* log entry */
 "%@ joined channel" = "%@ đã tham gia kênh";
 
@@ -246,18 +258,6 @@
    user detail */
 "General" = "Chung";
 
-/* TTS EVENT */
-"has joined the channel" = "đã tham gia kênh";
-
-/* TTS EVENT */
-"has left the channel" = "đã rời khỏi kênh";
-
-/* TTS EVENT */
-"has logged on" = "đã đăng nhập";
-
-/* TTS EVENT */
-"has logged out" = "đã đăng xuất";
-
 /* preferences */
 "Headset TX Toggle" = "Chuyển đổi TX bằng tai nghe";
 
@@ -325,6 +325,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Âm lượng tệp phương tiện vs âm lượng giọng nói";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Tin nhắn trong ngày";
@@ -489,6 +492,9 @@
 /* serverlist */
 "Public server" = "Máy chủ công cộng";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Khóa Nhấn Để Nói";
 
@@ -609,6 +615,9 @@
 /* server entry */
 "TCP Port" = "Cổng TCP";
 
+/* accessibility label */
+"Text Messaging" = "Nhắn Tin";
+
 /* preferences */
 "Text To Speech Events" = "Sự kiện thông báo bằng giọng nói";
 
@@ -666,6 +675,9 @@
 
 /* channel list */
 "User female" = "người dùng nữ";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "Người dùng tham gia kênh";

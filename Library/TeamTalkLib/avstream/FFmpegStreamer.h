@@ -25,8 +25,7 @@
 #define AVCONVWRAPPER_H
 
 #include "MediaStreamer.h"
-
-#include <ace/SString.h>
+#include "mystd/MyStd.h"
 
 #include <cstdint>
 
@@ -34,12 +33,12 @@
 
 void InitAVConv();
 
-bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop);
+bool GetAVMediaFileProp(const tstring& filename, MediaFileProp& out_prop);
 
 class FFmpegStreamer : public MediaFileStreamer
 {
 public:
-    FFmpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
+    FFmpegStreamer(const tstring& filename, const MediaStreamOutput& out_prop);
     ~FFmpegStreamer() override;
 
     virtual bool IsSystemTime() const { return false; }
@@ -59,16 +58,16 @@ private:
     int64_t ProcessAudioBuffer(struct AVFilterContext* aud_buffersink_ctx,
                                struct AVFrame* filt_frame,
                                struct AVStream* aud_stream,
-                               ACE_UINT32 start_time,
-                               ACE_UINT32& start_offset);
+                               uint32_t start_time,
+                               uint32_t& start_offset);
     int64_t ProcessVideoBuffer(struct AVFilterContext* vid_buffersink_ctx,
                                struct AVFrame* filt_frame,
                                struct AVStream* vid_stream,
-                               ACE_UINT32 start_time,
-                               ACE_UINT32& start_offset);
+                               uint32_t start_time,
+                               uint32_t& start_offset);
 };
 
-bool OpenInput(const ACE_TString& filename,
+bool OpenInput(const tstring& filename,
                const AVInputFormat *iformat,
                AVDictionary *options,
                AVFormatContext*& fmt_ctx,

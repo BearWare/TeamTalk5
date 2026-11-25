@@ -25,19 +25,21 @@
 #define MFTRANSFORM_H
 
 #include "codec/MediaUtil.h"
+#include "mystd/MyStd.h"
 
 #include <mfapi.h>
 #include <atlbase.h>
 
 #include <ace/Message_Queue_T.h>
-#include <ace/SString.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 
 #include <memory>
 #include <vector>
 
 media::FourCC ConvertSubType(const GUID& native_subtype);
 const GUID& ConvertFourCC(media::FourCC fcc);
-ACE_TString FourCCToString(media::FourCC fcc);
+tstring FourCCToString(media::FourCC fcc);
 media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType);
 // returns WAVEFORMATEX-struct
 WAVEFORMATEX* MediaTypeToWaveFormatEx(IMFMediaType* pMediaType, std::vector<char>& buf);
@@ -69,11 +71,11 @@ public:
     static mftransform_t Create(IMFMediaType* pInputType, const GUID& dest_videoformat);
     static mftransform_t Create(const media::VideoFormat& inputfmt, media::FourCC outputfmt);
     static mftransform_t Create(media::AudioFormat inputfmt, media::AudioFormat outputfmt, int output_samples);
-    static mftransform_t Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
-    static mftransform_t CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
-    static mftransform_t CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
-    static mftransform_t CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename = nullptr);
-    static mftransform_t CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const ACE_TCHAR* szOutputFilename);
+    static mftransform_t Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const tchar* szOutputFilename = nullptr);
+    static mftransform_t CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const tchar* szOutputFilename = nullptr);
+    static mftransform_t CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate, const tchar* szOutputFilename = nullptr);
+    static mftransform_t CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate, const tchar* szOutputFilename = nullptr);
+    static mftransform_t CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const tchar* szOutputFilename);
 
     virtual CComPtr<IMFMediaType> GetInputType() = 0;
     virtual CComPtr<IMFMediaType> GetOutputType() = 0;

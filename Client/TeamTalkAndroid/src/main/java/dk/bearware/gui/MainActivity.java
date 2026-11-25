@@ -2210,7 +2210,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_login_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
+            ttsWrapper.speak(getResources().getString(R.string.text_tts_loggedin, name));
         }
     }
 
@@ -2226,7 +2226,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_logout_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
+            ttsWrapper.speak(getResources().getString(R.string.text_tts_loggedout, name));
         }
     }
 
@@ -2280,7 +2280,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
                     if (ttsWrapper != null && prefs.get("channel_join_checkbox", false)) {
                         String name = Utils.getDisplayName(getBaseContext(), user);
-                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                        ttsWrapper.speak(getResources().getString(R.string.text_tts_joined_chan, name));
                     }
                 }
                 accessibilityAssistant.unlockEvents();
@@ -2335,7 +2335,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERLEFT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_leave_checkbox", false)) {
                     String name = Utils.getDisplayName(getBaseContext(), user);
-                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+                    ttsWrapper.speak(getResources().getString(R.string.text_tts_left_chan, name));
                 }
             }
             accessibilityAssistant.unlockEvents();
@@ -2372,9 +2372,9 @@ private EditText newmsg;
                 if (sounds.get(SOUND_CHANMSG) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_message_checkbox", false)) {
-                    sender = getService().getUsers().get(textmessage.nFromUserID);
+                    sender = Utils.getUserForDisplay(getService().getUsers(), textmessage.nFromUserID);
                     name = Utils.getDisplayName(getBaseContext(), sender);
-                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", completemsg.szMessage));
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, name, completemsg.szMessage));
                 }
             }
             else if (textmessage.nFromUserID == getService().getTTInstance().getMyUserID()) {
@@ -2397,9 +2397,9 @@ private EditText newmsg;
             if (sounds.get(SOUND_BCASTMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_BCASTMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             if (ttsWrapper != null && prefs.get("broadcast_message_checkbox", false)) {
-                sender = getService().getUsers().get(textmessage.nFromUserID);
+                sender = Utils.getUserForDisplay(getService().getUsers(), textmessage.nFromUserID);
                 name = Utils.getDisplayName(getBaseContext(), sender);
-                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", completemsg.szMessage));
+                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, name, completemsg.szMessage));
             }
             Log.d(TAG, "Broadcast message in " + this.hashCode());
             break;
@@ -2410,14 +2410,13 @@ private EditText newmsg;
             if (sounds.get(SOUND_USERMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_USERMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             
-            sender = getService().getUsers().get(textmessage.nFromUserID);
+            sender = Utils.getUserForDisplay(getService().getUsers(), textmessage.nFromUserID);
             name = Utils.getDisplayName(getBaseContext(), sender);
-            String senderName = (sender != null) ? name : "";
             if (ttsWrapper != null && prefs.get("private_message_checkbox", false))
-                ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, completemsg.szMessage));
+                ttsWrapper.speak(getString(R.string.text_tts_private_message, name, completemsg.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, getString(R.string.notification_channel_messages), NotificationManager.IMPORTANCE_HIGH);
                 mChannel.enableVibration(false);
                 mChannel.setVibrationPattern(null);
                 mChannel.enableLights(false);
@@ -2426,7 +2425,7 @@ private EditText newmsg;
             }
             Notification notification = new NotificationCompat.Builder(this, MSG_NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.message)
-                .setContentTitle(getString(R.string.private_message_notification, senderName))
+                .setContentTitle(getString(R.string.private_message_notification, name))
                 .setContentText(getString(R.string.private_message_notification_hint))
                 .setContentIntent(PendingIntent.getActivity(this, textmessage.nFromUserID, action.putExtra(TextMessageActivity.EXTRA_USERID, textmessage.nFromUserID), PendingIntent.FLAG_IMMUTABLE))
                 .setAutoCancel(true)
@@ -2441,7 +2440,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_TYPING), 1.0f, 1.0f, 0, 0, 1.0f);
 
                     if (ttsWrapper != null && prefs.get("typing_checkbox", false)) {
-                        sender = getService().getUsers().get(textmessage.nFromUserID);
+                        sender = Utils.getUserForDisplay(getService().getUsers(), textmessage.nFromUserID);
                         name = Utils.getDisplayName(getBaseContext(), sender);
                         ttsWrapper.speak(getString(R.string.text_tts_user_typing, name));
                     }

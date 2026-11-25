@@ -22,7 +22,10 @@
  */
 
 #include "OggFileIO.h"
+#include "mystd/MyStd.h"
 
+#include <array>
+#include <cstring>
 #include <cassert>
 
 OggOutput::OggOutput()
@@ -112,12 +115,12 @@ OggFile::~OggFile()
     Close();
 }
 
-bool OggFile::NewFile(const ACE_TString& filename)
+bool OggFile::NewFile(const tstring& filename)
 {
     return m_file.NewFile(filename);
 }
 
-bool OggFile::Open(const ACE_TString& filename)
+bool OggFile::Open(const tstring& filename)
 {
     if (!m_file.Open(filename))
         return false;
@@ -299,7 +302,7 @@ bool OggFile::SyncPage()
 {
     assert(ogg_sync_check(&m_state) == 0);
 
-    const auto SIZE = 0x1000;
+    constexpr auto SYNC_PAGE_BUFFER_SIZE = 0x1000;
     const auto ORIGIN = m_file.Tell();
 
     // first seek forwards
@@ -308,8 +311,8 @@ bool OggFile::SyncPage()
     do
     {
         ogg_sync_reset(&m_state);
-        auto *buffer = ogg_sync_buffer(&m_state, SIZE);
-        n_read = m_file.Read(buffer, static_cast<long>(SIZE));
+        auto *buffer = ogg_sync_buffer(&m_state, SYNC_PAGE_BUFFER_SIZE);
+        n_read = m_file.Read(buffer, static_cast<long>(SYNC_PAGE_BUFFER_SIZE));
         if (n_read > 0)
         {
             int const ret = ogg_sync_wrote(&m_state, static_cast<long>(n_read));
@@ -338,12 +341,12 @@ bool OggFile::SyncPage()
                 return false; // already at begining last time
 
             ogg_sync_reset(&m_state);
-            backwards = std::max(backwards - SIZE, static_cast<int64_t>(0));
+            backwards = std::max(backwards - SYNC_PAGE_BUFFER_SIZE, static_cast<int64_t>(0));
             if (!m_file.Seek(backwards, std::ios_base::beg))
                 return false;
 
-            auto *buffer = ogg_sync_buffer(&m_state, SIZE);
-            n_read = m_file.Read(buffer, SIZE);
+            auto *buffer = ogg_sync_buffer(&m_state, SYNC_PAGE_BUFFER_SIZE);
+            n_read = m_file.Read(buffer, SYNC_PAGE_BUFFER_SIZE);
             if (n_read > 0)
             {
                 int const ret = ogg_sync_wrote(&m_state, static_cast<long>(n_read));
@@ -399,7 +402,7 @@ bool SpeexOgg::Open(const SpeexHeader& spx_header,
                     spx_int32_t lookahead)
 {
     ogg_packet op;
-    char comment[]= {4, 0, 0, 0, 'B', 'E', 'A', 'R', 0, 0, 0, 0};
+    std::array<char, 12> comment = {4, 0, 0, 0, 'B', 'E', 'A', 'R', 0, 0, 0, 0};
     int packet_size = 0;
     int ret = 0;
 
@@ -419,8 +422,8 @@ bool SpeexOgg::Open(const SpeexHeader& spx_header,
     if(ret < 0)
         goto error;
 
-    op.packet = reinterpret_cast<unsigned char*>(comment);
-    op.bytes = sizeof(comment);
+    op.packet = reinterpret_cast<unsigned char*>(comment.data());
+    op.bytes = comment.size();
     op.b_o_s = 0;
     op.e_o_s = 0;
     op.granulepos = 0;
@@ -486,7 +489,7 @@ int SpeexOgg::PutEncoded(const char* enc_data, int len,
     ogg_int64_t const total_samples = ((m_counter) * m_frame_size) + m_frame_size;
 
     ogg_packet op;
-    op.packet = (unsigned char*)enc_data;
+    op.packet = reinterpret_cast<unsigned char*>(const_cast<char*>(enc_data));
     op.bytes = len;
     op.b_o_s = 0;
     op.e_o_s = static_cast<long>(last);
@@ -516,7 +519,7 @@ int SpeexPacketJump(int msec_per_packet,
     int const packet_diff = time_diff / msec_per_packet;
     if(time_diff >= 250)
     {
-        MYTRACE(ACE_TEXT("Time diff skipped: %u\n"), time_diff);
+        MYTRACE(TTEXT("Time diff skipped: %u\n"), time_diff);
         return packet_diff;
     }
     return 0;
@@ -545,7 +548,7 @@ SpeexFile::~SpeexFile()
     Close();
 }
 
-bool SpeexFile::Open(const ACE_TString& filename,
+bool SpeexFile::Open(const tstring& filename,
                      int bandmode,
                      bool vbr)
 {
@@ -651,7 +654,7 @@ int SpeexFile::WriteEncoded(const char* enc_data, int len,
     return ret;
 }
 
-bool SpeexEncFile::Open(const ACE_TString& filename,
+bool SpeexEncFile::Open(const tstring& filename,
                         int bandmode, int complexity, float vbr_quality,
                         int bitrate, int maxbitrate, bool dtx)
 {
@@ -694,7 +697,7 @@ OpusFile::~OpusFile()
     Close();
 }
 
-bool OpusFile::NewFile(const ACE_TString& filename,
+bool OpusFile::NewFile(const tstring& filename,
                        int channels, int samplerate,
                        int  /*framesize*/)
 {
@@ -715,10 +718,10 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     m_header.nb_streams = 1;
     m_header.nb_coupled = channels == 2? 1 : 0;
 
-    unsigned char header_data[276];
-    int const packet_size = opus_header_to_packet(&m_header, header_data, sizeof(header_data));
+    std::array<unsigned char, 276> header_data{};
+    int const packet_size = opus_header_to_packet(&m_header, header_data.data(), header_data.size());
     ogg_packet op = {};
-    op.packet = header_data;
+    op.packet = header_data.data();
     op.bytes = packet_size;
     op.b_o_s = 1;
     op.e_o_s = 0;
@@ -727,14 +730,14 @@ bool OpusFile::NewFile(const ACE_TString& filename,
 
     m_oggout.PutPacket(op);
 
-    unsigned char comment_data[] = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
+    std::array<unsigned char, 16> comment_data = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
                                     /* Vendor String Length */
                                     0x0, 0x0, 0x0, 0x0,
                                     /* User Comment List Length */
                                     0x0, 0x0, 0x0, 0x0};
     op = {};
-    op.packet = comment_data;
-    op.bytes = sizeof(comment_data);
+    op.packet = comment_data.data();
+    op.bytes = comment_data.size();
     op.b_o_s = op.e_o_s = 0;
     op.granulepos = 0;
     op.packetno = 1;
@@ -751,7 +754,7 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     return ret >= 0;
 }
 
-bool OpusFile::OpenFile(const ACE_TString& filename)
+bool OpusFile::OpenFile(const tstring& filename)
 {
     if (!m_oggfile.Open(filename))
     {
@@ -968,7 +971,7 @@ ogg_int64_t OpusFile::GetSamplesPosition() const
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
 
-bool OpusEncFile::Open(const ACE_TString& filename, int channels, 
+bool OpusEncFile::Open(const tstring& filename, int channels, 
                        int samplerate, int framesize, int app)
 {
     if(!m_encoder.Open(samplerate, channels, app))
@@ -1000,7 +1003,7 @@ int OpusEncFile::Encode(const short* input_buffer, int input_samples, bool last)
     return ret;
 }
 
-bool OpusDecFile::Open(const ACE_TString& filename)
+bool OpusDecFile::Open(const tstring& filename)
 {
     if (m_file.OpenFile(filename) && m_decoder.Open(m_file.GetSampleRate(), m_file.GetChannels()))
         return true;

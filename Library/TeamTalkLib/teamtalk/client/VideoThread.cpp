@@ -22,8 +22,7 @@
  */
 
 #include "VideoThread.h"
-
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>
@@ -51,14 +50,14 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
                                int max_frames_queued)
 {
     TTASSERT(m_codec.codec == CODEC_NO_CODEC);
-    if(this->thr_count() != 0)
+    if (m_thread.joinable())
         return false;
 
-    int bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
+    size_t bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= max_frames_queued;
-    this->msg_queue()->activate();
-    this->msg_queue()->high_water_mark(bytes);
-    this->msg_queue()->low_water_mark(bytes);
+    m_msg_queue.activate();
+    m_msg_queue.high_water_mark(bytes);
+    m_msg_queue.low_water_mark(bytes);
     
     assert(cap_format.IsValid());
 
@@ -70,8 +69,8 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
     {
     case CODEC_NO_CODEC :
     {
-        if(this->activate()<0)
-        {
+        try { m_thread = std::thread([this] { Run(); }); }
+        catch (const std::system_error&) {
             StopEncoder();
             return false;
         }
@@ -84,7 +83,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
         if(cap_format.fps_denominator != 0)
             fps = cap_format.fps_numerator / cap_format.fps_denominator;
 
-        MYTRACE(ACE_TEXT("Launching VPX encoder %dx%d@%d bitrate %d\n"),
+        MYTRACE(TTEXT("Launching VPX encoder %dx%d@%d bitrate %d\n"),
                          cap_format.width, cap_format.height, fps,
                          m_codec.webm_vp8.rc_target_bitrate);
         
@@ -94,8 +93,8 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
             StopEncoder();
             return false;
         }
-        if(this->activate()<0)
-        {
+        try { m_thread = std::thread([this] { Run(); }); }
+        catch (const std::system_error&) {
             StopEncoder();
             return false;
         }
@@ -110,9 +109,10 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
 void VideoThread::StopEncoder()
 {
     int ret = 0;
-    ret = this->msg_queue()->close();
+    ret = m_msg_queue.close();
     TTASSERT(ret>=0);
-    wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
     switch(m_codec.codec)
     {
@@ -148,17 +148,11 @@ bool VideoThread::UpdateEncoder(const teamtalk::VideoCodec& codec)
     return false;
 }
 
-int VideoThread::close(u_long /*flags*/)
-{
-    MYTRACE( ACE_TEXT("Video Encoder thread closed\n") );
-    return 0;
-}
-
-int VideoThread::svc()
+void VideoThread::Run()
 {
     ACE_Message_Block* mb = nullptr;
 
-    while(getq(mb) >= 0)
+    while(m_msg_queue.dequeue(mb) >= 0)
     {
         VideoFrame const vid(mb);
         bool new_ownership = false;
@@ -206,7 +200,6 @@ int VideoThread::svc()
         if(!new_ownership)
             mb->release();
     }
-    return 0;
 }
 
 void VideoThread::QueueFrame(const media::VideoFrame& video_frame)
@@ -220,11 +213,11 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
 {
     assert(mb_video->rd_ptr() == mb_video->base());
     ACE_Time_Value tm_zero;
-    if (this->msg_queue()->enqueue(mb_video, &tm_zero)<0)
+    if (m_msg_queue.enqueue(mb_video, &tm_zero)<0)
     {
         m_frames_dropped++;
-        MYTRACE(ACE_TEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
-                static_cast<int>(mb_video->length()), static_cast<int>(this->msg_queue()->message_bytes()), 
+        MYTRACE(TTEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
+                static_cast<int>(mb_video->length()), static_cast<int>(m_msg_queue.message_bytes()), 
                 m_frames_dropped, m_frames_dropped + m_frames_passed);
         mb_video->release();
     }
@@ -232,5 +225,5 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
     {
         m_frames_passed++;
     }
-    //MYTRACE(ACE_TEXT("Encoder queue size: %d\n"), this->msg_queue()->message_count());
+    //MYTRACE(TTEXT("Encoder queue size: %d\n"), this->msg_queue()->message_count());
 }

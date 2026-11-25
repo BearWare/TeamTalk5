@@ -22,11 +22,9 @@
  */
 
 #include "WebRTCPreprocess.h"
-
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
-#include <ace/ace_wchar.h>
 #include <api/audio/audio_processing.h>
 #include <api/audio/audio_processing_statistics.h>
 
@@ -73,7 +71,7 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         }
         int const ret = apm.set_stream_delay_ms(delayms);
         MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                        ACE_TEXT("WebRTC failed to stream delay for echo cancellation. Result: %d, delay: %d\n"), ret, infrm.duplex_callback_delay);
+                        TTEXT("WebRTC failed to stream delay for echo cancellation. Result: %d, delay: %d\n"), ret, infrm.duplex_callback_delay);
         if (ret != webrtc::AudioProcessing::kNoError)
             return -1;
     }
@@ -93,15 +91,15 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
                                            echo_cfg, echo_cfg,
                                            const_cast<int16_t*>(&infrm.output_buffer[in_index * echo_cfg.num_channels()]));
             MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                         ACE_TEXT("WebRTC failed to process reverse audio frame. Result: %d\n"), ret);
+                         TTEXT("WebRTC failed to process reverse audio frame. Result: %d\n"), ret);
         }
 
         ret = apm.ProcessStream(&infrm.input_buffer[in_index * in_cfg.num_channels()],
                                 in_cfg, out_cfg, &outfrm.input_buffer[out_index * out_cfg.num_channels()]);
         MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
-                     ACE_TEXT("WebRTC failed to process audio frame. Result: %d\n"), ret);
+                     TTEXT("WebRTC failed to process audio frame. Result: %d\n"), ret);
 
-        MYTRACE_COND(DEBUG_WEBRTC, ACE_TEXT("Gain1=%d, gain %d. Gain2=%d, gain: %g\n"),
+        MYTRACE_COND(DEBUG_WEBRTC, TTEXT("Gain1=%d, gain %d. Gain2=%d, gain: %g\n"),
                      int(apm.GetConfig().gain_controller1.enabled),
                      apm.GetConfig().gain_controller1.target_level_dbfs,
                      int(apm.GetConfig().gain_controller2.enabled),

@@ -27,6 +27,7 @@
 
 #include "TTUnitTest.h"
 
+#include "mystd/MyStd.h"
 #include "bin/dll/Convert.h"
 #include "codec/WaveFile.h"
 
@@ -58,8 +59,8 @@ TEST_CASE("TestAudioTransform")
     frame.input_samples = input.samplerate;
 
     WavePCMFile inwavefile, outwavefile;
-    REQUIRE(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
-    REQUIRE(outwavefile.NewFile(ACE_TEXT("hest_out.wav"), output.samplerate, output.channels));
+    REQUIRE(inwavefile.NewFile(TTEXT("hest_in.wav"), input.samplerate, input.channels));
+    REQUIRE(outwavefile.NewFile(TTEXT("hest_out.wav"), output.samplerate, output.channels));
 
     int output_samples = int(output.samplerate * .1);
 
@@ -98,10 +99,10 @@ TEST_CASE("TestAudioEncoderTransform")
     frame.input_samples = input.samplerate;
 
     WavePCMFile inwavefile;
-    REQUIRE(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+    REQUIRE(inwavefile.NewFile(TTEXT("hest_in.wav"), input.samplerate, input.channels));
 
     MyFile outwavefile;
-    REQUIRE(outwavefile.NewFile(ACE_TEXT("hest_out.wav")));
+    REQUIRE(outwavefile.NewFile(TTEXT("hest_out.wav")));
             
     auto transform = MFTransform::CreateMP3(input, 64000);
     REQUIRE(transform.get() != nullptr);
@@ -323,7 +324,7 @@ TEST_CASE("TestAudioTransformMP3")
     frame.input_samples = input.samplerate;
 
     WavePCMFile inwavefile;
-    REQUIRE(inwavefile.NewFile(ACE_TEXT("hest_in.wav"), input.samplerate, input.channels));
+    REQUIRE(inwavefile.NewFile(TTEXT("hest_in.wav"), input.samplerate, input.channels));
 
     auto transformmp3 = MFTransform::CreateMP3(input, 64000, L"hest_mp3.wav");
     REQUIRE(transformmp3.get() != nullptr);

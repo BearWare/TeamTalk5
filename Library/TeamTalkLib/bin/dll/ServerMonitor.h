@@ -36,12 +36,12 @@ public:
     void OnUserConnected(const teamtalk::ServerUser& user) override;
     void OnUserLogin(const teamtalk::ServerUser& user) override;
     void OnUserAuthFailed(const teamtalk::ServerUser& user,
-                          const ACE_TString& username) override;
+                          const tstring& username) override;
     void OnUserLoginBanned(const teamtalk::ServerUser& user) override;
     void OnUserLoggedOut(const teamtalk::ServerUser& user) override;
     void OnUserDisconnected(const teamtalk::ServerUser& user) override;
     void OnUserCryptError(const teamtalk::ServerUser& user, int sslerr,
-                          const ACE_TString& msg) override;
+                          const tstring& msg) override;
     void OnUserDropped(const teamtalk::ServerUser& user) override;
 
     void OnUserKicked(const teamtalk::ServerUser& kickee,
@@ -49,7 +49,7 @@ public:
                       const teamtalk::ServerChannel* channel) override;
     void OnUserBanned(const teamtalk::ServerUser& banee,
                       const teamtalk::ServerUser& banner) override;
-    void OnUserBanned(const ACE_TString& ipaddr,
+    void OnUserBanned(const tstring& ipaddr,
                       const teamtalk::ServerUser& banner) override;
     void OnUserBanned(const teamtalk::ServerUser& banner, const teamtalk::BannedUser& ban) override;
     void OnUserUnbanned(const teamtalk::ServerUser& user,
@@ -177,15 +177,15 @@ public:
     teamtalk::ErrorMsg AddRegUser(const teamtalk::ServerUser& user,
                                   const teamtalk::UserAccount& useraccount) override;
     teamtalk::ErrorMsg DeleteRegUser(const teamtalk::ServerUser& user,
-                                     const ACE_TString& username) override;
+                                     const tstring& username) override;
 
     teamtalk::ErrorMsg AddUserBan(const teamtalk::ServerUser& banner, const teamtalk::ServerUser& banee, teamtalk::BanTypes bantype) override;
     teamtalk::ErrorMsg AddUserBan(const teamtalk::ServerUser& banner, const teamtalk::BannedUser& ban) override;
     teamtalk::ErrorMsg RemoveUserBan(const teamtalk::ServerUser& user, const teamtalk::BannedUser& ban) override;
     teamtalk::ErrorMsg GetUserBans(const teamtalk::ServerUser& user, std::vector<teamtalk::BannedUser>& bans) override;
 
-    teamtalk::ErrorMsg ChangeNickname(const teamtalk::ServerUser& user, const ACE_TString& newnick) override;
-    teamtalk::ErrorMsg ChangeStatus(const teamtalk::ServerUser& user, int mode, const ACE_TString& status) override;
+    teamtalk::ErrorMsg ChangeNickname(const teamtalk::ServerUser& user, const tstring& newnick) override;
+    teamtalk::ErrorMsg ChangeStatus(const teamtalk::ServerUser& user, int mode, const tstring& status) override;
 
     teamtalk::ErrorMsg SaveConfiguration(const teamtalk::ServerUser& user, teamtalk::ServerNode& servernode) override;
 

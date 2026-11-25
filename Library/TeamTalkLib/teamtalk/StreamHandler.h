@@ -24,7 +24,7 @@
 #if !defined(STREAMHANDLER_H)
 #define STREAMHANDLER_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
 #include <ace/Event_Handler.h>
@@ -33,6 +33,8 @@
 #include <ace/Null_Mutex.h>
 #include <ace/Reactor.h>
 #include <ace/Svc_Handler.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Thread_Manager.h>
 
 #if defined(ENABLE_ENCRYPTION)
@@ -86,11 +88,11 @@ public:
 
         ACE_HANDLE const hh = this->get_handle();
 #if defined (ACE_WIN32)
-        MYTRACE(ACE_TEXT("~StreamHandler() %p. Handle: 0x%p, Sent: %u Recv: %u\n"),
-                this, hh, ACE_UINT32(sent_), ACE_UINT32(recv_));
+        MYTRACE(TTEXT("~StreamHandler() %p. Handle: 0x%p, Sent: %u Recv: %u\n"),
+                this, hh, uint32_t(sent_), uint32_t(recv_));
 #else
-        MYTRACE(ACE_TEXT("~StreamHandler() %p, Handle: 0x%x, Sent: %u Recv: %u\n"),
-                this, hh, ACE_UINT32(sent_), ACE_UINT32(recv_));
+        MYTRACE(TTEXT("~StreamHandler() %p, Handle: 0x%x, Sent: %u Recv: %u\n"),
+                this, hh, uint32_t(sent_), uint32_t(recv_));
 #endif
 
     }
@@ -130,7 +132,7 @@ public:
             recv_ += ret;
             if(m_listener)
             {
-                if(!m_listener->OnReceive(*this, m_buffer.data(), (int)ret))
+                if(!m_listener->OnReceive(*this, m_buffer.data(), static_cast<int>(ret)))
                     break;
             }
 
@@ -208,7 +210,7 @@ public:
         return -1;
     }
 
-    ACE_INT64 sent_ = 0, recv_ = 0;
+    int64_t sent_ = 0, recv_ = 0;
 
 protected:
     StreamListener<StreamHandler>* m_listener = nullptr;

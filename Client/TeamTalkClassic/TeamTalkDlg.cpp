@@ -2231,7 +2231,7 @@ void CTeamTalkDlg::OnUserDesktopInput(const TTMessage& msg)
         return;
 
     //ignore input if we're not sharing a window
-    if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == CLIENT_CLOSED)
         return;
 
     TTKeyTranslate key_trans = TTKEY_NO_TRANSLATE;
@@ -3282,7 +3282,7 @@ void CTeamTalkDlg::OnFileHostmanager()
     m_host.szChannel.clear();
     m_host.szChPasswd.clear();
 
-    if( (TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0)
+    if( (TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED)
     {
         CHostManagerDlg dlg(&m_xmlSettings, this);
         for(int i=m_xmlSettings.GetLatestHostEntryCount()-1; i>=0; i--)
@@ -4812,12 +4812,12 @@ void CTeamTalkDlg::OnTimer(UINT_PTR nIDEvent)
             m_nReconnectTimerID = 0;
             break;
         }
-        if((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0)
+        if((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED)
             Connect( STR_UTF8( m_host.szAddress.c_str() ), m_host.nTcpPort, 
                     m_host.nUdpPort, m_host.bEncrypted);
         break;
     case TIMER_DESKTOPSHARE_ID:
-        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
+        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == CLIENT_CLOSED)
         {
             //only update desktop if there's users in the channel
             //(save bandwidth)

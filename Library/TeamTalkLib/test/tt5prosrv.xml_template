@@ -49,7 +49,6 @@
             <audiocodec-bps-limit>0</audiocodec-bps-limit>
             <channel-operator />
         </user>
-
         <user>
             <username>guest</username>
             <password>guest</password>
@@ -60,9 +59,19 @@
             <init-channel></init-channel>
             <audiocodec-bps-limit>0</audiocodec-bps-limit>
             <channel-operator />
+            <modified-time>2021/08/17 18:39</modified-time>
         </user>
     </users>
-    <serverbans />
+    <serverbans>
+      <serverban type="2">
+        <bantime>2026/04/28 19:31</bantime>
+        <ip-address>88.77.66.55</ip-address>
+        <nickname>Vader</nickname>
+        <username>guest</username>
+        <channel-path>/foo/</channel-path>
+        <owner>admin</owner>
+      </serverban>
+    </serverbans>
     <bearware-weblogin>
         <bearwareid>github@bearware.dk</bearwareid>
         <bearwaretoken>0c7f9bbad78d750226579949232aa5993682f0237692dffaa16145be52957292</bearwaretoken>

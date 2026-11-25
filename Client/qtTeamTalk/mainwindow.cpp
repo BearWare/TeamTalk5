@@ -1462,17 +1462,23 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        User user;
-        TT_GetUserByUsername(ttInst, file.szUsername, &user);
-        QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
-        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
+        //user who uploaded the file may not be logged on
+        QString name = _Q(file.szUsername);
+        if ((m_myuseraccount.uUserRights & USERRIGHT_MULTI_LOGIN) == USERRIGHT_NONE)
+        {
+            User user = {};
+            if (m_host.username == _Q(file.szUsername))
+                name = tr("You");
+            else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
+                name = getDisplayName(user);
+        }
+        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
+        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
     }
 }
 
 void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
 {
-    User user;
     //only update files list if we're not currently logging in or
     //joining a channel
     cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1482,10 +1488,18 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        TT_GetUserByUsername(ttInst, file.szUsername, &user);
-        QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}}));
-        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}}));
+        //user who uploaded the file may not be logged on
+        QString name = _Q(file.szUsername);
+        if ((m_myuseraccount.uUserRights & USERRIGHT_MULTI_LOGIN) == USERRIGHT_NONE)
+        {
+            User user = {};
+            if (m_host.username == _Q(file.szUsername))
+                name = tr("You");
+            else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
+                name = getDisplayName(user);
+        }
+        addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}}));
+        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}}));
     }
 }
 
@@ -1632,7 +1646,7 @@ void MainWindow::clienteventUserVideoCapture(int source, int streamid)
 
     //if local video is disabled then don't process pending video
     //frames
-    if (source == 0 && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if (source == 0 && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
         return;
 
     //pass new video frame (if it's not being ignored)
@@ -2231,7 +2245,7 @@ void MainWindow::initSound()
 
 void MainWindow::connectToServer()
 {
-    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
+    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED);
 
     if (!setupEncryption(m_host))
     {
@@ -2563,7 +2577,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_VIDEOTX :
         if(active)
-            slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == 0);
+            slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED);
         break;
     case HOTKEY_REINITSOUNDDEVS :
         if (active)
@@ -2652,7 +2666,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         }
 
         //check if desktop transfer has been closed
-        if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == 0)
+        if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == CLIENT_CLOSED)
         {
             m_desktopsession_id = 0;
             m_prev_desktopsession_id = 0;
@@ -2715,7 +2729,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         break;
     }
     case TIMER_RECONNECT :
-        Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == 0);
+        Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == CLIENT_CLOSED);
         disconnectFromServer();
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Trying to reconnect to %1 port %2").arg(m_host.ipaddr).arg(m_host.tcpport));
         connectToServer();
@@ -2739,7 +2753,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         }
         break;
     case TIMER_SEND_DESKTOPWINDOW :
-        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
+        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == CLIENT_CLOSED)
         {
             //only update desktop if there's users in the channel
             //(save bandwidth)
@@ -3794,7 +3808,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
     if(inputs.isEmpty())return;
 
     //ignore input if we're not sharing a window
-    if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == CLIENT_CLOSED)
         return;
 /*
     //ignore input if incorrect window has focus
@@ -4788,7 +4802,7 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
 {
     ClientFlags flags = TT_GetFlags(ttInst);
-    if((flags & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if((flags & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
     {
         VideoCodec vidcodec;
         if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
@@ -5210,9 +5224,9 @@ void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
     QString listuser;
     for(int i=0; i<m_moveusers.size(); i++)
     {
-        User user;
-        TT_GetUser(ttInst, m_moveusers.value(i), &user);
-        listuser += getDisplayName(user) + ", ";
+        User user = {};
+        if (TT_GetUser(ttInst, m_moveusers.value(i), &user))
+            listuser += getDisplayName(user) + ", ";
     }
     listuser.chop(2);
     addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("%1 selected for move").arg(listuser));
@@ -6019,15 +6033,17 @@ void MainWindow::slotServerBannedUsers(bool /*checked =false */)
 
 void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
 {
+    //only connect signals once, otherwise each action is done several times
     if(m_onlineusersdlg)
-        m_onlineusersdlg->activateWindow();
-    else
     {
-        m_onlineusersdlg = new OnlineUsersDlg();
-        connect(m_onlineusersdlg, &QDialog::finished,
-                this, &MainWindow::slotClosedOnlineUsersDlg);
-        m_onlineusersdlg->setAttribute(Qt::WA_DeleteOnClose);
+        m_onlineusersdlg->activateWindow();
+        return;
     }
+
+    m_onlineusersdlg = new OnlineUsersDlg();
+    connect(m_onlineusersdlg, &QDialog::finished,
+            this, &MainWindow::slotClosedOnlineUsersDlg);
+    m_onlineusersdlg->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(this, &MainWindow::userLogin, m_onlineusersdlg,
             &OnlineUsersDlg::slotUserLoggedIn);
@@ -6888,7 +6904,7 @@ void MainWindow::slotUserDoubleClicked(int id)
         {
             //resubscribe in case disabled
             Subscriptions subs = SUBSCRIBE_NONE;
-            if((user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == 0)
+            if((user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_NONE)
                 subs |= SUBSCRIBE_VIDEOCAPTURE;
             if(user.nChannelID != m_mychannel.nChannelID)
                 subs |= SUBSCRIBE_INTERCEPT_VIDEOCAPTURE;
@@ -6909,7 +6925,7 @@ void MainWindow::slotUserDoubleClicked(int id)
         {
             //resubscribe in case disabled
             Subscriptions subs = SUBSCRIBE_NONE;
-            if((user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE) == 0)
+            if((user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_NONE)
                 subs |= SUBSCRIBE_MEDIAFILE;
             if(user.nChannelID != m_mychannel.nChannelID)
                 subs |= SUBSCRIBE_INTERCEPT_MEDIAFILE;
@@ -7096,7 +7112,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
 
 void MainWindow::slotInitVideo()
 {
-    if((TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
     {
         if(!initVideoCaptureFromSettings())
             QMessageBox::warning(this, tr("Start Webcam"), 
@@ -7141,7 +7157,7 @@ void MainWindow::slotAddUserVideo()
 
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
-           (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == 0)
+           (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_NONE)
            menu.addAction(getDisplayName(user))->setData(users[i]);
     }
 
@@ -7328,7 +7344,7 @@ void MainWindow::slotAddUserDesktopGrid()
 
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
-           (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP) == 0)
+           (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP) == SUBSCRIBE_NONE)
            menu.addAction(getDisplayName(user))->setData(users[i]);
     }
 

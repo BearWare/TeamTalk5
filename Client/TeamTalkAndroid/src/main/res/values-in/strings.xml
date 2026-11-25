@@ -28,8 +28,8 @@
     <string name="text_cmd_leftchan">Meninggalkan saluran:</string>
     <string name="text_cmd_joinroot">Bergabung dengan saluran utama</string>
     <string name="text_cmd_leftroot">meninggalkan saluran utama</string>
-    <string name="text_cmd_userjoinchan">Bergabung dengan saluran</string>
-    <string name="text_cmd_userleftchan">meninggalkan saluran</string>
+    <string name="text_cmd_userjoinchan">%1$s Bergabung dengan saluran</string>
+    <string name="text_cmd_userleftchan">%1$s meninggalkan saluran</string>
     <string name="pref_cat_subscriptions">Langganan</string>
     <string name="pref_cat_tts">konfigurasi suara Teks-Ke-Ucapan</string>
     <string name="pref_header_general">Umum</string>
@@ -108,10 +108,10 @@
     <string name="pref_title_voice_processing_checkbox">Aktifkan audio preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Gunakan pembatalan echo dan kontrol gain otomatis</string>
 
-    <string name="text_tts_loggedin">telah masuk ke server</string>
-    <string name="text_tts_loggedout">telah keluar dari server</string>
-    <string name="text_tts_joined_chan">telah bergabung dengan saluran</string>
-    <string name="text_tts_left_chan">meninggalkan saluran</string>
+    <string name="text_tts_loggedin">%1$s telah masuk ke server</string>
+    <string name="text_tts_loggedout">%1$s telah keluar dari server</string>
+    <string name="text_tts_joined_chan">%1$s telah bergabung dengan saluran</string>
+    <string name="text_tts_left_chan">%1$s meninggalkan saluran</string>
     <string name="text_tts_private_message">Pesan pribadi dari %1$s: %2$s</string>
     <string name="text_tts_channel_message">Pesan saluran dari %1$s: %2$s</string>
     <string name="text_tts_broadcast_message">Pesan broadcast dari %1$s: %2$s</string>

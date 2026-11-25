@@ -76,11 +76,16 @@ HINSTANCE hInstance = NULL;
 #endif
 
 #include <algorithm>
+#include <array>
 #include <cassert>
+#include <chrono>
+#include <cstring>
+#include <filesystem>
+#include <map>
 #include <memory>
 #include <mutex>
-#include <map>
 #include <queue>
+#include <system_error>
 #include <utility>
 
 
@@ -103,8 +108,8 @@ using namespace std::placeholders;
 
 using clientnode_t = std::shared_ptr<ClientNode>;
 
-extern ACE_TString g_lpszRegName;
-extern ACE_TString g_lpszRegKey;
+extern tstring g_lpszRegName;
+extern tstring g_lpszRegKey;
 extern bool g_LicenseValid;
 
 struct ClientInstance
@@ -117,16 +122,10 @@ struct ClientInstance
 
     VideoFrame* PushVideoFrame(ACE_Message_Block* mb)
     {
-        VideoFrame* vid_frame = nullptr;
-        ACE_NEW_NORETURN(vid_frame, VideoFrame);
-        if(vid_frame == nullptr)
-        {
-            mb->release();
-            return nullptr;
-        }
+        auto vid_frame = std::make_unique<VideoFrame>();
         std::scoped_lock const g(mutex_video);
-        video_frames[vid_frame] = mb;
-        return vid_frame;
+        video_frames[vid_frame.get()] = mb;
+        return vid_frame.release(); // NOLINT(bugprone-unused-return-value)
     }
     bool RemoveVideoFrame(VideoFrame* vid_frame)
     {
@@ -148,17 +147,14 @@ struct ClientInstance
     desktopwindows_t desktop_windows;
     DesktopWindow* PushDesktopWindow(int buf_size)
     {
-        DesktopWindow* wnd_frame = nullptr;
-
-        ACE_Message_Block* mb = nullptr;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(DesktopWindow) + buf_size),
-                       nullptr);
-        wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
+        auto mb = std::make_unique<ACE_Message_Block>(sizeof(DesktopWindow) + buf_size);
+        auto* wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
         wnd_frame->frameBuffer = mb->rd_ptr() + sizeof(DesktopWindow);
         wnd_frame->nFrameBufferSize = buf_size;
 
         std::scoped_lock const g(mutex_desktop);
-        desktop_windows[wnd_frame] = mb;
+        desktop_windows[wnd_frame] = mb.get();
+        mb.release(); // NOLINT(bugprone-unused-return-value)
         return wnd_frame;
     }
 
@@ -181,16 +177,10 @@ struct ClientInstance
 
     AudioBlock* PushAudioBlock(ACE_Message_Block* mb)
     {
-        AudioBlock* audblock = nullptr;
-        ACE_NEW_NORETURN(audblock, AudioBlock);
-        if(audblock == nullptr)
-        {
-            mb->release();
-            return nullptr;
-        }
+        auto audblock = std::make_unique<AudioBlock>();
         std::scoped_lock const g(mutex_audblocks);
-        audio_blocks[audblock] = mb;
-        return audblock;
+        audio_blocks[audblock.get()] = mb;
+        return audblock.release(); // NOLINT(bugprone-unused-return-value)
     }
 
     bool RemoveAudioBlock(AudioBlock* audblock)
@@ -210,7 +200,7 @@ struct ClientInstance
 
     ClientInstance(std::unique_ptr<TTMsgQueue> eh) : eventhandler(std::move(eh))
     {
-        MYTRACE(ACE_TEXT("ClientInstance() - %p\n"), this);
+        MYTRACE(TTEXT("ClientInstance() - %p\n"), this);
 
 #if defined(ENABLE_MEDIAFOUNDATION)
         static class MFInit {
@@ -228,14 +218,14 @@ struct ClientInstance
         } mfinit;
 #endif
         
-        clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eventhandler.get());
+        clientnode = std::make_shared<ClientNode>(Utf8ToUnicode(TEAMTALK_VERSION), eventhandler.get());
 
 #if defined(WIN32)
         RegisterAudioDeviceChange(eventhandler.get(), std::bind(&TTMsgQueue::AudioDeviceChange, eventhandler.get(), _1, _2, _3), true);
 #endif
         
 #if defined(ENABLE_MINIDUMP)
-        static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
+        static MiniDumper mdump(TTEXT("TeamTalk5.dll"));
 #endif
 
 #if !defined(WIN32)
@@ -249,17 +239,17 @@ struct ClientInstance
     ~ClientInstance()
     {
         MYTRACE_COND(!video_frames.empty(),
-                     ACE_TEXT("ERROR: Leaking %d VideoFrame structs\n"), (int)video_frames.size());
+                     TTEXT("ERROR: Leaking %d VideoFrame structs\n"), static_cast<int>(video_frames.size()));
         MYTRACE_COND(!desktop_windows.empty(),
-                     ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), (int)desktop_windows.size());
+                     TTEXT("ERROR: Leaking %d DesktopWindow structs\n"), static_cast<int>(desktop_windows.size()));
         MYTRACE_COND(!audio_blocks.empty(),
-                     ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), (int)audio_blocks.size());
+                     TTEXT("ERROR: Leaking %d AudioBlock structs\n"), static_cast<int>(audio_blocks.size()));
 
 #if defined(WIN32)
         auto eh = eventhandler.get();
         RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), false);
 #endif
-        MYTRACE(ACE_TEXT("~ClientInstance() - %p\n"), this);
+        MYTRACE(TTEXT("~ClientInstance() - %p\n"), this);
     }
 };
 
@@ -283,7 +273,7 @@ BOOL APIENTRY DllMain(HANDLE hModule,
     {
     case DLL_PROCESS_ATTACH:
         {
-            hInstance = (HINSTANCE)hModule;
+            hInstance = reinterpret_cast<HINSTANCE>(hModule);
             ret = ACE::init();
             TTASSERT(ret >= 0);
             break;
@@ -352,7 +342,7 @@ static clientinst_t GetClient(TTInstance* pInstance)
             return c;
     }
 
-    MYTRACE(ACE_TEXT("TTInstance %p not found.\n"), pInstance);
+    MYTRACE(TTEXT("TTInstance %p not found.\n"), pInstance);
     return {};
 }
 
@@ -373,7 +363,8 @@ static clientnode_t GET_CLIENTNODE(TTInstance* pInstance)
 
 TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 {
-    return ACE_TEXT( TEAMTALK_VERSION );
+    static const tstring version = Utf8ToUnicode(TEAMTALK_VERSION);
+    return version.c_str();
 }
 
 #if defined(WIN32)
@@ -500,7 +491,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
 
     for(size_t i=0;i<lessDevs;i++)
     {
-        ACE_OS::strsncpy(pSoundDevices[i].szDeviceName, 
+        tstrsncpy(pSoundDevices[i].szDeviceName, 
                         devices[i].devicename.c_str(), 
                         TT_STRLEN);
         pSoundDevices[i].nDeviceID = devices[i].id;
@@ -511,7 +502,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         pSoundDevices[i].nSoundSystem = static_cast<SoundSystem>(devices[i].soundsystem);
         pSoundDevices[i].uSoundDeviceFeatures = devices[i].features;
 
-        ACE_OS::strsncpy(pSoundDevices[i].szDeviceID, 
+        tstrsncpy(pSoundDevices[i].szDeviceID, 
                         devices[i].deviceid.c_str(), 
                         TT_STRLEN);
         pSoundDevices[i].nWaveDeviceID = devices[i].wavedeviceid;
@@ -1104,13 +1095,13 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     size_t const lessDevs = static_cast<size_t>(*lpnHowMany) < devs.size()?*lpnHowMany:devs.size();
     for(size_t i=0;i<lessDevs;i++)
     {
-        ACE_OS::strsncpy(lpVideoDevices[i].szCaptureAPI, 
+        tstrsncpy(lpVideoDevices[i].szCaptureAPI, 
                          devs[i].api.c_str(),
                          TT_STRLEN);
-        ACE_OS::strsncpy(lpVideoDevices[i].szDeviceName, 
+        tstrsncpy(lpVideoDevices[i].szDeviceName, 
                          devs[i].devicename.c_str(), 
                          TT_STRLEN);
-        ACE_OS::strsncpy(lpVideoDevices[i].szDeviceID, 
+        tstrsncpy(lpVideoDevices[i].szDeviceID, 
                          devs[i].deviceid.c_str(), 
                          TT_STRLEN);
 
@@ -1258,9 +1249,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
         clientuser_t const user = clientnode->GetUser(nUserID);
         if(!user)
             return nullptr;
-        g.release(); //don't hold lock while decoding
-        mb = user->GetVideoCaptureFrame();
-        g.acquire();
+        mb = user->GetVideoCaptureFrame(g);
     }
 
     if(mb != nullptr)
@@ -1354,7 +1343,7 @@ TEAMTALKDLL_API TTBOOL TT_ConnectSysID(IN TTInstance* lpTTInstance,
         return FALSE;
 
     return static_cast<TTBOOL>(clientnode->Connect(bEncrypted != 0, szHostAddress, nTcpPort, nUdpPort, 
-                                szSystemID, ACE_TEXT(""), nLocalTcpPort, 
+                                szSystemID, TTEXT(""), nLocalTcpPort, 
                                 nLocalUdpPort));
 }
 
@@ -1448,7 +1437,7 @@ TEAMTALKDLL_API INT32 TT_DoLogin(IN TTInstance* lpTTInstance,
                                  IN const TTCHAR* szPassword)
 {
     return TT_DoLoginEx(lpTTInstance, szNickname, szUsername, 
-                        szPassword, ACE_TEXT(""));
+                        szPassword, TTEXT(""));
 }
 
 TEAMTALKDLL_API INT32 TT_DoLoginEx(IN TTInstance* lpTTInstance,
@@ -1556,7 +1545,7 @@ TEAMTALKDLL_API INT32 TT_DoChannelOp(IN TTInstance* lpTTInstance,
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
-    return clientnode->DoChannelOperator(nUserID, nChannelID, ACE_TString(), 
+    return clientnode->DoChannelOperator(nUserID, nChannelID, tstring(), 
                                           bMakeOperator != 0);
 }
 
@@ -1592,7 +1581,8 @@ TEAMTALKDLL_API INT32 TT_DoSendFile(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    if((szLocalFilePath != nullptr) && ACE_OS::filesize(szLocalFilePath)>=0)
+    std::error_code ec;
+    if (szLocalFilePath != nullptr && std::filesystem::exists(szLocalFilePath, ec))
         return clientnode->DoFileSend(nChannelID, szLocalFilePath);
     return -1;
 }
@@ -1725,7 +1715,7 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelPath(IN TTInstance* lpTTInstance,
         clientchannel_t const channel = clientnode->GetChannel(nChannelID);
         if(channel)
         {
-            ACE_OS::strsncpy(szChannelPath, channel->GetChannelPath().c_str(), TT_STRLEN);
+            tstrsncpy(szChannelPath, channel->GetChannelPath().c_str(), TT_STRLEN);
             return TRUE;
         }
     }
@@ -1805,9 +1795,9 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
     if (user)
     {
         if(szFolderPath == nullptr)
-            szFolderPath = ACE_TEXT("");
+            szFolderPath = TTEXT("");
         if(szFileNameVars == nullptr)
-            szFileNameVars = ACE_TEXT("");
+            szFileNameVars = TTEXT("");
 
         user->SetAudioFolder(szFolderPath);
         user->SetAudioFileVariables(szFileNameVars);
@@ -2296,14 +2286,10 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     if (!user)
         return nullptr;
 
-    g.release(); //don't hold lock while decoding
-    
-    ACE_Message_Block* mb = user->GetVideoFileFrame();
+    ACE_Message_Block* mb = user->GetVideoFileFrame(g);
     if(mb == nullptr)
         return nullptr;
 
-    g.acquire();
-    
     VideoFrame* lpVideoFrame = inst->PushVideoFrame(mb);
     if(lpVideoFrame != nullptr)
     {
@@ -2372,7 +2358,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
@@ -2408,7 +2394,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
@@ -2479,7 +2465,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
@@ -2582,7 +2568,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = in_out_bmp.size();
             }
         }
@@ -2613,7 +2599,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                      lpDesktopWindow->nBytesPerLine);
 
     MYTRACE_COND(src_session.GetBitmapSize() != lpDesktopWindow->nFrameBufferSize,
-                 ACE_TEXT("Rejected bitmap due to invalid size\n"));
+                 TTEXT("Rejected bitmap due to invalid size\n"));
     if(src_session.GetBitmapSize() != lpDesktopWindow->nFrameBufferSize)
         return -1;
 
@@ -2634,7 +2620,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                               reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer),
                                               lpDesktopWindow->nFrameBufferSize);
     
-    MYTRACE(ACE_TEXT("Warning: slow conversion of bitmap\n"));
+    MYTRACE(TTEXT("Warning: slow conversion of bitmap\n"));
     //FIXME: very inefficient!
     vector<char> buf;
     vector<char> tmp_buf;
@@ -2652,7 +2638,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
     return clientnode->SendDesktopWindow(dst_session.GetWidth(),
                                          dst_session.GetHeight(),
                                          dst_session.GetRGBMode(),
-                                         (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
+                                         static_cast<teamtalk::DesktopProtocol>(lpDesktopWindow->nProtocol),
                                          &buf[0], static_cast<int>(buf.size()));
 }
 
@@ -2674,7 +2660,7 @@ TEAMTALKDLL_API unsigned char* TT_Palette_GetColorTable(IN BitmapFormat nBmpPale
     case BMP_RGB8_PALETTE :
         if(nIndex<0 || nIndex >= 256)
             return nullptr;
-        return BMPPalette::Instance()->m_rgb8_palette[nIndex];
+        return BMPPalette::Instance()->m_rgb8_palette[nIndex].data();
     default :
         return nullptr;
     }
@@ -2719,7 +2705,7 @@ TEAMTALKDLL_API TTBOOL TT_Windows_GetDesktopWindowHWND(IN INT32 nIndex,
     wnd.hWnd = 0;
     wnd.nIndex = nIndex;
 
-    EnumWindows( (WNDENUMPROC) CheckWindowTitle, (LPARAM) &wnd );
+    EnumWindows(reinterpret_cast<WNDENUMPROC>(CheckWindowTitle), reinterpret_cast<LPARAM>(&wnd));
     if(wnd.hWnd != 0)
     {
         if(lpHWnd)
@@ -2753,7 +2739,6 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
                                                    IN BitmapFormat nBitmapFormat,
                                                    IN DesktopProtocol nDesktopProtocol)
 {
-    ACE_UNUSED_ARG(nDesktopProtocol);
 
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
@@ -2771,8 +2756,8 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
     if(nWidth <= 0 || nHeight <= 0)
         return -1;
 
-    const ACE_TCHAR* szDriver = ACE_TEXT("DISPLAY");
-    const ACE_TCHAR* szDeviceName = NULL;
+    const tchar* szDriver = TTEXT("DISPLAY");
+    const tchar* szDeviceName = NULL;
 /*
     HMONITOR hMon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
     if(hMon)
@@ -2882,7 +2867,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindow(IN TTInstance* lpTTInstance,
 struct MYBITMAPINFO
 {
     BITMAPINFOHEADER    bmiHeader;
-    RGBQUAD             bmiColors[256];
+    std::array<RGBQUAD, 256> bmiColors;
 };
 
 TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
@@ -2916,7 +2901,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
     bmh.biWidth = viewer->GetWidth();
     bmh.biHeight = viewer->GetHeight()*-1; //flip image
     bmh.biPlanes = 1;
-    bmh.biBitCount = (int)viewer->GetRGBMode() * 8;
+    bmh.biBitCount = static_cast<int>(viewer->GetRGBMode()) * 8;
     bmh.biCompression = BI_RGB;
     bmh.biSizeImage = viewer->GetBitmapSize();
     bmh.biXPelsPerMeter = 0;
@@ -2930,7 +2915,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
     BOOL b;
     if(viewer->GetRGBMode() == BMP_RGB8_PALETTE)
     {
-        RGBQUAD* rgb = reinterpret_cast<RGBQUAD*>(&BMPPalette::Instance()->m_rgb8_palette[0]);
+        RGBQUAD* rgb = reinterpret_cast<RGBQUAD*>(BMPPalette::Instance()->m_rgb8_palette[0].data());
         memcpy(pBMI->bmiColors, rgb, sizeof(BMPPalette::Instance()->m_rgb8_palette));
     }
     b = StretchDIBits(hDC, XDest, YDest, nDestWidth, nDestHeight, XSrc, YSrc, 
@@ -2952,7 +2937,7 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
     shared_windows_t& windows = *reinterpret_cast<shared_windows_t*>(context);
     ShareWindow wnd = {};
 
-    CFDictionaryRef entry = (CFDictionaryRef)inputDictionary;
+    CFDictionaryRef entry = static_cast<CFDictionaryRef>(inputDictionary);
     CFNumberRef sharingState; /* SInt32 */
     CFNumberRef windowNumber; /* SInt64 */
     CFNumberRef ownerPID;     /* SInt64 */
@@ -2964,21 +2949,21 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
     SInt64 sint64;
 
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowSharingState,
-                                           (const void **)&sharingState);
+                                           reinterpret_cast<const void**>(&sharingState));
     if (status)
     {
         status = CFNumberGetValue(sharingState, kCFNumberSInt32Type,
-                                  (void *)&sint32);
+                                  &sint32);
         if (status && (sint32 == 0))
             return;
     }
     
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowOwnerPID,
-                                           (const void **)&ownerPID);
+                                           reinterpret_cast<const void**>(&ownerPID));
     if (status)
     {
         status = CFNumberGetValue(ownerPID, kCFNumberSInt64Type,
-                                  (void *)&sint64); 
+                                  &sint64); 
         if (status)
             wnd.nPID = sint64;
         else
@@ -2988,17 +2973,17 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
         return;
 
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowNumber,
-                                           (const void **)&windowNumber);
+                                           reinterpret_cast<const void**>(&windowNumber));
     if (status)
     {
         status = CFNumberGetValue(windowNumber, kCFNumberSInt64Type,
-                                  (void *)&sint64); 
+                                  &sint64); 
         if (status)
             wnd.nWindowID = sint64;
     }
 
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowOwnerName,
-                                           (const void **)&windowTitle);
+                                           reinterpret_cast<const void**>(&windowTitle));
     if (status)
     {
         CFIndex length = CFStringGetLength(windowTitle);
@@ -3008,7 +2993,7 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
 
     CFDictionaryRef rectDictionary;
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowBounds,
-                                           (const void **)&rectDictionary);
+                                           reinterpret_cast<const void**>(&rectDictionary));
     if (status)
     {
         status = CGRectMakeWithDictionaryRepresentation(rectDictionary, &rect);
@@ -3056,7 +3041,7 @@ TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
         return FALSE;
     if(!PopulateWindowTitles(windows))
         return FALSE;
-    if(nIndex >= (INT32)windows.size())
+    if(nIndex >= static_cast<INT32>(windows.size()))
         return FALSE;
 
     *lpShareWindow = windows[nIndex];
@@ -3064,7 +3049,7 @@ TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
 //     lpShareWindow->nWindowID = windowIDs[nIndex];
 //     lpShareWindow->nWidth = (INT32)rect.size.width;
 //     lpShareWindow->nHeight = (INT32)rect.size.height;
-//     ACE_OS::strsncpy(lpShareWindow->szWindowTitle, 
+//     tstrsncpy(lpShareWindow->szWindowTitle, 
 //                      data.windowTitles[nIndex].c_str(), TT_STRLEN);
 
     return TRUE;
@@ -3250,8 +3235,8 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
     lpDesktopWindow->nProtocol = DESKTOPPROTOCOL_ZLIB_1;
 
 // static int x = 0;
-// ACE_TCHAR buf[400];
-// ACE_OS::sprintf(buf, ACE_TEXT("%d %dx%d.bmp"), x++, lpDesktopWindow->nWidth, lpDesktopWindow->nHeight);
+// tchar buf[400];
+// ACE_OS::sprintf(buf, TTEXT("%d %dx%d.bmp"), x++, lpDesktopWindow->nWidth, lpDesktopWindow->nHeight);
 // user->GetDesktopSession()->WriteBitmapToFile(buf);
     bool const b = user->GetDesktopWindow(reinterpret_cast<char*>(lpDesktopWindow->frameBuffer),
                                     lpDesktopWindow->nFrameBufferSize);
@@ -3290,9 +3275,9 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
         lpNewWindow->nBytesPerLine = deskwnd.nBytesPerLine;
         lpNewWindow->nProtocol = deskwnd.nProtocol;
         if(!out_bmp.empty())
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
         else
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
             
         return lpNewWindow;
     }
@@ -3630,7 +3615,7 @@ TEAMTALKDLL_API TTBOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
     if(lpFileTransfer != nullptr)
     {
         teamtalk::FileTransfer transfer;
-        ACE_INT64 const transferred = 0;
+        int64_t const transferred = 0;
         if(clientnode->GetTransferInfo(nTransferID, transfer))
         {
             Convert(transfer, *lpFileTransfer);
@@ -3669,8 +3654,8 @@ TEAMTALKDLL_API INT32 TT_DoUnsubscribe(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API void TT_GetErrorMessage(IN INT32 nError, OUT TTCHAR szErrorMsg[TT_STRLEN])
 {
-    ACE_TString const err = teamtalk::GetErrorDescription(nError);
-    ACE_OS::strsncpy(szErrorMsg, err.c_str(), TT_STRLEN);
+    tstring const err = teamtalk::GetErrorDescription(nError);
+    tstrsncpy(szErrorMsg, err.c_str(), TT_STRLEN);
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
@@ -3682,8 +3667,8 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
         pMsg->nClientEvent = CLIENTEVENT_INTERNAL_ERROR;
         pMsg->nSource = 0;
         pMsg->ttType = __CLIENTERRORMSG;
-        ACE_OS::strsncpy(pMsg->clienterrormsg.szErrorMsg,
-                         ACE_TEXT("TeamTalk SDK license has expired"),
+        tstrsncpy(pMsg->clienterrormsg.szErrorMsg,
+                         TTEXT("TeamTalk SDK license has expired"),
                          TT_STRLEN);
         return TRUE;
     }
@@ -3694,7 +3679,7 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
         if((pnWaitMs != nullptr) && *pnWaitMs != -1)
         {
             ACE_Time_Value tv = ToTimeValue(*pnWaitMs);
-            tv += ACE_OS::gettimeofday();
+            tv += ToAceTimeValue(std::chrono::system_clock::now());
             return inst->eventhandler->GetMessage(*pMsg, &tv);
         }
 
@@ -4081,8 +4066,8 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
     }
 #else
     //TODO: Linux, key translate
-    ACE_UNUSED_ARG(lpDesktopInputs);
-    ACE_UNUSED_ARG(nDesktopInputCount);
+    (void)lpDesktopInputs;
+    (void)nDesktopInputCount;
 #endif
     return 0;
 }
@@ -4335,7 +4320,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN 
     InOutValue val = {};
     val.value = nControlIndex;
     result = MixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_NAME, val);
-    ACE_OS::strsncpy(szDeviceName, val.name, TT_STRLEN);
+    tstrsncpy(szDeviceName, val.name.data(), TT_STRLEN);
     return result;
 }
 
@@ -4391,4 +4376,3 @@ TEAMTALKDLL_API TTBOOL TT_Firewall_RemoveAppException(IN const TTCHAR* szExecuta
 }
 
 #endif /* WIN32 */
-

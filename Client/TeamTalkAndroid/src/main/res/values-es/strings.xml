@@ -30,10 +30,10 @@
     <string name="text_cmd_leftchan">Salió del canal:</string>
     <string name="text_cmd_joinroot">Se unió al canal raíz</string>
     <string name="text_cmd_leftroot">Salió del canal raíz</string>
-    <string name="text_cmd_userjoinchan">Se unió al canal</string>
-    <string name="text_cmd_userleftchan">salió del canal</string>
-    <string name="text_cmd_userloggedout">Ha salido</string>
-    <string name="text_cmd_userloggedin">Ha entrado</string>
+    <string name="text_cmd_userjoinchan">%1$s Se unió al canal</string>
+    <string name="text_cmd_userleftchan">%1$s salió del canal</string>
+    <string name="text_cmd_userloggedout">%1$s Ha salido</string>
+    <string name="text_cmd_userloggedin">%1$s Ha entrado</string>
     <string name="pref_cat_subscriptions">Suscripciones</string>
     <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Texto a voz</string>
@@ -173,13 +173,13 @@
     <string name="pref_title_voice_processing_checkbox">Habilitar cancelación de eco</string>
     <string name="pref_summary_voice_processing_checkbox">Elimina el eco de altavoces cercanos</string>
 
-    <string name="text_tts_loggedin">Ha entrado</string>
-    <string name="text_tts_loggedout">Ha salido</string>
+    <string name="text_tts_loggedin">%1$s Ha entrado</string>
+    <string name="text_tts_loggedout">%1$s Ha salido</string>
     <string name="text_tts_user_joined_other_channel">%1$s se ha unido al canal %2$s</string>
     <string name="text_tts_user_left_other_channel">%1$s ha salido del canal %2$s</string>
     <string name="text_root_chan">raíz</string>
-    <string name="text_tts_joined_chan">Se ha unido al canal</string>
-    <string name="text_tts_left_chan">Ha salido del canal</string>
+    <string name="text_tts_joined_chan">%1$s Se ha unido al canal</string>
+    <string name="text_tts_left_chan">%1$s Ha salido del canal</string>
     <string name="text_tts_private_message">Mensaje privado de %1$s - %2$s</string>
     <string name="text_tts_channel_message">Mensaje en el canal de %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Mensaje de difusión de %1$s - %2$s</string>

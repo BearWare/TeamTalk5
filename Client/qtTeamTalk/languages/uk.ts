@@ -63,9 +63,10 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, польська&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos та JNylson, бразильська португальська&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, турецька&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Олександр Гордійко, українська&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Бібліотеки&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk використовує наступні бібліотеки:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk використовує такі бібліотеки:&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
@@ -89,7 +90,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
         <source>Version </source>
-        <translation>Версія</translation>
+        <translation>Версія </translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
@@ -107,7 +108,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="14"/>
         <source>Audio Preprocessor Setup</source>
-        <translation>Налаштування модуля обробки звуку</translation>
+        <translation>Налаштування попередньої обробки звуку</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
@@ -138,7 +139,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation>Макс. швидкість підсилення (дБ/с)</translation>
+        <translation>Макс. швидкість збільшення підсилення (дБ/с)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
@@ -163,27 +164,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
         <source>&amp;Default</source>
-        <translation>Типово</translation>
+        <translation>&amp;Типово</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
         <source>Mute left channel</source>
-        <translation>Вимкнути лівий канал</translation>
+        <translation>Вимкнути звук ліворуч</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="237"/>
         <source>Mute right channel</source>
-        <translation>Вимкнути правий канал</translation>
+        <translation>Вимкнути звук праворуч</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="26"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="27"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="51"/>
@@ -212,12 +213,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="219"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="220"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="269"/>
@@ -247,32 +248,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="331"/>
         <source>&amp;Username (%1)</source>
-        <translation>Логін (%1)</translation>
+        <translation>&amp;Логін (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="337"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation>Тип блокування (%1)</translation>
+        <translation>&amp;Тип блокування (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="343"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation>Час блокування (%1)</translation>
+        <translation>&amp;Час блокування (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="349"/>
         <source>&amp;IP-Adress (%1)</source>
-        <translation>IP-адреса (%1)</translation>
+        <translation>IP-&amp;адреса (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="354"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation>Перемістити вибраного користувача до списку розблокованих</translation>
+        <translation>&amp;Перемістити вибраного користувача до списку розблокованих</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="388"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation>Перемістити вибраного користувача до списку заблокованих</translation>
+        <translation>&amp;Перемістити вибраного користувача до списку заблокованих</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
@@ -317,7 +318,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="143"/>
         <source>Remove banned user</source>
-        <translation>Видалити заблокованого користувача</translation>
+        <translation>Перенести до списку розблокованих</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="153"/>
@@ -360,7 +361,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="62"/>
         <source>Creator</source>
-        <translation>Автор</translation>
+        <translation>Автор блокування</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="63"/>
@@ -399,22 +400,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>Активувати веб-логін BearWare.dk</translation>
+        <translation>Активувати вхід через BearWare.dk</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
         <source>BearWare.dk Web Login</source>
-        <translation>Web Login BearWare.dk</translation>
+        <translation>Вхід через BearWare.dk</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation>Веб-логін BearWare.dk використовується для ідентифікації користувача TeamTalk. Створити логін можна на сайті BearWare.dk.</translation>
+        <translation>Вхід через BearWare.dk дає змогу серверам TeamTalk упізнавати вас. Обліковий запис можна створити на сайті BearWare.dk.</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
         <source>C&amp;reate</source>
-        <translation>Створити</translation>
+        <translation>С&amp;творити</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="76"/>
@@ -434,12 +435,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="42"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="43"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="107"/>
@@ -467,22 +468,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="48"/>
         <source>Message</source>
-        <translation>Повідомлення</translation>
+        <translation>Текст статусу</translation>
     </message>
     <message>
         <location filename="../changestatus.ui" line="63"/>
         <source>Display file name in status message when streaming</source>
-        <translation>Показувати назву файлу в статусі під час трансляції</translation>
+        <translation>Показувати назву файлу в тексті статусу під час трансляції</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="31"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="32"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
@@ -552,7 +553,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translation>Макс. користувачів</translation>
+        <translation>Макс. кількість користувачів</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="146"/>
@@ -562,7 +563,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="162"/>
         <source> KBytes</source>
-        <translation>КБайт</translation>
+        <translation> КБайт</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="175"/>
@@ -582,7 +583,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>Setup</source>
-        <translation>Налаштування</translation>
+        <translation>Налаштувати</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="200"/>
@@ -592,7 +593,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="209"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>Навчальний (передавання керується оператором)</translation>
+        <translation>Керований (передавання дозволяє оператор)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="216"/>
@@ -602,7 +603,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="223"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>Без активації голосом (тільки «затисніть і говоріть»)</translation>
+        <translation>Без активації голосом (лише «Натисни і говори»)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="230"/>
@@ -656,17 +657,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="568"/>
         <location filename="../channel.ui" line="766"/>
         <source> msec</source>
-        <translation>мс</translation>
+        <translation> мс</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="512"/>
         <source> bps</source>
-        <translation>біт/с</translation>
+        <translation> біт/с</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="715"/>
         <source> Kbps</source>
-        <translation>Кбіт/с</translation>
+        <translation> Кбіт/с</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="799"/>
@@ -732,7 +733,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="871"/>
         <source>Stream Timeout Timer</source>
-        <translation>Таймер очікування трансляції</translation>
+        <translation>Обмеження тривалості</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="877"/>
@@ -748,29 +749,29 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="897"/>
         <location filename="../channel.ui" line="907"/>
         <source> seconds</source>
-        <translation>с</translation>
+        <translation> с</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="952"/>
         <source>&amp;Join channel on exit</source>
-        <translation>Увійти до каналу після завершення</translation>
+        <translation>&amp;Приєднатися до каналу після закриття вікна</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="38"/>
         <location filename="../channeldlg.cpp" line="476"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="39"/>
         <location filename="../channeldlg.cpp" line="477"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="94"/>
         <source>No Audio</source>
-        <translation>Без звуку</translation>
+        <translation>Без аудіо</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="114"/>
@@ -805,7 +806,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="187"/>
         <source>Update Channel</source>
-        <translation>Оновити канал</translation>
+        <translation>Редагувати канал</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="189"/>
@@ -835,7 +836,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="231"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="480"/>
@@ -853,92 +854,92 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeltypedlg.cpp" line="27"/>
         <source>Permanent channel (stored on server)</source>
-        <translation type="unfinished">Постійний канал (зберігається на сервері)</translation>
+        <translation>Постійний канал (зберігається на сервері)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="28"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation type="unfinished">Без переривань (може говорити лише хтось один)</translation>
+        <translation>Без переривань (може говорити лише хтось один)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="29"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation type="unfinished">Навчальний (передавання керується оператором)</translation>
+        <translation>Керований (передавання дозволяє оператор)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="30"/>
         <source>Operator receive only (only operators see and hear users)</source>
-        <translation type="unfinished"></translation>
+        <translation>Тільки оператор (лише оператори бачать і чують користувачів)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="31"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation type="unfinished">Без активації голосом (тільки «затисніть і говоріть»)</translation>
+        <translation>Без активації голосом (лише «Натисни і говори»)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="32"/>
         <source>No audio recording allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Заборона запису</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="33"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation type="unfinished">Прихований канал (невидимий, приєднання лише за назвою)</translation>
+        <translation>Прихований канал (невидимий, приєднання лише за назвою)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="35"/>
         <source>Channel Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип каналу</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="36"/>
         <source>Select the channel types used when creating a missing channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть типи каналу, з якими його буде створено, якщо його немає на сервері</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="39"/>
         <source>Select one or more channel types. Clear all options for a default channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть один або кілька типів каналу. Щоб створити звичайний канал, зніміть усі позначки.</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="87"/>
         <source>Permanent</source>
-        <translation type="unfinished"></translation>
+        <translation>Постійний</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="89"/>
         <source>No interruptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Без переривань</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="91"/>
         <source>Classroom</source>
-        <translation type="unfinished">Навчальний</translation>
+        <translation>Керований</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="93"/>
         <source>Operator receive only</source>
-        <translation type="unfinished"></translation>
+        <translation>Тільки оператор</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="95"/>
         <source>No voice activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Без активації голосом</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="97"/>
         <source>No recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Без запису</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="99"/>
         <source>Hidden</source>
-        <translation type="unfinished">Приховано</translation>
+        <translation>Прихований</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="100"/>
         <source>Default</source>
-        <translation type="unfinished">Типово</translation>
+        <translation>Звичайний</translation>
     </message>
 </context>
 <context>
@@ -1004,7 +1005,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="850"/>
         <source>Media files transmission allowed for everyone: %1</source>
-        <translation>Передавання медіафайлів дозволено всім: %1</translation>
+        <translation>Трансляцію медіафайлів дозволено всім: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="854"/>
@@ -1029,7 +1030,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="858"/>
         <source>Media files transmission</source>
-        <translation>Передавання медіафайлів</translation>
+        <translation>Трансляція медіафайлів</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="977"/>
@@ -1054,7 +1055,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="981"/>
         <source>Media files transmission allowed: %1</source>
-        <translation>Передавання медіафайлів дозволено: %1</translation>
+        <translation>Трансляцію медіафайлів дозволено: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1161"/>
@@ -1096,32 +1097,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1269"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation>Транслює медіафайл (Призупинено)</translation>
+        <translation>Транслює медіафайл (призупинено)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1272"/>
         <source>Video</source>
-        <translation>Відео</translation>
+        <translation>Передає відео</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1274"/>
         <source>Desktop sharing</source>
-        <translation>Спільний доступ до робочого столу</translation>
+        <translation>Передає робочий стіл</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1332"/>
         <source>Female</source>
-        <translation>Жіноча</translation>
+        <translation>жінка</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1335"/>
         <source>Male</source>
-        <translation>Чоловіча</translation>
+        <translation>чоловік</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1338"/>
         <source>Neutral</source>
-        <translation>Середня</translation>
+        <translation>стать не вказано</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1347"/>
@@ -1174,7 +1175,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation>Змінні...</translation>
+        <translation>&amp;Змінні...</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
@@ -1189,12 +1190,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="33"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="34"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
@@ -1209,12 +1210,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="137"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="140"/>
@@ -1252,7 +1253,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="240"/>
         <source>Log Message</source>
-        <translation>Повідомлення журналу</translation>
+        <translation>Системне повідомлення</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
@@ -1267,7 +1268,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation>Приєднався до каналу</translation>
+        <translation>Приєднання до каналу</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
@@ -1290,12 +1291,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="438"/>
         <source>&amp;Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Відповісти</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="442"/>
         <source>&amp;Clear</source>
-        <translation>Очистити</translation>
+        <translation>&amp;Очистити</translation>
     </message>
 </context>
 <context>
@@ -1356,32 +1357,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="403"/>
         <source>&amp;Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Відповісти</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="404"/>
         <source>&amp;Copy</source>
-        <translation>Копіювати</translation>
+        <translation>&amp;Копіювати</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="405"/>
         <source>C&amp;opy Content Only</source>
-        <translation>Копіювати лише вміст</translation>
+        <translation>Копіювати &amp;лише вміст</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="406"/>
         <source>View &amp;Details...</source>
-        <translation>Переглянути подробиці...</translation>
+        <translation>П&amp;ереглянути подробиці...</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="410"/>
         <source>Copy &amp;All</source>
-        <translation>Копіювати все</translation>
+        <translation>Ко&amp;піювати все</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="411"/>
         <source>C&amp;lear</source>
-        <translation>Очистити</translation>
+        <translation>&amp;Очистити</translation>
     </message>
 </context>
 <context>
@@ -1414,12 +1415,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../useraccountdlg.cpp" line="468"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="469"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="475"/>
@@ -1457,7 +1458,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmt.ui" line="75"/>
         <source>FPS</source>
-        <translation>к/с</translation>
+        <translation>Кадрів за секунду</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="85"/>
@@ -1467,12 +1468,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmtdlg.cpp" line="28"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../customvideofmtdlg.cpp" line="29"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
 </context>
 <context>
@@ -1480,97 +1481,97 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="14"/>
         <source>Safe List For Automatic Desktop Access</source>
-        <translation>Список довірених для автоматичного доступу до робочого столу</translation>
+        <translation>Список довірених користувачів для керування робочим столом</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="22"/>
         <source>Safe List For Desktop Access</source>
-        <translation>Список довірених для доступу до робочого столу</translation>
+        <translation>Список довірених</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="33"/>
         <source>&amp;Delete</source>
-        <translation>Видалити</translation>
+        <translation>&amp;Видалити</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translation>Запис доступу до робочого столу</translation>
+        <translation>Запис у списку довірених</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Тут можна автоматично надавати доступ до робочого столу вибраній групі користувачів сервера. Таким чином, не потрібно буде щоразу натискати «Дозволити доступ до робочого столу», коли користувач входить до системи.</translation>
+        <translation>Тут можна автоматично дозволяти вибраним користувачам сервера керувати вашим робочим столом. Тоді не доведеться щоразу вибирати «Дозволити керування робочим столом», коли такий користувач входить на сервер.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>IP-адреса хоста</translation>
+        <translation>IP-адреса сервера</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
         <source>TCP port</source>
-        <translation>Порт TCP</translation>
+        <translation>TCP-порт</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="115"/>
         <source>Enable desktop access to all users in channel</source>
-        <translation>Дозволити доступ до робочого столу всім користувачам у каналі</translation>
+        <translation>Дозволити керування робочим столом усім користувачам у каналі</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="135"/>
         <source>&amp;Add</source>
-        <translation>Додати</translation>
+        <translation>&amp;Додати</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="142"/>
         <source>&amp;Remove</source>
-        <translation>Вилучити</translation>
+        <translation>В&amp;илучити</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
         <source>Enable desktop access to users with username</source>
-        <translation>Дозволити доступ до робочого столу користувачам за логіном</translation>
+        <translation>Дозволити керування робочим столом користувачам із логіном</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
         <source>A&amp;dd</source>
-        <translation>Додати</translation>
+        <translation>Дод&amp;ати</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="186"/>
         <source>R&amp;emove</source>
-        <translation>Вилучити</translation>
+        <translation>Ви&amp;лучити</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="197"/>
         <source>&amp;Clear</source>
-        <translation>Очистити</translation>
+        <translation>&amp;Очистити</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="217"/>
         <source>Add to &amp;Safe List</source>
-        <translation>Додати до списку довірених</translation>
+        <translation>Дода&amp;ти до списку довірених</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="28"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="29"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="113"/>
         <source>Missing fields</source>
-        <translation>Відсутні поля</translation>
+        <translation>Бракує даних</translation>
     </message>
     <message>
         <location filename="../desktopaccessdlg.cpp" line="114"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Будь ласка, заповніть поле «IP-адреса хоста»</translation>
+        <translation>Будь ласка, заповніть поле «IP-адреса сервера»</translation>
     </message>
 </context>
 <context>
@@ -1578,7 +1579,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopgridwidget.cpp" line="28"/>
         <source>No active desktop sessions</source>
-        <translation>Немає активних сесій робочого столу</translation>
+        <translation>Немає активних сеансів робочого столу</translation>
     </message>
 </context>
 <context>
@@ -1586,32 +1587,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="14"/>
         <source>Desktop Sharing</source>
-        <translation>Спільний доступ до робочого столу</translation>
+        <translation>Передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="20"/>
         <source>Window to Share</source>
-        <translation>Вікно для спільного доступу</translation>
+        <translation>Що передавати</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="26"/>
         <source>Share entire desktop</source>
-        <translation>Спільний доступ до всього робочого столу</translation>
+        <translation>Передавати весь робочий стіл</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="36"/>
         <source>Share active window</source>
-        <translation>Спільний доступ до активного вікна</translation>
+        <translation>Передавати активне вікно</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="45"/>
         <source>Share specific window</source>
-        <translation>Спільний доступ до вказаного вікна</translation>
+        <translation>Передавати вибране вікно</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="70"/>
         <source>Shared Window Look</source>
-        <translation>Параметри вигляду вікна</translation>
+        <translation>Вигляд зображення, що передається</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="78"/>
@@ -1621,7 +1622,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="108"/>
         <source>Update interval</source>
-        <translation>Інтервал оновлення</translation>
+        <translation>Оновлювати кожні</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="140"/>
@@ -1631,17 +1632,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="162"/>
         <source>Share desktop cursor</source>
-        <translation>Показувати курсор робочого столу</translation>
+        <translation>Передавати курсор миші</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="48"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="49"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="156"/>
@@ -1836,22 +1837,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation>Перебіг передачі</translation>
+        <translation>Перебіг передавання</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
         <source>C&amp;lose when completed</source>
-        <translation>Закрити після завершення</translation>
+        <translation>Закривати вікно &amp;після завершення</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="156"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="163"/>
         <source>&amp;Open</source>
-        <translation>Відкрити</translation>
+        <translation>&amp;Відкрити</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="68"/>
@@ -1861,17 +1862,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="103"/>
         <source>%1/second, last second %2</source>
-        <translation>%1/с, за сек. %2</translation>
+        <translation>%1/с, за останню секунду %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="130"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="155"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>Неможливо відкрити «%1». Для файлу типово не задано асоціацію програм</translation>
+        <translation>Неможливо відкрити «%1». Для цього типу файлів не призначено програму</translation>
     </message>
 </context>
 <context>
@@ -1943,7 +1944,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation>Статус</translation>
+        <translation>Текст статусу</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -1953,17 +1954,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="178"/>
         <source>Male</source>
-        <translation>Чоловіча</translation>
+        <translation>Чоловік</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="191"/>
         <source>Female</source>
-        <translation>Жіноча</translation>
+        <translation>Жінка</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="201"/>
         <source>Neutral</source>
-        <translation>Середня</translation>
+        <translation>Не вказано</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="226"/>
@@ -1978,7 +1979,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="251"/>
         <source>&amp;Setup Keys</source>
-        <translation>Налаштувати клавіші</translation>
+        <translation>&amp;Налаштувати клавіші</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="258"/>
@@ -2018,12 +2019,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="445"/>
         <source>&amp;Save .tt File</source>
-        <translation>Зберегти файл .tt</translation>
+        <translation>Зберегти &amp;файл .tt</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="452"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
 </context>
 <context>
@@ -2126,12 +2127,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../utilui.cpp" line="733"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="734"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
 </context>
 <context>
@@ -2153,7 +2154,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="202"/>
         <location filename="../mainwindow.ui" line="205"/>
         <source>Voice level</source>
-        <translation>Гучність голосу</translation>
+        <translation>Рівень сигналу мікрофона</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="224"/>
@@ -2187,14 +2188,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1016"/>
         <location filename="../mainwindow.ui" line="1299"/>
         <source>Sen&amp;d</source>
-        <translation>Надіслати</translation>
+        <translation>&amp;Надіслати</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="760"/>
         <location filename="../mainwindow.ui" line="1962"/>
         <location filename="../mainwindow.cpp" line="7675"/>
         <source>&amp;Video</source>
-        <translation>Відео</translation>
+        <translation>&amp;Відео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="815"/>
@@ -2218,7 +2219,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="917"/>
         <location filename="../mainwindow.ui" line="920"/>
         <source>Start/Stop Webcam</source>
-        <translation>Увімкнути/вимкнути веб-камеру</translation>
+        <translation>Увімкнути/вимкнути вебкамеру</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1087"/>
@@ -2241,24 +2242,24 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1198"/>
         <location filename="../mainwindow.ui" line="1201"/>
         <source>Request desktop access</source>
-        <translation>Запитати доступ до робочого столу</translation>
+        <translation>Запитати керування робочим столом</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="331"/>
         <source>Ch&amp;at</source>
-        <translation>Чат</translation>
+        <translation>&amp;Чат</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1032"/>
         <location filename="../mainwindow.cpp" line="7683"/>
         <source>&amp;Desktops</source>
-        <translation>Робочі столи</translation>
+        <translation>&amp;Робочі столи</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="399"/>
         <location filename="../mainwindow.cpp" line="3428"/>
         <source>&amp;Files</source>
-        <translation>Файли</translation>
+        <translation>&amp;Файли</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="427"/>
@@ -2286,57 +2287,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1329"/>
         <source>C&amp;lient</source>
-        <translation>Клієнт</translation>
+        <translation>К&amp;лієнт</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1367"/>
         <source>&amp;Me</source>
-        <translation>Я</translation>
+        <translation>&amp;Я</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1391"/>
         <source>&amp;Users</source>
-        <translation>Користувачі</translation>
+        <translation>К&amp;ористувачі</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1395"/>
         <source>&amp;Subscriptions</source>
-        <translation>Підписки</translation>
+        <translation>П&amp;ідписки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1415"/>
         <source>&amp;Advanced</source>
-        <translation>Додатково</translation>
+        <translation>&amp;Додатково</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1432"/>
         <source>&amp;Mute</source>
-        <translation>Вимкнути звук</translation>
+        <translation>Вимкнути &amp;звук</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1439"/>
         <source>&amp;Kick</source>
-        <translation>Вигнати</translation>
+        <translation>&amp;Вигнати</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1485"/>
         <source>&amp;Channels</source>
-        <translation>Канали</translation>
+        <translation>&amp;Канали</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1489"/>
         <source>&amp;Channel Information</source>
-        <translation>Інформація про канал</translation>
+        <translation>&amp;Інформація про канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1521"/>
         <source>&amp;Server</source>
-        <translation>Сервер</translation>
+        <translation>&amp;Сервер</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1536"/>
         <source>&amp;Help</source>
-        <translation>Довідка</translation>
+        <translation>&amp;Довідка</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1857"/>
@@ -2346,7 +2347,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1607"/>
         <source>&amp;Connect</source>
-        <translation>Під&apos;єднатися</translation>
+        <translation>&amp;Підключитися</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1610"/>
@@ -2356,7 +2357,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1639"/>
         <source>&amp;Preferences</source>
-        <translation>Налаштування</translation>
+        <translation>&amp;Налаштування</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1642"/>
@@ -2367,12 +2368,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1647"/>
         <location filename="../mainwindow.cpp" line="2811"/>
         <source>&amp;Exit</source>
-        <translation>Вихід</translation>
+        <translation>&amp;Вихід</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1667"/>
         <source>Enable &amp;Push To Talk</source>
-        <translation>Увімкнути режим «Натисни і говори»</translation>
+        <translation>&amp;Увімкнути режим «Натисни і говори»</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1670"/>
@@ -2382,12 +2383,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1680"/>
         <source>&amp;About</source>
-        <translation>Про програму</translation>
+        <translation>&amp;Про програму</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1688"/>
         <source>&amp;Manual</source>
-        <translation>Посібник користувача</translation>
+        <translation>Посібник &amp;користувача</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1691"/>
@@ -2397,7 +2398,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1696"/>
         <source>Server &amp;Properties</source>
-        <translation>Властивості сервера</translation>
+        <translation>&amp;Властивості сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1699"/>
@@ -2407,7 +2408,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1704"/>
         <source>&amp;Create Channel</source>
-        <translation>Створити канал</translation>
+        <translation>&amp;Створити канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1707"/>
@@ -2417,7 +2418,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
         <source>&amp;Update Channel</source>
-        <translation>Оновити канал</translation>
+        <translation>&amp;Редагувати канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1715"/>
@@ -2427,7 +2428,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1720"/>
         <source>&amp;Delete Channel</source>
-        <translation>Видалити канал</translation>
+        <translation>&amp;Видалити канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1723"/>
@@ -2437,7 +2438,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1728"/>
         <source>&amp;Join Channel</source>
-        <translation>Приєднатися до каналу</translation>
+        <translation>&amp;Приєднатися до каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1731"/>
@@ -2447,7 +2448,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1751"/>
         <source>Enable Voice &amp;Activation</source>
-        <translation>Увімкнути активацію голосом</translation>
+        <translation>Увімкнути &amp;активацію голосом</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1754"/>
@@ -2457,7 +2458,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1759"/>
         <source>Change &amp;Nickname</source>
-        <translation>Змінити псевдонім</translation>
+        <translation>&amp;Змінити псевдонім</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1762"/>
@@ -2467,7 +2468,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1767"/>
         <source>Change &amp;Status</source>
-        <translation>Змінити статус</translation>
+        <translation>З&amp;мінити статус</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1770"/>
@@ -2477,7 +2478,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1775"/>
         <source>&amp;View User Information</source>
-        <translation>Інформація про користувача</translation>
+        <translation>&amp;Переглянути інформацію про користувача</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1778"/>
@@ -2487,7 +2488,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1798"/>
         <source>Mute &amp;All</source>
-        <translation>Вимкнути звук усіх</translation>
+        <translation>Вимкнути звук &amp;усіх</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1801"/>
@@ -2497,7 +2498,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1806"/>
         <source>Up&amp;load File</source>
-        <translation>Вивантажити файл</translation>
+        <translation>Вив&amp;антажити файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1809"/>
@@ -2507,7 +2508,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1814"/>
         <source>D&amp;ownload File</source>
-        <translation>Завантажити файл</translation>
+        <translation>Завантажити &amp;файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1817"/>
@@ -2517,7 +2518,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1822"/>
         <source>Dele&amp;te File</source>
-        <translation>Видалити файл</translation>
+        <translation>В&amp;идалити файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1825"/>
@@ -2527,7 +2528,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1830"/>
         <source>&amp;Banned Users</source>
-        <translation>Заблоковані користувачі</translation>
+        <translation>&amp;Заблоковані користувачі</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1833"/>
@@ -2537,7 +2538,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1838"/>
         <source>&amp;User Accounts</source>
-        <translation>Облікові записи користувачів</translation>
+        <translation>&amp;Облікові записи користувачів</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1841"/>
@@ -2547,7 +2548,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1846"/>
         <source>&amp;Save Configuration</source>
-        <translation>Зберегти конфігурацію</translation>
+        <translation>З&amp;берегти конфігурацію</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1849"/>
@@ -2557,12 +2558,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1854"/>
         <source>&amp;View Channel Info</source>
-        <translation>Інформація про канал</translation>
+        <translation>&amp;Переглянути інформацію про канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1878"/>
         <source>M&amp;essages</source>
-        <translation>Повідомлення</translation>
+        <translation>Приватний &amp;чат</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1881"/>
@@ -2572,7 +2573,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1886"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>Вигнати та заблокувати на сервері</translation>
+        <translation>&amp;Вигнати та заблокувати на сервері</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2323"/>
@@ -2587,12 +2588,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1898"/>
         <source>&amp;Op</source>
-        <translation>Оператор</translation>
+        <translation>&amp;Права оператора</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
         <source>M&amp;edia</source>
-        <translation>Медіа</translation>
+        <translation>&amp;Медіа</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="534"/>
@@ -2672,32 +2673,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1333"/>
         <source>S&amp;ound Configuration</source>
-        <translation>Параметри звуку</translation>
+        <translation>П&amp;араметри звуку</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1337"/>
         <source>&amp;Input Devices</source>
-        <translation>Пристрої введення</translation>
+        <translation>&amp;Пристрої введення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1342"/>
         <source>&amp;Output Devices</source>
-        <translation>Пристрої виведення</translation>
+        <translation>Пристрої &amp;виведення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1371"/>
         <source>&amp;Notifications</source>
-        <translation>Сповіщення</translation>
+        <translation>С&amp;повіщення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1449"/>
         <source>&amp;User Information</source>
-        <translation>Інформація про користувача</translation>
+        <translation>І&amp;нформація про користувача</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1456"/>
         <source>&amp;Transmit Control</source>
-        <translation>Керування передаванням</translation>
+        <translation>&amp;Керування передаванням</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1497"/>
@@ -2707,22 +2708,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1618"/>
         <source>&amp;Enable Echo Cancellation</source>
-        <translation>Увімкнути Усунення еха</translation>
+        <translation>&amp;Увімкнути усунення відлуння</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1626"/>
         <source>Enable &amp;Automatic Gain Control</source>
-        <translation>Увімкнути автоматичне регулювання підсилення</translation>
+        <translation>Увімкнути &amp;автоматичне регулювання підсилення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1634"/>
         <source>Enable &amp;Denoising</source>
-        <translation>Увімкнути шумозаглушення</translation>
+        <translation>Увімкнути &amp;шумозаглушення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1652"/>
         <source>&amp;Speak Client Statistics</source>
-        <translation>Озвучити статистику клієнта</translation>
+        <translation>&amp;Озвучити статистику клієнта</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1655"/>
@@ -2732,7 +2733,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1675"/>
         <source>&amp;Check for Update</source>
-        <translation>Перевірити наявність оновлень</translation>
+        <translation>Перевірити &amp;наявність оновлень</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1739"/>
@@ -2742,7 +2743,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1783"/>
         <source>&amp;Speak User Information</source>
-        <translation>Озвучити інформацію про користувача</translation>
+        <translation>&amp;Озвучити інформацію про користувача</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1786"/>
@@ -2752,7 +2753,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1862"/>
         <source>&amp;Speak Channel Info</source>
-        <translation>Озвучити інформацію про канал</translation>
+        <translation>&amp;Озвучити інформацію про канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1865"/>
@@ -2762,7 +2763,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1870"/>
         <source>S&amp;peak Channel State</source>
-        <translation>Озвучити стан каналу</translation>
+        <translation>Озвучити &amp;стан каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1873"/>
@@ -2777,7 +2778,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1906"/>
         <source>&amp;Volume</source>
-        <translation>Гучність</translation>
+        <translation>&amp;Гучність</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1909"/>
@@ -2787,7 +2788,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1921"/>
         <source>V&amp;oice</source>
-        <translation>Голос</translation>
+        <translation>&amp;Голос</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1924"/>
@@ -2797,7 +2798,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1936"/>
         <source>&amp;User Messages</source>
-        <translation>Повідомлення користувачів</translation>
+        <translation>Пр&amp;иватні повідомлення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1939"/>
@@ -2807,7 +2808,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1947"/>
         <source>&amp;Channel Messages</source>
-        <translation>Повідомлення каналу</translation>
+        <translation>&amp;Повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1950"/>
@@ -2822,7 +2823,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1973"/>
         <source>&amp;Broadcast Messages</source>
-        <translation>Загальні повідомлення</translation>
+        <translation>&amp;Загальні повідомлення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1976"/>
@@ -2832,7 +2833,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1988"/>
         <source>Enable &amp;Video Transmission</source>
-        <translation>Увімкнути передавання відео</translation>
+        <translation>Увімкнути передавання &amp;відео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1991"/>
@@ -2842,7 +2843,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2003"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation>Записувати розмови на диск</translation>
+        <translation>&amp;Записувати розмови на диск</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2006"/>
@@ -2857,7 +2858,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2021"/>
         <source>Intercept User Messages</source>
-        <translation>Перехоплювати повідомлення користувачів</translation>
+        <translation>Перехоплення приватних повідомлень</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2024"/>
@@ -2887,7 +2888,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2062"/>
         <source>Intercept Video</source>
-        <translation>Перехоплювати відео</translation>
+        <translation>Перехоплення відео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2065"/>
@@ -2897,22 +2898,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2070"/>
         <source>&amp;Broadcast Message</source>
-        <translation>Загальне повідомлення</translation>
+        <translation>Загальне &amp;повідомлення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2078"/>
         <source>&amp;Increase Voice Volume</source>
-        <translation>Збільшити гучність голосу</translation>
+        <translation>&amp;Збільшити гучність голосу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2086"/>
         <source>&amp;Lower Voice Volume</source>
-        <translation>Зменшити гучність голосу</translation>
+        <translation>Зменшити &amp;гучність голосу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2094"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>Вибрати користувачів для переміщення</translation>
+        <translation>Позначити &amp;користувачів для переміщення</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2097"/>
@@ -2922,7 +2923,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2102"/>
         <source>&amp;Move User(s)</source>
-        <translation>Перемістити користувачів</translation>
+        <translation>&amp;Перемістити користувачів</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2105"/>
@@ -2932,7 +2933,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2110"/>
         <source>Move Users &amp;Dialog</source>
-        <translation>Вікно переміщення користувачів</translation>
+        <translation>&amp;Вікно переміщення користувачів</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2113"/>
@@ -2942,12 +2943,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2122"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation>Сайт BearWare.dk</translation>
+        <translation>&amp;Сайт BearWare.dk</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2130"/>
         <source>Allow V&amp;oice Transmission</source>
-        <translation>Дозволити передавання голосу</translation>
+        <translation>Дозволити &amp;передавання голосу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2133"/>
@@ -2967,7 +2968,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2152"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation>Дозволити усім передавання голосу</translation>
+        <translation>&amp;Дозволити всім передавання голосу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2155"/>
@@ -2977,7 +2978,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2163"/>
         <source>Allow All Video Transmission</source>
-        <translation>Дозволити усім передавання відео</translation>
+        <translation>Дозволити всім передавання відео</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2166"/>
@@ -2987,7 +2988,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2171"/>
         <source>Server S&amp;tatistics</source>
-        <translation>Статистика сервера</translation>
+        <translation>&amp;Статистика сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2174"/>
@@ -2997,7 +2998,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2179"/>
         <source>&amp;New Client Instance</source>
-        <translation>Запустити ще одну копію клієнта</translation>
+        <translation>П&amp;рофілі</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2182"/>
@@ -3007,7 +3008,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2190"/>
         <source>&amp;Online Users</source>
-        <translation>Користувачі онлайн</translation>
+        <translation>&amp;Користувачі онлайн</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2193"/>
@@ -3017,7 +3018,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2309"/>
         <source>Pause/Resume Stream</source>
-        <translation>Призупинити/Відновити потік</translation>
+        <translation>Призупинити/Відновити трансляцію</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2312"/>
@@ -3027,12 +3028,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2320"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation>Копіювати tt:// посилання у буфер обміну</translation>
+        <translation>&amp;Копіювати посилання tt:// у буфер обміну</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2522"/>
         <source>Toggle &amp;Question Mode</source>
-        <translation>Увімкнути/вимкнути режим запитання</translation>
+        <translation>&amp;Режим запитання</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2528"/>
@@ -3042,12 +3043,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2536"/>
         <source>&amp;Relay Voice Stream</source>
-        <translation>Ретранслювати голосовий потік</translation>
+        <translation>&amp;Ретранслювати голосовий потік</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2544"/>
         <source>Relay Media &amp;File Stream</source>
-        <translation>Ретранслювати потік медіафайлу</translation>
+        <translation>Ретранслювати потік &amp;медіафайлу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2525"/>
@@ -3057,7 +3058,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2205"/>
         <source>Enable Desktop Sharing</source>
-        <translation>Увімкнути спільний доступ до робочого столу</translation>
+        <translation>Увімкнути передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2208"/>
@@ -3067,7 +3068,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2216"/>
         <source>Enable Text-To-Speech Events</source>
-        <translation>Увімкнути синтез мовлення для подій</translation>
+        <translation>Увімкнути озвучення подій</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2219"/>
@@ -3077,7 +3078,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2227"/>
         <source>Enable Sound Events</source>
-        <translation>Увімкнути звукові сповіщення</translation>
+        <translation>Увімкнути звуки подій</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2230"/>
@@ -3097,7 +3098,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2249"/>
         <source>Allow All Desktop Transmission</source>
-        <translation>Дозволити усім передавання робочого столу</translation>
+        <translation>Дозволити всім передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2252"/>
@@ -3107,7 +3108,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2264"/>
         <source>&amp;Desktop</source>
-        <translation>Робочий стіл</translation>
+        <translation>&amp;Робочий стіл</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2267"/>
@@ -3127,7 +3128,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2294"/>
         <source>Stream &amp;Media File to Channel</source>
-        <translation>Транслювати медіафайл у канал</translation>
+        <translation>&amp;Транслювати медіафайл у канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2297"/>
@@ -3137,7 +3138,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2335"/>
         <source>Desktop Acce&amp;ss</source>
-        <translation>Керування робочим столом</translation>
+        <translation>&amp;Керування робочим столом</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2347"/>
@@ -3162,7 +3163,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2377"/>
         <source>Intercept Media File Stream</source>
-        <translation>Перехоплювати потік медіафайлу</translation>
+        <translation>Перехоплення потоку медіафайлу</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2380"/>
@@ -3172,7 +3173,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2388"/>
         <source>Allow Media File Transmission</source>
-        <translation>Дозволити передавання медіафайлів</translation>
+        <translation>Дозволити трансляцію медіафайлів</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2391"/>
@@ -3182,7 +3183,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2399"/>
         <source>Allow All Media File Transmission</source>
-        <translation>Дозволити усім передавання медіафайлів</translation>
+        <translation>Дозволити всім трансляцію медіафайлів</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2402"/>
@@ -3192,7 +3193,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2410"/>
         <source>Mu&amp;te Voice</source>
-        <translation>Вимкнути голос</translation>
+        <translation>&amp;Вимкнути голос</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2413"/>
@@ -3237,12 +3238,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2461"/>
         <source>R&amp;eset Preferences to Default</source>
-        <translation>Скинути налаштування до типових</translation>
+        <translation>Скинути налаштування &amp;до типових</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2466"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation>Вигнати та заблокувати в каналі</translation>
+        <translation>Вигнати &amp;та заблокувати в каналі</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2469"/>
@@ -3262,7 +3263,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2485"/>
         <source>Allow Channel Text Messages</source>
-        <translation>Дозволити текстові повідомлення каналу</translation>
+        <translation>Дозволити надсилати повідомлення в канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2488"/>
@@ -3272,7 +3273,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2496"/>
         <source>Allow All Channel Text Messages</source>
-        <translation>Дозволити усім текстові повідомлення каналу</translation>
+        <translation>Дозволити всім надсилати повідомлення в канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2499"/>
@@ -3282,7 +3283,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2507"/>
         <source>&amp;Hear Myself</source>
-        <translation>Слухати себе</translation>
+        <translation>&amp;Слухати себе</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2510"/>
@@ -3308,12 +3309,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1122"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
-        <translation>Аргумент програми &quot;%1&quot; не розпізнано.</translation>
+        <translation>Аргумент програми «%1» не розпізнано.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1183"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translation>Не вдалося з&apos;єднатися з %1 (TCP: %2, UDP: %3)</translation>
+        <translation>Не вдалося підключитися до %1 (TCP: %2, UDP: %3)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="851"/>
@@ -3546,7 +3547,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6052"/>
         <location filename="../mainwindow.cpp" line="6366"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1467"/>
@@ -3605,7 +3606,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2430"/>
         <source>Command flooding prevented by server</source>
-        <translation>Сервер запобіг флуду командами</translation>
+        <translation>Сервер заблокував надто часті команди</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
@@ -3710,7 +3711,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2549"/>
         <source>&amp;Refresh Sound Devices</source>
-        <translation>Оновити звукові пристрої</translation>
+        <translation>&amp;Оновити звукові пристрої</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="794"/>
@@ -3728,7 +3729,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="7876"/>
         <location filename="../mainwindow.cpp" line="7900"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="795"/>
@@ -3746,19 +3747,19 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="7877"/>
         <location filename="../mainwindow.cpp" line="7901"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3291"/>
         <location filename="../mainwindow.cpp" line="3303"/>
         <source>Joined classroom channel %1</source>
-        <translation>Ви приєдналися до навчального каналу %1</translation>
+        <translation>Ви приєдналися до керованого каналу %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3345"/>
         <location filename="../mainwindow.cpp" line="3357"/>
         <source>Left classroom channel %1</source>
-        <translation>Ви вийшли з навчального каналу %1</translation>
+        <translation>Ви вийшли з керованого каналу %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3349"/>
@@ -3819,13 +3820,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5204"/>
         <source>%1 selected for move</source>
-        <translation>%1 вибрано для переміщення</translation>
+        <translation>%1 позначено для переміщення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5236"/>
         <location filename="../mainwindow.cpp" line="5240"/>
         <source>Selected users has been moved to channel %1</source>
-        <translation>Вибраних користувачів переміщено в канал %1</translation>
+        <translation>Позначених користувачів переміщено в канал %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5832"/>
@@ -3856,22 +3857,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5919"/>
         <source>&amp;Name (%1)</source>
-        <translation>Назва (%1)</translation>
+        <translation>&amp;Назва (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5925"/>
         <source>&amp;Size (%1)</source>
-        <translation>Розмір (%1)</translation>
+        <translation>&amp;Розмір (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5931"/>
         <source>&amp;Owner (%1)</source>
-        <translation>Власник (%1)</translation>
+        <translation>&amp;Власник (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5937"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation>Дата завантаження (%1)</translation>
+        <translation>&amp;Дата вивантаження (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
@@ -3901,13 +3902,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6201"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation>Вибрана для переміщення</translation>
+        <translation>Позначена для переміщення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6201"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
-        <translation>Вибраний для переміщення</translation>
+        <translation>Позначений для переміщення</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6204"/>
@@ -3948,18 +3949,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="6583"/>
         <source>Resume Stream</source>
-        <translation>Відновити потік</translation>
+        <translation>Відновити трансляцію</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6640"/>
         <location filename="../mainwindow.cpp" line="6658"/>
         <source>&amp;Play</source>
-        <translation>Відтворити</translation>
+        <translation>В&amp;ідтворити</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6645"/>
         <source>&amp;Pause</source>
-        <translation>Пауза</translation>
+        <translation>&amp;Призупинити</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5769"/>
@@ -3982,7 +3983,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="6668"/>
         <source>File name: %1</source>
-        <translation>Ім&apos;я файлу: %1</translation>
+        <translation>Назва файлу: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6677"/>
@@ -3994,12 +3995,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="7677"/>
         <source>&amp;Video (%1)</source>
-        <translation>Відео (%1)</translation>
+        <translation>&amp;Відео (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7685"/>
         <source>&amp;Desktops (%1)</source>
-        <translation>Робочі столи (%1)</translation>
+        <translation>&amp;Робочі столи (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7875"/>
@@ -4029,27 +4030,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2809"/>
         <source>&amp;Restore</source>
-        <translation>Відновити</translation>
+        <translation>В&amp;ідновити</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1216"/>
         <source>Kicked from server by %1</source>
-        <translation>%1 вигнав(ла) вас із сервера</translation>
+        <translation>Вас вигнав із сервера користувач %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1219"/>
         <source>Kicked from server by unknown user</source>
-        <translation>Вигнано із сервера невідомим користувачем</translation>
+        <translation>Вас вигнав із сервера невідомий користувач</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1236"/>
         <source>Kicked from channel by %1</source>
-        <translation>%1 вигнав(ла) вас із каналу</translation>
+        <translation>Вас вигнав із каналу користувач %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1239"/>
         <source>Kicked from channel by unknown user</source>
-        <translation>Вигнано з каналу невідомим користувачем</translation>
+        <translation>Вас вигнав із каналу невідомий користувач</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="817"/>
@@ -4057,7 +4058,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="6053"/>
         <location filename="../mainwindow.cpp" line="6367"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="793"/>
@@ -4082,7 +4083,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="999"/>
         <source>Would you like to enable accessibility options with recommended settings for screen reader usage?</source>
-        <translation type="unfinished"></translation>
+        <translation>Бажаєте увімкнути функції доступності з налаштуваннями, рекомендованими для скрінрідера?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1189"/>
@@ -4113,7 +4114,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1794"/>
         <source>Sound device removed: %1.</source>
-        <translation>Звуковий пристрій видалено: %1.</translation>
+        <translation>Звуковий пристрій відключено: %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2224"/>
@@ -4124,13 +4125,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="2253"/>
         <location filename="../mainwindow.cpp" line="2254"/>
         <source>Disconnected from %1</source>
-        <translation>З&apos;єднання з %1 розірвано</translation>
+        <translation>Відключено від %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2253"/>
         <location filename="../mainwindow.cpp" line="2254"/>
         <source>Disconnected from server</source>
-        <translation>З&apos;єднання з сервером розірвано</translation>
+        <translation>Відключено від сервера</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2299"/>
@@ -4181,12 +4182,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2911"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>Бажаєте додати %1 до списку виключень брандмауера Windows?</translation>
+        <translation>Бажаєте додати %1 до списку винятків брандмауера Windows?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2924"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>Не вдалося додати %1 до виключень брандмауера Windows.</translation>
+        <translation>Не вдалося додати %1 до винятків брандмауера Windows.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3015"/>
@@ -4197,7 +4198,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="3020"/>
         <location filename="../mainwindow.cpp" line="7014"/>
         <source>Channel messages</source>
-        <translation>Повідомлення каналів</translation>
+        <translation>Повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3025"/>
@@ -4245,7 +4246,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3070"/>
         <source>Intercept video capture</source>
-        <translation>Перехоплення відеозахвату</translation>
+        <translation>Перехоплення відео</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3075"/>
@@ -4260,18 +4261,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3245"/>
         <source>%1 is requesting desktop access</source>
-        <translation>%1 запитує доступ до робочого столу</translation>
+        <translation>%1 запитує керування вашим робочим столом</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3251"/>
         <location filename="../mainwindow.cpp" line="5092"/>
         <source>%1 granted desktop access</source>
-        <translation>%1 надано доступ до робочого столу</translation>
+        <translation>%1 отримує керування вашим робочим столом</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>%1 retracted desktop access</source>
-        <translation>%1 відкликав доступ до робочого столу</translation>
+        <translation>%1 припиняє керування вашим робочим столом</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3295"/>
@@ -4298,7 +4299,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="3542"/>
         <source>Microphone gain is controlled by channel</source>
-        <translation>Підсилення мікрофона керується каналом</translation>
+        <translation>Підсиленням мікрофона керує канал</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5611"/>
@@ -4324,7 +4325,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1259"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ласкаво просимо на сервер %1.<byte value="xd"/>
+Повідомлення дня: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3994"/>
@@ -4334,7 +4336,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="3999"/>
         <source>Push To Talk: </source>
-        <translation>Натисни і говори:</translation>
+        <translation>Натисни і говори: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4174"/>
@@ -4349,7 +4351,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="4182"/>
         <source>Media file transmission blocked by channel operator</source>
-        <translation>Передавання медіафайлів заблоковано оператором каналу</translation>
+        <translation>Трансляцію медіафайлів заблоковано оператором каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4186"/>
@@ -4415,35 +4417,35 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="4882"/>
         <source>Desktop sharing enabled</source>
-        <translation>Спільний доступ до робочого столу увімкнено</translation>
+        <translation>Передавання робочого столу увімкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4905"/>
         <source>Desktop sharing disabled</source>
-        <translation>Спільний доступ до робочого столу вимкнено</translation>
+        <translation>Передавання робочого столу вимкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4929"/>
         <source>Sound events enabled</source>
-        <translation>Звукові події увімкнено</translation>
+        <translation>Звуки подій увімкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4934"/>
         <source>Sound events disabled</source>
-        <translation>Звукові події вимкнено</translation>
+        <translation>Звуки подій вимкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5297"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation>Щоб транслювати голосовий потік з іншого каналу, потрібно увімкнути підписку «Перехоплення голосу».
+        <translation>Щоб ретранслювати голосовий потік з іншого каналу, потрібно увімкнути підписку «Перехоплення голосу».
 Бажаєте зробити це зараз?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5317"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation>Щоб транслювати потік медіафайлів з іншого каналу, потрібно увімкнути підписку «Перехоплення медіафайлів».
+        <translation>Щоб ретранслювати потік медіафайлу з іншого каналу, потрібно увімкнути підписку «Перехоплення потоку медіафайлу».
 Бажаєте зробити це зараз?</translation>
     </message>
     <message>
@@ -4459,17 +4461,17 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6583"/>
         <source>&amp;Pause Stream</source>
-        <translation>Призупинити потік</translation>
+        <translation>&amp;Призупинити трансляцію</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5677"/>
         <source>Failed to resume the stream</source>
-        <translation>Не вдалося відновити потік</translation>
+        <translation>Не вдалося відновити трансляцію</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5691"/>
         <source>Failed to pause the stream</source>
-        <translation>Не вдалося призупинити потік</translation>
+        <translation>Не вдалося призупинити трансляцію</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5870"/>
@@ -4562,21 +4564,26 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="7789"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл %1 містить налаштування клієнта %2.<byte value="xd"/>
+Застосувати ці налаштування?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7887"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна нова версія: %1<byte value="xd"/>
+Завантажити її можна на сторінці:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7911"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступна нова бета-версія: %1<byte value="xd"/>
+Завантажити її можна на сторінці:<byte value="xd"/>
+%2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7920"/>
@@ -4611,7 +4618,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7055"/>
         <location filename="../mainwindow.cpp" line="7068"/>
         <source>Enabled</source>
-        <translation>Увімкнено</translation>
+        <translation>увімкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3114"/>
@@ -4621,7 +4628,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7057"/>
         <location filename="../mainwindow.cpp" line="7070"/>
         <source>Disabled</source>
-        <translation>Вимкнено</translation>
+        <translation>вимкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4849"/>
@@ -4631,17 +4638,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="4868"/>
         <source>Failed to start desktop sharing</source>
-        <translation>Не вдалося почати спільний доступ до робочого столу</translation>
+        <translation>Не вдалося почати передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4914"/>
         <source>Text-To-Speech enabled</source>
-        <translation>Синтез мовлення увімкнено</translation>
+        <translation>Озвучення подій увімкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4919"/>
         <source>Text-To-Speech disabled</source>
-        <translation>Синтез мовлення вимкнено</translation>
+        <translation>Озвучення подій вимкнено</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5350"/>
@@ -4678,7 +4685,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5540"/>
         <source>Nobody is active in this channel</source>
-        <translation>У цьому каналі немає активних учасників</translation>
+        <translation>У цьому каналі немає активних користувачів</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="569"/>
@@ -4699,12 +4706,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="5844"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
-        <translation>Ви впевнені, що хочете видалити %1 файл(ів)?</translation>
+        <translation>Ви впевнені, що хочете видалити вибрані файли (%1)?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6056"/>
         <source>Message to broadcast:</source>
-        <translation>Повідомлення для загальної трансляції:</translation>
+        <translation>Текст загального повідомлення:</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6102"/>
@@ -4779,7 +4786,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="6243"/>
         <source>Classroom</source>
-        <translation>Навчальний</translation>
+        <translation>Керований</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6243"/>
@@ -4814,17 +4821,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.ui" line="1736"/>
         <source>&amp;Leave Channel</source>
-        <translation>Покинути канал</translation>
+        <translation>Вийти &amp;з каналу</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6950"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>Максимальна кількість користувачів, які можуть здійснювати передавання: %1</translation>
+        <translation>Максимальна кількість користувачів, які можуть передавати: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7088"/>
         <source>Start Webcam</source>
-        <translation>Запустити вебкамеру</translation>
+        <translation>Увімкнути вебкамеру</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7110"/>
@@ -4835,7 +4842,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3434"/>
         <source>&amp;Files (%1)</source>
-        <translation>Файли (%1)</translation>
+        <translation>&amp;Файли (%1)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7508"/>
@@ -4867,7 +4874,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7646"/>
         <location filename="../mainwindow.cpp" line="7651"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 змінив(-ла) підписку «%2» на: %3</translation>
+        <translation>%1 змінює підписку «%2» на: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7512"/>
@@ -4939,13 +4946,13 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="7768"/>
         <location filename="../mainwindow.cpp" line="7779"/>
         <source>Load File</source>
-        <translation>Завантажити файл</translation>
+        <translation>Відкрити файл</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7750"/>
         <location filename="../mainwindow.cpp" line="7759"/>
         <source>Failed to load file %1</source>
-        <translation>Не вдалося завантажити файл %1</translation>
+        <translation>Не вдалося відкрити файл %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7769"/>
@@ -4955,12 +4962,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="7780"/>
         <source>Failed to extract host-information from %1</source>
-        <translation>Не вдалося отримати інформацію про хост із %1</translation>
+        <translation>Не вдалося отримати дані сервера з %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7794"/>
         <source>Load %1 File</source>
-        <translation>Завантажити файл %1</translation>
+        <translation>Відкрити файл %1</translation>
     </message>
     <message>
         <location filename="../settings.h" line="38"/>
@@ -4978,7 +4985,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
         <source>Store audio conversations</source>
-        <translation>Запис розмов</translation>
+        <translation>Запис голосових розмов</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="28"/>
@@ -4988,12 +4995,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translation>Один аудіофайл для всіх учасників</translation>
+        <translation>Один аудіофайл для всіх користувачів</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translation>Окремий аудіофайл для кожного учасника</translation>
+        <translation>Окремий аудіофайл для кожного користувача</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="53"/>
@@ -5024,7 +5031,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
-        <translation>Збереження текстових повідомлень</translation>
+        <translation>Збереження текстових розмов</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
@@ -5034,17 +5041,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastorage.ui" line="148"/>
         <source>Folder for user-to-user log files</source>
-        <translation>Папка для журналів особистих повідомлень</translation>
+        <translation>Папка для журналів приватних повідомлень</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
         <source>S&amp;top</source>
-        <translation>Зупинити</translation>
+        <translation>&amp;Зупинити</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="189"/>
         <source>&amp;Start</source>
-        <translation>Запустити</translation>
+        <translation>&amp;Почати</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="107"/>
@@ -5056,26 +5063,26 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastorage.ui" line="203"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="111"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation>Папки для збереження аудіофайлів не існує. Бажаєте, щоб %1 створив її для вас?</translation>
+        <translation>Папки для збереження аудіофайлів не існує. Бажаєте, щоб %1 створив її?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="112"/>
         <location filename="../mediastoragedlg.cpp" line="150"/>
         <location filename="../mediastoragedlg.cpp" line="167"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="113"/>
         <location filename="../mediastoragedlg.cpp" line="151"/>
         <location filename="../mediastoragedlg.cpp" line="168"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="132"/>
@@ -5085,12 +5092,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastoragedlg.cpp" line="133"/>
         <source>No stream type has been selected as audio input for recording</source>
-        <translation>Не вибрано жодного типу потоку як аудіовходу для запису</translation>
+        <translation>Не вибрано жодного типу потоку для запису</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="149"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Папки для збереження повідомлень каналу не існує. Бажаєте, щоб %1 створив її для вас?</translation>
+        <translation>Папки для збереження повідомлень каналу не існує. Бажаєте, щоб %1 створив її?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
@@ -5100,12 +5107,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mediastoragedlg.cpp" line="166"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>Папки для збереження особистих текстових повідомлень не існує. Бажаєте, щоб %1 створив її для вас?</translation>
+        <translation>Папки для приватних повідомлень не існує. Бажаєте, щоб %1 створив її?</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for private text messages</source>
-        <translation>Папка для особистих текстових повідомлень</translation>
+        <translation>Папка для приватних повідомлень</translation>
     </message>
 </context>
 <context>
@@ -5114,7 +5121,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../chattextlist.cpp" line="469"/>
         <location filename="../chattextlist.cpp" line="470"/>
         <source>Message Details</source>
-        <translation>Деталі повідомлення</translation>
+        <translation>Подробиці повідомлення</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="474"/>
@@ -5134,7 +5141,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../chattextlist.cpp" line="489"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
 </context>
 <context>
@@ -5153,7 +5160,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../moveusersdlg.cpp" line="49"/>
         <source>&amp;Channel</source>
-        <translation>Канал</translation>
+        <translation>&amp;Канал</translation>
     </message>
     <message>
         <location filename="../moveusersdlg.cpp" line="57"/>
@@ -5187,12 +5194,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusers.ui" line="48"/>
         <source>Keep disconnected users</source>
-        <translation>Показувати користувачів, що від&apos;єдналися</translation>
+        <translation>Показувати користувачів, які відключилися</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="165"/>
         <source>&amp;View User Information</source>
-        <translation>Інформація про користувача</translation>
+        <translation>Переглянути &amp;інформацію про користувача</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="58"/>
@@ -5203,7 +5210,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="166"/>
         <source>M&amp;essages</source>
-        <translation>Повідомлення</translation>
+        <translation>Приватний &amp;чат</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
@@ -5214,7 +5221,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="167"/>
         <source>&amp;Op</source>
-        <translation>Оператор</translation>
+        <translation>Права &amp;оператора</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="68"/>
@@ -5231,22 +5238,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="169"/>
         <source>K&amp;ick from Server</source>
-        <translation>Вигнати з сервера</translation>
+        <translation>Вигнати &amp;з сервера</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="171"/>
         <source>Kick and B&amp;an from Server</source>
-        <translation>Вигнати та заблокувати на сервері</translation>
+        <translation>Вигнати та заблокувати &amp;на сервері</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="172"/>
         <source>&amp;Select User(s) for Move</source>
-        <translation>Вибрати користувачів для переміщення</translation>
+        <translation>Вибрати &amp;користувачів для переміщення</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="168"/>
         <source>&amp;Kick from Channel</source>
-        <translation>Вигнати з каналу</translation>
+        <translation>&amp;Вигнати з каналу</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="78"/>
@@ -5263,7 +5270,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="170"/>
         <source>Kick and &amp;Ban from Channel</source>
-        <translation>Вигнати та заблокувати на каналі</translation>
+        <translation>Вигнати &amp;та заблокувати на каналі</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="88"/>
@@ -5300,12 +5307,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="182"/>
         <source>&amp;Nickname (%1)</source>
-        <translation>Псевдонім (%1)</translation>
+        <translation>&amp;Псевдонім (%1)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="288"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation>Псевдонім: %2, Статус: %3, Логін: %4, Канал: %5, IP-адреса: %6, Версія: %7, ID: %1</translation>
+        <translation>Псевдонім: %2, Текст статусу: %3, Логін: %4, Канал: %5, IP-адреса: %6, Версія: %7, ID: %1</translation>
     </message>
 </context>
 <context>
@@ -5361,12 +5368,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilui.cpp" line="784"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="785"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
 </context>
 <context>
@@ -5399,22 +5406,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="431"/>
         <source>Male</source>
-        <translation>Чоловіча</translation>
+        <translation>Чоловік</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="432"/>
         <source>Female</source>
-        <translation>Жіноча</translation>
+        <translation>Жінка</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="267"/>
         <source>BearWare.dk Web Login ID</source>
-        <translation>ID для Web Login BearWare.dk</translation>
+        <translation>Логін BearWare.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="284"/>
         <source>&amp;Activate</source>
-        <translation>Активувати</translation>
+        <translation>&amp;Активувати</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="150"/>
@@ -5424,7 +5431,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="433"/>
         <source>Neutral</source>
-        <translation>Середня</translation>
+        <translation>Не вказано</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="167"/>
@@ -5434,12 +5441,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="259"/>
         <source>BearWare.dk Web Login</source>
-        <translation>Web Login BearWare.dk</translation>
+        <translation>Вхід через BearWare.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="306"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>Відновлювати налаштування гучності та підписки під час входу для користувачів Web Login</translation>
+        <translation>Відновлювати налаштування гучності та підписки для користувачів, які входять через BearWare.dk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="316"/>
@@ -5454,7 +5461,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="331"/>
         <source>&amp;Setup Keys</source>
-        <translation>Налаштувати клавіші</translation>
+        <translation>&amp;Налаштувати клавіші</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="373"/>
@@ -5489,22 +5496,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="449"/>
         <source>&amp;Always on top</source>
-        <translation>Завжди зверху</translation>
+        <translation>&amp;Завжди зверху</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
         <source>Enable VU-meter updates</source>
-        <translation>Увімкнути оновлення індикатора рівня звуку</translation>
+        <translation>Оновлювати індикатор рівня звуку</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="697"/>
         <source>Show number of users in channel</source>
-        <translation>Відображати кількість користувачів у каналі</translation>
+        <translation>Показувати кількість користувачів у каналі</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="704"/>
         <source>Show username instead of nickname</source>
-        <translation>Відображати логін замість псевдоніма</translation>
+        <translation>Показувати логін замість псевдоніма</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="711"/>
@@ -5514,12 +5521,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="477"/>
         <source>Show both server and channel name in window title</source>
-        <translation>Відображати назви сервера та каналу в заголовку вікна</translation>
+        <translation>Показувати назви сервера та каналу в заголовку вікна</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="622"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>Виводити діалогове вікно при отриманні текстового повідомлення</translation>
+        <translation>Відкривати вікно чату, коли надходить приватне повідомлення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="629"/>
@@ -5534,7 +5541,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="544"/>
         <source>Show statusbar events in chat-window</source>
-        <translation>Відображати події рядка стану у вікні чату</translation>
+        <translation>Показувати події рядка стану у вікні чату</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="856"/>
@@ -5544,7 +5551,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="581"/>
         <source>Show source in corner of video window</source>
-        <translation>Відображати джерело в куті вікна відео</translation>
+        <translation>Показувати джерело в куті вікна відео</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="187"/>
@@ -5554,12 +5561,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="211"/>
         <source>Status message</source>
-        <translation>Статус</translation>
+        <translation>Текст статусу</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="241"/>
         <source>Status message during inactivity</source>
-        <translation>Повідомлення про стан під час бездіяльності</translation>
+        <translation>Текст статусу під час бездіяльності</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="341"/>
@@ -5574,7 +5581,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="463"/>
         <source>Show voice activation level slider</source>
-        <translation>Показувати повзунок рівня активації голосом</translation>
+        <translation>Показувати повзунок порогу активації голосом</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="470"/>
@@ -5584,7 +5591,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="486"/>
         <source>Setup text message templates</source>
-        <translation>Налаштувати шаблони текстових повідомлень</translation>
+        <translation>Використовувати власні шаблони текстових повідомлень</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
@@ -5624,58 +5631,58 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="836"/>
         <source>Software Update</source>
-        <translation>Оновлення ПЗ</translation>
+        <translation>Оновлення програми</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="882"/>
         <source>Connection</source>
-        <translation>З&apos;єднання</translation>
+        <translation>Підключення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="888"/>
         <source>Client Connection</source>
-        <translation>З&apos;єднання клієнта</translation>
+        <translation>Підключення клієнта</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="894"/>
         <source>Connect to latest host on startup</source>
-        <translation>З&apos;єднуватися з останнім сервером під час запуску</translation>
+        <translation>Підключатися до останнього сервера під час запуску</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="901"/>
         <source>Reconnect on connection dropped</source>
-        <translation>Перепідключатися в разі розриву з&apos;єднання</translation>
+        <translation>Повторно підключатися в разі розриву з&apos;єднання</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="908"/>
         <source>Join root channel upon connection</source>
-        <translation>Заходити до кореневого каналу після з&apos;єднання</translation>
+        <translation>Приєднуватися до кореневого каналу після підключення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="915"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>Запитувати про максимальний обсяг даних сервера після з&apos;єднання</translation>
+        <translation>Визначати максимальний розмір пакетів після підключення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="922"/>
         <source>Add application to Windows Firewall exceptions list</source>
-        <translation>Додати програму до списку виключень брандмауера Windows</translation>
+        <translation>Додати програму до списку винятків брандмауера Windows</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="929"/>
         <location filename="../preferences.ui" line="932"/>
         <source>Default Subscriptions upon Connection</source>
-        <translation>Типові підписки після з&apos;єднання</translation>
+        <translation>Типові підписки після підключення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="940"/>
         <source>User Messages</source>
-        <translation>Повідомлення користувачів</translation>
+        <translation>Приватні повідомлення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="947"/>
         <source>Channel Messages</source>
-        <translation>Повідомлення каналів</translation>
+        <translation>Повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="954"/>
@@ -5692,7 +5699,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="968"/>
         <location filename="../preferences.ui" line="2005"/>
         <source>Video Capture</source>
-        <translation>Захоплення відео</translation>
+        <translation>Відео</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="975"/>
@@ -5702,12 +5709,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="987"/>
         <source>Desktop Access</source>
-        <translation>Доступ до робочого столу</translation>
+        <translation>Керування робочим столом</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="997"/>
         <source>Configure trusted list</source>
-        <translation>Налаштувати список довірених осіб</translation>
+        <translation>Налаштувати список довірених користувачів</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1009"/>
@@ -5718,12 +5725,12 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="1034"/>
         <location filename="../preferences.ui" line="1037"/>
         <source>Local Socket Settings</source>
-        <translation>Налаштування локальних сокетів</translation>
+        <translation>Налаштування локальних портів</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1043"/>
         <source>TCP port</source>
-        <translation>Порт TCP</translation>
+        <translation>TCP-порт</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1053"/>
@@ -5734,7 +5741,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1060"/>
         <source>UDP port</source>
-        <translation>Порт UDP</translation>
+        <translation>UDP-порт</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1143"/>
@@ -5751,12 +5758,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1931"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Зачитувати вибраний елемент у списках</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2203"/>
         <source> kbps</source>
-        <translation>Кбіт/с</translation>
+        <translation> Кбіт/с</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="580"/>
@@ -5792,22 +5799,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1306"/>
         <source>&amp;Test Selected</source>
-        <translation>Перевірити вибране</translation>
+        <translation>&amp;Перевірити вибране</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1331"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>Увімкнути усунення еха (усуває відлуння від динаміків)</translation>
+        <translation>Увімкнути усунення відлуння (прибирає звук динаміків із мікрофона)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1338"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation>Увімкнути автоматичне регулювання підсилення (автоматичне налаштування рівня мікрофона)</translation>
+        <translation>Увімкнути автоматичне регулювання підсилення (автоматично налаштовує рівень мікрофона)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1345"/>
         <source>Enable denoising (suppress noise from microphone)</source>
-        <translation>Увімкнути шумозаглушення (пригнічувати шум мікрофона)</translation>
+        <translation>Увімкнути шумозаглушення (пригнічує шум мікрофона)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1354"/>
@@ -5818,13 +5825,13 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="1391"/>
         <location filename="../preferences.ui" line="2269"/>
         <source>&amp;Default</source>
-        <translation>Типово</translation>
+        <translation>&amp;Типово</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1417"/>
         <location filename="../preferences.ui" line="1423"/>
         <source>Sound Events</source>
-        <translation>Звукові сповіщення</translation>
+        <translation>Звуки подій</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1431"/>
@@ -5834,23 +5841,23 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1457"/>
         <source>Sound event volume level</source>
-        <translation>Рівень гучності звукових сповіщень</translation>
+        <translation>Гучність звуків подій</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1515"/>
         <source>Enable/disable Sound Events</source>
-        <translation>Увімкнення/вимкнення звукових подій</translation>
+        <translation>Увімкнути/вимкнути звуки подій</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1521"/>
         <location filename="../preferences.ui" line="1662"/>
         <source>Double click to check/uncheck</source>
-        <translation>Двічі клацніть, щоб вибрати або зняти вибір</translation>
+        <translation>Двічі клацніть, щоб позначити або зняти позначку</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1540"/>
         <source>Sound Event File</source>
-        <translation>Файл звукової події</translation>
+        <translation>Файл звуку події</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1546"/>
@@ -5905,18 +5912,18 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1656"/>
         <source>Enable/disable Text to Speech Events</source>
-        <translation>Увімкнути/вимкнути озвучення подій синтезом мовлення</translation>
+        <translation>Увімкнути/вимкнути озвучення подій</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1581"/>
         <location filename="../preferences.ui" line="1730"/>
         <source>Enable &amp;all</source>
-        <translation>Увімкнути все</translation>
+        <translation>Ув&amp;імкнути все</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1503"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation>Використовувати пристрій відтворення, вибраний у TeamTalk, для звукових подій</translation>
+        <translation>Відтворювати звуки подій через пристрій, вибраний у TeamTalk</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1506"/>
@@ -5927,13 +5934,13 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="1601"/>
         <location filename="../preferences.ui" line="1750"/>
         <source>C&amp;lear all</source>
-        <translation>Очистити все</translation>
+        <translation>&amp;Вимкнути все</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1621"/>
         <location filename="../preferences.ui" line="1770"/>
         <source>&amp;Revert</source>
-        <translation>Відновити</translation>
+        <translation>Скас&amp;увати зміни</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1718"/>
@@ -5973,7 +5980,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1904"/>
         <source>Text to Speech output mode</source>
-        <translation>Режим виводу синтезу мовлення</translation>
+        <translation>Режим виведення синтезу мовлення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1917"/>
@@ -5983,7 +5990,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1924"/>
         <source>Use toast notification</source>
-        <translation>Використовувати спливаючі сповіщення</translation>
+        <translation>Використовувати спливні сповіщення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1957"/>
@@ -6092,12 +6099,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="847"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
-        <translation>Не вдалося додати %1 до списку виключень брандмауера Windows</translation>
+        <translation>Не вдалося додати %1 до списку винятків брандмауера Windows</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="854"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
-        <translation>Не вдалося видалити %1 зі списку виключень брандмауера Windows</translation>
+        <translation>Не вдалося видалити %1 зі списку винятків брандмауера Windows</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1337"/>
@@ -6113,17 +6120,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="80"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="81"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="440"/>
         <source>&amp;Reset</source>
-        <translation>Скинути</translation>
+        <translation>С&amp;кинути</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="504"/>
@@ -6256,27 +6263,27 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="531"/>
         <source>Join only</source>
-        <translation>Тільки приєднання</translation>
+        <translation>Лише приєднатися</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="532"/>
         <source>Leave only</source>
-        <translation>Тільки вихід</translation>
+        <translation>Лише вийти</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="533"/>
         <source>Join or leave</source>
-        <translation>Приєднання або вихід</translation>
+        <translation>Приєднатися або вийти</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="537"/>
         <source>Ascending</source>
-        <translation>За зростанням</translation>
+        <translation>За абеткою</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="538"/>
         <source>Popularity</source>
-        <translation>Популярність</translation>
+        <translation>За популярністю</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="620"/>
@@ -6296,7 +6303,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="643"/>
         <source>Qt Accessibility Announcement</source>
-        <translation>Оголошення доступності Qt</translation>
+        <translation>Скрінрідер (через Qt)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="821"/>
@@ -6323,7 +6330,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1223"/>
         <source>Max Input Channels %1</source>
-        <translation>Макс. вхідних каналів: %1</translation>
+        <translation>Макс. кількість каналів введення: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1225"/>
@@ -6334,7 +6341,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1247"/>
         <source>Max Output Channels %1</source>
-        <translation>Макс. каналів виведення: %1</translation>
+        <translation>Макс. кількість каналів виведення: %1</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1278"/>
@@ -6344,12 +6351,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1279"/>
         <source>Failed to restart sound systems. Please restart application.</source>
-        <translation>Не вдалося перезапустити звукові системи. Будь ласка, перезавантажте програму.</translation>
+        <translation>Не вдалося перезапустити звукові системи. Перезапустіть програму.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation>Ця конфігурація звукового пристрою забезпечує субоптимальне ехозаглушення. Перегляньте посібник для деталей.</translation>
+        <translation>З такими звуковими пристроями усунення відлуння працює не найкраще. Докладніше — у посібнику.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1338"/>
@@ -6364,32 +6371,32 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1547"/>
         <source>Braille only</source>
-        <translation>Тільки Брайль</translation>
+        <translation>Лише Брайль</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1546"/>
         <source>Speech only</source>
-        <translation>Тільки мовлення</translation>
+        <translation>Лише мовлення</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="590"/>
         <source>PulseAudio / PipeWire</source>
-        <translation type="unfinished"></translation>
+        <translation>PulseAudio / PipeWire</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="637"/>
         <source>Prism</source>
-        <translation type="unfinished"></translation>
+        <translation>Prism</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1510"/>
         <source>Backend</source>
-        <translation type="unfinished"></translation>
+        <translation>Засіб виведення</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1517"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматично</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1698"/>
@@ -6399,7 +6406,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1786"/>
         <source>Default Video Capture</source>
-        <translation>Типове захоплення відео</translation>
+        <translation>Типовий пристрій захоплення відео</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1787"/>
@@ -6409,24 +6416,24 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1850"/>
         <source>Message for Event &quot;%1&quot;</source>
-        <translation>Повідомлення для події «%1»</translation>
+        <translation>Фраза для озвучення події «%1»</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1920"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation>Ви впевнені, що хочете повернути всі налаштовані фрази синтезу мовлення до типових значень?</translation>
+        <translation>Ви впевнені, що хочете повернути всі фрази для озвучення до типових значень?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1921"/>
         <location filename="../preferencesdlg.cpp" line="2035"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1922"/>
         <location filename="../preferencesdlg.cpp" line="2036"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1925"/>
@@ -6436,7 +6443,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="2034"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation>Мову %1 було змінено. Чи варто відновити типові значення для подій синтезу мовлення, повідомлень про статус, шаблонів чату та формату дати й часу? Це дозволить перекласти всі повідомлення, але ваші власні налаштування буде втрачено.</translation>
+        <translation>Мову %1 було змінено. Відновити типові значення для фраз озвучення подій, повідомлень рядка стану, шаблонів чату та формату дати й часу? Так усі повідомлення буде перекладено заново, але ваші власні повідомлення буде втрачено.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="2039"/>
@@ -6446,12 +6453,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="363"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation>Натисніть, щоб почати передачу. Натисніть ще раз, щоб зупинити</translation>
+        <translation>Натисніть, щоб почати передавання. Натисніть ще раз, щоб зупинити</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="366"/>
         <source>Push To Talk Lock</source>
-        <translation>Фіксація режиму «Натисни і говори»</translation>
+        <translation>Клавіша «Натисни і говори» працює як перемикач</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="775"/>
@@ -6476,7 +6483,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="643"/>
         <source>Show dialog box when excluded from channel or server</source>
-        <translation>Показувати діалогове вікно у разі вилучення з каналу чи сервера</translation>
+        <translation>Показувати діалогове вікно, коли вас виганяють з каналу чи сервера</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="842"/>
@@ -6486,7 +6493,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="849"/>
         <source>Check for beta software updates on startup</source>
-        <translation>Перевіряти наявність бета-версій оновлень під час запуску</translation>
+        <translation>Перевіряти наявність бета-версій під час запуску</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1569"/>
@@ -6496,7 +6503,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1681"/>
         <source>Text to Speech Message</source>
-        <translation>Фраза синтезу мовлення</translation>
+        <translation>Фраза для озвучення</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1689"/>
@@ -6508,7 +6515,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../preferences.ui" line="533"/>
         <location filename="../preferences.ui" line="1704"/>
         <source>&amp;Variables...</source>
-        <translation>Змінні...</translation>
+        <translation>З&amp;мінні...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -6523,91 +6530,91 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../profiles.ui" line="27"/>
         <location filename="../profiles.ui" line="33"/>
         <source>Profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Профілі</translation>
     </message>
     <message>
         <location filename="../profiles.ui" line="70"/>
         <source>&amp;New Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Новий профіль</translation>
     </message>
     <message>
         <location filename="../profiles.ui" line="77"/>
         <source>Use &amp;Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Використати поточний профіль</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="126"/>
         <location filename="../profilesdlg.cpp" line="135"/>
         <source>New Profile</source>
-        <translation type="unfinished">Новий профіль</translation>
+        <translation>Новий профіль</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="126"/>
         <source>Maximum number of profiles reached.</source>
-        <translation type="unfinished"></translation>
+        <translation>Досягнуто максимальної кількості профілів.</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="131"/>
         <location filename="../profilesdlg.cpp" line="181"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="132"/>
         <location filename="../profilesdlg.cpp" line="182"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="134"/>
         <source>Profile %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Профіль %1</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="136"/>
         <location filename="../profilesdlg.cpp" line="186"/>
         <source>Profile name</source>
-        <translation type="unfinished">Назва профілю</translation>
+        <translation>Назва профілю</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="185"/>
         <source>Edit Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Редагувати профіль</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="213"/>
         <source>Are you sure you want to delete profile &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви впевнені, що хочете видалити профіль «%1»?</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="214"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="215"/>
         <source>&amp;No</source>
-        <translation type="unfinished">Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="218"/>
         <source>Delete profile</source>
-        <translation type="unfinished">Видалити профіль</translation>
+        <translation>Видалити профіль</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="255"/>
         <source>&amp;Open Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити &amp;профіль</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="256"/>
         <source>&amp;Edit Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Редагувати профіль</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="257"/>
         <source>&amp;Delete Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Видалити профіль</translation>
     </message>
 </context>
 <context>
@@ -6615,7 +6622,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../profilesmodel.cpp" line="34"/>
         <source>Profile Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Назва профілю</translation>
     </message>
 </context>
 <context>
@@ -6633,7 +6640,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilsound.cpp" line="349"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation>Не вдалося ініціалізувати пристрій відтворення звуку: %1</translation>
+        <translation>Не вдалося ініціалізувати пристрій виведення звуку: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="375"/>
@@ -6683,7 +6690,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilhotkey.cpp" line="47"/>
         <source>Enable/disable mute all</source>
-        <translation>Увімкнути/вимкнути режим тиші</translation>
+        <translation>Вимкнути / увімкнути звук усіх</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="49"/>
@@ -6693,7 +6700,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilhotkey.cpp" line="51"/>
         <source>Reinitialize sound devices</source>
-        <translation>Повторна ініціалізація звукових пристроїв</translation>
+        <translation>Повторно ініціалізувати звукові пристрої</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="53"/>
@@ -6718,7 +6725,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilmedia.cpp" line="36"/>
         <source>%1 audio channels</source>
-        <translation>%1 аудіоканалів</translation>
+        <translation>Аудіоканалів: %1</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="38"/>
@@ -6752,17 +6759,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="43"/>
         <source>Host IP-address</source>
-        <translation>IP-адреса хоста</translation>
+        <translation>IP-адреса сервера</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="60"/>
         <source>TCP port</source>
-        <translation>Порт TCP</translation>
+        <translation>TCP-порт</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="72"/>
         <source>TCP Port (Default: 10333)</source>
-        <translation>Порт TCP (типово: 10333)</translation>
+        <translation>TCP-порт (типово: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="82"/>
@@ -6773,12 +6780,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="91"/>
         <source>UDP port</source>
-        <translation>Порт UDP</translation>
+        <translation>UDP-порт</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="103"/>
         <source>UDP Port (Default: 10333)</source>
-        <translation>Порт UDP (типово: 10333)</translation>
+        <translation>UDP-порт (типово: 10333)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="124"/>
@@ -6788,7 +6795,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="134"/>
         <source>Setup</source>
-        <translation>Налаштування</translation>
+        <translation>Налаштувати</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="156"/>
@@ -6799,7 +6806,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation>Використовувати веблогін BearWare.dk</translation>
+        <translation>Використовувати вхід через BearWare.dk</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
@@ -6826,7 +6833,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <source>Status message (optional)</source>
-        <translation>Повідомлення статусу (необов&apos;язково)</translation>
+        <translation>Текст статусу (необов&apos;язково)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="242"/>
@@ -6837,7 +6844,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="251"/>
         <source>Last Joined Channel</source>
-        <translation>Останній відвіданий канал</translation>
+        <translation>Повертатися до останнього каналу</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="258"/>
@@ -6847,42 +6854,42 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="299"/>
         <source>Channel type</source>
-        <translation type="unfinished">Тип каналу</translation>
+        <translation>Тип каналу</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="309"/>
         <source>Select the channel types used when creating a missing channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть типи каналу, з якими його буде створено, якщо його немає на сервері</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="312"/>
         <source>Default</source>
-        <translation type="unfinished">Типово</translation>
+        <translation>Звичайний</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="322"/>
         <source>Join Code for Easy Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Код для швидкого підключення</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="328"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Код підключення</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="351"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation>Підключитися до сервера після закриття</translation>
+        <translation>&amp;Підключитися до сервера після закриття вікна</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="44"/>
         <source>&amp;Save and Close</source>
-        <translation>Зберегти та закрити</translation>
+        <translation>Зберегти &amp;та закрити</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="45"/>
         <source>&amp;Close without saving</source>
-        <translation>Закрити без збереження</translation>
+        <translation>Закрити &amp;без збереження</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="75"/>
@@ -6913,7 +6920,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.cpp" line="104"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="179"/>
@@ -6928,12 +6935,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.cpp" line="184"/>
         <source>Missing information</source>
-        <translation>Відсутня інформація</translation>
+        <translation>Бракує даних</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="184"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
-        <translation>Будь ласка, заповніть поле «IP-адреса хоста»</translation>
+        <translation>Будь ласка, заповніть поле «IP-адреса сервера»</translation>
     </message>
 </context>
 <context>
@@ -6941,7 +6948,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="14"/>
         <source>Connect to a Server</source>
-        <translation>Під&apos;єднатися до сервера</translation>
+        <translation>Підключитися до сервера</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="84"/>
@@ -6951,12 +6958,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="65"/>
         <source>Include official servers (blue ones)</source>
-        <translation>Включити офіційні сервери (позначені синім)</translation>
+        <translation>Показувати офіційні сервери (позначені синім)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="72"/>
         <source>Include unofficial servers (orange ones)</source>
-        <translation>Включити неофіційні сервери (позначені помаранчевим)</translation>
+        <translation>Показувати неофіційні сервери (позначені помаранчевим)</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="22"/>
@@ -6982,12 +6989,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlist.ui" line="111"/>
         <source>&amp;Add new server</source>
-        <translation>Додати сервер</translation>
+        <translation>&amp;Додати сервер</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="118"/>
         <source>&amp;Export Server list to .tt File</source>
-        <translation>Експортувати список серверів у файл .tt</translation>
+        <translation>&amp;Експортувати список серверів у файл .tt</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="132"/>
@@ -6995,7 +7002,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="837"/>
         <location filename="../serverlistdlg.cpp" line="859"/>
         <source>Enter Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Ввести код підключення</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="141"/>
@@ -7010,12 +7017,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="982"/>
         <source>&amp;Connect</source>
-        <translation>Під&apos;єднатися</translation>
+        <translation>&amp;Підключитися</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="125"/>
         <source>&amp;Import .tt File</source>
-        <translation>Імпортувати файл .tt</translation>
+        <translation>&amp;Імпортувати файл .tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="401"/>
@@ -7028,14 +7035,14 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="429"/>
         <location filename="../serverlistdlg.cpp" line="449"/>
         <source>Load File</source>
-        <translation>Завантажити файл</translation>
+        <translation>Відкрити файл</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="410"/>
         <location filename="../serverlistdlg.cpp" line="419"/>
         <location filename="../serverlistdlg.cpp" line="450"/>
         <source>Failed to load file %1</source>
-        <translation>Не вдалося завантажити файл %1</translation>
+        <translation>Не вдалося відкрити файл %1</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="430"/>
@@ -7047,14 +7054,14 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="766"/>
         <location filename="../serverlistdlg.cpp" line="867"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="528"/>
         <location filename="../serverlistdlg.cpp" line="767"/>
         <location filename="../serverlistdlg.cpp" line="868"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="576"/>
@@ -7121,7 +7128,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="737"/>
         <source>Select Directory</source>
-        <translation>Вибрати теку</translation>
+        <translation>Вибрати папку</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="770"/>
@@ -7132,35 +7139,35 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="817"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Код підключення</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="838"/>
         <location filename="../serverlistdlg.cpp" line="899"/>
         <source>Failed to get server information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося отримати інформацію про сервер.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="860"/>
         <source>Join Code incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильний код підключення</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="866"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Дані для входу на сервер буде оприлюднено, щоб інші могли підключитися до нього за згенерованим кодом. Продовжити?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="871"/>
         <location filename="../serverlistdlg.cpp" line="898"/>
         <location filename="../serverlistdlg.cpp" line="915"/>
         <source>Generate Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Згенерувати код підключення</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="916"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб підключитися до сервера, введіть цей код підключення:</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="955"/>
@@ -7175,17 +7182,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="957"/>
         <source>De&amp;fault (%1)</source>
-        <translation>Типово (%1)</translation>
+        <translation>&amp;Типово (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="963"/>
         <source>&amp;Name (%1)</source>
-        <translation>Назва (%1)</translation>
+        <translation>&amp;Назва (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="969"/>
         <source>&amp;User Count (%1)</source>
-        <translation>Кількість користувачів (%1)</translation>
+        <translation>&amp;Кількість користувачів (%1)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="975"/>
@@ -7195,52 +7202,52 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="983"/>
         <source>&amp;Delete</source>
-        <translation>Видалити</translation>
+        <translation>&amp;Видалити</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="984"/>
         <source>&amp;Edit</source>
-        <translation>Редагувати</translation>
+        <translation>&amp;Редагувати</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="985"/>
         <source>D&amp;uplicate</source>
-        <translation>Дублювати</translation>
+        <translation>&amp;Дублювати</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="988"/>
         <source>&amp;Generate .tt file</source>
-        <translation>Згенерувати файл .tt</translation>
+        <translation>&amp;Згенерувати файл .tt</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="987"/>
         <source>&amp;Publish Publicly</source>
-        <translation>Оприлюднити</translation>
+        <translation>&amp;Оприлюднити</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="989"/>
         <source>Generate &amp;Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Згенерувати &amp;код підключення</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1044"/>
         <source>Co&amp;nnect</source>
-        <translation>Під&apos;єднатися</translation>
+        <translation>&amp;Підключитися</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1045"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation>Вилучити з останніх серверів</translation>
+        <translation>&amp;Вилучити з останніх серверів</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1046"/>
         <source>&amp;Add to Saved Hosts</source>
-        <translation>Додати до збережених серверів</translation>
+        <translation>&amp;Додати до збережених серверів</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1047"/>
         <source>&amp;Clear Latest Hosts</source>
-        <translation>Очистити останні сервери</translation>
+        <translation>&amp;Очистити останні сервери</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="765"/>
@@ -7272,11 +7279,11 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation>Оновіть властивості вашого сервера так, щоб його назва містила текст #teamtalkpublish#.
+        <translation>Змініть властивості вашого сервера так, щоб його назва містила текст #teamtalkpublish#.
 Це підтвердить, що ви є власником сервера.
 Щойно сервер буде підтверджено, він з&apos;явиться в списку за кілька хвилин.
 
-Сповіщення #teamtalkpublish# можна видалити після того,
+Текст #teamtalkpublish# можна прибрати з назви після того,
 як сервер буде підтверджено.
 
 Видаліть оприлюднений обліковий запис користувача, щоб скасувати реєстрацію вашого сервера.</translation>
@@ -7294,7 +7301,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="526"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>Видалити сервер «%1»</translation>
+        <translation>Видалити сервер «%1»?</translation>
     </message>
 </context>
 <context>
@@ -7317,7 +7324,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="97"/>
         <source>MOTD</source>
-        <translation type="unfinished"></translation>
+        <translation>Повідомлення дня</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="134"/>
@@ -7355,7 +7362,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>User login caused encryption error</source>
-        <translation type="unfinished"></translation>
+        <translation>Помилка шифрування під час входу користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="149"/>
@@ -7370,22 +7377,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="91"/>
         <source>User connected</source>
-        <translation>Користувач під&apos;єднався</translation>
+        <translation>Підключення користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="93"/>
         <source>User disconnected</source>
-        <translation>Користувач від&apos;єднався</translation>
+        <translation>Відключення користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="95"/>
         <source>User logged in</source>
-        <translation>Користувач увійшов</translation>
+        <translation>Вхід користувача на сервер</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="97"/>
         <source>User logged out</source>
-        <translation>Користувач вийшов</translation>
+        <translation>Вихід користувача з сервера</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="99"/>
@@ -7395,107 +7402,107 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="101"/>
         <source>User connection timed out</source>
-        <translation>Час очікування з&apos;єднання користувача вичерпано</translation>
+        <translation>Перевищення часу очікування з&apos;єднання користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User kicked</source>
-        <translation>Користувача вигнано</translation>
+        <translation>Вигнання користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User banned</source>
-        <translation>Користувача заблоковано</translation>
+        <translation>Блокування користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User ban removed</source>
-        <translation>Блокування користувача скасовано</translation>
+        <translation>Скасування блокування користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
         <source>User status updated</source>
-        <translation>Статус користувача оновлено</translation>
+        <translation>Зміна статусу користувача</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User joined channel</source>
-        <translation>Користувач приєднався до каналу</translation>
+        <translation>Приєднання користувача до каналу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
         <source>User left channel</source>
-        <translation>Користувач залишив канал</translation>
+        <translation>Вихід користувача з каналу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="115"/>
         <source>User moved to other channel</source>
-        <translation>Користувача переміщено до іншого каналу</translation>
+        <translation>Переміщення користувача в інший канал</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User sent private text message</source>
-        <translation>Користувач надіслав приватне текстове повідомлення</translation>
+        <translation>Надсилання приватного повідомлення</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User sent custom text message</source>
-        <translation>Користувач надіслав спеціальне текстове повідомлення</translation>
+        <translation>Надсилання спеціального повідомлення</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User sent channel text message</source>
-        <translation>Користувач надіслав текстове повідомлення в канал</translation>
+        <translation>Надсилання повідомлення в канал</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent broadcast text message</source>
-        <translation>Користувач надіслав загальне текстове повідомлення</translation>
+        <translation>Надсилання загального повідомлення</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Початок нового потоку</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>Channel created</source>
-        <translation>Канал створено</translation>
+        <translation>Створення каналу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>Channel updated</source>
-        <translation>Канал оновлено</translation>
+        <translation>Зміна каналу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel removed</source>
-        <translation>Канал видалено</translation>
+        <translation>Видалення каналу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>File uploaded</source>
-        <translation>Файл вивантажено</translation>
+        <translation>Вивантаження файлу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>File downloaded</source>
-        <translation>Файл завантажено</translation>
+        <translation>Завантаження файлу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File deleted</source>
-        <translation>Файл видалено</translation>
+        <translation>Видалення файлу</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>Server updated</source>
-        <translation>Сервер оновлено</translation>
+        <translation>Зміна властивостей сервера</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
         <source>Server configuration saved</source>
-        <translation>Конфігурацію сервера збережено</translation>
+        <translation>Збереження конфігурації сервера</translation>
     </message>
 </context>
 <context>
@@ -7514,7 +7521,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="44"/>
         <source>Max users</source>
-        <translation>Макс. користувачів</translation>
+        <translation>Макс. кількість користувачів</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="70"/>
@@ -7530,27 +7537,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>&amp;Variables...</source>
-        <translation>Змінні...</translation>
+        <translation>З&amp;мінні...</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="113"/>
         <source>TCP port</source>
-        <translation>Порт TCP</translation>
+        <translation>TCP-порт</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="142"/>
         <source>UDP port</source>
-        <translation>Порт UDP</translation>
+        <translation>UDP-порт</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="171"/>
         <source>User timeout</source>
-        <translation>Таймаут користувача</translation>
+        <translation>Час очікування відповіді користувача</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="203"/>
         <source>Auto save server changes</source>
-        <translation>Автозбереження змін сервера</translation>
+        <translation>Автоматично зберігати зміни сервера</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="230"/>
@@ -7560,7 +7567,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="263"/>
         <source>Video TX max</source>
-        <translation>Макс. передавання відео</translation>
+        <translation>Макс. швидкість передавання відео</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="256"/>
@@ -7574,22 +7581,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Voice TX max</source>
-        <translation>Макс. передавання голосу</translation>
+        <translation>Макс. швидкість передавання голосу</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="344"/>
         <source>Total TX max</source>
-        <translation>Загальне макс. передавання</translation>
+        <translation>Загальна макс. швидкість передавання</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="317"/>
         <source>Desktop TX max</source>
-        <translation>Макс. передавання роб. столу</translation>
+        <translation>Макс. швидкість передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="290"/>
         <source>Media File TX max</source>
-        <translation>Макс. передавання медіафайлів</translation>
+        <translation>Макс. швидкість трансляції медіафайлів</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="374"/>
@@ -7599,7 +7606,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Max login attempts before ban</source>
-        <translation>Макс. спроб входу до заблокування</translation>
+        <translation>Макс. кількість спроб входу до блокування</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="400"/>
@@ -7610,7 +7617,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="407"/>
         <source>Max logins per IP-address</source>
-        <translation>Макс. сесій на одну IP-адресу</translation>
+        <translation>Макс. кількість входів з однієї IP-адреси</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
@@ -7625,12 +7632,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="461"/>
         <source>Server Logging</source>
-        <translation>Журналювання сервера</translation>
+        <translation>Журнал сервера</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="467"/>
         <source>Server events logged</source>
-        <translation>Журналювання подій сервера</translation>
+        <translation>Події, які записуються в журнал сервера</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="489"/>
@@ -7650,17 +7657,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="37"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="38"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="47"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="54"/>
@@ -7680,7 +7687,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="114"/>
         <source>Server&apos;s time online</source>
-        <translation>Час сервера в мережі</translation>
+        <translation>Час роботи сервера</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="114"/>
@@ -7705,12 +7712,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="173"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="174"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
 </context>
 <context>
@@ -7723,32 +7730,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="54"/>
         <source>Total RX/TX</source>
-        <translation>Загалом (отр./над.)</translation>
+        <translation>Загалом (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="57"/>
         <source>Voice RX/TX</source>
-        <translation>Голос (отр./над.)</translation>
+        <translation>Голос (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="60"/>
         <source>Video RX/TX</source>
-        <translation>Відео (отр./над.)</translation>
+        <translation>Відео (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="63"/>
         <source>Media File RX/TX</source>
-        <translation>Отримано/надіслано медіафайлів</translation>
+        <translation>Медіафайли (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="66"/>
         <source>Desktop RX/TX</source>
-        <translation>Робочий стіл (отр./над.)</translation>
+        <translation>Робочий стіл (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="78"/>
         <source>Throughput RX/TX</source>
-        <translation>Пропускна здатність (отр./над.)</translation>
+        <translation>Пропускна здатність (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="78"/>
@@ -7758,7 +7765,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="87"/>
         <source>Files RX/TX</source>
-        <translation>Файли (отр./над.)</translation>
+        <translation>Файли (отримано / надіслано)</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
@@ -7773,7 +7780,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="93"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation>Час у мережі: %1 год, %2 хв, %3 сек</translation>
+        <translation>Час роботи: %1 год, %2 хв, %3 с</translation>
     </message>
 </context>
 <context>
@@ -7814,7 +7821,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="94"/>
@@ -7825,12 +7832,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../shortcutsmodel.cpp" line="104"/>
         <source>Interface Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Комбінація в програмі</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="105"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Глобальна комбінація</translation>
     </message>
 </context>
 <context>
@@ -7848,62 +7855,62 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="105"/>
         <source>User logged in</source>
-        <translation>Користувач увійшов</translation>
+        <translation>Вхід користувача на сервер</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="107"/>
         <source>User logged out</source>
-        <translation>Користувач вийшов</translation>
+        <translation>Вихід користувача з сервера</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation>Користувач приєднався до каналу</translation>
+        <translation>Приєднання користувача до каналу</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation>Користувач залишив канал</translation>
+        <translation>Вихід користувача з каналу</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
         <source>Connection to server lost</source>
-        <translation>Зв&apos;язок із сервером втрачено</translation>
+        <translation>Втрата з&apos;єднання з сервером</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
         <source>Private message received</source>
-        <translation>Особисте повідомлення отримано</translation>
+        <translation>Отримання приватного повідомлення</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="117"/>
         <source>Private message sent</source>
-        <translation>Особисте повідомлення надіслано</translation>
+        <translation>Надсилання приватного повідомлення</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation>Користувач пише особисте повідомлення у фокусованому вікні</translation>
+        <translation>Користувач пише приватне повідомлення в активному вікні</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
         <source>Channel message received</source>
-        <translation>Повідомлення каналу отримано</translation>
+        <translation>Отримання повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="123"/>
         <source>Channel message sent</source>
-        <translation>Повідомлення каналу надіслано</translation>
+        <translation>Надсилання повідомлення в канал</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="125"/>
         <source>Broadcast message received</source>
-        <translation>Загальне повідомлення отримано</translation>
+        <translation>Отримання загального повідомлення</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="127"/>
         <source>Hotkey pressed</source>
-        <translation>Гарячу клавішу натиснуто</translation>
+        <translation>Натискання гарячої клавіші</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
@@ -7923,62 +7930,62 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation>Запит на доступ до робочого столу</translation>
+        <translation>Запит на керування робочим столом</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation>Оновлено файли</translation>
+        <translation>Оновлення списку файлів</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
         <source>File transfer completed</source>
-        <translation>Завершено передавання файлу</translation>
+        <translation>Завершення передавання файлу</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation>Користувач увімкнув режим запитання</translation>
+        <translation>Увімкнення режиму запитання</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation>Увімкнено активацію голосом</translation>
+        <translation>Увімкнення активації голосом</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation>Вимкнено активацію голосом</translation>
+        <translation>Вимкнення активації голосом</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>Активацію голосом увімкнено через меню «Я»</translation>
+        <translation>Увімкнення активації голосом через меню «Я»</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>Активацію голосом вимкнено через меню «Я»</translation>
+        <translation>Вимкнення активації голосом через меню «Я»</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation>Спрацювала активація голосом</translation>
+        <translation>Активація голосом: початок передавання</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation>Припинилася активація голосом</translation>
+        <translation>Активація голосом: кінець передавання</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
         <source>Mute master volume</source>
-        <translation>Вимкнути загальний звук</translation>
+        <translation>Вимкнення загального звуку</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="157"/>
         <source>Unmute master volume</source>
-        <translation>Увімкнути загальний звук</translation>
+        <translation>Увімкнення загального звуку</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
@@ -7998,7 +8005,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation>Завершено перехоплення іншим користувачем</translation>
+        <translation>Завершення перехоплення іншим користувачем</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
@@ -8026,7 +8033,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
         <source>Double click to check/uncheck</source>
-        <translation>Двічі клацніть, щоб вибрати або скасувати</translation>
+        <translation>Двічі клацніть, щоб позначити або зняти позначку</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="45"/>
@@ -8042,7 +8049,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="68"/>
         <source>&amp;Variables...</source>
-        <translation>Змінні...</translation>
+        <translation>З&amp;мінні...</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
@@ -8057,27 +8064,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
         <source>Enable &amp;all</source>
-        <translation>Увімкнути все</translation>
+        <translation>&amp;Увімкнути все</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="114"/>
         <source>C&amp;lear all</source>
-        <translation>Очистити все</translation>
+        <translation>&amp;Вимкнути все</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="134"/>
         <source>&amp;Revert</source>
-        <translation>Відновити</translation>
+        <translation>Скасувати &amp;зміни</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="34"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="35"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="95"/>
@@ -8092,12 +8099,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="167"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
@@ -8115,22 +8122,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User joined current channel</source>
-        <translation>Користувач приєднався до поточного каналу</translation>
+        <translation>Приєднання користувача до поточного каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Server configuration saved</source>
-        <translation>Конфігурацію сервера збережено</translation>
+        <translation>Збереження конфігурації сервера</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Recording started</source>
-        <translation>Розпочато запис</translation>
+        <translation>Початок запису</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Виявлення звукового пристрою</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
@@ -8145,7 +8152,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="109"/>
         <source>User logged in</source>
-        <translation>Користувач увійшов</translation>
+        <translation>Вхід користувача на сервер</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="83"/>
@@ -8155,132 +8162,132 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="111"/>
         <source>User logged out</source>
-        <translation>Користувач вийшов</translation>
+        <translation>Вихід користувача з сервера</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User joined channel</source>
-        <translation>Користувач приєднався до каналу</translation>
+        <translation>Приєднання користувача до каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
         <source>User left channel</source>
-        <translation>Користувач залишив канал</translation>
+        <translation>Вихід користувача з каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>User left current channel</source>
-        <translation>Користувач залишив поточний канал</translation>
+        <translation>Вихід користувача з поточного каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription private text message changed</source>
-        <translation>Змінено підписку на приватні повідомлення</translation>
+        <translation>Зміна підписки на приватні повідомлення</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription channel text message changed</source>
-        <translation>Змінено підписку на повідомлення каналу</translation>
+        <translation>Зміна підписки на повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Змінено підписку на загальні повідомлення</translation>
+        <translation>Зміна підписки на загальні повідомлення</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription voice stream changed</source>
-        <translation>Змінено підписку на голосовий потік</translation>
+        <translation>Зміна підписки на голосовий потік</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Змінено підписку на відео з веб-камери</translation>
+        <translation>Зміна підписки на відео з вебкамери</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Змінено підписку на трансляцію роб. столу</translation>
+        <translation>Зміна підписки на потік робочого столу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription desktop access changed</source>
-        <translation>Змінено підписку на доступ до роб. столу</translation>
+        <translation>Зміна підписки на керування робочим столом</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription media file stream changed</source>
-        <translation>Змінено підписку на потік медіафайлів</translation>
+        <translation>Зміна підписки на потік медіафайлів</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Змінено підписку на перехоплення приватних повідомлень</translation>
+        <translation>Зміна підписки на перехоплення приватних повідомлень</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Змінено підписку на перехоплення повідомлень каналу</translation>
+        <translation>Зміна підписки на перехоплення повідомлень каналу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Змінено підписку на перехоплення голосового потоку</translation>
+        <translation>Зміна підписки на перехоплення голосового потоку</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Змінено підписку на перехоплення відео з веб-камери</translation>
+        <translation>Зміна підписки на перехоплення відео з вебкамери</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Змінено підписку на перехоплення трансляції роб. столу</translation>
+        <translation>Зміна підписки на перехоплення потоку робочого столу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Змінено підписку на перехоплення потоку медіафайлів</translation>
+        <translation>Зміна підписки на перехоплення потоку медіафайлів</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на повідомлення каналу</translation>
+        <translation>Керований канал: зміна дозволу на повідомлення в каналі</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на передавання голосу</translation>
+        <translation>Керований канал: зміна дозволу на передавання голосу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на трансляцію з веб-камери</translation>
+        <translation>Керований канал: зміна дозволу на передавання з вебкамери</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на трансляцію роб. столу</translation>
+        <translation>Керований канал: зміна дозволу на передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на передавання медіафайлів</translation>
+        <translation>Керований канал: зміна дозволу на трансляцію медіафайлів</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>File added</source>
-        <translation>Файл додано</translation>
+        <translation>Додавання файлу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>File removed</source>
-        <translation>Файл видалено</translation>
+        <translation>Видалення файлу</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="167"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>Передавання заблоковано оператором каналу</translation>
+        <translation>Блокування передавання оператором каналу</translation>
     </message>
 </context>
 <context>
@@ -8293,7 +8300,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="20"/>
         <source>Media File Properties</source>
-        <translation>Властивості медіафайла</translation>
+        <translation>Властивості медіафайлу</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
@@ -8309,7 +8316,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
         <source>&amp;B</source>
-        <translation>О</translation>
+        <translation>&amp;О</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="62"/>
@@ -8320,18 +8327,18 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="68"/>
         <source>&amp;R</source>
-        <translation>Он</translation>
+        <translation>&amp;Н</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="79"/>
         <location filename="../streammediafile.ui" line="82"/>
         <source>Delete from history</source>
-        <translation>Видалити з історії</translation>
+        <translation>Вилучити з історії</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="85"/>
         <source>&amp;D</source>
-        <translation>В</translation>
+        <translation>&amp;В</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
@@ -8343,7 +8350,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="102"/>
         <source>&amp;L</source>
-        <translation>И</translation>
+        <translation>&amp;Ч</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="117"/>
@@ -8363,7 +8370,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation>Безперервно відтворювати медіафайл</translation>
+        <translation>Відтворювати &amp;медіафайл по колу</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -8378,7 +8385,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="301"/>
         <source>S&amp;top</source>
-        <translation>Зупинити</translation>
+        <translation>&amp;Зупинити</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="287"/>
@@ -8387,12 +8394,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="377"/>
         <location filename="../streammediafiledlg.cpp" line="410"/>
         <source>&amp;Play</source>
-        <translation>Відтворити</translation>
+        <translation>В&amp;ідтворити</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
-        <translation>Налаштувати</translation>
+        <translation>Н&amp;алаштувати</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
@@ -8431,12 +8438,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="489"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="496"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="40"/>
@@ -8481,12 +8488,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="178"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="179"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="266"/>
@@ -8500,7 +8507,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="372"/>
         <location filename="../streammediafiledlg.cpp" line="405"/>
         <source>&amp;Pause</source>
-        <translation>Пауза</translation>
+        <translation>&amp;Призупинити</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="326"/>
@@ -8535,47 +8542,47 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>User joined current channel</source>
-        <translation>Користувач приєднався до поточного каналу</translation>
+        <translation>Приєднання користувача до поточного каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Private message received</source>
-        <translation>Особисте повідомлення отримано</translation>
+        <translation>Отримання приватного повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>Private message sent</source>
-        <translation>Особисте повідомлення надіслано</translation>
+        <translation>Надсилання приватного повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation>Користувач пише особисте повідомлення у фокусованому вікні</translation>
+        <translation>Користувач пише приватне повідомлення в активному вікні</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation>Користувач пише особисте повідомлення</translation>
+        <translation>Користувач пише приватне повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
         <source>Channel message received</source>
-        <translation>Повідомлення каналу отримано</translation>
+        <translation>Отримання повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="145"/>
         <source>Channel message sent</source>
-        <translation>Повідомлення каналу надіслано</translation>
+        <translation>Надсилання повідомлення в канал</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="147"/>
         <source>Broadcast message received</source>
-        <translation>Загальне повідомлення отримано</translation>
+        <translation>Отримання загального повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="149"/>
         <source>Broadcast message sent</source>
-        <translation>Загальне повідомлення надіслано</translation>
+        <translation>Надсилання загального повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="229"/>
@@ -8590,7 +8597,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="123"/>
         <source>User logged in</source>
-        <translation>Користувач увійшов</translation>
+        <translation>Вхід користувача на сервер</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="97"/>
@@ -8600,132 +8607,132 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="125"/>
         <source>User logged out</source>
-        <translation>Користувач вийшов</translation>
+        <translation>Вихід користувача з сервера</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="127"/>
         <source>User joined channel</source>
-        <translation>Користувач приєднався до каналу</translation>
+        <translation>Приєднання користувача до каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="129"/>
         <source>User left channel</source>
-        <translation>Користувач залишив канал</translation>
+        <translation>Вихід користувача з каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="133"/>
         <source>User left current channel</source>
-        <translation>Користувач залишив поточний канал</translation>
+        <translation>Вихід користувача з поточного каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>User enabled question mode</source>
-        <translation>Користувач увімкнув режим запитання</translation>
+        <translation>Увімкнення режиму запитання</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription private text message changed</source>
-        <translation>Змінено підписку на приватні повідомлення</translation>
+        <translation>Зміна підписки на приватні повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription channel text message changed</source>
-        <translation>Змінено підписку на повідомлення каналу</translation>
+        <translation>Зміна підписки на повідомлення каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>Змінено підписку на загальні повідомлення</translation>
+        <translation>Зміна підписки на загальні повідомлення</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription voice stream changed</source>
-        <translation>Змінено підписку на голосовий потік</translation>
+        <translation>Зміна підписки на голосовий потік</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription webcam stream changed</source>
-        <translation>Змінено підписку на відео з веб-камери</translation>
+        <translation>Зміна підписки на відео з вебкамери</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>Змінено підписку на трансляцію роб. столу</translation>
+        <translation>Зміна підписки на потік робочого столу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription desktop access changed</source>
-        <translation>Змінено підписку на доступ до роб. столу</translation>
+        <translation>Зміна підписки на керування робочим столом</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription media file stream changed</source>
-        <translation>Змінено підписку на потік медіафайлів</translation>
+        <translation>Зміна підписки на потік медіафайлів</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>Змінено підписку на перехоплення приватних повідомлень</translation>
+        <translation>Зміна підписки на перехоплення приватних повідомлень</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>Змінено підписку на перехоплення повідомлень каналу</translation>
+        <translation>Зміна підписки на перехоплення повідомлень каналу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>Змінено підписку на перехоплення голосового потоку</translation>
+        <translation>Зміна підписки на перехоплення голосового потоку</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>Змінено підписку на перехоплення відео з веб-камери</translation>
+        <translation>Зміна підписки на перехоплення відео з вебкамери</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>Змінено підписку на перехоплення трансляції роб. столу</translation>
+        <translation>Зміна підписки на перехоплення потоку робочого столу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>Змінено підписку на перехоплення потоку медіафайлів</translation>
+        <translation>Зміна підписки на перехоплення потоку медіафайлів</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на повідомлення каналу</translation>
+        <translation>Керований канал: зміна дозволу на повідомлення в каналі</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на передавання голосу</translation>
+        <translation>Керований канал: зміна дозволу на передавання голосу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="185"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на трансляцію з веб-камери</translation>
+        <translation>Керований канал: зміна дозволу на передавання з вебкамери</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="187"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на трансляцію роб. столу</translation>
+        <translation>Керований канал: зміна дозволу на передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="189"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>Навч. клас: змінено дозвіл на передавання медіафайлів</translation>
+        <translation>Керований канал: зміна дозволу на трансляцію медіафайлів</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="191"/>
         <source>File added</source>
-        <translation>Файл додано</translation>
+        <translation>Додавання файлу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="193"/>
         <source>File removed</source>
-        <translation>Файл видалено</translation>
+        <translation>Видалення файлу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="195"/>
@@ -8735,17 +8742,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="197"/>
         <source>Voice transmission mode toggled</source>
-        <translation>Змінено режим передавання голосу</translation>
+        <translation>Зміна режиму передавання голосу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="199"/>
         <source>Video transmission toggled</source>
-        <translation>Змінено стан передавання відео</translation>
+        <translation>Увімкнення / вимкнення передавання відео</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="201"/>
         <source>Desktop sharing toggled</source>
-        <translation>Змінено стан спільного доступу до роб. столу</translation>
+        <translation>Увімкнення / вимкнення передавання робочого столу</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="203"/>
@@ -8774,7 +8781,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="139"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="159"/>
@@ -8786,7 +8793,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessage.ui" line="120"/>
         <source>&amp;Send</source>
-        <translation>Надіслати</translation>
+        <translation>&amp;Надіслати</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="115"/>
@@ -8853,7 +8860,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="172"/>
         <source>User Actions Allowed on Server</source>
-        <translation>Дії, дозволені користувачам на сервері</translation>
+        <translation>Дії, дозволені користувачеві на сервері</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="204"/>
@@ -8875,7 +8882,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="229"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>Користувач автоматично ставатиме оператором при вході у ці канали</translation>
+        <translation>Користувач автоматично ставатиме оператором після приєднання до цих каналів</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="242"/>
@@ -8885,7 +8892,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="261"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation>Призначити вибраного користувача автооператором для вибраних каналів</translation>
+        <translation>Користувач автоматично ставатиме оператором у вибраних каналах</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="264"/>
@@ -8895,7 +8902,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="271"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation>Скасувати автооператорство вибраного користувача для вибраних каналів</translation>
+        <translation>Користувач більше не ставатиме оператором у вибраних каналах автоматично</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="274"/>
@@ -8930,12 +8937,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="365"/>
         <source>Flood Protection</source>
-        <translation>Захист від флуду</translation>
+        <translation>Обмеження частоти команд</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="371"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>Заборонити користувачу, наприклад, спамити повідомленнями, обмежуючи кількість команд за певний проміжок часу.</translation>
+        <translation>Не дає користувачу, наприклад, засипати чат повідомленнями: обмежує кількість команд за певний проміжок часу.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="383"/>
@@ -8945,12 +8952,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="57"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="58"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="65"/>
@@ -9021,7 +9028,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="146"/>
         <source>&amp;Close</source>
-        <translation>Закрити</translation>
+        <translation>&amp;Закрити</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="196"/>
@@ -9031,12 +9038,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="197"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="198"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="201"/>
@@ -9061,7 +9068,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="438"/>
         <source>Custom (%1 commands per %2 seconds)</source>
-        <translation>Власні (%1 команд на %2 сек)</translation>
+        <translation>Вказано вручну (%1 команд за %2 с)</translation>
     </message>
 </context>
 <context>
@@ -9079,7 +9086,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="70"/>
         <source>&amp;New User Account</source>
-        <translation>Новий обліковий запис</translation>
+        <translation>&amp;Новий обліковий запис</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="33"/>
@@ -9089,12 +9096,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="124"/>
         <source>&amp;Yes</source>
-        <translation>Так</translation>
+        <translation>&amp;Так</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="125"/>
         <source>&amp;No</source>
-        <translation>Ні</translation>
+        <translation>&amp;Ні</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="171"/>
@@ -9114,42 +9121,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="174"/>
         <source>&amp;Username (%1)</source>
-        <translation>Логін (%1)</translation>
+        <translation>&amp;Логін (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="180"/>
         <source>User &amp;Type (%1)</source>
-        <translation>Тип користувача (%1)</translation>
+        <translation>&amp;Тип користувача (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="186"/>
         <source>&amp;Channel (%1)</source>
-        <translation>Канал (%1)</translation>
+        <translation>&amp;Канал (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="192"/>
         <source>&amp;Modified (%1)</source>
-        <translation>Змінено (%1)</translation>
+        <translation>&amp;Змінено (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Last Login Time (%1)</source>
-        <translation>Час останнього входу (%1)</translation>
+        <translation>&amp;Час останнього входу (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="203"/>
         <source>&amp;Create New User Account</source>
-        <translation>Створити новий обліковий запис</translation>
+        <translation>&amp;Створити новий обліковий запис</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="204"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation>Видалити вибраний обліковий запис</translation>
+        <translation>&amp;Видалити вибраний обліковий запис</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="205"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation>Редагувати вибраний обліковий запис</translation>
+        <translation>&amp;Редагувати вибраний обліковий запис</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
@@ -9241,17 +9248,17 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userdesktopwidget.cpp" line="245"/>
         <location filename="../userdesktopwidget.cpp" line="262"/>
         <source>&amp;Save to Image File</source>
-        <translation>Зберегти як файл зображення</translation>
+        <translation>&amp;Зберегти як файл зображення</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="251"/>
         <source>Retract &amp;Desktop Access</source>
-        <translation>Відкликати доступ до робочого столу</translation>
+        <translation>&amp;Припинити керування робочим столом</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="253"/>
         <source>Request &amp;Desktop Access</source>
-        <translation>Запросити доступ до робочого столу</translation>
+        <translation>Запитати &amp;керування робочим столом</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="259"/>
@@ -9275,12 +9282,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userimagewidget.cpp" line="194"/>
         <location filename="../userimagewidget.cpp" line="204"/>
         <source>&amp;Save to Image File</source>
-        <translation>Зберегти як файл зображення</translation>
+        <translation>&amp;Зберегти як файл зображення</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="195"/>
         <source>&amp;Flip image</source>
-        <translation>Віддзеркалити зображення</translation>
+        <translation>&amp;Перевернути зображення</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="201"/>
@@ -9313,7 +9320,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
         <source>User ID</source>
-        <translation>ID користувача</translation>
+        <translation>Ідентифікатор користувача</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="58"/>
@@ -9333,7 +9340,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="80"/>
         <source>Status message</source>
-        <translation>Повідомлення статусу</translation>
+        <translation>Текст статусу</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="105"/>
@@ -9358,12 +9365,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="125"/>
         <source>Audio file packets loss</source>
-        <translation>Втрата пакетів аудіофайла</translation>
+        <translation>Втрата пакетів аудіофайлу</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="126"/>
         <source>Video file frame loss</source>
-        <translation>Втрата кадрів відеофайла</translation>
+        <translation>Втрата кадрів відеофайлу</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="52"/>
@@ -9425,7 +9432,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="101"/>
         <source>Default</source>
-        <translation>Типово</translation>
+        <translation>Звичайний</translation>
     </message>
 </context>
 <context>
@@ -9503,22 +9510,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Transmit voice data (microphone)</source>
-        <translation>Використовувати мікрофон</translation>
+        <translation>Передавати голос (мікрофон)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Transmit video data (webcam)</source>
-        <translation>транслювати відео з вебкамери</translation>
+        <translation>Передавати відео (вебкамера)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Transmit desktop sessions (shared desktop)</source>
-        <translation>Транслювати робочий стіл</translation>
+        <translation>Передавати робочий стіл</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="269"/>
         <source>Get remote access to desktop sessions</source>
-        <translation>Отримувати віддалений доступ до робочого столу</translation>
+        <translation>Керувати робочими столами інших користувачів</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="271"/>
@@ -9533,7 +9540,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Send private text messages</source>
-        <translation>Надсилати особисті повідомлення</translation>
+        <translation>Надсилати приватні повідомлення</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
@@ -9626,13 +9633,13 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservolume.ui" line="56"/>
         <location filename="../uservolume.ui" line="112"/>
         <source>Mute left</source>
-        <translation>Вимкнути лівий</translation>
+        <translation>Вимкнути звук ліворуч</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="63"/>
         <location filename="../uservolume.ui" line="119"/>
         <source>Mute right</source>
-        <translation>Вимкнути правий</translation>
+        <translation>Вимкнути звук праворуч</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="76"/>
@@ -9642,7 +9649,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>Типово</translation>
+        <translation>&amp;Типово</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="55"/>
@@ -9660,42 +9667,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="439"/>
         <source>{user} has logged in on {server}</source>
-        <translation>{user} увійшов на {server}</translation>
+        <translation>{user} входить на {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="441"/>
         <source>{user} has logged out from {server}</source>
-        <translation>{user} вийшов із {server}</translation>
+        <translation>{user} виходить із {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="443"/>
         <source>{user} joined channel {channel}</source>
-        <translation>{user} приєднався до каналу {channel}</translation>
+        <translation>{user} приєднується до каналу {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="445"/>
         <source>{user} left channel {channel}</source>
-        <translation>{user} покинув канал {channel}</translation>
+        <translation>{user} виходить з каналу {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="447"/>
         <source>{user} joined channel</source>
-        <translation>{user} приєднався до каналу</translation>
+        <translation>{user} приєднується до каналу</translation>
     </message>
     <message>
         <location filename="../settings.h" line="449"/>
         <source>{user} left channel</source>
-        <translation>{user} покинув канал</translation>
+        <translation>{user} виходить з каналу</translation>
     </message>
     <message>
         <location filename="../settings.h" line="451"/>
         <source>Private message from {user}: {message}</source>
-        <translation>Особисте повідомлення від {user}: {message}</translation>
+        <translation>Приватне повідомлення від {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="453"/>
         <source>Private message sent: {message}</source>
-        <translation>Надіслано особисте повідомлення: {message}</translation>
+        <translation>Надіслано приватне повідомлення: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="455"/>
@@ -9705,12 +9712,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="457"/>
         <source>{user} set question mode</source>
-        <translation>{user} встановив режим запитання</translation>
+        <translation>{user} вмикає режим запитання</translation>
     </message>
     <message>
         <location filename="../settings.h" line="459"/>
         <source>Channel message from {user}: {message}</source>
-        <translation>Повідомлення в каналі від {user}: {message}</translation>
+        <translation>Повідомлення каналу від {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="461"/>
@@ -9735,22 +9742,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="469"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>Передачу «{type}» {state} для {user}</translation>
+        <translation>Передавання «{type}» {state} для {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>File {filename} added by {user}</source>
-        <translation>Файл {filename} додано користувачем {user}</translation>
+        <translation>{user} додає файл {filename}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
         <source>File {file} removed by {user}</source>
-        <translation>Файл {file} видалено користувачем {user}</translation>
+        <translation>{user} видаляє файл {file}</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>Псевдонім користувача, який увійшов</translation>
+        <translation>Псевдонім користувача, який увійшов на сервер</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="54"/>
@@ -9765,17 +9772,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who logged in</source>
-        <translation>Логін користувача, який увійшов</translation>
+        <translation>Логін користувача, який увійшов на сервер</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation>Псевдонім користувача, який вийшов</translation>
+        <translation>Псевдонім користувача, який вийшов із сервера</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who logged out</source>
-        <translation>Логін користувача, який вийшов</translation>
+        <translation>Логін користувача, який вийшов із сервера</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="56"/>
@@ -9798,18 +9805,18 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="57"/>
         <location filename="../utiltts.cpp" line="59"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>Псевдонім користувача, який покинув канал</translation>
+        <translation>Псевдонім користувача, який вийшов з каналу</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="57"/>
         <source>Channel&apos;s name left by user</source>
-        <translation>Назва каналу, який покинув користувач</translation>
+        <translation>Назва каналу, з якого вийшов користувач</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="57"/>
         <location filename="../utiltts.cpp" line="59"/>
         <source>User&apos;s username who left channel</source>
-        <translation>Логін користувача, який покинув канал</translation>
+        <translation>Логін користувача, який вийшов з каналу</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9839,7 +9846,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="62"/>
         <location filename="../utiltts.cpp" line="63"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation>Псевдонім користувача, який пише...</translation>
+        <translation>Псевдонім користувача, який пише</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="62"/>
@@ -9851,17 +9858,17 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="62"/>
         <location filename="../utiltts.cpp" line="63"/>
         <source>User&apos;s username who is typing</source>
-        <translation>Логін користувача, який пише...</translation>
+        <translation>Логін користувача, який пише</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="64"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation>Псевдонім користувача, який в режимі запитання</translation>
+        <translation>Псевдонім користувача, який увімкнув режим запитання</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="64"/>
         <source>User&apos;s username who set question mode</source>
-        <translation>Логін користувача, який в режимі запитання</translation>
+        <translation>Логін користувача, який увімкнув режим запитання</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="69"/>
@@ -9965,7 +9972,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="86"/>
         <location filename="../utiltts.cpp" line="87"/>
         <source>Transmission type</source>
-        <translation>Тип передачі</translation>
+        <translation>Тип передавання</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="83"/>
@@ -9974,7 +9981,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="86"/>
         <location filename="../utiltts.cpp" line="87"/>
         <source>Transmission state</source>
-        <translation>Стан передачі</translation>
+        <translation>Стан передавання</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="83"/>
@@ -9983,7 +9990,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="86"/>
         <location filename="../utiltts.cpp" line="87"/>
         <source>Classroom transmission authorization change</source>
-        <translation>Зміна авторизації передачі в навчальному класі</translation>
+        <translation>Зміна дозволу на передавання в керованому каналі</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="88"/>
@@ -10022,32 +10029,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="476"/>
         <source>{user} has logged in</source>
-        <translation>{user} увійшов</translation>
+        <translation>{user} входить на сервер</translation>
     </message>
     <message>
         <location filename="../settings.h" line="478"/>
         <source>{user} has logged out</source>
-        <translation>{user} вийшов</translation>
+        <translation>{user} виходить із сервера</translation>
     </message>
     <message>
         <location filename="../settings.h" line="480"/>
         <source>{user} joined channel {channel}</source>
-        <translation>{user} приєднався до каналу {channel}</translation>
+        <translation>{user} приєднується до каналу {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="482"/>
         <source>{user} left channel {channel}</source>
-        <translation>{user} покинув канал {channel}</translation>
+        <translation>{user} виходить з каналу {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="484"/>
         <source>{user} joined channel</source>
-        <translation>{user} приєднався до каналу</translation>
+        <translation>{user} приєднується до каналу</translation>
     </message>
     <message>
         <location filename="../settings.h" line="486"/>
         <source>{user} left channel</source>
-        <translation>{user} покинув канал</translation>
+        <translation>{user} виходить з каналу</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>
@@ -10057,17 +10064,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="490"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>Передачу «{type}» {state} для {user}</translation>
+        <translation>Передавання «{type}» {state} для {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="492"/>
         <source>File {filename} added by {user}</source>
-        <translation>Файл {filename} додано користувачем {user}</translation>
+        <translation>{user} додає файл {filename}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="494"/>
         <source>File {file} removed by {user}</source>
-        <translation>Файл {file} видалено користувачем {user}</translation>
+        <translation>{user} видаляє файл {file}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="497"/>
@@ -10102,7 +10109,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="509"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation>{date} Приєднався до каналу: {channelpath}</translation>
+        <translation>{date} Ви приєдналися до каналу: {channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="511"/>
@@ -10112,12 +10119,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="513"/>
         <source>Disk quota: {quota}</source>
-        <translation>Квота диска: {quota}</translation>
+        <translation>Дискова квота: {quota}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>Псевдонім користувача, який увійшов</translation>
+        <translation>Псевдонім користувача, який увійшов на сервер</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
@@ -10130,17 +10137,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who logged in</source>
-        <translation>Логін користувача, який увійшов</translation>
+        <translation>Логін користувача, який увійшов на сервер</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="202"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation>Псевдонім користувача, який вийшов</translation>
+        <translation>Псевдонім користувача, який вийшов із сервера</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="202"/>
         <source>User&apos;s username who logged out</source>
-        <translation>Логін користувача, який вийшов</translation>
+        <translation>Логін користувача, який вийшов із сервера</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="203"/>
@@ -10163,18 +10170,18 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="204"/>
         <location filename="../utilui.cpp" line="206"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>Псевдонім користувача, який покинув канал</translation>
+        <translation>Псевдонім користувача, який вийшов з каналу</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="204"/>
         <source>Channel&apos;s name left by user</source>
-        <translation>Назва каналу, який покинув користувач</translation>
+        <translation>Назва каналу, з якого вийшов користувач</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="204"/>
         <location filename="../utilui.cpp" line="206"/>
         <source>User&apos;s username who left channel</source>
-        <translation>Логін користувача, який покинув канал</translation>
+        <translation>Логін користувача, який вийшов з каналу</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="207"/>
@@ -10278,7 +10285,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="224"/>
         <location filename="../utilui.cpp" line="225"/>
         <source>Transmission type</source>
-        <translation>Тип передачі</translation>
+        <translation>Тип передавання</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="221"/>
@@ -10287,7 +10294,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="224"/>
         <location filename="../utilui.cpp" line="225"/>
         <source>Transmission state</source>
-        <translation>Стан передачі</translation>
+        <translation>Стан передавання</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="221"/>
@@ -10296,7 +10303,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="224"/>
         <location filename="../utilui.cpp" line="225"/>
         <source>Classroom transmission authorization change</source>
-        <translation>Зміна авторизації передачі в навчальному класі</translation>
+        <translation>Зміна дозволу на передавання в керованому каналі</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="226"/>
@@ -10405,7 +10412,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videogridwidget.cpp" line="29"/>
         <source>No active video sessions</source>
-        <translation>Немає активних відеосесій</translation>
+        <translation>Немає активних відеосеансів</translation>
     </message>
 </context>
 <context>
@@ -10496,12 +10503,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="35"/>
         <source>&amp;OK</source>
-        <translation>Гаразд</translation>
+        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="36"/>
         <source>&amp;Cancel</source>
-        <translation>Скасувати</translation>
+        <translation>&amp;Скасувати</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="37"/>
@@ -10521,7 +10528,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="189"/>
         <source>Status message</source>
-        <translation>Повідомлення про статус</translation>
+        <translation>Текст статусу</translation>
     </message>
 </context>
 </TS>

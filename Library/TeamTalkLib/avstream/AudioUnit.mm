@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 #include <memory>
 #include <vector>
 
@@ -109,9 +110,9 @@ namespace soundsystem {
                 if(ret < 0)
                     return buf_usage;
             
-                size_t min_bytes = std::min(buf.mDataByteSize - buf_usage, (UInt32)mb->length());
+                size_t min_bytes = std::min(buf.mDataByteSize - buf_usage, static_cast<UInt32>(mb->length()));
                 char* buf_ptr = reinterpret_cast<char*>(buf.mData);
-                ACE_OS::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
+                std::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
                 mb->rd_ptr(min_bytes);
                 if(mb->length() == 0)
                 {
@@ -154,7 +155,7 @@ bool EnableSpeakerOutput(bool enable)
         status = AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute,
                                          sizeof (flag), &flag);
         assert(status == noErr);
-        MYTRACE(ACE_TEXT("Enabling speaker output\n"));
+        MYTRACE(TTEXT("Enabling speaker output\n"));
     }
     else
     {
@@ -162,7 +163,7 @@ bool EnableSpeakerOutput(bool enable)
         status = AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute,
                                          sizeof (flag), &flag);
         assert(status == noErr);
-        MYTRACE(ACE_TEXT("Disabling speaker output\n"));
+        MYTRACE(TTEXT("Disabling speaker output\n"));
     }
 
     return status == noErr;
@@ -192,7 +193,7 @@ bool EnableSpeakerOutput(bool enable)
         virtual ~AudUnit()
         {
             Close();
-            MYTRACE(ACE_TEXT("~AudUnit()\n"));
+            MYTRACE(TTEXT("~AudUnit()\n"));
         }
         
         static std::shared_ptr<AudUnit> getInstance()
@@ -229,15 +230,15 @@ assert(status == noErr);
 
             [session setActive:YES error:nil];
 
-            MYTRACE(ACE_TEXT("Starting new AudioSession\n"));
+            MYTRACE(TTEXT("Starting new AudioSession\n"));
 
-            // MYTRACE_COND(status != noErr, ACE_TEXT("Failed to set property kAudioSessionProperty_AudioCategory"));
+            // MYTRACE_COND(status != noErr, TTEXT("Failed to set property kAudioSessionProperty_AudioCategory"));
 
             // Float32 bufferSizeInSec = 0.02f;
             // status = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration,
             //                                  sizeof(Float32), &bufferSizeInSec);
             // assert(status == noErr);
-            // MYTRACE_COND(status != noErr, ACE_TEXT("Failed to set property kAudioSessionProperty_PreferredHardwareIOBufferDuration"));
+            // MYTRACE_COND(status != noErr, TTEXT("Failed to set property kAudioSessionProperty_PreferredHardwareIOBufferDuration"));
 
             RefreshDevices();
 
@@ -248,7 +249,7 @@ assert(status == noErr);
         {
             AVAudioSession *session = [AVAudioSession sharedInstance];
             [session setActive:NO error:nil];
-            MYTRACE(ACE_TEXT("Closing AudioSession\n"));
+            MYTRACE(TTEXT("Closing AudioSession\n"));
         }
 
         soundgroup_t NewSoundGroup()
@@ -282,21 +283,21 @@ assert(status == noErr);
 
             // Remote i/o device
 
-            dev.devicename = ACE_TEXT("Remote I/O Unit");
+            dev.devicename = TTEXT("Remote I/O Unit");
             dev.id = REMOTEIO_DEVICE_ID;
             sounddevs[dev.id] = dev;
 
 
             // voice processing i/o device
     
-            dev.devicename = ACE_TEXT("Voice-Processing I/O Unit");
+            dev.devicename = TTEXT("Voice-Processing I/O Unit");
             dev.id = VOICEPROCESSINGIO_DEVICE_ID;
             sounddevs[dev.id] = dev;
 
             // //TODO: detect if iPad, then don't include this device.
             // //if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             // {
-            //     dev.devicename = ACE_TEXT("Speaker output");
+            //     dev.devicename = TTEXT("Speaker output");
             //     dev.id = SPEAKER_DEVICE_ID;
             //     dev.max_input_channels = 0;
             //     dev.input_channels.clear();
@@ -386,7 +387,7 @@ assert(status == noErr);
 
         fail:
             status = AudioUnitUninitialize(audioUnit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to destroy audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to destroy audio input\n"));
             status = AudioComponentInstanceDispose(audioUnit);
             assert(status == noErr);
             return nil;
@@ -505,7 +506,7 @@ assert(status == noErr);
 
             streamer->audunit = audioUnit;
     
-            MYTRACE(ACE_TEXT("Opened and started input device %d with samplerate %d and channels %d\n"),
+            MYTRACE(TTEXT("Opened and started input device %d with samplerate %d and channels %d\n"),
                     inputdeviceid, samplerate, channels);
 
             return streamer;
@@ -513,11 +514,11 @@ assert(status == noErr);
         fail:
 
             status = AudioUnitUninitialize(audioUnit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to destroy audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to destroy audio input\n"));
             status = AudioComponentInstanceDispose(audioUnit);
             assert(status == noErr);
 
-            MYTRACE(ACE_TEXT("Failed to start input device %d, status %d\n"), inputdeviceid, (int)status);
+            MYTRACE(TTEXT("Failed to start input device %d, status %d\n"), inputdeviceid, static_cast<int>(status));
 
             return inputstreamer_t();
         }
@@ -538,9 +539,9 @@ assert(status == noErr);
 
             assert(streamer->audunit);
             status = AudioOutputUnitStop(streamer->audunit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to stop audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to stop audio input\n"));
             status = AudioUnitUninitialize(streamer->audunit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to close audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to close audio input\n"));
             status = AudioComponentInstanceDispose(streamer->audunit);
             assert(status == noErr);
         }
@@ -591,7 +592,7 @@ assert(status == noErr);
             if(status != noErr)
                 goto fail;
 
-            MYTRACE(ACE_TEXT("Opened output device %d with samplerate %d and channels %d\n"),
+            MYTRACE(TTEXT("Opened output device %d with samplerate %d and channels %d\n"),
                     outputdeviceid, streamer->samplerate, streamer->channels);
             status = AudioUnitInitialize(audioUnit);
             assert(status == noErr);
@@ -631,9 +632,9 @@ assert(status == noErr);
                 OSStatus status;
                 status = AudioOutputUnitStart(streamer->audunit);
 
-                MYTRACE_COND(status != noErr, ACE_TEXT("Failed to start output audio queue\n"));
+                MYTRACE_COND(status != noErr, TTEXT("Failed to start output audio queue\n"));
 
-                MYTRACE(ACE_TEXT("Start stream with samplerate %d and channels %d\n"),
+                MYTRACE(TTEXT("Start stream with samplerate %d and channels %d\n"),
                         streamer->samplerate, streamer->channels);
 
                 return status == noErr;
@@ -649,7 +650,7 @@ assert(status == noErr);
             {
                 OSStatus status;
                 status = AudioOutputUnitStop(streamer->audunit);
-                MYTRACE_COND(status != noErr, ACE_TEXT("Failed to stop output audio queue\n"));
+                MYTRACE_COND(status != noErr, TTEXT("Failed to stop output audio queue\n"));
                 return status == noErr;
             }
             return true;
@@ -700,45 +701,44 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
 {
     AUInputStreamer* streamer = reinterpret_cast<AUInputStreamer*>(userData);
 
-    ACE_Message_Block* mb;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(numFrames * streamer->channels * sizeof(short)), noErr);
-    
+    auto cap_mb = std::make_unique<ACE_Message_Block>(numFrames * streamer->channels * sizeof(short));
+
     AudioBufferList bufList = {};
     bufList.mNumberBuffers = 1;
     bufList.mBuffers[0].mNumberChannels = streamer->channels;
-    bufList.mBuffers[0].mDataByteSize = mb->size();
-    bufList.mBuffers[0].mData = mb->wr_ptr();
+    bufList.mBuffers[0].mDataByteSize = cap_mb->size();
+    bufList.mBuffers[0].mData = cap_mb->wr_ptr();
 
     OSStatus status;
     status = AudioUnitRender(streamer->audunit, actionFlags, audioTimeStamp, busNumber, numFrames, &bufList);
     assert(status == noErr);
     if(status != noErr || bufList.mBuffers[0].mDataByteSize == 0)
     {
-        mb->release();
-        return noErr;
+        return noErr; //cap_mb is freed by unique_ptr
     }
-    
-    mb->wr_ptr(bufList.mBuffers[0].mDataByteSize);
+
+    cap_mb->wr_ptr(bufList.mBuffers[0].mDataByteSize);
     ACE_Time_Value tv;
-    int ret = streamer->samples_queue.enqueue_tail(mb, &tv);
+    int ret = streamer->samples_queue.enqueue_tail(cap_mb.get(), &tv);
     if(ret < 0)
     {
-        mb->release();
-        return noErr;
+        return noErr; //cap_mb is freed by unique_ptr
     }
-    
+    cap_mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
+
     UInt32 framebytes = PCM16_BYTES(streamer->channels, streamer->framesize);
     UInt32 copied = 0;
     std::vector<char> buffer(framebytes);
     while(streamer->samples_queue.message_length() >= framebytes - copied)
     {
+        ACE_Message_Block* mb = nullptr;
         ret = streamer->samples_queue.dequeue(mb, &tv);
         assert(ret >= 0);
         if(ret < 0)
             return noErr;
         
-        UInt32 min_bytes = std::min((UInt32)mb->length(), framebytes - copied);
-        ACE_OS::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
+        UInt32 min_bytes = std::min(static_cast<UInt32>(mb->length()), framebytes - copied);
+        std::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
         mb->rd_ptr(min_bytes);
 
         copied += min_bytes;
@@ -806,8 +806,7 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
         assert(buf_usage < buffers->mBuffers[buf_index].mDataByteSize);
         
         int cbbytes = PCM16_BYTES(streamer->channels, streamer->framesize);
-        ACE_Message_Block* mb;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(cbbytes), noErr);
+        auto mb = std::make_unique<ACE_Message_Block>(cbbytes);
         
         short* samples_buffer = reinterpret_cast<short*>(mb->wr_ptr());
         assert(streamer->player);
@@ -819,13 +818,10 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
         mb->wr_ptr(cbbytes);
         
         ACE_Time_Value tv;
-        ret = streamer->samples_queue.enqueue_tail(mb, &tv);
+        ret = streamer->samples_queue.enqueue_tail(mb.get(), &tv);
         assert(ret >= 0);
-        if(ret < 0)
-        {
-            mb->release();
-            return noErr;
-        }
+        if (ret >= 0)
+            mb.release(); // NOLINT(bugprone-unused-return-value) queue owns the block now
     }
     return noErr;
 }

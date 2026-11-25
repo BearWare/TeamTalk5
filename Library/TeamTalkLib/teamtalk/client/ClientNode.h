@@ -36,7 +36,6 @@
 #include "DesktopShare.h"
 #include "FileNode.h"
 #include "VideoThread.h"
-
 #include "avstream/AudioInputStreamer.h"
 #include "avstream/AudioResampler.h"
 #include "avstream/MediaPlayback.h"
@@ -44,6 +43,7 @@
 #include "avstream/SoundSystem.h"
 #include "avstream/VideoCapture.h"
 #include "codec/MediaUtil.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHandler.h"
@@ -54,13 +54,15 @@
 #include <ace/INET_Addr.h>
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue.h>
-#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_Context.h>
 #endif
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <map>
 #include <memory>
@@ -78,7 +80,7 @@ constexpr auto MTU_QUERY_RETRY_COUNT = 20; //20 * 500ms = 10 seconds for MTU que
 
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g( (this_obj)->ReactorLock() );             \
-    /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
+    /*PROFILER_ST(TTEXT("Thread"));*/                \
     (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 #define GUARD_REACTOR(this_obj)                         \
@@ -119,28 +121,28 @@ namespace teamtalk {
         CLIENT_STREAM_VIDEOFILE          = 0x00020000
     };
 
-    using ClientFlags = ACE_UINT32;
+    using ClientFlags = uint32_t;
 
     struct ClientStats
     {
-        ACE_INT64 udpbytes_sent = 0;
-        ACE_INT64 udpbytes_recv = 0;
-        ACE_INT64 voicebytes_sent = 0;
-        ACE_INT64 voicebytes_recv = 0;
-        ACE_INT64 vidcapbytes_sent = 0;
-        ACE_INT64 vidcapbytes_recv = 0;
-        ACE_INT64 mediafile_audio_bytes_sent = 0;
-        ACE_INT64 mediafile_audio_bytes_recv = 0;
-        ACE_INT64 mediafile_video_bytes_sent = 0;
-        ACE_INT64 mediafile_video_bytes_recv = 0;
-        ACE_INT64 desktopbytes_sent = 0;
-        ACE_INT64 desktopbytes_recv = 0;
-        ACE_INT32 udpping_time = -1;
-        ACE_INT32 tcpping_time = -1;
+        int64_t udpbytes_sent = 0;
+        int64_t udpbytes_recv = 0;
+        int64_t voicebytes_sent = 0;
+        int64_t voicebytes_recv = 0;
+        int64_t vidcapbytes_sent = 0;
+        int64_t vidcapbytes_recv = 0;
+        int64_t mediafile_audio_bytes_sent = 0;
+        int64_t mediafile_audio_bytes_recv = 0;
+        int64_t mediafile_video_bytes_sent = 0;
+        int64_t mediafile_video_bytes_recv = 0;
+        int64_t desktopbytes_sent = 0;
+        int64_t desktopbytes_recv = 0;
+        int32_t udpping_time = -1;
+        int32_t tcpping_time = -1;
         //internal use
-        ACE_UINT32 tcp_silence_sec = 0;
-        ACE_UINT32 udp_silence_sec = 0;
-        ACE_Time_Value ping_issue_time;
+        uint32_t tcp_silence_sec = 0;
+        uint32_t udp_silence_sec = 0;
+        std::chrono::system_clock::time_point ping_issue_time;
         bool udp_ping_dirty = true;
         bool tcp_ping_dirty = true;
         int streamcapture_delay_msec = 0;
@@ -178,14 +180,14 @@ namespace teamtalk {
         , public FileTransferListener
     {
     public:
-        ClientNode(const ACE_TString& version, ClientListener* listener);
+        ClientNode(const tstring& version, ClientListener* listener);
         ~ClientNode() override;
 
 #if defined(_DEBUG)
         uint32_t m_active_timerid = 0;
 #endif
         
-        ACE_Recursive_Thread_Mutex& LockSndprop() { return m_sndgrp_lock; }
+        std::recursive_mutex& LockSndprop() { return m_sndgrp_lock; }
         VoiceLogger& GetVoiceLogger() override;
         AudioContainer& GetAudioContainer();
 
@@ -198,13 +200,13 @@ namespace teamtalk {
         const UserAccount& GetMyUserAccount() const { return m_myuseraccount; }
 
         clientuser_t GetUser(int userid, bool include_local = false);
-        clientuser_t GetUserByUsername(const ACE_TString& username);
+        clientuser_t GetUserByUsername(const tstring& username);
         void GetUsers(std::set<int>& userids);
         clientchannel_t GetRootChannel();
         clientchannel_t GetMyChannel();
         int GetChannelID() override;
         clientchannel_t GetChannel(int channelid);
-        ACE_TString GetChannelPath(int channelid);
+        tstring GetChannelPath(int channelid);
         bool GetChannelProp(int channelid, ChannelProp& prop);
 
         //SoundSystem
@@ -249,11 +251,11 @@ namespace teamtalk {
 
         bool StartRecordingMuxedAudioFile(const AudioCodec& codec,
                                           StreamTypes sts,
-                                          const ACE_TString& filename,
+                                          const tstring& filename,
                                           AudioFileFormat aff);
         bool StartRecordingMuxedAudioFile(int channelid,
                                           StreamTypes sts,
-                                          const ACE_TString& filename,
+                                          const tstring& filename,
                                           AudioFileFormat aff);
         void StopRecordingMuxedAudioFile();
         void StopRecordingMuxedAudioFile(int channelid);
@@ -261,7 +263,7 @@ namespace teamtalk {
         bool StartMTUQuery();
 
         //stream media file (DirectShow wrapper)
-        bool StartStreamingMediaFile(const ACE_TString& filename,
+        bool StartStreamingMediaFile(const tstring& filename,
                                      uint32_t offset, bool paused,
                                      const AudioPreprocessor& preprocessor,
                                      const VideoCodec& vid_codec);
@@ -271,7 +273,7 @@ namespace teamtalk {
         void StopStreamingMediaFile(bool killtimer = true);
 
         // playback local media file
-        int InitMediaPlayback(const ACE_TString& filename, uint32_t offset,
+        int InitMediaPlayback(const tstring& filename, uint32_t offset,
                               bool paused, const AudioPreprocessor& preprocessor);
         bool UpdateMediaPlayback(int id, uint32_t offset, bool paused, 
                                  const AudioPreprocessor& preprocessor, bool initial = false);
@@ -282,7 +284,7 @@ namespace teamtalk {
 
 
         //video capture
-        bool InitVideoCapture(const ACE_TString& src_id,
+        bool InitVideoCapture(const tstring& src_id,
                               const media::VideoFormat& cap_format);
         void CloseVideoCapture();
 
@@ -302,9 +304,9 @@ namespace teamtalk {
         bool SendDesktopInput(int userid,
                               const std::vector<DesktopInput>& inputs);
 
-        bool Connect(bool encrypted, const ACE_TString& hostaddr,
-                     u_short tcpport, u_short udpport, const ACE_TString& sysid,
-                     const ACE_TString& localaddr,
+        bool Connect(bool encrypted, const tstring& hostaddr,
+                     u_short tcpport, u_short udpport, const tstring& sysid,
+                     const tstring& localaddr,
                      u_short local_tcpport = 0, u_short local_udpport = 0);
         bool Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                      const ACE_INET_Addr* localtcpaddr);
@@ -331,7 +333,7 @@ namespace teamtalk {
         ClientKeepAlive GetKeepAlive();
 
         //TimerListener - reactor thread
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         //Audio encoder callback - separate thread
         void EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
@@ -347,12 +349,12 @@ namespace teamtalk {
         //Video encoder - separate thread
         bool EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
                                       const char* enc_data, int enc_len,
-                                      ACE_UINT32 packet_no,
-                                      ACE_UINT32 timestamp);
+                                      uint32_t packet_no,
+                                      uint32_t timestamp);
         bool EncodedVideoFileFrame(ACE_Message_Block* org_frame,
                                    const char* enc_data, int enc_len,
-                                   ACE_UINT32 packet_no,
-                                   ACE_UINT32 timestamp);
+                                   uint32_t packet_no,
+                                   uint32_t timestamp);
 
         // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,
@@ -409,21 +411,21 @@ namespace teamtalk {
 
         //Issue command (Client->Server)
         int DoPing(bool issue_cmdid);
-        int DoLogin(const ACE_TString& nickname, const ACE_TString& username, 
-                    const ACE_TString& password, const ACE_TString& clientname);
+        int DoLogin(const tstring& nickname, const tstring& username, 
+                    const tstring& password, const tstring& clientname);
         int DoLogout();
         int DoJoinChannel(const ChannelProp& chanprop, bool forceexisting);
         int DoLeaveChannel();
-        int DoChangeNickname(const ACE_TString& newnick);
-        int DoChangeStatus(int statusmode, const ACE_TString& statusmsg);
+        int DoChangeNickname(const tstring& newnick);
+        int DoChangeStatus(int statusmode, const tstring& statusmsg);
         int DoTextMessage(const TextMessage& msg);
         int DoKickUser(int userid, int channelid);
         int DoChannelOperator(int userid, int channelid, 
-                              const ACE_TString& oppasswd, bool op);
-        int DoFileSend(int channelid, const ACE_TString& localfilepath);
-        int DoFileRecv(int channelid, const ACE_TString& localfilepath, 
-                       const ACE_TString& remotefilename);
-        int DoFileDelete(int channelid, const ACE_TString& filename);
+                              const tstring& oppasswd, bool op);
+        int DoFileSend(int channelid, const tstring& localfilepath);
+        int DoFileRecv(int channelid, const tstring& localfilepath, 
+                       const tstring& remotefilename);
+        int DoFileDelete(int channelid, const tstring& filename);
         int DoSubscribe(int userid, Subscriptions subscript);
         int DoUnsubscribe(int userid, Subscriptions subscript);
         int DoQueryServerStats();
@@ -439,7 +441,7 @@ namespace teamtalk {
         int DoListBans(int chanid, int index, int count);
         int DoListUserAccounts(int index, int count);
         int DoNewUserAccount(const UserAccount& user);
-        int DoDeleteUserAccount(const ACE_TString& username);
+        int DoDeleteUserAccount(const tstring& username);
         int DoSaveConfig();
 
     private:
@@ -448,7 +450,7 @@ namespace teamtalk {
         bool OnReceive(const char* buff, int len);
         bool OnSend(ACE_Message_Queue_Base& msgqueue);
         //Calls corresponding Handle* method
-        bool ProcessCommand(const ACE_CString& cmdline);
+        bool ProcessCommand(const std::string& cmdline);
         //Command handlers (Server->Client)
         void HandleWelcome(const mstrings_t& properties);
         void HandleAccepted(const mstrings_t& properties);
@@ -479,7 +481,7 @@ namespace teamtalk {
         void HandleBeginCmd(const mstrings_t& properties);
         void HandleEndCmd(const mstrings_t& properties);
 
-        int TransmitCommand(const ACE_TString& command, int cmdid);
+        int TransmitCommand(const tstring& command, int cmdid);
 
         void JoinChannel(clientchannel_t& chan);
         void LeftChannel(ClientChannel& chan);
@@ -525,7 +527,7 @@ namespace teamtalk {
         soundsystem::soundsystem_t m_soundsystem;
         std::atomic<ClientFlags> m_flags; //Mask of ClientFlag-enum
         // active sound groups (shared master volume)
-        ACE_Recursive_Thread_Mutex m_sndgrp_lock;
+        std::recursive_mutex m_sndgrp_lock;
         SoundProperties m_soundprop;
         //log voice to files
         voicelogger_t m_voicelogger;
@@ -543,7 +545,7 @@ namespace teamtalk {
         CryptStreamHandler::StreamHandler_t* m_crypt_stream = nullptr;
 #endif
         //TCP send/receive buffer for StreamHandler
-        ACE_CString m_recvbuffer, m_sendbuffer;
+        std::string m_recvbuffer, m_sendbuffer;
 
         //The voice packet receiver
         PacketHandler m_packethandler;
@@ -629,7 +631,7 @@ namespace teamtalk {
         uint16_t m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
 
         //the client's version number
-        ACE_TString m_version;
+        tstring m_version;
 
         //The listener of the ClientNode instance
         ClientListener* m_listener = nullptr;

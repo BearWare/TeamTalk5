@@ -157,7 +157,7 @@ void CUserDesktopDlg::OnTimer(UINT_PTR nIDEvent)
     {
         User user;
         if(!TT_GetUser(ttInst, m_nUserID, &user) ||
-           (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) == 0)
+           (user.uPeerSubscriptions & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_NONE)
             break;
 
         while(m_SendInputQueue.size())

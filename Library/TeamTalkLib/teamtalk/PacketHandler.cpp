@@ -25,14 +25,13 @@
 
 #include "PacketLayout.h"
 #include "TTAssert.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
 
-#include <ace/Event_Handler.h>
 #include <ace/Message_Block.h>
-#include <ace/Reactor.h>
 
 #include <cstring>
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -67,10 +66,10 @@ void PacketQueue::RemoveChannelPackets()
         {
         case PACKET_KIND_HELLO :
         case PACKET_KIND_KEEPALIVE :
-            packets.push(p.release());
+            packets.push(p.release()); // NOLINT(bugprone-unused-return-value)
             break;
         default :
-            MYTRACE(ACE_TEXT("Packet of kind %d was removed from transmit queue\n"), p->GetKind());
+            MYTRACE(TTEXT("Packet of kind %d was removed from transmit queue\n"), p->GetKind());
             break;
         }
     }
@@ -98,11 +97,10 @@ packet_ptr_t PacketQueue::GetNextPacket()
 
 int PacketQueue::QueuePacket(FieldPacket* packet)
 {
-    ACE_Message_Block* mb = nullptr;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(packet)), -1);
+    auto mb = std::make_unique<ACE_Message_Block>(sizeof(packet));
     mb->copy(reinterpret_cast<const char*>(&packet), sizeof(packet));
     ACE_Time_Value tv;
-    return this->enqueue(mb, &tv);
+    return this->enqueue(mb.release(), &tv); // NOLINT(bugprone-unused-return-value)
 }
 
 int PacketQueue::PacketCount()
@@ -115,7 +113,7 @@ int PacketQueue::PacketCount()
 PacketHandler::PacketHandler(ACE_Reactor* r)
 : ACE_Event_Handler(r, HI_PRIORITY)
 {
-    //MYTRACE(ACE_TEXT("%p PacketHandler()\n"), this);
+    //MYTRACE(TTEXT("%p PacketHandler()\n"), this);
     TTASSERT(r);
     constexpr auto PACKETBUFFER = 0x10000;
     m_buffer.resize(PACKETBUFFER);
@@ -123,7 +121,7 @@ PacketHandler::PacketHandler(ACE_Reactor* r)
 
 PacketHandler::~PacketHandler()
 {
-    MYTRACE(ACE_TEXT("~PacketHandler()\n"));
+    MYTRACE(TTEXT("~PacketHandler()\n"));
     Close();
 }
 
@@ -179,7 +177,7 @@ int PacketHandler::handle_input(ACE_HANDLE /*fd*/)
     else
     {
         int const err = ACE_OS::last_error();
-        MYTRACE(ACE_TEXT("UDP receive failed from %s, errno: %d\n"), InetAddrToString(addr).c_str(), err);
+        MYTRACE(TTEXT("UDP receive failed from %s, errno: %d\n"), InetAddrToString(addr).c_str(), err);
     }
 
     return 0;
@@ -272,12 +270,12 @@ SocketOptGuard::SocketOptGuard(ACE_SOCK_Dgram& dgram, int level, int option, int
         else
         {
             int const ret = m_dgram.set_option(m_level, m_option, &value, sizeof(value));
-            MYTRACE_COND(ret, ACE_TEXT("Failed to set socket level %d option %d\n"), level, option);
+            MYTRACE_COND(ret, TTEXT("Failed to set socket level %d option %d\n"), level, option);
         }
     }
     else
     {
-        MYTRACE(ACE_TEXT("Failed to get socket level %d option %d\n"), level, option);
+        MYTRACE(TTEXT("Failed to get socket level %d option %d\n"), level, option);
     }
 }
 
@@ -286,6 +284,6 @@ SocketOptGuard::~SocketOptGuard()
     if (m_level != 0)
     {
         int const ret = m_dgram.set_option(m_level, m_option, &m_value, sizeof(m_value));
-        MYTRACE_COND(ret, ACE_TEXT("Failed to revert socket level %d option %d\n"), m_level, m_option);
+        MYTRACE_COND(ret, TTEXT("Failed to revert socket level %d option %d\n"), m_level, m_option);
     }
 }

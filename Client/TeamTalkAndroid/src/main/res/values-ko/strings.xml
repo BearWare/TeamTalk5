@@ -30,9 +30,9 @@
     <string name="text_cmd_leftchan">채널 퇴장함:</string>
     <string name="text_cmd_joinroot">최상위 채널에 입장함</string>
     <string name="text_cmd_leftroot">최상위 채널에서 퇴장함</string>
-    <string name="text_cmd_userjoinchan">채널에 입장함</string>
-    <string name="text_cmd_userleftchan">채널에서 퇴장함</string>
-    <string name="text_cmd_userloggedin">로그인함</string>
+    <string name="text_cmd_userjoinchan">%1$s 채널에 입장함</string>
+    <string name="text_cmd_userleftchan">%1$s 채널에서 퇴장함</string>
+    <string name="text_cmd_userloggedin">%1$s 로그인함</string>
     <string name="pref_cat_subscriptions">수신</string>
     <string name="pref_cat_connection_general">일반</string>
     <string name="pref_cat_tts">TTS 메시지 설정</string>
@@ -131,13 +131,13 @@
     <string name="pref_title_voice_processing_checkbox">음성 전처리 활성화</string>
     <string name="pref_summary_voice_processing_checkbox">에코 제거와 자동 음량 조절 사용</string>
 
-    <string name="text_tts_loggedin">로그인함</string>
-    <string name="text_tts_loggedout">로그아웃함</string>
+    <string name="text_tts_loggedin">%1$s 로그인함</string>
+    <string name="text_tts_loggedout">%1$s 로그아웃함</string>
     <string name="text_tts_user_joined_other_channel">%1$s, %2$s 채널에 입장함</string>
     <string name="text_tts_user_left_other_channel">%1$s, %2$s 채널에서 퇴장함</string>
     <string name="text_root_chan">최상위</string>
-    <string name="text_tts_joined_chan">채널에 입장함</string>
-    <string name="text_tts_left_chan">채널에서 퇴장함</string>
+    <string name="text_tts_joined_chan">%1$s 채널에 입장함</string>
+    <string name="text_tts_left_chan">%1$s 채널에서 퇴장함</string>
     <string name="text_tts_private_message">%1$s의 개인 메시지 - %2$s</string>
     <string name="text_tts_channel_message">%1$s의 채널 메시지 - %2$s</string>
     <string name="text_tts_broadcast_message">%1$s의 방송 - %2$s</string>
@@ -454,7 +454,7 @@
     <string name="action_make_operator">관리자로 지정</string>
     <string name="action_revoke_operator">관리자에서 해제</string>
     <string name="text_operator_password">채널 관리자 암호 입력</string>
-    <string name="text_cmd_userloggedout">로그아웃함</string>
+    <string name="text_cmd_userloggedout">%1$s 로그아웃함</string>
     <string name="pref_title_vox_audio_icon">말하기 토글</string>
     <string name="pref_title_auto_join_root">최상위 채널에 입장</string>
     <string name="pref_summary_subscription_intercept_media">미디어 파일 가로채기 수신 상태 업데이트 알림</string>

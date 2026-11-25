@@ -24,7 +24,7 @@
 #if !defined(ACCEPTHANDLER_H)
 #define ACCEPTHANDLER_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/StreamHandler.h"
 
 #include <ace/Acceptor.h>
@@ -49,12 +49,12 @@ public:
         : super(addr, r, flags)
         , m_listener(lsn)
     {
-        //MYTRACE(ACE_TEXT("%p Acceptor()\n"), this);
+        //MYTRACE(TTEXT("%p Acceptor()\n"), this);
     }
 
     ~Acceptor()
     {
-        MYTRACE(ACE_TEXT("~Acceptor()\n"));
+        MYTRACE(TTEXT("~Acceptor()\n"));
     }
 
     int activate_svc_handler (STREAMHANDLER* svc_handler) override

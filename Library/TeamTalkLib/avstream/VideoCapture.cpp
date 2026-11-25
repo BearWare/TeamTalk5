@@ -44,29 +44,29 @@ using videocapturedevice_t = V4L2Capture;
 #else
 
 #include "codec/MediaUtil.h"
-
 #include "myace/MyACE.h"
 
 #include <ace/Reactor.h>
-#include <ace/Task.h>
 
 #include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <cstdint>
+#include <thread>
 #include <vector>
 
-#define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE ACE_TEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
+#define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE TTEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
 
 
-class NullVideoCapture : public VideoCapture
-        , private ACE_Task_Base
+class NullVideoCapture : public VideoCapture,
+                         public ACE_Event_Handler
 {
 public:
     NullVideoCapture()
     {
-        m_dev.api = ACE_TEXT("TeamTalk Virtual Video Capture");
+        m_dev.api = TTEXT("TeamTalk Virtual Video Capture");
         m_dev.deviceid = TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE;
-        m_dev.devicename = ACE_TEXT("TeamTalk Virtual Video Capture Device #0");
+        m_dev.devicename = TTEXT("TeamTalk Virtual Video Capture Device #0");
         m_dev.vidcapformats.emplace_back(320, 240, 30, 1, media::FOURCC_RGB32);
         m_dev.vidcapformats.emplace_back(640, 480, 15, 1, media::FOURCC_RGB32);
     }
@@ -83,7 +83,7 @@ public:
         return devs;
     }
 
-    bool InitVideoCapture(const ACE_TString& deviceid,
+    bool InitVideoCapture(const tstring& deviceid,
                           const media::VideoFormat& vidfmt) override
     {
         if (deviceid != m_dev.deviceid)
@@ -96,10 +96,14 @@ public:
         if (m_curfmt.IsValid())
             return false;
 
-        if (activate() < 0)
+        // don't assign to a joinable std::thread (std::terminate), same as
+        // ACE_Task::activate() failing when the task is already active
+        if (m_thread.joinable())
             return false;
 
         m_curfmt = vidfmt;
+        m_thread = std::thread([this] { Run(); });
+
         return true;
     }
     
@@ -110,7 +114,7 @@ public:
 
         assert(m_curfmt.fps_denominator);
         auto msec = 1000. * (1 / (m_curfmt.fps_numerator / double(m_curfmt.fps_denominator)));
-        auto tv = ToTimeValue(uint32_t(msec));
+        auto tv = ToTimeValue(static_cast<uint32_t>(msec));
         return m_reactor.schedule_timer(this, nullptr, ACE_Time_Value(), tv) >= 0;
     }
 
@@ -118,7 +122,8 @@ public:
     {
         m_reactor.cancel_timer(this);
         m_reactor.end_reactor_event_loop();
-        wait();
+        if (m_thread.joinable())
+            m_thread.join();
 
         m_curfmt = media::VideoFormat();
         UnregisterVideoFormat(media::FOURCC_NONE);
@@ -145,28 +150,28 @@ public:
 
     int handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/) override
     {
-        uint32_t const c = (0xff << ((ACE_OS::gettimeofday().sec() % 4) * 8));
+        uint32_t const c = (0xff << ((std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) % 4) * 8));
 
-        int const rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
+        size_t const rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
         std::vector<uint32_t> img(rgbsize / 4, c);
 
         if (m_curfmt.IsValid() && m_callback)
         {
-            media::VideoFrame frm(m_curfmt, reinterpret_cast<char*>(img.data()), rgbsize);
+            media::VideoFrame frm(m_curfmt, reinterpret_cast<char*>(img.data()), static_cast<int>(rgbsize));
             m_callback(frm, nullptr);
         }
 
         return 0;
     }
 
-    int svc() override
+    void Run()
     {
         m_reactor.owner (ACE_OS::thr_self ());
         m_reactor.run_reactor_event_loop();
-        return 0;
     }
 
 private:
+    std::thread m_thread;
     VidCapDevice m_dev;
     media::VideoFormat m_curfmt;
     ACE_Reactor m_reactor;

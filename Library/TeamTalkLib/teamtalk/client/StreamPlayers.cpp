@@ -22,12 +22,10 @@
  */
 
 #include "StreamPlayers.h"
-
+#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/TTAssert.h"
-
-#include <ace/Message_Block.h>
 
 #include <algorithm>
 #include <cassert>
@@ -54,26 +52,26 @@ AudioPlayer::AudioPlayer(int userid, StreamType stream_type, soundsystem::sounds
 , m_codec(codec)
 , m_resampler(resampler)
 {
-    MYTRACE(ACE_TEXT("New AudioPlayer() - #%d\n"), m_userid);
+    MYTRACE(TTEXT("New AudioPlayer() - #%d\n"), m_userid);
 
-    int input_channels = GetAudioCodecChannels(m_codec);
-    if(GetAudioCodecSimulateStereo(m_codec))
+    int input_channels = GetAudioCodecChannels(GetAudioCodec());
+    if(GetAudioCodecSimulateStereo(GetAudioCodec()))
         input_channels = 2;
-    int const input_samples = GetAudioCodecCbSamples(m_codec);
+    int const input_samples = GetAudioCodecCbSamples(GetAudioCodec());
     if (m_resampler)
         m_resample_buffer.resize(static_cast<size_t>(input_samples)*input_channels);
 
-    SetAudioBufferSize(GetAudioCodecCbMillis(m_codec) * 4);
+    SetAudioBufferSize(GetAudioCodecCbMillis(GetAudioCodec()) * 4);
 }
 
 AudioPlayer::~AudioPlayer()
 {
     //store in muxer (if enabled)
-    media::AudioFrame frm(GetAudioCodecAudioFormat(m_codec), nullptr, 0);
+    media::AudioFrame frm(GetAudioCodecAudioFormat(GetAudioCodec()), nullptr, 0);
     frm.sample_no = m_samples_played;
-    frm.streamid = m_stream_id;
+    frm.streamid = GetStreamID();
     m_audio_callback(m_userid, m_streamtype, frm);
-    MYTRACE(ACE_TEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
+    MYTRACE(TTEXT("~AudioPlayer() - %p - #%d\n"), this, m_userid);
 }
 
 audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
@@ -93,17 +91,17 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
         uint8_t frag_cnt = 0;
         uint16_t const packetno = new_audpkt.GetPacketNumberAndFragNo(fragno, &frag_cnt);
         MYTRACE_COND(fragno == AudioPacket::INVALID_FRAGMENT_NO,
-            ACE_TEXT("User #%d, received fragmented packet #%d with no fragno\n"), 
+            TTEXT("User #%d, received fragmented packet #%d with no fragno\n"), 
                      m_userid, packetno);
         if(fragno == AudioPacket::INVALID_FRAGMENT_NO)
             return ptr_audpkt;
 
-        //MYTRACE(ACE_TEXT("User #%d, received pkt no %d, frag no %d/%d\n"), m_userid, int(packetno), int(fragno), int(frag_cnt));
+        //MYTRACE(TTEXT("User #%d, received pkt no %d, frag no %d/%d\n"), m_userid, int(packetno), int(fragno), int(frag_cnt));
 
         //clean out fragments which were never played
         uint16_t const playing_pkt_no = GetPlayedPacketNo();
         if (playing_pkt_no != 0u)
-            CleanUpAudioFragments(playing_pkt_no-1);
+            CleanUpAudioFragments(playing_pkt_no - 1);
 
         //copy packet and queue it
         audiopacket_t const q_audpkt = std::make_shared<AudioPacket>(new_audpkt);
@@ -116,7 +114,7 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
         ii = m_audfragments.find(packetno);
 
         //try to reassemble
-        ptr_audpkt = ReassembleAudioPacket(ii->second, m_codec);
+        ptr_audpkt = ReassembleAudioPacket(ii->second, GetAudioCodec());
 
         if (!ptr_audpkt)
             return ptr_audpkt;//couldn't reassemble
@@ -144,7 +142,7 @@ void AudioPlayer::CleanUpAudioFragments(uint16_t too_old_packet_no)
     {
         if (PACKETNO_GEQ(too_old_packet_no, ii->first))
         {
-            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"), static_cast<int>(ii->first));
+            MYTRACE(TTEXT("Packet #%d wasn't reassembled, ejected!\n"), static_cast<int>(ii->first));
             m_audfragments.erase(ii++);
         }
         else
@@ -170,15 +168,15 @@ void AudioPlayer::Reset()
 bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
                                  short* output_buffer, int output_samples)
 {
-    int input_channels = GetAudioCodecChannels(m_codec);
-    if(GetAudioCodecSimulateStereo(m_codec))
+    int input_channels = GetAudioCodecChannels(GetAudioCodec());
+    if(GetAudioCodecSimulateStereo(GetAudioCodec()))
         input_channels = 2;
-    int const input_samples = GetAudioCodecCbSamples(m_codec);
-    media::AudioFormat const fmt = GetAudioCodecAudioFormat(m_codec);
+    int const input_samples = GetAudioCodecCbSamples(GetAudioCodec());
+    media::AudioFormat const fmt = GetAudioCodecAudioFormat(GetAudioCodec());
 
     short* tmp_output_buffer = (m_resampler ? m_resample_buffer.data() : output_buffer);
-    int const old_stream_id = m_stream_id;
-    bool const new_stream = (old_stream_id != 0 && m_stream_id != 0 && old_stream_id != m_stream_id);
+    int const old_stream_id = GetStreamID();
+    bool const new_stream = (old_stream_id != 0 && GetStreamID() != 0 && old_stream_id != GetStreamID());
     bool stopped_talking = false;
 
     bool const played = PlayBuffer(tmp_output_buffer, input_samples);
@@ -198,7 +196,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
     else if (m_talking && W32_GEQ(GETTIMESTAMP(), (m_last_playback+m_play_stopped_delay)))
     {
         //stop playing if no new sound packet has been received for some time
-        MYTRACE(ACE_TEXT("Stopped playing stream after %u for #%d\n"), 
+        MYTRACE(TTEXT("Stopped playing stream after %u for #%d\n"), 
                 GETTIMESTAMP() - m_last_playback, m_userid);
         m_talking = false;
         stopped_talking = true;
@@ -215,12 +213,12 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
             // send end-of-stream
             media::AudioFrame frm(fmt, nullptr, 0);
             frm.sample_no = m_samples_played;
-            frm.streamid = (stopped_talking? old_stream_id : m_stream_id);
+            frm.streamid = (stopped_talking? old_stream_id : GetStreamID());
             m_audio_callback(m_userid, m_streamtype, frm);
         }
 
         media::AudioFrame frm(fmt, tmp_output_buffer, input_samples, m_samples_played);
-        frm.streamid = m_stream_id;
+        frm.streamid = GetStreamID();
         // store gain from sound system
         int const mastervolume = m_sndsys->GetMasterVolume(streamer.sndgrpid);
         bool const mastermute = m_sndsys->IsAllMute(streamer.sndgrpid);
@@ -241,7 +239,7 @@ bool AudioPlayer::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         assert(ret > 0);
         assert(ret <= output_samples);
         MYTRACE_COND(ret != output_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     TTEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      output_samples, ret);
     }
     return true;
@@ -265,17 +263,17 @@ int AudioPlayer::GetNumAudioPacketsLost(bool reset)
 
 void AudioPlayer::SetAudioBufferSize(int msec)
 {
-    m_buffer_msec = std::max(msec, GetAudioCodecCbMillis(m_codec));
+    m_buffer_msec = std::max(msec, GetAudioCodecCbMillis(GetAudioCodec()));
 }
 
 int AudioPlayer::GetBufferedAudioMSec()
 {
     wguard_t const g(m_mutex);
 
-    int const codec_msec = GetAudioCodecCbMillis(m_codec);
-    if ((m_stream_id != 0) && (!m_buffer.empty()) && (codec_msec != 0))
+    int const codec_msec = GetAudioCodecCbMillis(GetAudioCodec());
+    if ((GetStreamID() != 0) && (!m_buffer.empty()) && (codec_msec != 0))
     {
-        int16_t n_packets = static_cast<int16_t>(m_buffer.rbegin()->first - m_play_pkt_no);
+        int16_t n_packets = static_cast<int16_t>(m_buffer.rbegin()->first - GetPlayedPacketNo());
         return codec_msec * (++n_packets);
     }
     return static_cast<int>(m_buffer.size()) * codec_msec;
@@ -295,27 +293,27 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     uint16_t const pkt_no = packet.GetPacketNumber();
     
     MYTRACE_COND(packet.GetStreamID() == 0,
-                 ACE_TEXT("Received stream ID 0 from #%d. Packet no %d\n"),
-                 m_userid, (int)pkt_no);
+                 TTEXT("Received stream ID 0 from #%d. Packet no %d\n"),
+                 m_userid, pkt_no);
 
     if(packet.GetStreamID() == 0)
         return;
 
-    if ((m_stream_id != 0) && W16_LT(pkt_no, m_play_pkt_no))
+    if ((GetStreamID() != 0) && W16_LT(pkt_no, m_play_pkt_no))
     {
-        MYTRACE(ACE_TEXT("User #%d, packet %d arrived too late\n"), m_userid, pkt_no);
+        MYTRACE(TTEXT("User #%d, packet %d arrived too late\n"), m_userid, pkt_no);
         return;
     }
 
     MYTRACE_COND(m_buffer.find(pkt_no) != m_buffer.end(),
-                 ACE_TEXT("User #%d, duplicate packet %d, start %d, end %d\n"), (int)pkt_no,
+                 TTEXT("User #%d, duplicate packet %d, start %d, end %d\n"), pkt_no,
                  m_userid, m_buffer.begin()->first, m_buffer.rbegin()->first);
        
     if(packet.HasFrameSizes())
     {
         m_buffer[pkt_no].enc_frame_sizes = packet.GetEncodedFrameSizes();
         MYTRACE_COND(SumFrameSizes(m_buffer[pkt_no].enc_frame_sizes) != enc_len,
-                     ACE_TEXT("User #%d, sum of frame sizes didn't match - %d != %d\n"),
+                     TTEXT("User #%d, sum of frame sizes didn't match - %d != %d\n"),
                      m_userid, SumFrameSizes(m_buffer[pkt_no].enc_frame_sizes), enc_len);
 
         if(SumFrameSizes(m_buffer[pkt_no].enc_frame_sizes) == enc_len)
@@ -330,7 +328,7 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     }
     else
     {
-        int const frames_per_packet = GetAudioCodecFramesPerPacket(m_codec);
+        int const frames_per_packet = GetAudioCodecFramesPerPacket(GetAudioCodec());
         m_buffer[pkt_no].enc_frames.assign(enc_data, enc_data+enc_len);
         if (frames_per_packet > 1)
         {
@@ -349,7 +347,7 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     //ensure buffer doesn't overflow
     while(GetBufferedAudioMSec() > m_buffer_msec && (!m_buffer.empty()))
     {
-        MYTRACE(ACE_TEXT("User #%d, removing pkt_no %d to limit buffer to %d msec, cur buffer is %d msec. Play pkt %d\n"),
+        MYTRACE(TTEXT("User #%d, removing pkt_no %d to limit buffer to %d msec, cur buffer is %d msec. Play pkt %d\n"),
                 m_userid, m_buffer.begin()->first, m_buffer_msec, 
                 GetBufferedAudioMSec(), static_cast<int>(m_play_pkt_no));
         m_buffer.erase(m_buffer.begin());
@@ -359,15 +357,15 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     }
 
     MYTRACE_COND(GetBufferedAudioMSec() > m_buffer_msec,
-                 ACE_TEXT("User #%d buffer size is foobar, msec: %d\n"),
+                 TTEXT("User #%d buffer size is foobar, msec: %d\n"),
                  m_userid, GetBufferedAudioMSec());
 
-    if (m_stream_id == 0)
+    if (GetStreamID() == 0)
     {
         m_play_pkt_no = pkt_no;
         m_stream_id = packet.GetStreamID();
     }
-    //MYTRACE(ACE_TEXT("#%d - Packet store no: %d, play: %d\n"), m_user.GetUserID(),
+    //MYTRACE(TTEXT("#%d - Packet store no: %d, play: %d\n"), m_user.GetUserID(),
     //    packet_number, m_play_pkt_no);
 }
 
@@ -381,30 +379,30 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     {
         TTASSERT(W16_GEQ(m_buffer.begin()->first, m_play_pkt_no));
 
-        while((m_stream_id != 0) && GetBufferedAudioMSec() > m_buffer_msec)
+        while((GetStreamID() != 0) && GetBufferedAudioMSec() > m_buffer_msec)
         {
-            MYTRACE(ACE_TEXT("User #%d, dropped packet %d, max %d\n"), 
+            MYTRACE(TTEXT("User #%d, dropped packet %d, max %d\n"), 
                     m_userid, m_buffer.begin()->first, m_buffer.rbegin()->first);
             m_buffer.erase(m_buffer.begin());
 
             if (!m_buffer.empty())
             {
-                MYTRACE(ACE_TEXT("User #%d, skipped %d-%d packets\n"),
+                MYTRACE(TTEXT("User #%d, skipped %d-%d packets\n"),
                         m_userid, m_play_pkt_no, m_buffer.begin()->first-1);
                 m_play_pkt_no = m_buffer.begin()->first;
             }
         }
 
         MYTRACE_COND(DEBUG_PLAYBACK,
-                     ACE_TEXT("User #%d, streamtype %u, stream id %d, cur_pkt %d, max pkt %d, tm: %u\n"),
-                     m_userid, m_streamtype, m_stream_id, m_play_pkt_no, m_buffer.rbegin()->first,
+                     TTEXT("User #%d, streamtype %u, stream id %d, cur_pkt %d, max pkt %d, tm: %u\n"),
+                     m_userid, m_streamtype, GetStreamID(), m_play_pkt_no, m_buffer.rbegin()->first,
                      GETTIMESTAMP());
 
         if(DecodeFrame(m_buffer[m_play_pkt_no], output_buffer, n_samples))
         {
             m_played_packet_time = m_buffer[m_play_pkt_no].timestamp;
-            MYTRACE_COND(m_stream_id != m_buffer[m_play_pkt_no].stream_id,
-                         ACE_TEXT("User #%d started new audio stream %d\n"), m_userid, 
+            MYTRACE_COND(GetStreamID() != m_buffer[m_play_pkt_no].stream_id,
+                         TTEXT("User #%d started new audio stream %d\n"), m_userid, 
                          m_buffer[m_play_pkt_no].stream_id);
             m_stream_id = m_buffer[m_play_pkt_no].stream_id;
         }
@@ -422,16 +420,16 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
     }
     else
     {
-        memset(output_buffer, 0, GetAudioCodecCbBytes(m_codec));
+        memset(output_buffer, 0, GetAudioCodecCbBytes(GetAudioCodec()));
         played = false;
         
         MYTRACE_COND(DEBUG_PLAYBACK,
-                     ACE_TEXT("No packets available for playback for user #%d. Current packet: %d\n"),
+                     TTEXT("No packets available for playback for user #%d. Current packet: %d\n"),
                      m_userid, m_play_pkt_no);
     }
 
     //stereo simulation
-    if (GetAudioCodecSimulateStereo(m_codec))
+    if (GetAudioCodecSimulateStereo(GetAudioCodec()))
     {
         //Speex doesn't support stereo so simulate
         //If in stereo then choose which channels to output audio to
@@ -467,7 +465,7 @@ SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type, soundsystem::sounds
         TTASSERT(0);
         break;
     }
-    MYTRACE_COND(!b, ACE_TEXT("Failed to initialize Speex decoder\n"));
+    MYTRACE_COND(!b, TTEXT("Failed to initialize Speex decoder\n"));
 }
 
 SpeexPlayer::~SpeexPlayer()
@@ -487,8 +485,14 @@ bool SpeexPlayer::DecodeFrame(const EncFrame& enc_frame,
     if(!enc_frame.enc_frames.empty()) //packet available
     {
         // reset decoder before starting new stream
-        if (enc_frame.stream_id != m_stream_id)
+        if (enc_frame.stream_id != GetStreamID())
             m_decoder.Reset();
+
+        // output_buffer only has room for 'fpp' frames
+        int const fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
+        TTASSERT(std::cmp_equal(fpp, enc_frame.enc_frame_sizes.size()));
+        if (std::cmp_not_equal(fpp, enc_frame.enc_frame_sizes.size()))
+            return false;
 
         // first do bounds check
         std::vector<int> const frmsizes = ConvertFrameSizes(enc_frame.enc_frame_sizes);
@@ -503,8 +507,8 @@ bool SpeexPlayer::DecodeFrame(const EncFrame& enc_frame,
         return true;
     }
      //packet lost
-    MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
-    std::vector<int> frm_sizes(GetAudioCodecFramesPerPacket(m_codec), 0);
+    MYTRACE(TTEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    std::vector<int> frm_sizes(GetAudioCodecFramesPerPacket(GetAudioCodec()), 0);
     m_decoder.DecodeMultiple(nullptr, frm_sizes, output_buffer);
     //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
     return false;
@@ -532,7 +536,7 @@ OpusPlayer::OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsys
         TTASSERT(0);
         break;
     }
-    MYTRACE_COND(!b, ACE_TEXT("Failed to initialize OPUS decoder\n"));
+    MYTRACE_COND(!b, TTEXT("Failed to initialize OPUS decoder\n"));
 }
 
 OpusPlayer::~OpusPlayer()
@@ -549,12 +553,12 @@ void OpusPlayer::Reset()
 bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
                              short* output_buffer, int n_samples)
 {
-    MYTRACE_COND(enc_frame.stream_id && enc_frame.stream_id != m_stream_id,
-                 ACE_TEXT("New stream id %d\n"), enc_frame.stream_id);
+    MYTRACE_COND(enc_frame.stream_id && enc_frame.stream_id != GetStreamID(),
+                 TTEXT("New stream id %d\n"), enc_frame.stream_id);
     
-    int const framesize = GetAudioCodecFrameSize(m_codec);
-    int const samples = GetAudioCodecCbSamples(m_codec);
-    int const channels = GetAudioCodecChannels(m_codec);
+    int const framesize = GetAudioCodecFrameSize(GetAudioCodec());
+    int const samples = GetAudioCodecCbSamples(GetAudioCodec());
+    int const channels = GetAudioCodecChannels(GetAudioCodec());
     int ret = 0;
 
     assert(samples == n_samples);
@@ -562,10 +566,10 @@ bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
     if (!enc_frame.enc_frames.empty()) //packet available
     {
         // reset decoder before starting new stream
-        if (enc_frame.stream_id != m_stream_id)
+        if (enc_frame.stream_id != GetStreamID())
             m_decoder.Reset();
 
-        int const fpp = GetAudioCodecFramesPerPacket(m_codec);
+        int const fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
         TTASSERT(fpp == enc_frame.enc_frame_sizes.size());
         if (std::cmp_not_equal(fpp, enc_frame.enc_frame_sizes.size()))
             return false;
@@ -580,31 +584,31 @@ bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
         int decoffset = 0;
         for (size_t i=0;i<enc_frame.enc_frame_sizes.size();i++)
         {
-            //MYTRACE(ACE_TEXT("Decoding frame %d/%d, %d bytes\n"),
+            //MYTRACE(TTEXT("Decoding frame %d/%d, %d bytes\n"),
             //        int(i), int(enc_frame.enc_frame_sizes.size()),
             //        int(enc_frame.enc_frame_sizes[i]));
             
             ret = m_decoder.Decode(&enc_frame.enc_frames[encoffset], 
                                    enc_frame.enc_frame_sizes[i],
                                    &output_buffer[decoffset*channels], framesize);
-            MYTRACE_COND(ret != framesize, ACE_TEXT("OPUS decode failed for #%d. Ret = %d\n"), m_userid, ret);
+            MYTRACE_COND(ret != framesize, TTEXT("OPUS decode failed for #%d. Ret = %d\n"), GetUserID(), ret);
             encoffset += enc_frame.enc_frame_sizes[i];
             decoffset += framesize;
         }
         return true;
     }
-     //packet lost
-            MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
-        int fpp = GetAudioCodecFramesPerPacket(m_codec);
-        int decoffset = 0;
-        for (int i=0;i<fpp;i++)
-        {
-            m_decoder.Decode(nullptr, 0, &output_buffer[decoffset*channels], framesize);
-            decoffset += framesize;
-        }
-        //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
-        return false;
-   
+
+    //packet lost
+    MYTRACE(TTEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    int fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
+    int decoffset = 0;
+    for (int i=0;i<fpp;i++)
+    {
+        m_decoder.Decode(nullptr, 0, &output_buffer[decoffset*channels], framesize);
+        decoffset += framesize;
+    }
+    //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
+    return false;
 }
 #endif
 
@@ -618,12 +622,12 @@ WebMPlayer::WebMPlayer(int userid, int stream_id)
 , m_videostream_id(stream_id)
 , m_local_timestamp(GETTIMESTAMP())
 {
-    MYTRACE(ACE_TEXT("New WebMPlayer() - #%d stream id %d\n"), m_userid, stream_id);
+    MYTRACE(TTEXT("New WebMPlayer() - #%d stream id %d\n"), m_userid, stream_id);
 }
 
 WebMPlayer::~WebMPlayer()
 {
-    MYTRACE(ACE_TEXT("~WebMPlayer() - #%d stream id %d. Fragments: %u, frames: %u\n"),
+    MYTRACE(TTEXT("~WebMPlayer() - #%d stream id %d. Fragments: %u, frames: %u\n"),
             m_userid, m_videostream_id, static_cast<unsigned>(m_video_fragments.size()), 
             static_cast<unsigned>(m_video_frames.size()));
 }
@@ -635,7 +639,7 @@ bool WebMPlayer::AddPacket(const VideoPacket& packet,
 
     m_video_pkts_recv++;
 
-    // MYTRACE(ACE_TEXT("Received packet no %d\n"), packet.GetPacketNo());
+    // MYTRACE(TTEXT("Received packet no %d\n"), packet.GetPacketNo());
 
     assert(packet.GetStreamID() == m_videostream_id);
     if(!m_decoder_ready)
@@ -647,7 +651,7 @@ bool WebMPlayer::AddPacket(const VideoPacket& packet,
         if(!m_decoder.Open(w, h))
             return false;
 
-        MYTRACE(ACE_TEXT("Starting new video stream %d for user #%d. %dx%d\n"), 
+        MYTRACE(TTEXT("Starting new video stream %d for user #%d. %dx%d\n"), 
                 packet.GetStreamID(), m_userid, w, h);
         m_decoder_ready = true;
     }
@@ -666,7 +670,7 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
 
     uint32_t const packet_no = packet.GetPacketNo();
     MYTRACE_COND(W32_LT(packet_no, m_packet_no),
-                 ACE_TEXT("Packet %u from #%d arrived too late. Current is %u\n"),
+                 TTEXT("Packet %u from #%d arrived too late. Current is %u\n"),
                  packet.GetPacketNo(), m_userid, m_packet_no);
                  
     if(W32_LT(packet_no, m_packet_no))
@@ -711,14 +715,14 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
 
         if(m_video_fragments.size()>VPX_MAX_FRAG_PACKETS)
         {
-            MYTRACE(ACE_TEXT("Dropped fragmented video packet %d\n"), m_video_fragments.begin()->first);
+            MYTRACE(TTEXT("Dropped fragmented video packet %d\n"), m_video_fragments.begin()->first);
             m_video_fragments.erase(m_video_fragments.begin());
         }
     }
 
     if(m_video_frames.size()>VPX_MAX_PACKETS)
     {
-        MYTRACE(ACE_TEXT("Dropped video packet %d\n"), m_video_frames.begin()->first);
+        MYTRACE(TTEXT("Dropped video packet %d\n"), m_video_frames.begin()->first);
         m_video_frames.erase(m_video_frames.begin());
     }
 
@@ -735,7 +739,7 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
             if(W32_LT(next_pkt->first + 5000, last_pkt->first))
             {
                 m_packet_no = next_pkt->second.packet_no;
-                MYTRACE(ACE_TEXT("Packet no. now moved to %u, %u is too old. Video frame queue holds %d packets\n"), 
+                MYTRACE(TTEXT("Packet no. now moved to %u, %u is too old. Video frame queue holds %d packets\n"), 
                         m_packet_no, next_pkt->first, static_cast<unsigned>(m_video_frames.size())); 
             }
             else
@@ -758,17 +762,17 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
     //m_video_frames are sorted with UINT32 wrap
     auto const ii = m_video_frames.begin();
 
-    MYTRACE_COND(!m_decoder_ready, ACE_TEXT("Decoder not ready from user #%d\n"), m_userid);
-    MYTRACE_COND(ii == m_video_frames.end(), ACE_TEXT("No video frames ready from user #%d\n"), m_userid);
+    MYTRACE_COND(!m_decoder_ready, TTEXT("Decoder not ready from user #%d\n"), m_userid);
+    MYTRACE_COND(ii == m_video_frames.end(), TTEXT("No video frames ready from user #%d\n"), m_userid);
     if(!m_decoder_ready || ii == m_video_frames.end() ||
        ((timestamp != nullptr) && W32_GT(ii->first, *timestamp)))
     {
-        MYTRACE_COND(ii != m_video_frames.end(), ACE_TEXT("Video frame ignored from user #%d. Time diff: %d\n"),
+        MYTRACE_COND(ii != m_video_frames.end(), TTEXT("Video frame ignored from user #%d. Time diff: %d\n"),
                      m_userid, int(*timestamp - ii->first));
         return nullptr;
     }
 
-    // MYTRACE(ACE_TEXT("GetNextFrame(), process video packet %d, size %d, csum 0x%x\n"),
+    // MYTRACE(TTEXT("GetNextFrame(), process video packet %d, size %d, csum 0x%x\n"),
     //         ii->second.packet_no, ii->second.enc_data.size(), 
     //         ACE::crc32(&ii->second.enc_data[0], ii->second.enc_data.size()));
 
@@ -789,7 +793,7 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
         m_decoder.Open(w, h);
     }
     default :
-        MYTRACE(ACE_TEXT("VPX decoder reported error %d in packet %d for user #%d\n"),
+        MYTRACE(TTEXT("VPX decoder reported error %d in packet %d for user #%d\n"),
                 ret, ii->second.packet_no, m_userid);
         m_packet_no = ii->second.packet_no;
         m_video_frames.erase(ii);
@@ -805,8 +809,8 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
 
     int w = m_decoder.GetConfig().w;
     int h = m_decoder.GetConfig().h;
-    int const bytes = RGB32_BYTES(w, h);
-    VideoFrame vid_frame(nullptr, bytes, w, h, FOURCC_RGB32, true);
+    size_t const bytes = RGB32_BYTES(w, h);
+    VideoFrame vid_frame(nullptr, static_cast<int>(bytes), w, h, FOURCC_RGB32, true);
     vid_frame.key_frame = false; //TODO: detect key frame
     vid_frame.stream_id = m_videostream_id;
     ACE_Message_Block* mb = VideoFrameInMsgBlock(vid_frame);
@@ -838,24 +842,24 @@ void WebMPlayer::DumpFragments()
     ii = m_video_fragments.end(); ii--;
     uint32_t const packet_no_last = ii->first;
     MYTRACE_COND(!m_video_fragments.empty(),
-                 ACE_TEXT("Missing video packet(s) from #%d ")
-                 ACE_UINT32_FORMAT_SPECIFIER ACE_TEXT("-")
-                 ACE_UINT32_FORMAT_SPECIFIER ACE_TEXT("\n"), 
+                 TTEXT("Missing video packet(s) from #%d ")
+                 ACE_UINT32_FORMAT_SPECIFIER TTEXT("-")
+                 ACE_UINT32_FORMAT_SPECIFIER TTEXT("\n"), 
                  m_userid, packet_no, packet_no_last);
 
     for(uint32_t i=packet_no;i<=packet_no_last && (!m_video_fragments.empty());i++)
     {
         ii = m_video_fragments.find(i);
         if(ii != m_video_fragments.end())
-            MYTRACE(ACE_TEXT("\tPacket #") ACE_UINT32_FORMAT_SPECIFIER 
-                    ACE_TEXT(" holds ") ACE_UINT32_FORMAT_SPECIFIER
-                    ACE_TEXT(" fragments of ") ACE_UINT32_FORMAT_SPECIFIER
-                    ACE_TEXT("\n"), i, static_cast<uint32_t>(ii->second.size()),
+            MYTRACE(TTEXT("\tPacket #") ACE_UINT32_FORMAT_SPECIFIER 
+                    TTEXT(" holds ") ACE_UINT32_FORMAT_SPECIFIER
+                    TTEXT(" fragments of ") ACE_UINT32_FORMAT_SPECIFIER
+                    TTEXT("\n"), i, static_cast<uint32_t>(ii->second.size()),
                     ii->second.begin()->second->GetFragmentCount());
         else
-            MYTRACE(ACE_TEXT("\tPacket #") ACE_UINT32_FORMAT_SPECIFIER 
-                    ACE_TEXT(" holds ") ACE_UINT32_FORMAT_SPECIFIER 
-                    ACE_TEXT(" fragments\n"), i, 0);
+            MYTRACE(TTEXT("\tPacket #") ACE_UINT32_FORMAT_SPECIFIER 
+                    TTEXT(" holds ") ACE_UINT32_FORMAT_SPECIFIER 
+                    TTEXT(" fragments\n"), i, 0);
     }
 }
 

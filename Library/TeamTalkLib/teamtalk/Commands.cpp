@@ -25,128 +25,128 @@
 
 #include "TTAssert.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
 
-#include <ace/OS.h>
+#include <array>
 #include <ctime>
 
 namespace teamtalk {
 
-    ACE_TString GetErrorDescription(int nError)
+    tstring GetErrorDescription(int nError)
     {
-        ACE_TString errmsg;
+        tstring errmsg;
         switch(nError)
         {
             // command errors
         case TT_CMDERR_SYNTAX_ERROR :
-            errmsg = ACE_TEXT("Syntax error in command");break;
+            errmsg = TTEXT("Syntax error in command");break;
         case TT_CMDERR_UNKNOWN_COMMAND :
-            errmsg = ACE_TEXT("Command not recognized");break;
+            errmsg = TTEXT("Command not recognized");break;
         case TT_CMDERR_INCOMPATIBLE_PROTOCOLS :
-            errmsg = ACE_TEXT("Incompatible protocols"); break;
+            errmsg = TTEXT("Incompatible protocols"); break;
         case TT_CMDERR_MISSING_PARAMETER :
-            errmsg = ACE_TEXT("Command is missing a parameter"); break;
+            errmsg = TTEXT("Command is missing a parameter"); break;
         case TT_CMDERR_UNKNOWN_AUDIOCODEC :
-            errmsg = ACE_TEXT("Audio codec is not supported by the server"); break;
+            errmsg = TTEXT("Audio codec is not supported by the server"); break;
         case TT_CMDERR_INVALID_USERNAME :
-            errmsg = ACE_TEXT("Invalid username for user account"); break;
+            errmsg = TTEXT("Invalid username for user account"); break;
 
             // rights
         case TT_CMDERR_INVALID_ACCOUNT :
-            errmsg = ACE_TEXT("Invalid user account");  break;
+            errmsg = TTEXT("Invalid user account");  break;
         case TT_CMDERR_INCORRECT_CHANNEL_PASSWORD :
-            errmsg = ACE_TEXT("Incorrect channel password");    break;
+            errmsg = TTEXT("Incorrect channel password");    break;
         case TT_CMDERR_SERVER_BANNED :
-            errmsg = ACE_TEXT("Banned from server"); break;
+            errmsg = TTEXT("Banned from server"); break;
         case TT_CMDERR_NOT_AUTHORIZED :
-            errmsg = ACE_TEXT("Command not authorized");    break;
+            errmsg = TTEXT("Command not authorized");    break;
         case TT_CMDERR_MAX_SERVER_USERS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of users on server exceeded"); break;
+            errmsg = TTEXT("Maximum number of users on server exceeded"); break;
         case TT_CMDERR_MAX_DISKUSAGE_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum disk usage exceeded"); break;
+            errmsg = TTEXT("Maximum disk usage exceeded"); break;
         case TT_CMDERR_MAX_CHANNEL_USERS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of users in channel exceeded"); break;
+            errmsg = TTEXT("Maximum number of users in channel exceeded"); break;
         case TT_CMDERR_INCORRECT_OP_PASSWORD :
-            errmsg = ACE_TEXT("Incorrect channel operator password");    break;
+            errmsg = TTEXT("Incorrect channel operator password");    break;
         case TT_CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum bitrate for audio codec exceeded"); break;
+            errmsg = TTEXT("Maximum bitrate for audio codec exceeded"); break;
         case TT_CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of logins per IP-address exceeded"); break;
+            errmsg = TTEXT("Maximum number of logins per IP-address exceeded"); break;
         case TT_CMDERR_MAX_CHANNELS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of channels exceeded"); break;
+            errmsg = TTEXT("Maximum number of channels exceeded"); break;
         case TT_CMDERR_COMMAND_FLOOD :
-            errmsg = ACE_TEXT("Commands are issued too fast. Flood protection."); break;
+            errmsg = TTEXT("Commands are issued too fast. Flood protection."); break;
         case TT_CMDERR_CHANNEL_BANNED:
-            errmsg = ACE_TEXT("Banned from channel"); break;
+            errmsg = TTEXT("Banned from channel"); break;
         case TT_CMDERR_MAX_FILETRANSFERS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of file transfers exceeded"); break;
+            errmsg = TTEXT("Maximum number of file transfers exceeded"); break;
 
             // state errors
         case TT_CMDERR_NOT_LOGGEDIN :
-            errmsg = ACE_TEXT("Not logged in");break;
+            errmsg = TTEXT("Not logged in");break;
         case TT_CMDERR_ALREADY_LOGGEDIN :
-            errmsg = ACE_TEXT("Already logged in");break;
+            errmsg = TTEXT("Already logged in");break;
         case TT_CMDERR_NOT_IN_CHANNEL :
-            errmsg = ACE_TEXT("Not in channel");break;
+            errmsg = TTEXT("Not in channel");break;
         case TT_CMDERR_ALREADY_IN_CHANNEL :
-            errmsg = ACE_TEXT("Cannot join the same channel twice");break;
+            errmsg = TTEXT("Cannot join the same channel twice");break;
         case TT_CMDERR_CHANNEL_ALREADY_EXISTS :
-            errmsg = ACE_TEXT("Channel already exists");break;
+            errmsg = TTEXT("Channel already exists");break;
         case TT_CMDERR_CHANNEL_NOT_FOUND :
-            errmsg = ACE_TEXT("Channel not found");break;
+            errmsg = TTEXT("Channel not found");break;
         case TT_CMDERR_USER_NOT_FOUND :
-            errmsg = ACE_TEXT("User not found");    break;
+            errmsg = TTEXT("User not found");    break;
         case TT_CMDERR_BAN_NOT_FOUND :
-            errmsg = ACE_TEXT("Ban no found"); break;
+            errmsg = TTEXT("Ban no found"); break;
         case TT_CMDERR_FILETRANSFER_NOT_FOUND :
-            errmsg = ACE_TEXT("File transfer not found"); break;
+            errmsg = TTEXT("File transfer not found"); break;
         case TT_CMDERR_OPENFILE_FAILED :
-            errmsg = ACE_TEXT("Server failed to create file"); break;            
+            errmsg = TTEXT("Server failed to create file"); break;            
         case TT_CMDERR_ACCOUNT_NOT_FOUND :
-            errmsg = ACE_TEXT("User account not found"); break;
+            errmsg = TTEXT("User account not found"); break;
         case TT_CMDERR_FILE_NOT_FOUND :
-            errmsg = ACE_TEXT("File not found"); break;
+            errmsg = TTEXT("File not found"); break;
         case TT_CMDERR_FILE_ALREADY_EXISTS :
-            errmsg = ACE_TEXT("File already exists"); break;
+            errmsg = TTEXT("File already exists"); break;
         case TT_CMDERR_FILESHARING_DISABLED :
-            errmsg = ACE_TEXT("File sharing is disabled"); break;
+            errmsg = TTEXT("File sharing is disabled"); break;
         case TT_CMDERR_CHANNEL_HAS_USERS :
-            errmsg = ACE_TEXT("Channel has active users"); break;
+            errmsg = TTEXT("Channel has active users"); break;
         case TT_CMDERR_LOGINSERVICE_UNAVAILABLE :
-            errmsg = ACE_TEXT("Login service unavailable"); break;
+            errmsg = TTEXT("Login service unavailable"); break;
         case TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN :
-            errmsg = ACE_TEXT("Cannot apply hidden property to channel"); break;
+            errmsg = TTEXT("Cannot apply hidden property to channel"); break;
 
             /***** Internal TeamTalk errors not related to commands ********/
         case TT_INTERR_SNDINPUT_FAILURE :
-            errmsg = ACE_TEXT("Sound input device failure");break;
+            errmsg = TTEXT("Sound input device failure");break;
         case TT_INTERR_SNDOUTPUT_FAILURE :
-            errmsg = ACE_TEXT("Sound output device failure");break;
+            errmsg = TTEXT("Sound output device failure");break;
         case TT_INTERR_AUDIOCODEC_INIT_FAILED :
-            errmsg = ACE_TEXT("Audio codec failed to initialize");break;
+            errmsg = TTEXT("Audio codec failed to initialize");break;
         case TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED :
-            errmsg = ACE_TEXT("Audio preprocessor failed to initialize");break;
+            errmsg = TTEXT("Audio preprocessor failed to initialize");break;
         case TT_INTERR_MSGQUEUE_OVERFLOW :
-            errmsg = ACE_TEXT("The internal message queue overflowed");break;
+            errmsg = TTEXT("The internal message queue overflowed");break;
         case TT_INTERR_SNDEFFECT_FAILURE :
-            errmsg = ACE_TEXT("An audio effect could not be applied on the sound device");break;
+            errmsg = TTEXT("An audio effect could not be applied on the sound device");break;
         default :
-            errmsg = ACE_TEXT("Unknown error");break;
+            errmsg = TTEXT("Unknown error");break;
         }
 
         return errmsg;
     }
 
     bool HasProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop)
+                     const tstring& prop)
     {
         return properties.contains(prop);
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, 
-        ACE_TString& value)
+        const tstring& prop, 
+        tstring& value)
     {
         auto const ite = properties.find(prop);
         if( ite != properties.end() )
@@ -178,7 +178,7 @@ namespace teamtalk {
     } while(0)
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, int& value)
+        const tstring& prop, int& value)
     {
         auto const ite = properties.find(prop);
         if( ite != properties.end())
@@ -191,20 +191,20 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_UINT32& value)
+                     const tstring& prop, uint32_t& value)
     {
-        ACE_TString tmp;
+        tstring tmp;
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-            value = static_cast<ACE_UINT32>(String2I(tmp));
+            value = static_cast<uint32_t>(String2I(tmp));
             return true;
         }
         return false;
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, bool& value)
+        const tstring& prop, bool& value)
     {
         int i = 0;
         bool const b = GetProperty(properties, prop, i);
@@ -214,9 +214,9 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, ACE_INT64& value)
+        const tstring& prop, int64_t& value)
     {
-        ACE_TString tmp;
+        tstring tmp;
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
@@ -228,17 +228,17 @@ namespace teamtalk {
 
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, std::vector<int>& vec)
+        const tstring& prop, std::vector<int>& vec)
     {
-        ACE_TString value;
+        tstring value;
         auto const ite = properties.find(prop);
         if( ite != properties.end() )
         {
             value = (*ite).second;
-            ACE_TString token;
+            tstring token;
             size_t offset = 0;
-            size_t i = value.find(',', offset);//Tokenize(ACE_TEXT(","),offset);
-            while(i != ACE_TString::npos)
+            size_t i = value.find(',', offset);//Tokenize(TTEXT(","),offset);
+            while(i != tstring::npos)
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
@@ -258,7 +258,7 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, 
+        const tstring& prop, 
         std::set<int>& myset)
     {
         std::vector<int> vec;
@@ -268,7 +268,7 @@ namespace teamtalk {
         return b;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioCodec& codec)
     {
         intvec_t codec_type;
@@ -327,7 +327,7 @@ namespace teamtalk {
         return false;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioConfig& audcfg)
     {
         intvec_t audcfg_prop;
@@ -344,10 +344,10 @@ namespace teamtalk {
         return true;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      ACE_INET_Addr& addr)
     {
-        ACE_TString str;
+        tstring str;
         if(GetProperty(properties, prop, str))
         {
             addr = ACE_INET_Addr(str.c_str());
@@ -356,21 +356,15 @@ namespace teamtalk {
         return false;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
-                     ACE_Time_Value& tv)
+    bool GetProperty(const mstrings_t& properties, const tstring& prop,
+                     std::chrono::system_clock::time_point& tp)
     {
-        ACE_INT64 gmttime = 0;
-        if (GetProperty(properties, prop, gmttime))
+        int64_t utc_tm = 0;
+        if (GetProperty(properties, prop, utc_tm))
         {
-            auto const gmt_tm = static_cast<time_t>(gmttime);
-            struct tm* local = std::localtime(&gmt_tm);
-            if (local != nullptr)
-            {
-                time_t local_tm = std::mktime(local);
-                local_tm -= ACE_OS::timezone();
-                tv = ACE_Time_Value(local_tm);
-                return true;
-            }
+            //property carries UTC time
+            tp = std::chrono::system_clock::from_time_t(static_cast<time_t>(utc_tm));
+            return true;
         }
         return false;
     }
@@ -394,14 +388,14 @@ namespace teamtalk {
             useraccount.abuse.FromParam(flood);
     }
 
-    ACE_TString PrepareString(const ACE_TString& str)
+    tstring PrepareString(const tstring& str)
     {
-        ACE_TString newstr;
+        tstring newstr;
 
 #if defined(UNICODE)
         if (UnicodeToUtf8(str.c_str()).length() > MAX_STRING_LENGTH)
         {
-            ACE_CString utf8 = LimitUtf8(UnicodeToUtf8(str.c_str()), MAX_STRING_LENGTH);
+            std::string utf8 = LimitUtf8(UnicodeToUtf8(str.c_str()), MAX_STRING_LENGTH);
             newstr = Utf8ToUnicode(utf8.c_str());
         }
         else
@@ -410,20 +404,20 @@ namespace teamtalk {
         newstr = LimitUtf8(str, MAX_STRING_LENGTH);
 #endif /* UNICODE */
 
-        ReplaceAll(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
-        ReplaceAll(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));
-        ReplaceAll(newstr, ACE_TEXT("\r"), ACE_TEXT("\\r"));
-        ReplaceAll(newstr, ACE_TEXT("\n"), ACE_TEXT("\\n"));
+        ReplaceAll(newstr, TTEXT("\\"), TTEXT("\\\\"));
+        ReplaceAll(newstr, TTEXT("\""), TTEXT("\\\""));
+        ReplaceAll(newstr, TTEXT("\r"), TTEXT("\\r"));
+        ReplaceAll(newstr, TTEXT("\n"), TTEXT("\\n"));
 
         return newstr;
     }
 
-    ACE_TString RebuildString(const ACE_TString& str)
+    tstring RebuildString(const tstring& str)
     {
-        ACE_TString resultstr = str;
-        ACE_TString tmpstr;
-        ACE_TCHAR search[3][3] = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
-        ACE_TCHAR replace[3][2] = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
+        tstring resultstr = str;
+        tstring tmpstr;
+        std::array<tstring, 3> search = { TTEXT("\\n"), TTEXT("\\r"), TTEXT("\\\"") };
+        std::array<tstring, 3> replace = { TTEXT("\n"), TTEXT("\r"), TTEXT("\"") };
 
         for(size_t j = 0; j < 3; j++)
         {
@@ -431,7 +425,7 @@ namespace teamtalk {
             size_t oldpos = 0;
             tmpstr = resultstr;
             resultstr.clear();
-            while( (pos1 = tmpstr.find(search[j], pos1)) != ACE_TString::npos)
+            while( (pos1 = tmpstr.find(search[j], pos1)) != tstring::npos)
             {
                 int i = static_cast<int>(pos1);
                 int slashes = 0;
@@ -447,52 +441,52 @@ namespace teamtalk {
             resultstr += tmpstr.substr(oldpos, tmpstr.length() - oldpos);
         }
 
-        ReplaceAll(resultstr, ACE_TEXT("\\\\"), ACE_TEXT("\\"));
+        ReplaceAll(resultstr, TTEXT("\\\\"), TTEXT("\\"));
         return resultstr;
     }
 
-    ACE_TString PrepareIntegerArray(const std::vector<int>& array)
+    tstring PrepareIntegerArray(const std::vector<int>& array)
     {
-        ACE_TString s;
+        tstring s;
         for(int i=0;i<static_cast<int>(array.size())-1;i++)
         {
-            s = s + I2String(array[i]) + ACE_TEXT(",");
+            s = s + I2String(array[i]) + TTEXT(",");
         }
-        ACE_TString res;
+        tstring res;
         if(!array.empty())
         {
-            res = ACE_TEXT("[") + s + I2String(array[array.size()-1]) + ACE_TEXT("]");
+            res = TTEXT("[") + s + I2String(array[array.size()-1]) + TTEXT("]");
         }
         else
         {
-            res = ACE_TEXT("[]");
+            res = TTEXT("[]");
         }
 
         return res;
     }
 
-    ACE_TString PrepareIntegerSet(const std::set<int>& myset)
+    tstring PrepareIntegerSet(const std::set<int>& myset)
     {
-        ACE_TString s;
+        tstring s;
         int index = 0;
         std::set<int>::const_iterator ite;
         for(ite=myset.begin();index++<static_cast<int>(myset.size())-1;ite++)
         {
-            s = s + I2String(*ite) + ACE_TEXT(",");
+            s = s + I2String(*ite) + TTEXT(",");
         }
 
-        ACE_TString res;
+        tstring res;
         if(myset.size()==1)
-            res = ACE_TEXT("[") + I2String(*ite) + ACE_TEXT("]");
+            res = TTEXT("[") + I2String(*ite) + TTEXT("]");
         else if(myset.size()>1)
-            res = ACE_TEXT("[") + s + I2String(*ite) + ACE_TEXT("]");
+            res = TTEXT("[") + s + I2String(*ite) + TTEXT("]");
         else
-            res = ACE_TEXT("[]");
+            res = TTEXT("[]");
 
         return res;
     }
 
-    static size_t PastBlanks(size_t offset, const ACE_TString& input)
+    static size_t PastBlanks(size_t offset, const tstring& input)
     {
         while(offset<input.length() && 
             (input[offset] == ' ' ||
@@ -501,7 +495,7 @@ namespace teamtalk {
         return offset;
     }
 
-    int ExtractProperties(const ACE_TString& input, mstrings_t& properties)
+    int ExtractProperties(const tstring& input, mstrings_t& properties)
     {
         TTASSERT(input.find('\n') == input.rfind('\n'));
 
@@ -510,7 +504,7 @@ namespace teamtalk {
             bSyntaxError = true;
 
         size_t offset = input.find(' ');//past command
-        if(offset == ACE_TString::npos)
+        if(offset == tstring::npos)
             return 0;
 
         while(offset < input.length() && !bSyntaxError)
@@ -523,8 +517,8 @@ namespace teamtalk {
             }
 
             size_t const propBegin = offset;
-            ACE_TString prop;
-            ACE_TString value;
+            tstring prop;
+            tstring value;
             while(offset < input.length()) //extract property name
             {
                 if( input[offset] != ' ' && input[offset] != '=') offset ++;
@@ -532,7 +526,7 @@ namespace teamtalk {
             }
             if(offset == input.length())
             {
-                bSyntaxError = true; //no properties in ACE_TString
+                bSyntaxError = true; //no properties in tstring
                 break;
             }
 
@@ -559,14 +553,14 @@ namespace teamtalk {
             }
 
             //determine whether it's a string or an integer
-            if(input[offset] == '"') //a ACE_TString
+            if(input[offset] == '"') //a tstring
             {
                 bool found = false;
                 size_t const strBegin = ++offset; //past "
                 while(!found && offset<input.length())
                 {
                     /*
-                    if(input[offset]==ACE_TEXT('\"') && input[offset-1] != ACE_TEXT('\\')) found = true;
+                    if(input[offset]==TTEXT('\"') && input[offset-1] != TTEXT('\\')) found = true;
                     offset++;
                     */
                     if(input[offset] == '\\')
@@ -635,35 +629,35 @@ namespace teamtalk {
         return bSyntaxError? -1 : static_cast<int>(properties.size());
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        const ACE_TString& value, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+        const tstring& value, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=\"")) + PrepareString(value) + ACE_TString(ACE_TEXT("\""));
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=\"")) + PrepareString(value) + tstring(TTEXT("\""));
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        const std::vector<int>& vecValues, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+        const std::vector<int>& vecValues, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=")) + PrepareIntegerArray(vecValues);
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        const std::set<int>& setValues, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+        const std::set<int>& setValues, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerSet(setValues);
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=")) + PrepareIntegerSet(setValues);
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, ACE_INT64 value, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, int64_t value, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + I2String(value);
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=")) + I2String(value);
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, const AudioCodec& codec, 
-                        ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, const AudioCodec& codec, 
+                        tstring& dest_str)
     {
         intvec_t codec_prop;
         switch(codec.codec)
@@ -713,8 +707,8 @@ namespace teamtalk {
         AppendProperty(prop, codec_prop, dest_str);
     }
 
-    void AppendProperty(const ACE_TString& prop, const AudioConfig& audcfg, 
-                        ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, const AudioConfig& audcfg, 
+                        tstring& dest_str)
     {
         intvec_t audcfg_prop;
         /* do not change the order since it will break compatibility 
@@ -725,25 +719,23 @@ namespace teamtalk {
         AppendProperty(prop, audcfg_prop, dest_str);
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_INET_Addr& addr, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+                        const ACE_INET_Addr& addr, tstring& dest_str)
     {
         AppendProperty(prop, InetAddrToString(addr), dest_str);
     }
 
-    void AppendProperty(const ACE_TString& prop,
-                        const ACE_Time_Value& tv, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop,
+                        std::chrono::system_clock::time_point tp, tstring& dest_str)
     {
-        time_t const local_tm = tv.sec();
-        struct tm* gmt = std::gmtime(&local_tm);
-        ACE_INT64 const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : tv.sec();
-        AppendProperty(prop, utc_tm, dest_str);
+        //property carries UTC time
+        AppendProperty(prop, static_cast<int64_t>(std::chrono::system_clock::to_time_t(tp)), dest_str);
     }
 
 
-    bool GetCmdLine(const ACE_CString& input, ACE_CString& cmd, ACE_CString& remain_input)
+    bool GetCmdLine(const std::string& input, std::string& cmd, std::string& remain_input)
     {
-        if(input.find('\n') != ACE_TString::npos)
+        if(input.find('\n') != tstring::npos)
         {
             size_t const pos = input.find('\n');
             cmd = input.substr(0, pos+1);
@@ -756,7 +748,7 @@ namespace teamtalk {
     }
 
 
-    bool GetCmd(const ACE_CString& input, ACE_CString& cmd)
+    bool GetCmd(const std::string& input, std::string& cmd)
     {
         size_t nEndCommand = 0;
         while(nEndCommand < input.length() && 
@@ -769,14 +761,14 @@ namespace teamtalk {
         return nEndCommand>0;
     }
 
-    ACE_TString stripEOL(const ACE_TString& input)
+    tstring stripEOL(const tstring& input)
     {
         size_t const len = ACE_OS::strlen(EOL);
         if(input.length()<len)
             return input;
         if(input.substr(input.length()-len,len) == EOL)
             return input.substr(0,input.length()-len);
-        if(input.substr(input.length()-1,1) == ACE_TEXT("\n"))
+        if(input.substr(input.length()-1,1) == TTEXT("\n"))
             return input.substr(0,input.length()-1);
         return input;
     }

@@ -25,13 +25,9 @@
 #define SERVERCHANNEL_H
 
 #include "teamtalk/Channel.h"
-#include "teamtalk/Common.h"
 
-#include <ace/SString.h>
-#include <ace/Time_Value.h>
-
+#include <chrono>
 #include <map>
-#include <vector>
 
 namespace teamtalk { 
 
@@ -42,7 +38,7 @@ namespace teamtalk {
     public:
         using PARENT = Channel<ServerChannel, ServerUser>;
         explicit ServerChannel(int channelid);
-        ServerChannel(channel_t& parent, int channelid, const ACE_TString& name);
+        ServerChannel(channel_t& parent, int channelid, const tstring& name);
         ~ServerChannel() override;
         // Used for channels with CHANNEL_SOLO_TRANSMIT. 'modified' is only set if 'true'
         bool CanTransmit(int userid, StreamType txtype, int streamid, bool* modified);
@@ -52,22 +48,21 @@ namespace teamtalk {
         void UpdateChannelBans();
         void SetOwner(const ServerUser& user);
         bool IsOwner(const ServerUser& user) const;
-        static bool IsAutoOperator(const ServerUser& user) ;
+        bool IsAutoOperator(const ServerUser& user) const;
 
         void AddUserBan(const BannedUser& ban);
         bool IsBanned(const BannedUser& testban) const;
         void RemoveUserBan(const BannedUser& ban);
-        const std::vector<BannedUser>& GetBans() const { return m_bans; }
 
     private:
         void Init();
         // userid -> last transmit time
-        std::map<int, ACE_Time_Value> m_lastUserPacket;
+        std::map<int, std::chrono::system_clock::time_point> m_lastUserPacket;
         // userid (streamkey) -> stream-id started
-        std::map<int, ACE_Time_Value> m_streamstart;
+        std::map<int, std::chrono::system_clock::time_point> m_streamstart;
         // userid -> stream id
         std::map<int, int> m_blockStreams, m_activeStreams;
-        ACE_TString m_usernameOwner;
+        tstring m_usernameOwner;
         void BlockAudioStream(int userid);
     };
 } // namespace teamtalk

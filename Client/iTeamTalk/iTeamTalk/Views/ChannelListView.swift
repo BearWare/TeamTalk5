@@ -185,14 +185,19 @@ struct ChannelListView: View {
                     }
                     .buttonStyle(.borderless)
                 }
-                .accessibilityElement(children: .combine)
+                // Otherwise VoiceOver reads the Edit/View button and double-tap activates it
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(channelAccessibilityLabel(details))
                 .accessibilityHint(model.moveDestinationAccessibilityHint())
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.selectRow(.channel(channel))
                 }
-                .accessibilityAction(named: "Expand") {
+                .accessibilityAction {
                     model.selectRow(.channel(channel))
+                }
+                .accessibilityAction(named: details.propertiesActionTitle) {
+                    model.showChannelDetail(channelID: channel.nChannelID)
                 }
                 .accessibilityAction(named: "Move users here") {
                     model.moveIntoChannel(channelID: channel.nChannelID)
@@ -202,6 +207,14 @@ struct ChannelListView: View {
                 }
             }
         }
+    }
+
+    private func channelAccessibilityLabel(_ details: ChannelDisplayDetails) -> String {
+        var parts = [details.iconAccessibilityLabel, limitText(details.title)]
+        if let subtitle = details.subtitle, !subtitle.isEmpty {
+            parts.append(subtitle)
+        }
+        return parts.joined(separator: ", ")
     }
 }
 
@@ -221,5 +234,6 @@ struct ChannelDisplayDetails {
     let iconName: String
     let iconAccessibilityLabel: String
     let actionTitle: String
+    let propertiesActionTitle: String
     let isParent: Bool
 }

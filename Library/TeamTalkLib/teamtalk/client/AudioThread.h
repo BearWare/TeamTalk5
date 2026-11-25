@@ -25,6 +25,7 @@
 #define AUDIOTHREAD_H
 
 #include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 #include "teamtalk/Common.h"
 
 #if defined(ENABLE_SPEEX)
@@ -41,12 +42,13 @@
 #endif
 
 #include <ace/Message_Block.h>
-#include <ace/Task_T.h>
 #include <ace/Time_Value.h>
 
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <thread>
 #include <vector>
 
 using audioencodercallback_t = std::function< void (const teamtalk::AudioCodec& codec,
@@ -54,11 +56,11 @@ using audioencodercallback_t = std::function< void (const teamtalk::AudioCodec& 
                              const std::vector<int>& enc_frame_sizes,
                              const media::AudioFrame& org_frame) >;
 
-class AudioThread : protected ACE_Task<ACE_MT_SYNCH>
+class AudioThread
 {
 public:
     AudioThread();
-    ~AudioThread() override;
+    ~AudioThread();
 
     bool StartEncoder(const audioencodercallback_t& callback,
                       const teamtalk::AudioCodec& codec,
@@ -75,11 +77,11 @@ public:
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
     int m_voiceactlevel = VU_METER_MIN;
-    ACE_Time_Value m_voiceact_delay = ACE_Time_Value(1, 500000);
+    std::chrono::milliseconds m_voiceact_delay{1500};
 
     //real maximum is 100 (when all samples are 32768)
-    static const int VU_METER_MAX = 100;
-    static const int VU_METER_MIN = 0;
+    static constexpr int VU_METER_MAX = 100;
+    static constexpr int VU_METER_MIN = 0;
 
     const teamtalk::AudioCodec& Codec() const { return m_codec; }
 
@@ -89,8 +91,9 @@ public:
     int m_gainlevel = GAIN_NORMAL;    //GAIN_NORMAL == disabled
 
 private:
-    int close(u_long /*flags*/) override;
-    int svc() override;
+    void Run();
+    msg_queue_t m_msg_queue;
+    std::thread m_thread;
     void ProcessAudioFrame(media::AudioFrame& audblock);
     void MeasureVoiceLevel(const media::AudioFrame& audblock);
 
@@ -138,10 +141,10 @@ private:
     bool m_enc_cleared = true;
 
     //voice activation
-    ACE_Time_Value m_lastActive;
+    std::chrono::system_clock::time_point m_lastActive;
 
     // tone generation
-    ACE_UINT32 m_tone_sample_index = 0, m_tone_frequency = 0;
+    uint32_t m_tone_sample_index = 0, m_tone_frequency = 0;
 };
 
 using audio_thread_t = std::shared_ptr< AudioThread >;

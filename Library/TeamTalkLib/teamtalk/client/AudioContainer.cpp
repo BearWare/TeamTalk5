@@ -23,8 +23,8 @@
 
 #include "AudioContainer.h"
 #include "avstream/AudioResampler.h"
+#include "mystd/MyStd.h"
 
-#include <ace/Time_Value.h>
 #include <cassert>
 #include <cstring>
 #include <memory>
@@ -67,15 +67,15 @@ bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
     if (ii == m_container.end())
         return false;
 
-    // MYTRACE(ACE_TEXT("Add audio from #%d to container %p. Offset %u. Samples: %u. Timestamp: %u\n"),
+    // MYTRACE(TTEXT("Add audio from #%d to container %p. Offset %u. Samples: %u. Timestamp: %u\n"),
     //         userid, this, frame.sample_no, frame.input_samples, frame.timestamp);
 
-    // MYTRACE(ACE_TEXT("Adding audio #%d of channels %d\n"), userid, channels);
+    // MYTRACE(TTEXT("Adding audio #%d of channels %d\n"), userid, channels);
     ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
     ACE_Time_Value tm;
     if (ii->second->mq.enqueue(mb, &tm) < 0)
     {
-        MYTRACE(ACE_TEXT("AudioContainer overflow for #%d, failed to insert block\n"), userid);
+        MYTRACE(TTEXT("AudioContainer overflow for #%d, failed to insert block\n"), userid);
         mb->release();
 
         return false;
@@ -137,13 +137,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             size_t const audiobytes = PCM16_BYTES(samples, entry->outfmt.channels);
             size_t const totalbytes = audiobytes + sizeof(media::AudioFrame);
 
-            ACE_Message_Block* mb_resam = nullptr;
-            ACE_NEW_NORETURN(mb_resam, ACE_Message_Block(totalbytes));
-            if (mb_resam == nullptr)
-            {
-                mb->release();
-                return nullptr;
-            }
+            auto mb_resam = std::make_unique<ACE_Message_Block>(totalbytes);
 
             auto* outputptr = reinterpret_cast<short*>(mb_resam->wr_ptr() + sizeof(media::AudioFrame));
             media::AudioFrame frm_resam = frm;
@@ -157,14 +151,14 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             assert(entry->resampler);
             int const outputsamples = entry->resampler->Resample(frm.input_buffer, frm.input_samples, outputptr, samples);
             assert(outputsamples <= samples);
-            MYTRACE_COND(outputsamples != samples, ACE_TEXT("Resampled audio output doesn't match expected: %d != %d. Zeroing remaining\n"),
+            MYTRACE_COND(outputsamples != samples, TTEXT("Resampled audio output doesn't match expected: %d != %d. Zeroing remaining\n"),
                          outputsamples, samples);
             if (outputsamples < samples)
                 std::memset(&outputptr[outputsamples * frm_resam.inputfmt.channels], 0, PCM16_BYTES(samples - outputsamples, frm_resam.inputfmt.channels));
             mb_resam->wr_ptr(audiobytes); //advance past resampled output
 
             mb->release();
-            return mb_resam;
+            return mb_resam.release(); // NOLINT(bugprone-unused-return-value)
         }
 
         // MYTRACE("Retrieved audio for #%d type %d, index %u\n", userid, stream_type, frm.sample_no);
@@ -187,7 +181,7 @@ void AudioContainer::ReleaseAllAudio()
         while(ii->second->mq.dequeue(mb, &tm) >= 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("AudioContainer clean up #%d, removing obsolete\n"),
+            MYTRACE(TTEXT("AudioContainer clean up #%d, removing obsolete\n"),
                     ii->first >> 16);
         }
 

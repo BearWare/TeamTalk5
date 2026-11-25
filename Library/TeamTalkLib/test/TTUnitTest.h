@@ -27,11 +27,12 @@
 #include <ace/OS.h> // BOOL, UINT32, etc needed on Windows
 #include <TeamTalk.h>
 
-#include <string>
-
+#include "TeamTalkDefs.h"
+#include "mystd/MyStd.h"
 
 #include <functional>
 #include <memory>
+#include <string>
 
 constexpr auto DEFWAIT = 5000;
 
@@ -50,11 +51,16 @@ enum SoundMode
     SHARED_INPUT_OUTPUT     = 0x8,
 };
 
+constexpr auto USER_DEFAULT_USERNAME = TTEXT("guest");
+constexpr auto USER_DEFAULT_PASSWORD = TTEXT("guest");
+constexpr auto USER_ADMIN_USERNAME = TTEXT("admin");
+constexpr auto USER_ADMIN_PASSWORD = TTEXT("admin");
+
 bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
-bool Connect(TTInstance* ttClient, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
-bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
-bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
+bool Connect(TTInstance* ttClient, INT32 tcpport = DEFAULT_TCPPORT, INT32 udpport = DEFAULT_TCPPORT, TTBOOL encrypted = FALSE);
+bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport = DEFAULT_TCPPORT, INT32 udpport = DEFAULT_TCPPORT, TTBOOL encrypted = FALSE);
+bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = USER_DEFAULT_USERNAME, const TTCHAR* passwd = USER_DEFAULT_PASSWORD);
 bool JoinRoot(TTInstance* ttClient);
 AudioCodec MakeDefaultAudioCodec(Codec codec);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);
