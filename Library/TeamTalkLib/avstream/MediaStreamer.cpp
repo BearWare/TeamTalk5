@@ -452,10 +452,8 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
                                                 m_media_out.audio.samplerate);
     AudioProgress(newduration, timestamp - starttime + media_frame->InputDurationMSec());
 
-    if (m_audiocallback && m_audiocallback(*media_frame, out_mb.get()))
-    {
-        out_mb.release(); // NOLINT(bugprone-unused-return-value) ownership transferred
-    }
+    if (m_audiocallback)
+        m_audiocallback(*media_frame, std::move(out_mb));
     //'out_mb' should now be considered dead
 
     return need_more;
@@ -488,7 +486,7 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
                     media_frame->timestamp - starttime, curtime - media_frame->timestamp,
                     unsigned(m_video_frames.Size()));
 
-            if (!m_videocallback || !m_videocallback(*media_frame, mb.get()))
+            if (!m_videocallback || !m_videocallback(*media_frame, std::move(mb)))
             {
                 // 'mb' auto-released
             }

@@ -1405,7 +1405,7 @@ bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
 }
 
 bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
-                                          MsgBlock* mb_video)
+                                          msgblock_t mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
     TTASSERT(m_videofile_thread);
@@ -1417,13 +1417,13 @@ bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
 //     if((x++ % 200) == 0)
 //         WriteBitmap(i2string(x) + tstring(".bmp"), video_frame.width, video_frame.height, 4,
 //                     video_frame.frame, video_frame.frame_length);
-    m_videofile_thread->QueueFrame(mb_video);
+    m_videofile_thread->QueueFrame(std::move(mb_video));
 
     return true; //m_video_thread always takes ownership
 }
 
 bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
-                                          MsgBlock* mb_audio)
+                                          msgblock_t mb_audio)
 {
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
 /*
@@ -1449,7 +1449,7 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
 
     AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame);
 
-    m_audiofile_thread.QueueAudio(std::unique_ptr<MsgBlock>(mb_audio));
+    m_audiofile_thread.QueueAudio(std::move(mb_audio));
     // don't touch 'mb_audio' after this
 
     return true;  //m_audiofile_thread always takes ownership
@@ -1490,7 +1490,7 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
 }
 
 bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
-                                    MsgBlock* mb_audio)
+                                    msgblock_t mb_audio)
 {
     assert(mb_audio);
     audio_frame.force_enc = true;

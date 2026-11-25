@@ -76,7 +76,7 @@ namespace vidcap {
 
         // MediaStreamListener interface
         bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                      MsgBlock* mb_video);
+                                      msgblock_t mb_video);
 
         void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);

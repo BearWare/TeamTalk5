@@ -101,12 +101,12 @@ enum MediaStreamStatus
 };
 
 using mediastream_videocallback_t = std::function< bool (media::VideoFrame& video_frame,
-                             MsgBlock* mb_video) >;
+                             msgblock_t mb_video) >;
 
 //'audio_frame' is a reference to mb_audio->rd_ptr()
 //@return if false 'mb_audio' will be deleted
 using mediastream_audiocallback_t = std::function< bool (media::AudioFrame& audio_frame,
-                             MsgBlock* mb_audio) >;
+                             msgblock_t mb_audio) >;
 
 using mediastream_statuscallback_t = std::function< void (const MediaFileProp& mfp,
                              MediaStreamStatus status) >;

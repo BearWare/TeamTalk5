@@ -375,15 +375,15 @@ namespace teamtalk {
 
         //Media stream listener - separate thread
         bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                      MsgBlock* mb_video);
+                                      msgblock_t mb_video);
         bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
-                                      MsgBlock* mb_audio);
+                                      msgblock_t mb_audio);
         void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
 
         // AudioInputStreamer listener - separate thread
         bool AudioInputCallback(media::AudioFrame& audio_frame,
-                                MsgBlock* mb_audio);
+                                msgblock_t mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
         // AudioMuxer callback - separate thread

@@ -1787,11 +1787,11 @@ TEST_CASE("testThumbnail")
                           done.set_value(true);
                   };
 
-    auto audio = [] (media::AudioFrame& /*audio_frame*/, MsgBlock* /*mb_audio*/) {
+    auto audio = [] (media::AudioFrame& /*audio_frame*/, msgblock_t /*mb_audio*/) {
                      return false;
                  };
 
-    auto video = [] (media::VideoFrame& /*video_frame*/, MsgBlock* /*mb_video*/) {
+    auto video = [] (media::VideoFrame& /*video_frame*/, msgblock_t /*mb_video*/) {
                     return false;
                 };
 
@@ -3799,7 +3799,7 @@ TEST_CASE("OPUSStreamer")
         }
     };
 
-    auto audiofunc = [&](media::AudioFrame& audio_frame, MsgBlock* /*mb_audio*/)
+    auto audiofunc = [&](media::AudioFrame& audio_frame, msgblock_t /*mb_audio*/)
     {
         wavfile.AppendSamples(audio_frame.input_buffer, audio_frame.input_samples);
         return false;

@@ -218,13 +218,13 @@ bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config&
 #endif
 
 bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame&  /*video_frame*/,
-                                             MsgBlock*  /*mb_video*/)
+                                             msgblock_t  /*mb_video*/)
 {
     return false;
 }
 
 bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/,
-                                             MsgBlock* mb_audio)
+                                             msgblock_t mb_audio)
 {
     std::scoped_lock const g(m_mutex);
     if (m_audio_buffer.size() > 10)
@@ -233,7 +233,7 @@ bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/
         return false;
     }
 
-    m_audio_buffer.push(std::unique_ptr<MsgBlock>(mb_audio));
+    m_audio_buffer.push(std::move(mb_audio));
     return true;
 }
 

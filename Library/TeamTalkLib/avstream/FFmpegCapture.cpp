@@ -114,12 +114,12 @@ void FFmpegCapture::UnregisterVideoFormat(media::FourCC fcc)
 }
 
 bool FFmpegCapture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                              MsgBlock* mb_video)
+                                              msgblock_t mb_video)
 {
     assert(m_videoinput.get());
     
     if (m_callback)
-        return m_callback(video_frame, msgblock_t(mb_video));
+        return m_callback(video_frame, std::move(mb_video));
     
     return false;
 }
