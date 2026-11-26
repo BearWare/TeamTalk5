@@ -361,7 +361,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
                                                    m_media_out.audio.samplerate);
 
     // check if head is already ahead of time
-    auto* first_frame = reinterpret_cast<AudioFrame*>(mb->Base());
+    auto* first_frame = AudioFrameFromMsgBlock(*mb);
     MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Checking ts: %u. Queue duration: %u msec, bytes %u\n"),
         curtime - starttime, first_frame->timestamp, queue_duration,
             unsigned(m_audio_frames.BytesQueued()));
@@ -377,7 +377,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     int const audio_block_size = required_audio_bytes + sizeof(AudioFrame);
     auto out_mb = std::make_unique<MsgBlock>(audio_block_size);
 
-    auto* media_frame = reinterpret_cast<AudioFrame*>(out_mb->WrPtr());
+    auto* media_frame = AudioFrameFromMsgBlock(*out_mb);
     *media_frame = *first_frame; //use original AudioFrame as base for construction
 
     assert(media_frame->inputfmt == m_media_out.audio);
@@ -411,7 +411,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
         else
         {
             // advance
-            auto* head_frame = reinterpret_cast<AudioFrame*>(mb->Base());
+            auto* head_frame = AudioFrameFromMsgBlock(*mb);
             assert(m_media_out.audio.channels);
             assert(m_media_out.audio.samplerate);
             head_frame->timestamp += PCM16_BYTES_DURATION(write_bytes,
@@ -470,7 +470,7 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
     std::unique_ptr<MsgBlock> mb;
     if (m_video_frames.PeekHead() != nullptr)
     {
-        auto* media_frame = reinterpret_cast<VideoFrame*>(m_video_frames.PeekHead()->RdPtr());
+        auto* media_frame = VideoFrameFromMsgBlock(*m_video_frames.PeekHead());
         MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Video ts: %u - First ts: %u\n"),
                 curtime - starttime, media_frame->timestamp);
 
@@ -480,7 +480,7 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
             {
                 return true; // should never happen
             }
-            media_frame = reinterpret_cast<VideoFrame*>(mb->RdPtr());
+            media_frame = VideoFrameFromMsgBlock(*mb);
 
             media_frame->timestamp = starttime + media_frame->timestamp;
 
