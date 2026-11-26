@@ -1247,10 +1247,10 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
 
     if(mb != nullptr)
     {
+        auto* frm = reinterpret_cast<media::VideoFrame*>(mb->RdPtr());
         VideoFrame* lpVideoFrame = inst->PushVideoFrame(std::move(mb));
         if(lpVideoFrame != nullptr)
         {
-            auto* frm = reinterpret_cast<media::VideoFrame*>(mb->RdPtr());
             Convert(*frm, *lpVideoFrame);
             return lpVideoFrame;
         }
@@ -2283,10 +2283,10 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     if(mb == nullptr)
         return nullptr;
 
+    auto* frm = reinterpret_cast<media::VideoFrame*>(mb->RdPtr());
     VideoFrame* lpVideoFrame = inst->PushVideoFrame(std::move(mb));
     if(lpVideoFrame != nullptr)
     {
-        auto* frm = reinterpret_cast<media::VideoFrame*>(mb->RdPtr());
         Convert(*frm, *lpVideoFrame);
         return lpVideoFrame;
     }

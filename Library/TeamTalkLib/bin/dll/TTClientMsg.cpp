@@ -188,11 +188,11 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, std::chrono::milliseconds tv)
     bool resume = false;
     std::unique_ptr<MsgBlock> mb;
     {
-        if (m_event_queue.PeekHead() != nullptr)
+        // Blocking get with timeout outside m_mutex since
+        // EnqueueMsg() acquires m_mutex before calling Put()
+        if (m_event_queue.Get(mb, tv))
         {
             std::unique_lock<std::mutex> const g(m_mutex);
-
-            m_event_queue.Get(mb);
 
             auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->RdPtr());
             msg.nClientEvent = intmsg->event;
