@@ -1,3 +1,5 @@
+cmake_minimum_required (VERSION 3.15)
+
 project (TeamTalk5JNI)
 
 function(set_output_dir target dir)
