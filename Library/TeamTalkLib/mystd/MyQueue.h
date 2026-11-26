@@ -215,10 +215,13 @@ public:
 
     // Put fails (returns false) if the water mark would be exceeded.
     // The water mark is advisory, so the check-then-add race is benign.
+    // Bytes are accounted by block capacity (ACE_Message_Block::size()),
+    // like ACE_Message_Queue::message_bytes(), so blocks whose write
+    // pointer was never advanced are still counted.
     bool Put(std::unique_ptr<MsgBlock> mb) override
     {
         auto const water_mark = m_water_mark.load();
-        auto const len = mb->Length();
+        auto const len = mb->Capacity();
         if (water_mark != 0 && m_bytes_queued.load() + len > water_mark)
             return false;
         if (!BlockingQueue::Put(std::move(mb)))
@@ -231,14 +234,14 @@ public:
     {
         if (!BlockingQueue::Get(out, timeout))
             return false;
-        m_bytes_queued.fetch_sub(out->Length());
+        m_bytes_queued.fetch_sub(out->Capacity());
         return true;
     }
 
     // PutFront (like ACE_Message_Queue::enqueue_head)
     bool PutFront(std::unique_ptr<MsgBlock> mb) override
     {
-        auto const len = mb->Length();
+        auto const len = mb->Capacity();
         if (!BlockingQueue::PutFront(std::move(mb)))
             return false;
         m_bytes_queued.fetch_add(len);
@@ -251,7 +254,7 @@ public:
         auto removed = BlockingQueue::Flush();
         std::size_t bytes = 0;
         for (auto const& mb : removed)
-            bytes += mb->Length();
+            bytes += mb->Capacity();
         m_bytes_queued.fetch_sub(bytes);
         return removed;
     }
