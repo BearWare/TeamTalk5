@@ -4543,7 +4543,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../mainwindow.ui" line="2179"/>
         <source>&amp;New Client Instance</source>
-        <translation>&amp;Nowy profil</translation>
+        <translation>&amp;Nowa instancja…</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2182"/>
@@ -6540,7 +6540,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../profiles.ui" line="77"/>
         <source>Use &amp;Current Profile</source>
-        <translation>Użyj &amp;bieżącego profilu</translation>
+        <translation>Uruchom z &amp;bieżącym profilem</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="126"/>
@@ -6579,7 +6579,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../profilesdlg.cpp" line="185"/>
         <source>Edit Profile</source>
-        <translation>Edytuj profil</translation>
+        <translation>Zmień nazwę profilu</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="213"/>
@@ -6604,12 +6604,12 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../profilesdlg.cpp" line="255"/>
         <source>&amp;Open Profile</source>
-        <translation>&amp;Otwórz profil</translation>
+        <translation>Uruchom z &amp;tym profilem</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="256"/>
         <source>&amp;Edit Profile</source>
-        <translation>&amp;Edytuj profil</translation>
+        <translation>&amp;Zmień nazwę profilu…</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="257"/>
