@@ -5332,6 +5332,21 @@ extern "C" {
      * @see TT_InitVideoCaptureDevice */
     TEAMTALKDLL_API TTBOOL TT_CloseVideoCaptureDevice(IN TTInstance* lpTTInstance);
 
+    /**
+     * @brief Push a raw I420 video frame into an initialized external video capture device (e.g. Android Camera2).
+     *
+     * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+     * @param lpFrameBuffer Pointer to contiguous top-down I420 frame buffer (size = width * height * 3 / 2).
+     * @param nFrameBufferSize Size of @a lpFrameBuffer in bytes.
+     * @param nWidth Frame width in pixels (must match initialized VideoFormat).
+     * @param nHeight Frame height in pixels (must match initialized VideoFormat).
+     * @see TT_InitVideoCaptureDevice */
+    TEAMTALKDLL_API TTBOOL TT_PushVideoCaptureFrame(IN TTInstance* lpTTInstance,
+                                                    IN const void* lpFrameBuffer,
+                                                    IN INT32 nFrameBufferSize,
+                                                    IN INT32 nWidth,
+                                                    IN INT32 nHeight);
+
 #if defined(WIN32)
     /**
      * @brief Paint user's video frame using a Windows' DC (device

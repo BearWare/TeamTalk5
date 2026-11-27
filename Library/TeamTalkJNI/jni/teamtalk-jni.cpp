@@ -654,6 +654,28 @@ extern "C" {
         return TT_CloseVideoCaptureDevice(GetTTInstance(env, thiz));
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_pushVideoCaptureFrame(JNIEnv* env,
+                                                                                   jobject thiz,
+                                                                                   jbyteArray frameBuffer,
+                                                                                   jint width,
+                                                                                   jint height)
+    {
+        if (frameBuffer == nullptr || width <= 0 || height <= 0)
+            return JFALSE;
+
+        jsize const len = env->GetArrayLength(frameBuffer);
+        jbyte* bytes = env->GetByteArrayElements(frameBuffer, nullptr);
+        if (bytes == nullptr)
+            return JFALSE;
+
+        TTBOOL const res = TT_PushVideoCaptureFrame(GetTTInstance(env, thiz),
+                                                    bytes, static_cast<INT32>(len),
+                                                    static_cast<INT32>(width),
+                                                    static_cast<INT32>(height));
+        env->ReleaseByteArrayElements(frameBuffer, bytes, JNI_ABORT);
+        return (res != 0) ? JTRUE : JFALSE;
+    }
+
     JNIEXPORT jobject JNICALL Java_dk_bearware_TeamTalkBase_acquireUserVideoCaptureFrame(JNIEnv* env,
                                                                                          jobject thiz,
                                                                                          jint nUserID)
