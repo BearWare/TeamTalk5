@@ -27,6 +27,14 @@
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_edit"/>
     <item
+        android:id="@+id/action_toggle_video"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/action_start_video"/>
+    <item
+        android:id="@+id/action_switch_camera"
+        app:showAsAction="never"
+        android:title="@string/action_switch_camera"/>
+    <item
         android:id="@+id/action_stream"
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_stream"/>

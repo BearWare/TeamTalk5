@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,9 +73,65 @@ ClientEventListener.OnUserDesktopWindowListener {
     SparseArray<User> display_users = new SparseArray<>();
     SparseArray<Bitmap> media_sessions = new SparseArray<>();
 
+    public interface OnMediaFullscreenListener {
+        void onRequestFullscreen(int sessionId, String displayName);
+        void onFullscreenSessionEnded();
+    }
+
+    private OnMediaFullscreenListener fullscreenListener;
+    private int fullscreenSessionId = 0;
+    private ImageView fullscreenTargetView;
+
     public MediaAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
+    }
+
+    public void setOnMediaFullscreenListener(OnMediaFullscreenListener listener) {
+        this.fullscreenListener = listener;
+    }
+
+    public void attachFullscreenView(int sessionId, ImageView targetView) {
+        fullscreenSessionId = sessionId;
+        fullscreenTargetView = targetView;
+        if (targetView != null) {
+            Bitmap bmp = media_sessions.get(sessionId);
+            if (bmp != null) {
+                targetView.setImageBitmap(bmp);
+            } else if (display_users.get(sessionId) != null) {
+                String text = context.getResources().getString(R.string.text_waitstream);
+                Bitmap placeholder = Utils.drawTextToBitmap(context, 300, 20, text);
+                media_sessions.put(sessionId, placeholder);
+                targetView.setImageBitmap(placeholder);
+                updateUserBitmap(sessionId);
+            }
+        }
+    }
+
+    public void detachFullscreenView() {
+        fullscreenSessionId = 0;
+        fullscreenTargetView = null;
+    }
+
+    protected static void convertBgraToRgba(byte[] buffer) {
+        if (buffer == null) {
+            return;
+        }
+        for (int i = 0; i + 3 < buffer.length; i += 4) {
+            byte b = buffer[i];
+            buffer[i] = buffer[i + 2];
+            buffer[i + 2] = b;
+            buffer[i + 3] = (byte) 0xFF;
+        }
+    }
+
+    private void notifyFullscreenRequested(int sessionId) {
+        if (fullscreenListener == null) {
+            return;
+        }
+        User user = display_users.get(sessionId);
+        String name = (user != null) ? Utils.getDisplayName(context, user) : "";
+        fullscreenListener.onRequestFullscreen(sessionId, name);
     }
 
     public void setTeamTalkService(TeamTalkService service) {
@@ -101,6 +158,12 @@ ClientEventListener.OnUserDesktopWindowListener {
     public void clearTeamTalkService(TeamTalkService service) {
         display_users.clear();
         media_sessions.clear();
+        if (fullscreenSessionId != 0) {
+            detachFullscreenView();
+            if (fullscreenListener != null) {
+                fullscreenListener.onFullscreenSessionEnded();
+            }
+        }
 
         service.getEventHandler().unregisterListener(this);
         
@@ -150,11 +213,20 @@ ClientEventListener.OnUserDesktopWindowListener {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.item_media, parent, false);
 
+        ImageView desktop = convertView.findViewById(R.id.user_desktop_image);
         Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
-            ImageView desktop = convertView
-                    .findViewById(R.id.user_desktop_image);
             desktop.setImageBitmap(bmp);
+        }
+        desktop.setOnClickListener(v -> notifyFullscreenRequested(userid));
+
+        Button fullscreenBtn = convertView.findViewById(R.id.media_fullscreen_btn);
+        if (fullscreenBtn != null) {
+            User user = display_users.get(userid);
+            String name = (user != null) ? Utils.getDisplayName(context, user) : "";
+            fullscreenBtn.setContentDescription(
+                    context.getString(R.string.action_fullscreen_video_user, name));
+            fullscreenBtn.setOnClickListener(v -> notifyFullscreenRequested(userid));
         }
         return convertView;
     }
@@ -278,6 +350,11 @@ ClientEventListener.OnUserDesktopWindowListener {
             // only place new bitmap if user is being displayed
             if (media_sessions.indexOfKey(userid) >= 0)
             	media_sessions.put(userid, bmp);
+
+            if (fullscreenTargetView != null && fullscreenSessionId == userid && bmp != null) {
+                fullscreenTargetView.setImageBitmap(bmp);
+                fullscreenTargetView.invalidate();
+            }
             
             //update currently active sessions (get rid of obsolete sessions)
             ready_users = media_sessions.clone();
@@ -356,6 +433,7 @@ ClientEventListener.OnUserDesktopWindowListener {
     			prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
     		}
 
+    		convertBgraToRgba(wnd.frameBuffer);
     		prev_bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
 
     		return prev_bmp;
@@ -363,46 +441,40 @@ ClientEventListener.OnUserDesktopWindowListener {
     	case MEDIAFILE_SESSION : {
     		userid &= USERID_MASK;
     		
-            VideoFrame wnd = ttservice.getTTInstance().acquireUserMediaVideoFrame(userid);
-            
+            VideoFrame wnd = null;
+            VideoFrame next;
+            // Drain all queued frames so the VP8 decoder never drops P-frames
+            while ((next = ttservice.getTTInstance().acquireUserMediaVideoFrame(userid)) != null) {
+                wnd = next;
+            }
             if(wnd == null) {
                 return null;
             }
             
-            if(prev_bmp != null) {
-                // create new bitmap if size 
-                if(prev_bmp.getWidth() != wnd.nWidth || prev_bmp.getHeight() != wnd.nHeight)
-                    prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
-            }
-            else {
-                prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
-            }
+            Bitmap bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+            convertBgraToRgba(wnd.frameBuffer);
+            bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
             
-            prev_bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
-            
-            return prev_bmp;
+            return bmp;
     	}
     	case WEBCAM_SESSION : {
     		userid &= USERID_MASK;
     		
-            VideoFrame wnd = ttservice.getTTInstance().acquireUserVideoCaptureFrame(userid);
-            
+            VideoFrame wnd = null;
+            VideoFrame next;
+            // Drain all queued frames so the VP8 decoder never drops P-frames
+            while ((next = ttservice.getTTInstance().acquireUserVideoCaptureFrame(userid)) != null) {
+                wnd = next;
+            }
             if(wnd == null) {
                 return null;
             }
             
-            if(prev_bmp != null) {
-                // create new bitmap if size 
-                if(prev_bmp.getWidth() != wnd.nWidth || prev_bmp.getHeight() != wnd.nHeight)
-                    prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
-            }
-            else {
-                prev_bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
-            }
+            Bitmap bmp = Bitmap.createBitmap(wnd.nWidth, wnd.nHeight, Bitmap.Config.ARGB_8888);
+            convertBgraToRgba(wnd.frameBuffer);
+            bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
             
-            prev_bmp.copyPixelsFromBuffer(ByteBuffer.wrap(wnd.frameBuffer));
-            
-            return prev_bmp;
+            return bmp;
     	}
     	default : {
     		Log.e(TAG, "Unknown media session");
@@ -448,6 +520,13 @@ ClientEventListener.OnUserDesktopWindowListener {
 		}
 		
 		
+		if(fullscreenSessionId != 0 && display_users.get(fullscreenSessionId) == null) {
+			detachFullscreenView();
+			if(fullscreenListener != null) {
+				fullscreenListener.onFullscreenSessionEnded();
+			}
+		}
+
 		if(ms_size != media_sessions.size() || du_size != display_users.size())
 			notifyDataSetChanged();
 	}

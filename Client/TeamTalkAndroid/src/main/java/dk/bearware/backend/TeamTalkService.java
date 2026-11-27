@@ -50,6 +50,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
+import android.view.Surface;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -81,9 +82,11 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientEvent;
 import dk.bearware.ClientFlag;
+import dk.bearware.Codec;
 import dk.bearware.EncryptionContext;
 import dk.bearware.FileTransfer;
 import dk.bearware.FileTransferStatus;
+import dk.bearware.FourCC;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.MediaFileStatus;
 import dk.bearware.RemoteFile;
@@ -99,10 +102,13 @@ import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
+import dk.bearware.VideoCodec;
+import dk.bearware.VideoFormat;
 import dk.bearware.WebRTCConstants;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.License;
 import dk.bearware.data.MyTextMessage;
+import dk.bearware.data.Permissions;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.data.UserCached;
@@ -163,6 +169,13 @@ public class TeamTalkService extends Service
     private boolean microphoneSelected;
     private TelephonyManager telephonyManager;
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
+    public interface OnVideoCaptureStateListener {
+        void onVideoCaptureStateChanged(boolean active, boolean frontCamera);
+    }
+    private OnVideoCaptureStateListener onVideoCaptureStateListener;
+    private CameraVideoCapturer cameraCapturer;
+    private volatile boolean videoTransmissionEnabled;
+    private boolean preferFrontCamera = true;
     private boolean listeningPhoneStateChanges;
     private boolean txSuspended;
     private boolean voxSuspended;
@@ -367,6 +380,7 @@ public class TeamTalkService extends Service
 
     @Override
     public void onDestroy() {
+        stopVideoCapture();
         eventTimer.cancel();
 
         mEventHandler.unregisterListener(this);
@@ -413,16 +427,186 @@ public class TeamTalkService extends Service
                     .setContentText(getNotificationText())
                     .setShowWhen(false)
                     .build();
-                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
+                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, getActiveForegroundServiceTypes());
             } else {
                 widget = new NotificationCompat.Builder(this, widget)
                     .setContentText(getNotificationText())
                     .build();
-                notificationManager.notify(UI_WIDGET_ID, widget);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    try {
+                        ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, getActiveForegroundServiceTypes());
+                    } catch (RuntimeException e) {
+                        Log.w(TAG, "Unable to update foreground service type", e);
+                        notificationManager.notify(UI_WIDGET_ID, widget);
+                    }
+                } else {
+                    notificationManager.notify(UI_WIDGET_ID, widget);
+                }
             }
         } else if (widget != null) {
             ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE);
             widget = null;
+        }
+    }
+
+    @SuppressLint("InlinedApi")
+    private int getActiveForegroundServiceTypes() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            return ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST;
+        }
+        int types = ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE;
+        if (videoTransmissionEnabled && Permissions.CAMERA.isGranted(this)) {
+            types |= ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA;
+        }
+        return types;
+    }
+
+    public void setOnVideoCaptureStateListener(OnVideoCaptureStateListener listener) {
+        this.onVideoCaptureStateListener = listener;
+    }
+
+    public boolean isVideoTransmissionEnabled() {
+        return videoTransmissionEnabled
+                && ttclient != null
+                && ((ttclient.getFlags() & ClientFlag.CLIENT_TX_VIDEOCAPTURE) != 0);
+    }
+
+    public boolean isUsingFrontCamera() {
+        if (cameraCapturer != null) {
+            return cameraCapturer.isUsingFrontCamera();
+        }
+        return preferFrontCamera;
+    }
+
+    public int getVideoOutputWidth() {
+        return (cameraCapturer != null) ? cameraCapturer.getOutputWidth() : 480;
+    }
+
+    public int getVideoOutputHeight() {
+        return (cameraCapturer != null) ? cameraCapturer.getOutputHeight() : 640;
+    }
+
+    public boolean hasMultipleCameras() {
+        CameraVideoCapturer cap = (cameraCapturer != null)
+                ? cameraCapturer
+                : new CameraVideoCapturer(this, new CameraVideoCapturer.FrameConsumer() {
+                    @Override public void onI420Frame(byte[] i420Data, int width, int height) {}
+                    @Override public void onCameraError(String reason) {}
+                });
+        return cap.hasMultipleCameras();
+    }
+
+    public void setLocalPreviewSurface(Surface surface) {
+        if (cameraCapturer != null) {
+            cameraCapturer.setPreviewSurface(surface);
+        }
+    }
+
+    public boolean startVideoCapture(boolean frontCamera, Surface previewSurface) {
+        if (ttclient == null || !Permissions.CAMERA.isGranted(this)) {
+            return false;
+        }
+        if (ttclient.getMyChannelID() <= 0) {
+            return false;
+        }
+
+        stopVideoCapture();
+        preferFrontCamera = frontCamera;
+
+        CameraVideoCapturer capturer = new CameraVideoCapturer(this, new CameraVideoCapturer.FrameConsumer() {
+            @Override
+            public void onI420Frame(byte[] i420Data, int width, int height) {
+                TeamTalkBase client = ttclient;
+                if (videoTransmissionEnabled && client != null) {
+                    client.pushVideoCaptureFrame(i420Data, width, height);
+                }
+            }
+
+            @Override
+            public void onCameraError(String reason) {
+                Log.w(TAG, "Camera capture stopped due to error: " + reason);
+                reconnectHandler.post(TeamTalkService.this::stopVideoCapture);
+            }
+        });
+
+        if (!capturer.prepare(frontCamera)) {
+            return false;
+        }
+
+        VideoFormat vidfmt = new VideoFormat();
+        vidfmt.nWidth = capturer.getOutputWidth();
+        vidfmt.nHeight = capturer.getOutputHeight();
+        vidfmt.nFPS_Numerator = capturer.getTargetFps();
+        vidfmt.nFPS_Denominator = 1;
+        vidfmt.picFourCC = FourCC.FOURCC_I420;
+
+        String devId = capturer.isUsingFrontCamera() ? "android:front" : "android:back";
+        if (!ttclient.initVideoCaptureDevice(devId, vidfmt)) {
+            Log.e(TAG, "initVideoCaptureDevice failed for " + devId + " " + vidfmt.nWidth + "x" + vidfmt.nHeight);
+            return false;
+        }
+
+        VideoCodec vidcodec = new VideoCodec();
+        vidcodec.nCodec = Codec.WEBM_VP8_CODEC;
+        vidcodec.webm_vp8.nRcTargetBitrate = 800;
+
+        if (!ttclient.startVideoCaptureTransmission(vidcodec)) {
+            Log.e(TAG, "startVideoCaptureTransmission failed");
+            ttclient.closeVideoCaptureDevice();
+            return false;
+        }
+
+        videoTransmissionEnabled = true;
+        cameraCapturer = capturer;
+        if (widget != null) {
+            displayNotification(true);
+        }
+
+        if (!capturer.start(previewSurface)) {
+            stopVideoCapture();
+            return false;
+        }
+
+        notifyVideoStateChanged();
+        return true;
+    }
+
+    public boolean switchCamera(Surface previewSurface) {
+        if (!isVideoTransmissionEnabled()) {
+            return false;
+        }
+        return startVideoCapture(!isUsingFrontCamera(), previewSurface);
+    }
+
+    public void stopVideoCapture() {
+        boolean wasActive = videoTransmissionEnabled || cameraCapturer != null;
+        videoTransmissionEnabled = false;
+        if (cameraCapturer != null) {
+            cameraCapturer.stop();
+            cameraCapturer = null;
+        }
+        if (ttclient != null) {
+            if ((ttclient.getFlags() & ClientFlag.CLIENT_TX_VIDEOCAPTURE) != 0) {
+                ttclient.stopVideoCaptureTransmission();
+            }
+            if ((ttclient.getFlags() & ClientFlag.CLIENT_VIDEOCAPTURE_READY) != 0) {
+                ttclient.closeVideoCaptureDevice();
+            }
+        }
+        if (wasActive && widget != null) {
+            displayNotification(true);
+        }
+        if (wasActive) {
+            notifyVideoStateChanged();
+        }
+    }
+
+    private void notifyVideoStateChanged() {
+        OnVideoCaptureStateListener listener = onVideoCaptureStateListener;
+        if (listener != null) {
+            boolean active = isVideoTransmissionEnabled();
+            boolean front = isUsingFrontCamera();
+            reconnectHandler.post(() -> listener.onVideoCaptureStateChanged(active, front));
         }
     }
 
@@ -783,7 +967,7 @@ public class TeamTalkService extends Service
     }
 
     void createEventTimer() {
-        eventTimer = new CountDownTimer(10000, 100) {
+        eventTimer = new CountDownTimer(10000, 33) {
             private boolean prevVoiceTransmissionState = isVoiceTransmissionEnabled();
             private boolean prevVoiceActivationState = isVoiceActivationEnabled();
 
@@ -923,7 +1107,7 @@ public class TeamTalkService extends Service
 
     @Override
     public void onConnectionLost() {
-        
+        stopVideoCapture();
         Log.i(TAG, "Connection lost to " + ttserver.ipaddr + ":" + ttserver.tcpport);
         
         activecmds.clear();
@@ -1010,10 +1194,12 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdMyselfKickedFromChannel() {
+        stopVideoCapture();
     }
 
     @Override
     public void onCmdMyselfKickedFromChannel(User kicker) {
+        stopVideoCapture();
         users.put(kicker.nUserID, kicker);
     }
 
