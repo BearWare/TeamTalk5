@@ -202,8 +202,17 @@ public:
     void SetWaterMark(std::size_t max_bytes) { m_water_mark.store(max_bytes); }
     std::size_t GetWaterMark() const { return m_water_mark.load(); }
 
-    // Number of bytes currently queued (like ACE_Message_Queue::message_bytes)
+    // Number of bytes currently queued (like ACE_Message_Queue::message_bytes,
+    // i.e. sum of MsgBlock::Capacity())
     std::size_t BytesQueued() const { return m_bytes_queued.load(); }
+
+    // Total length of the queued blocks, like ACE_Message_Queue::message_length()
+    // ("sum of the message block lengths"): the sum of MsgBlock::Length() sampled
+    // on each Put/PutFront/Get/Flush. MsgBlock::Length() is the block's unread size
+    // in bytes (wr_ptr - rd_ptr), so this is a byte total of unread data — but not
+    // of allocated buffers (that is BytesQueued(), like message_bytes(), which the
+    // water mark checks) and not a block count (that is Size(), like message_count()).
+    std::size_t LengthQueued() const { return m_length_queued.load(); }
 
     // Peek at head block without removing it (like ACE_Message_Queue::peek_dequeue_head);
     // nullptr if empty. Valid until the next Get/Close.
@@ -224,9 +233,11 @@ public:
         auto const len = mb->Capacity();
         if (water_mark != 0 && m_bytes_queued.load() + len > water_mark)
             return false;
+        auto const ulen = mb->Length();
         if (!BlockingQueue::Put(std::move(mb)))
             return false;
         m_bytes_queued.fetch_add(len);
+        m_length_queued.fetch_add(ulen);
         return true;
     }
 
@@ -235,6 +246,7 @@ public:
         if (!BlockingQueue::Get(out, timeout))
             return false;
         m_bytes_queued.fetch_sub(out->Capacity());
+        m_length_queued.fetch_sub(out->Length());
         return true;
     }
 
@@ -242,9 +254,11 @@ public:
     bool PutFront(std::unique_ptr<MsgBlock> mb) override
     {
         auto const len = mb->Capacity();
+        auto const ulen = mb->Length();
         if (!BlockingQueue::PutFront(std::move(mb)))
             return false;
         m_bytes_queued.fetch_add(len);
+        m_length_queued.fetch_add(ulen);
         return true;
     }
 
@@ -252,16 +266,21 @@ public:
     std::deque<std::unique_ptr<MsgBlock>> Flush() override
     {
         auto removed = BlockingQueue::Flush();
-        std::size_t bytes = 0;
+        std::size_t bytes = 0, ulen = 0;
         for (auto const& mb : removed)
+        {
             bytes += mb->Capacity();
+            ulen += mb->Length();
+        }
         m_bytes_queued.fetch_sub(bytes);
+        m_length_queued.fetch_sub(ulen);
         return removed;
     }
 
 private:
     std::atomic<std::size_t> m_water_mark{0};
     std::atomic<std::size_t> m_bytes_queued{0};
+    std::atomic<std::size_t> m_length_queued{0};
 };
 
 #endif

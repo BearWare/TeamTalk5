@@ -1185,11 +1185,11 @@ bool CWMAudioAECCapture::ProcessAudioFrame(const media::AudioFrame& frm)
 
 short* CWMAudioAECCapture::AcquireBuffer()
 {
-     size_t bytes = m_input_queue.BytesQueued();
+     size_t bytes = m_input_queue.LengthQueued();
      bytes -= sizeof(media::AudioFrame) * m_input_queue.Size();
      int duration = PCM16_BYTES_DURATION(bytes, m_streamer->input_channels, m_streamer->samplerate);
      MYTRACE_COND(DEBUG_WINAEC, TTEXT("Acquire echo audio, duration: %d msec. Full %d%%. Bytes %u\n"),
-             duration, 100 * m_input_index / m_input_buffer.size(), unsigned(m_input_queue.BytesQueued()));
+             duration, 100 * m_input_index / m_input_buffer.size(), unsigned(m_input_queue.LengthQueued()));
      
      if (m_resampled_input)
         return m_resampled_input;

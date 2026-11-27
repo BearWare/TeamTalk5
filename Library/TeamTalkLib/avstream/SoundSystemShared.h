@@ -445,11 +445,12 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     const size_t outputbytes = PCM16_BYTES(outputsamples, m_orgstream->channels);
 
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue before: %d msec\n"),
-                                 int(PCM16_BYTES_DURATION(msgq->BytesQueued(), streamer.channels,
+                                 int(PCM16_BYTES_DURATION(msgq->LengthQueued(), streamer.channels,
                                                           streamer.samplerate)));
 
                     // fill up buffer with enough bytes to do a callback
-                    while (msgq->BytesQueued() < reqbytes)
+                    // (ACE_Message_Queue::message_length, i.e. unread bytes, not capacity)
+                    while (msgq->LengthQueued() < reqbytes)
                     {
                         i.first->StreamPlayerCb(*streamer_resam, input, streamer_resam->framesize);
                         int mastervol = m_sndsys->GetMasterVolume(streamer_resam->sndgrpid);
@@ -464,8 +465,8 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     }
 
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue after refill: %d msec. Bytes: %u\n"),
-                                 int(PCM16_BYTES_DURATION(msgq->BytesQueued(), streamer.channels,
-                                                          streamer.samplerate)), unsigned(msgq->BytesQueued()));
+                                 int(PCM16_BYTES_DURATION(msgq->LengthQueued(), streamer.channels,
+                                                          streamer.samplerate)), unsigned(msgq->LengthQueued()));
 
 
                     // copy buffer to callback
@@ -474,7 +475,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     while (copied < reqbytes)
                     {
                         std::unique_ptr<MsgBlock> mb;
-                        if (!msgq->Get(mb))
+                        // non-blocking dequeue like ACE_Message_Queue::dequeue with
+                        // ACE_Time_Value::zero: never block the sound callback thread
+                        if (!msgq->Get(mb, std::chrono::milliseconds(0)))
                         {
                             msgq->Close();
                             break;
@@ -500,7 +503,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     assert(copied == reqbytes);
 
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, TTEXT("Duration of queue after dequeue: %d msec\n"),
-                                 int(PCM16_BYTES_DURATION(msgq->BytesQueued(), streamer.channels,
+                                 int(PCM16_BYTES_DURATION(msgq->LengthQueued(), streamer.channels,
                                                           streamer.samplerate)));
 
                 }

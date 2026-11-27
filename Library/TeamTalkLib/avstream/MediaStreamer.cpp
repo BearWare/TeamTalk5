@@ -280,11 +280,11 @@ uint32_t MediaStreamer::GetMinimumFrameDurationMSec() const
 
 int MediaStreamer::GetQueuedAudioDataSize()
 {
-    // ensure size of m_audio_frames.BytesQueued() is correct,
-    // i.e. substraction of ACE_Message_Block::length() results in
-    // m_audio_frames.BytesQueued() being 0 when
+    // ensure size of m_audio_frames.LengthQueued() is correct,
+    // i.e. substraction of MsgBlock::Length() results in
+    // m_audio_frames.LengthQueued() being 0 when
     // m_audio_frames.Size() is 0.
-    assert(m_audio_frames.Size() || m_audio_frames.BytesQueued() == 0);
+    assert(m_audio_frames.Size() || m_audio_frames.LengthQueued() == 0);
 
     MsgBlock* const mb = m_audio_frames.PeekHead();
     if(mb == nullptr)
@@ -292,12 +292,13 @@ int MediaStreamer::GetQueuedAudioDataSize()
         return 0;
     }
 
-    // calculate if we can build a frame. 'message_length()' is data available
-    // in message queue which has been written but hasn't been read yet.
-    // 'message_bytes()' is total amount of data allocated in the message queue.
+    // calculate if we can build a frame. 'LengthQueued()' (like ACE_Message_Queue::
+    // message_length()) is data available in message queue which has been written
+    // but hasn't been read yet. 'BytesQueued()' (like message_bytes()) is total
+    // amount of data allocated in the message queue.
     size_t hdrs_size = m_audio_frames.Size() * sizeof(AudioFrame);
     //if we have already read some data of a block we need to substract its header
-    int queued_audio_bytes = static_cast<int>(m_audio_frames.BytesQueued());
+    int queued_audio_bytes = static_cast<int>(m_audio_frames.LengthQueued());
     if(mb->RdPtr() != mb->Base())
     {
         hdrs_size -= sizeof(AudioFrame);
@@ -364,7 +365,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     auto* first_frame = AudioFrameFromMsgBlock(*mb);
     MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Checking ts: %u. Queue duration: %u msec, bytes %u\n"),
         curtime - starttime, first_frame->timestamp, queue_duration,
-            unsigned(m_audio_frames.BytesQueued()));
+            unsigned(m_audio_frames.LengthQueued()));
 
     if (W32_GT(first_frame->timestamp, curtime - starttime))
     {
