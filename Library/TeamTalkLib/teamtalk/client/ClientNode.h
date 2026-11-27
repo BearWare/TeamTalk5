@@ -287,6 +287,8 @@ namespace teamtalk {
         bool InitVideoCapture(const tstring& src_id,
                               const media::VideoFormat& cap_format);
         void CloseVideoCapture();
+        bool PushVideoCaptureFrame(const char* frame_data, int frame_len,
+                                   int width, int height);
 
         bool OpenVideoCaptureSession(const VideoCodec& codec);
         void CloseVideoCaptureSession();

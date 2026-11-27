@@ -145,6 +145,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   option (FEATURE_OPENSLES "Build using OpenSL ES as sound system" ON)
   add_feature_info (FEATURE_OPENSLES FEATURE_OPENSLES "OpenSL ES as sound system")
+  option (FEATURE_ANDROID_VIDEO "Build with Android Camera2 video capture bridge" ON)
+  add_feature_info (FEATURE_ANDROID_VIDEO FEATURE_ANDROID_VIDEO "Android Camera2 video capture bridge")
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   option (FEATURE_AUDIOUNIT "Build using AudioUnit as sound system" ON)
   add_feature_info (FEATURE_AUDIOUNIT FEATURE_AUDIOUNIT "AudioUnit as sound system")

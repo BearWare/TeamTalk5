@@ -1146,6 +1146,20 @@ TEAMTALKDLL_API TTBOOL TT_CloseVideoCaptureDevice(IN TTInstance* lpTTInstance)
     return TRUE;
 }
 
+TEAMTALKDLL_API TTBOOL TT_PushVideoCaptureFrame(IN TTInstance* lpTTInstance,
+                                                IN const void* lpFrameBuffer,
+                                                IN INT32 nFrameBufferSize,
+                                                IN INT32 nWidth,
+                                                IN INT32 nHeight)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    if (lpFrameBuffer == nullptr || nFrameBufferSize <= 0 || nWidth <= 0 || nHeight <= 0)
+        return FALSE;
+    return static_cast<TTBOOL>(clientnode->PushVideoCaptureFrame(
+        static_cast<const char*>(lpFrameBuffer), nFrameBufferSize, nWidth, nHeight));
+}
+
 #ifdef WIN32
 TEAMTALKDLL_API TTBOOL TT_PaintVideoFrame(IN HDC hDC,
                                           IN INT32 XDest,

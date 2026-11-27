@@ -2002,8 +2002,10 @@ void setWebMVP8Codec(JNIEnv* env, WebMVP8Codec& webm_vp8, jobject lpWebMVP8Codec
 
     if(conv == N2J)
         env->SetIntField(lpWebMVP8Codec, fid_br, webm_vp8.nRcTargetBitrate);
-    else
+    else {
         webm_vp8.nRcTargetBitrate = env->GetIntField(lpWebMVP8Codec, fid_br);
+        webm_vp8.nEncodeDeadline = WEBM_VPX_DL_REALTIME;
+    }
 }
 
 void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrevention, JConvert conv) {

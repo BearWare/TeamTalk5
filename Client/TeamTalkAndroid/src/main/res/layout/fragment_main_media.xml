@@ -4,11 +4,64 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/toggle_video_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/action_start_video" />
+
+        <Button
+            android:id="@+id/switch_camera_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/action_switch_camera"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/local_camera_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/black"
+        android:visibility="gone" >
+
+        <TextureView
+            android:id="@+id/local_camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/local_camera_preview_desc" />
+
+        <Button
+            android:id="@+id/local_preview_fullscreen_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:text="@string/action_fullscreen_video" />
+    </FrameLayout>
+
     <ExpandableListView
         android:id="@+id/media_elist_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="0dp"
+        android:layout_weight="1" >
     </ExpandableListView>
-
 
 </LinearLayout>

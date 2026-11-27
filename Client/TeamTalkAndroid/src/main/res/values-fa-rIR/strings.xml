@@ -546,4 +546,21 @@
     <string name="online_user_info_ip">آدرس آیْپی</string>
     <string name="online_user_info_client">نام کلاینت</string>
     <string name="text_copy">کپی</string>
+    <string name="permission_camera">امکان ارسال تصویر دوربین بدون دسترسی دوربین وجود ندارد</string>
+    <string name="action_start_video">روشن کردن دوربین</string>
+    <string name="action_stop_video">خاموش کردن دوربین</string>
+    <string name="action_switch_camera">تغییر دوربین (جلو/عقب)</string>
+    <string name="video_started_front">دوربین جلو روشن شد</string>
+    <string name="video_started_back">دوربین عقب روشن شد</string>
+    <string name="video_stopped">دوربین خاموش شد</string>
+    <string name="err_start_video">خطا در روشن کردن دوربین</string>
+    <string name="err_video_not_in_channel">برای روشن کردن دوربین ابتدا وارد یک کانال شوید</string>
+    <string name="local_camera_preview_desc">پیش‌نمایش دوربین شما</string>
+    <string name="action_fullscreen_video">نمایش تمام‌صفحه</string>
+    <string name="action_fullscreen_video_user">نمایش تمام‌صفحه ویدیوی %1$s</string>
+    <string name="action_exit_fullscreen">خروج از تمام‌صفحه</string>
+    <string name="action_video_fill_screen">پر کردن کل صفحه</string>
+    <string name="action_video_fit_screen">اندازه متناسب</string>
+    <string name="fullscreen_self_title">دوربین من</string>
+    <string name="video_stream_ended">ارسال ویدیو پایان یافت</string>
 </resources>

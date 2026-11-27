@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black" >
+
+    <ImageView
+        android:id="@+id/fullscreen_video_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:background="@android:color/black"
+        android:contentDescription="@string/desktop_image" />
+
+    <TextureView
+        android:id="@+id/fullscreen_self_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:contentDescription="@string/local_camera_preview_desc" />
+
+    <TextureView
+        android:id="@+id/fullscreen_pip_preview"
+        android:layout_width="108dp"
+        android:layout_height="144dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="12dp"
+        android:visibility="gone"
+        android:contentDescription="@string/local_camera_preview_desc" />
+
+    <LinearLayout
+        android:id="@+id/fullscreen_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#99000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp" >
+
+        <TextView
+            android:id="@+id/fullscreen_video_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/fullscreen_close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/action_exit_fullscreen" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fullscreen_bottom_bar"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#99000000"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/fullscreen_scale_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:text="@string/action_video_fill_screen" />
+
+        <Button
+            android:id="@+id/fullscreen_toggle_video_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:text="@string/action_start_video" />
+
+        <Button
+            android:id="@+id/fullscreen_switch_camera_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:text="@string/action_switch_camera"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</FrameLayout>

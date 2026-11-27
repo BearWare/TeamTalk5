@@ -41,6 +41,10 @@ using videocapturedevice_t = vidcap::AVFCapture;
 #include "V4L2Capture.h"
 using videocapturedevice_t = V4L2Capture;
 
+#elif defined(ENABLE_ANDROID_VIDEO)
+#include "AndroidVideoCapture.h"
+using videocapturedevice_t = vidcap::AndroidVideoCapture;
+
 #else
 
 #include "codec/MediaUtil.h"

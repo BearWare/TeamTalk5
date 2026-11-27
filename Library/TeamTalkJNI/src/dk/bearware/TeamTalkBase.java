@@ -238,6 +238,8 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     public native boolean closeVideoCaptureDevice();
 
+    public native boolean pushVideoCaptureFrame(byte[] frameBuffer, int width, int height);
+
     public native VideoFrame acquireUserVideoCaptureFrame(int nUserID);
 
 /*

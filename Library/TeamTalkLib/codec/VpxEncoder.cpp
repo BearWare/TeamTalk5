@@ -64,8 +64,19 @@ bool VpxEncoder::Open(int width, int height, int target_bitrate, int fps)
 
     m_cfg.g_w = width;
     m_cfg.g_h = height;
-    m_cfg.g_error_resilient = VPX_ERROR_RESILIENT_DEFAULT;
+    m_cfg.g_lag_in_frames = 0;
+    m_cfg.g_error_resilient = VPX_ERROR_RESILIENT_DEFAULT | VPX_ERROR_RESILIENT_PARTITIONS;
     m_cfg.g_threads = 4;
+    m_cfg.rc_end_usage = VPX_CBR;
+    m_cfg.rc_min_quantizer = 4;
+    m_cfg.rc_max_quantizer = 48;
+    m_cfg.rc_undershoot_pct = 100;
+    m_cfg.rc_overshoot_pct = 15;
+    m_cfg.rc_buf_sz = 1000;
+    m_cfg.rc_buf_initial_sz = 500;
+    m_cfg.rc_buf_optimal_sz = 600;
+    m_cfg.kf_mode = VPX_KF_AUTO;
+    m_cfg.kf_max_dist = static_cast<unsigned int>((fps > 0) ? (fps * 2) : 30);
     if(target_bitrate != 0)
         m_cfg.rc_target_bitrate = target_bitrate;
     m_cfg.g_timebase.num = 1;
@@ -73,6 +84,13 @@ bool VpxEncoder::Open(int width, int height, int target_bitrate, int fps)
 
     ret = vpx_codec_enc_init(&m_codec, enc_interface, &m_cfg, 0);
     assert(ret == VPX_CODEC_OK);
+    if(ret == VPX_CODEC_OK)
+    {
+        vpx_codec_control(&m_codec, VP8E_SET_CPUUSED, 6);
+        vpx_codec_control(&m_codec, VP8E_SET_STATIC_THRESHOLD, 1);
+        vpx_codec_control(&m_codec, VP8E_SET_NOISE_SENSITIVITY, 1);
+        vpx_codec_control(&m_codec, VP8E_SET_MAX_INTRA_BITRATE_PCT, 250);
+    }
     return ret == VPX_CODEC_OK;
 }
 

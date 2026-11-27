@@ -25,6 +25,7 @@ package dk.bearware.gui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -34,6 +35,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.SurfaceTexture;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -61,10 +64,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -156,6 +162,7 @@ extends AppCompatActivity
         OnMenuItemClickListener,
         SensorEventListener,
         OnVoiceTransmissionToggleListener,
+        TeamTalkService.OnVideoCaptureStateListener,
         ClientEventListener.OnConnectionLostListener,
         ClientEventListener.OnCmdProcessingListener,
         ClientEventListener.OnCmdMyselfLoggedInListener,
@@ -248,6 +255,18 @@ extends AppCompatActivity
 
     private Context ctx;
     private PrefsHelper prefs;
+    private Surface localPreviewSurface;
+    private Surface fullscreenSelfSurface;
+    private Surface fullscreenPipSurface;
+    private Dialog fullscreenDialog;
+    private boolean fullscreenSelfMode;
+    private boolean fullscreenFillScreen;
+    private ImageView fullscreenVideoImage;
+    private TextureView fullscreenSelfPreviewView;
+    private TextureView fullscreenPipPreviewView;
+    private Button fullscreenScaleBtn;
+    private Button fullscreenToggleVideoBtn;
+    private Button fullscreenSwitchCameraBtn;
 
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
@@ -314,6 +333,20 @@ extends AppCompatActivity
         filesAdapter = new FileListAdapter(this, this, accessibilityAssistant);
         textmsgAdapter = new TextMessageAdapter(this, accessibilityAssistant);
         mediaAdapter = new MediaAdapter(this.getBaseContext());
+        mediaAdapter.setOnMediaFullscreenListener(new MediaAdapter.OnMediaFullscreenListener() {
+            @Override
+            public void onRequestFullscreen(int sessionId, String displayName) {
+                openRemoteVideoFullscreen(sessionId, displayName);
+            }
+
+            @Override
+            public void onFullscreenSessionEnded() {
+                if (fullscreenDialog != null && fullscreenDialog.isShowing() && !fullscreenSelfMode) {
+                    announceVideoStatus(R.string.video_stream_ended);
+                    closeFullscreenVideo();
+                }
+            }
+        });
         
         // Create the adapter that will return a fragment for each of the five
         // primary sections of the app.
@@ -363,6 +396,12 @@ extends AppCompatActivity
         boolean isJoinable = curchannel != null && getClient().getMyChannelID() != curchannel.nChannelID && curchannel.nMaxUsers > 0;
         boolean isLeaveable = getClient().getMyChannelID() > 0;
         boolean isMyChannel = curchannel != null && getClient().getMyChannelID() == curchannel.nChannelID;
+        boolean isVideoTx = getService().isVideoTransmissionEnabled();
+        boolean canVideoTx = isLeaveable && ((myuseraccount.uUserRights & UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE) != UserRight.USERRIGHT_NONE);
+        menu.findItem(R.id.action_toggle_video).setEnabled(canVideoTx || isVideoTx).setVisible(canVideoTx || isVideoTx);
+        menu.findItem(R.id.action_toggle_video).setTitle(isVideoTx ? R.string.action_stop_video : R.string.action_start_video);
+        boolean canSwitchCam = isVideoTx && getService().hasMultipleCameras();
+        menu.findItem(R.id.action_switch_camera).setEnabled(canSwitchCam).setVisible(canSwitchCam);
         menu.findItem(R.id.action_pause).setEnabled(isStreaming).setVisible(isStreaming);
         menu.findItem(R.id.action_pause).setTitle(isPaused ? R.string.action_resume : R.string.action_pause);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
@@ -399,6 +438,10 @@ extends AppCompatActivity
             alert.setNegativeButton(android.R.string.no, null);
             alert.setView(input);
             alert.show();
+        } else if (itemId == R.id.action_toggle_video) {
+            toggleVideoTransmission();
+        } else if (itemId == R.id.action_switch_camera) {
+            switchCameraTransmission();
         } else if (itemId == R.id.action_stream) {
             int flags = getClient().getFlags();
             if ((flags & ClientFlag.CLIENT_STREAM_AUDIO) == ClientFlag.CLIENT_STREAM_AUDIO || (flags & ClientFlag.CLIENT_STREAM_VIDEO) == ClientFlag.CLIENT_STREAM_VIDEO) {
@@ -730,6 +773,7 @@ extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
+        closeFullscreenVideo();
         super.onDestroy();
 
         if (audioDeviceCallback != null)
@@ -964,6 +1008,9 @@ extends AppCompatActivity
     }
 
     private void leaveChannel() {
+        if ((mConnection != null) && mConnection.isBound()) {
+            getService().stopVideoCapture();
+        }
         getClient().doLeaveChannel();
         accessibilityAssistant.lockEvents();
         channelsAdapter.notifyDataSetChanged();
@@ -1189,6 +1236,12 @@ private EditText newmsg;
 
     public static class MediaSectionFragment extends Fragment {
         MainActivity mainActivity;
+        Button toggleVideoBtn;
+        Button switchCameraBtn;
+        View localPreviewContainer;
+        Button localPreviewFullscreenBtn;
+        TextureView localPreviewView;
+        Surface ownedSurface;
 
         public MediaSectionFragment() {
         }
@@ -1205,9 +1258,68 @@ private EditText newmsg;
             View rootView = inflater.inflate(R.layout.fragment_main_media, container, false);
             mainActivity.accessibilityAssistant.registerPage(rootView, SectionsPagerAdapter.MEDIA_PAGE);
 
+            toggleVideoBtn = rootView.findViewById(R.id.toggle_video_btn);
+            switchCameraBtn = rootView.findViewById(R.id.switch_camera_btn);
+            localPreviewContainer = rootView.findViewById(R.id.local_camera_preview_container);
+            localPreviewFullscreenBtn = rootView.findViewById(R.id.local_preview_fullscreen_btn);
+            localPreviewView = rootView.findViewById(R.id.local_camera_preview);
+
+            toggleVideoBtn.setOnClickListener(v -> mainActivity.toggleVideoTransmission());
+            switchCameraBtn.setOnClickListener(v -> mainActivity.switchCameraTransmission());
+            localPreviewView.setOnClickListener(v -> mainActivity.openSelfPreviewFullscreen());
+            localPreviewFullscreenBtn.setOnClickListener(v -> mainActivity.openSelfPreviewFullscreen());
+
+            localPreviewView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+                @Override
+                public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surfaceTexture, int width, int height) {
+                    if (ownedSurface != null) {
+                        ownedSurface.release();
+                    }
+                    ownedSurface = new Surface(surfaceTexture);
+                    mainActivity.configurePreviewTransform(localPreviewView, width, height, false);
+                    mainActivity.onLocalPreviewSurfaceChanged(ownedSurface);
+                }
+
+                @Override
+                public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surfaceTexture, int width, int height) {
+                    mainActivity.configurePreviewTransform(localPreviewView, width, height, false);
+                }
+
+                @Override
+                public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surfaceTexture) {
+                    mainActivity.onLocalPreviewSurfaceChanged(null);
+                    if (ownedSurface != null) {
+                        ownedSurface.release();
+                        ownedSurface = null;
+                    }
+                    return true;
+                }
+
+                @Override
+                public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surfaceTexture) {
+                }
+            });
+
             ExpandableListView mediaview = rootView.findViewById(R.id.media_elist_view);
             mediaview.setAdapter(mainActivity.getMediaAdapter());
+            mainActivity.refreshVideoUi();
             return rootView;
+        }
+
+        void updateVideoControls(boolean active, boolean hasMultipleCameras) {
+            if (toggleVideoBtn != null) {
+                toggleVideoBtn.setText(active ? R.string.action_stop_video : R.string.action_start_video);
+                toggleVideoBtn.setContentDescription(getString(active ? R.string.action_stop_video : R.string.action_start_video));
+            }
+            if (switchCameraBtn != null) {
+                switchCameraBtn.setVisibility((active && hasMultipleCameras) ? View.VISIBLE : View.GONE);
+            }
+            if (localPreviewContainer != null) {
+                localPreviewContainer.setVisibility(active ? View.VISIBLE : View.GONE);
+            }
+            if (active && localPreviewView != null && localPreviewView.getWidth() > 0 && localPreviewView.getHeight() > 0) {
+                mainActivity.configurePreviewTransform(localPreviewView, localPreviewView.getWidth(), localPreviewView.getHeight(), false);
+            }
         }
     }
 
@@ -2059,6 +2171,8 @@ private EditText newmsg;
         service.getEventHandler().registerOnVoiceActivation(this, true);
 
         service.setOnVoiceTransmissionToggleListener(this);
+        service.setOnVideoCaptureStateListener(this);
+        refreshVideoUi();
 
         adjustSoundSystem();
 
@@ -2104,6 +2218,7 @@ private EditText newmsg;
         if (wakeLock.isHeld())
             wakeLock.release();
         service.setOnVoiceTransmissionToggleListener(null);
+        service.setOnVideoCaptureStateListener(null);
 
         service.getEventHandler().unregisterListener(this);
 
@@ -2159,6 +2274,10 @@ private EditText newmsg;
             case BLUETOOTH:
                 if ((mConnection != null) && mConnection.isBound())
                     getService().watchBluetoothHeadset();
+                break;
+            case CAMERA:
+                if ((mConnection != null) && mConnection.isBound())
+                    startVideoCaptureInternal(getService().isUsingFrontCamera());
                 break;
             default:
                 break;
@@ -2593,5 +2712,348 @@ private EditText newmsg;
         int sound = sounds.get(bVoiceActive ? SOUND_VOXON : SOUND_VOXOFF);
         if (sound != 0)
             audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+    }
+
+    private void announceVideoStatus(int msgResId) {
+        String msg = getString(msgResId);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        if (ttsWrapper != null) {
+            ttsWrapper.speak(msg);
+        }
+    }
+
+    private Surface getActivePreviewSurface() {
+        if (fullscreenSelfSurface != null && fullscreenSelfSurface.isValid()) {
+            return fullscreenSelfSurface;
+        }
+        if (fullscreenPipSurface != null && fullscreenPipSurface.isValid()) {
+            return fullscreenPipSurface;
+        }
+        return (localPreviewSurface != null && localPreviewSurface.isValid()) ? localPreviewSurface : null;
+    }
+
+    private void syncPreviewSurfaceToService() {
+        if ((mConnection != null) && mConnection.isBound()) {
+            getService().setLocalPreviewSurface(getActivePreviewSurface());
+        }
+    }
+
+    void onLocalPreviewSurfaceChanged(Surface surface) {
+        localPreviewSurface = surface;
+        syncPreviewSurfaceToService();
+    }
+
+    void configurePreviewTransform(TextureView view, int viewW, int viewH, boolean centerCrop) {
+        if (view == null || viewW <= 0 || viewH <= 0) {
+            return;
+        }
+        int videoW = 480;
+        int videoH = 640;
+        if ((mConnection != null) && mConnection.isBound()) {
+            videoW = getService().getVideoOutputWidth();
+            videoH = getService().getVideoOutputHeight();
+        }
+        if (videoW <= 0 || videoH <= 0) {
+            return;
+        }
+        float viewAspect = (float) viewW / viewH;
+        float videoAspect = (float) videoW / videoH;
+        float scaleX = 1.0f;
+        float scaleY = 1.0f;
+        if (centerCrop) {
+            if (viewAspect > videoAspect) {
+                scaleY = viewAspect / videoAspect;
+            } else {
+                scaleX = videoAspect / viewAspect;
+            }
+        } else {
+            if (viewAspect > videoAspect) {
+                scaleX = videoAspect / viewAspect;
+            } else {
+                scaleY = viewAspect / videoAspect;
+            }
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(scaleX, scaleY, viewW / 2.0f, viewH / 2.0f);
+        view.setTransform(matrix);
+    }
+
+    void openRemoteVideoFullscreen(int sessionId, String displayName) {
+        showFullscreenDialog(false, sessionId, displayName);
+    }
+
+    void openSelfPreviewFullscreen() {
+        if ((mConnection == null) || !mConnection.isBound() || !getService().isVideoTransmissionEnabled()) {
+            return;
+        }
+        showFullscreenDialog(true, 0, getString(R.string.fullscreen_self_title));
+    }
+
+    private void showFullscreenDialog(boolean selfMode, int sessionId, String title) {
+        closeFullscreenVideo();
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+
+        fullscreenSelfMode = selfMode;
+        fullscreenFillScreen = false;
+
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_fullscreen_video);
+        Window win = dialog.getWindow();
+        if (win != null) {
+            win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            win.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+        TextView titleView = dialog.findViewById(R.id.fullscreen_video_title);
+        Button closeBtn = dialog.findViewById(R.id.fullscreen_close_btn);
+        fullscreenVideoImage = dialog.findViewById(R.id.fullscreen_video_image);
+        fullscreenSelfPreviewView = dialog.findViewById(R.id.fullscreen_self_preview);
+        fullscreenPipPreviewView = dialog.findViewById(R.id.fullscreen_pip_preview);
+        fullscreenScaleBtn = dialog.findViewById(R.id.fullscreen_scale_btn);
+        fullscreenToggleVideoBtn = dialog.findViewById(R.id.fullscreen_toggle_video_btn);
+        fullscreenSwitchCameraBtn = dialog.findViewById(R.id.fullscreen_switch_camera_btn);
+
+        titleView.setText(title);
+        closeBtn.setOnClickListener(v -> closeFullscreenVideo());
+
+        fullscreenScaleBtn.setOnClickListener(v -> {
+            fullscreenFillScreen = !fullscreenFillScreen;
+            applyFullscreenScaleMode();
+        });
+        fullscreenToggleVideoBtn.setOnClickListener(v -> toggleVideoTransmission());
+        fullscreenSwitchCameraBtn.setOnClickListener(v -> switchCameraTransmission());
+
+        if (selfMode) {
+            fullscreenVideoImage.setVisibility(View.GONE);
+            fullscreenPipPreviewView.setVisibility(View.GONE);
+            fullscreenSelfPreviewView.setVisibility(View.VISIBLE);
+            fullscreenSelfPreviewView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+                @Override
+                public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surfaceTexture, int width, int height) {
+                    if (fullscreenSelfSurface != null) {
+                        fullscreenSelfSurface.release();
+                    }
+                    fullscreenSelfSurface = new Surface(surfaceTexture);
+                    configurePreviewTransform(fullscreenSelfPreviewView, width, height, fullscreenFillScreen);
+                    syncPreviewSurfaceToService();
+                }
+
+                @Override
+                public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surfaceTexture, int width, int height) {
+                    configurePreviewTransform(fullscreenSelfPreviewView, width, height, fullscreenFillScreen);
+                }
+
+                @Override
+                public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surfaceTexture) {
+                    if (fullscreenSelfSurface != null) {
+                        fullscreenSelfSurface.release();
+                        fullscreenSelfSurface = null;
+                    }
+                    syncPreviewSurfaceToService();
+                    return true;
+                }
+
+                @Override
+                public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surfaceTexture) {
+                }
+            });
+        } else {
+            fullscreenSelfPreviewView.setVisibility(View.GONE);
+            fullscreenVideoImage.setVisibility(View.VISIBLE);
+            fullscreenVideoImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            fullscreenPipPreviewView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+                @Override
+                public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surfaceTexture, int width, int height) {
+                    if (fullscreenPipSurface != null) {
+                        fullscreenPipSurface.release();
+                    }
+                    fullscreenPipSurface = new Surface(surfaceTexture);
+                    configurePreviewTransform(fullscreenPipPreviewView, width, height, true);
+                    syncPreviewSurfaceToService();
+                }
+
+                @Override
+                public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surfaceTexture, int width, int height) {
+                    configurePreviewTransform(fullscreenPipPreviewView, width, height, true);
+                }
+
+                @Override
+                public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surfaceTexture) {
+                    if (fullscreenPipSurface != null) {
+                        fullscreenPipSurface.release();
+                        fullscreenPipSurface = null;
+                    }
+                    syncPreviewSurfaceToService();
+                    return true;
+                }
+
+                @Override
+                public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surfaceTexture) {
+                }
+            });
+            mediaAdapter.attachFullscreenView(sessionId, fullscreenVideoImage);
+        }
+
+        dialog.setOnDismissListener(d -> {
+            mediaAdapter.detachFullscreenView();
+            if (fullscreenSelfSurface != null) {
+                fullscreenSelfSurface.release();
+                fullscreenSelfSurface = null;
+            }
+            if (fullscreenPipSurface != null) {
+                fullscreenPipSurface.release();
+                fullscreenPipSurface = null;
+            }
+            fullscreenDialog = null;
+            fullscreenVideoImage = null;
+            fullscreenSelfPreviewView = null;
+            fullscreenPipPreviewView = null;
+            fullscreenScaleBtn = null;
+            fullscreenToggleVideoBtn = null;
+            fullscreenSwitchCameraBtn = null;
+            syncPreviewSurfaceToService();
+        });
+
+        fullscreenDialog = dialog;
+        applyFullscreenScaleMode();
+        dialog.show();
+        updateFullscreenDialogControls();
+    }
+
+    private void applyFullscreenScaleMode() {
+        if (fullscreenVideoImage != null && !fullscreenSelfMode) {
+            fullscreenVideoImage.setScaleType(
+                    fullscreenFillScreen ? ImageView.ScaleType.CENTER_CROP : ImageView.ScaleType.FIT_CENTER);
+        }
+        if (fullscreenSelfPreviewView != null && fullscreenSelfMode
+                && fullscreenSelfPreviewView.getWidth() > 0 && fullscreenSelfPreviewView.getHeight() > 0) {
+            configurePreviewTransform(
+                    fullscreenSelfPreviewView,
+                    fullscreenSelfPreviewView.getWidth(),
+                    fullscreenSelfPreviewView.getHeight(),
+                    fullscreenFillScreen);
+        }
+        if (fullscreenScaleBtn != null) {
+            int labelRes = fullscreenFillScreen ? R.string.action_video_fit_screen : R.string.action_video_fill_screen;
+            fullscreenScaleBtn.setText(labelRes);
+            fullscreenScaleBtn.setContentDescription(getString(labelRes));
+        }
+    }
+
+    private void updateFullscreenDialogControls() {
+        if (fullscreenDialog == null || !fullscreenDialog.isShowing()) {
+            return;
+        }
+        boolean active = (mConnection != null) && mConnection.isBound() && getService().isVideoTransmissionEnabled();
+        boolean multi = (mConnection != null) && mConnection.isBound() && getService().hasMultipleCameras();
+        if (fullscreenSelfMode && !active) {
+            closeFullscreenVideo();
+            return;
+        }
+        if (fullscreenToggleVideoBtn != null) {
+            int res = active ? R.string.action_stop_video : R.string.action_start_video;
+            fullscreenToggleVideoBtn.setText(res);
+            fullscreenToggleVideoBtn.setContentDescription(getString(res));
+        }
+        if (fullscreenSwitchCameraBtn != null) {
+            fullscreenSwitchCameraBtn.setVisibility((active && multi) ? View.VISIBLE : View.GONE);
+        }
+        if (fullscreenPipPreviewView != null && !fullscreenSelfMode) {
+            fullscreenPipPreviewView.setVisibility(active ? View.VISIBLE : View.GONE);
+            if (active && fullscreenPipPreviewView.getWidth() > 0 && fullscreenPipPreviewView.getHeight() > 0) {
+                configurePreviewTransform(fullscreenPipPreviewView,
+                        fullscreenPipPreviewView.getWidth(),
+                        fullscreenPipPreviewView.getHeight(),
+                        true);
+            }
+        }
+        if (fullscreenSelfPreviewView != null && fullscreenSelfMode
+                && fullscreenSelfPreviewView.getWidth() > 0 && fullscreenSelfPreviewView.getHeight() > 0) {
+            configurePreviewTransform(fullscreenSelfPreviewView,
+                    fullscreenSelfPreviewView.getWidth(),
+                    fullscreenSelfPreviewView.getHeight(),
+                    fullscreenFillScreen);
+        }
+    }
+
+    void closeFullscreenVideo() {
+        if (fullscreenDialog != null) {
+            Dialog d = fullscreenDialog;
+            fullscreenDialog = null;
+            if (d.isShowing()) {
+                d.dismiss();
+            }
+        }
+    }
+
+    void toggleVideoTransmission() {
+        if ((mConnection == null) || !mConnection.isBound()) {
+            return;
+        }
+        if (getService().isVideoTransmissionEnabled()) {
+            getService().stopVideoCapture();
+            if (sounds.get(SOUND_VOICETXOFF) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOICETXOFF), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+            announceVideoStatus(R.string.video_stopped);
+            refreshVideoUi();
+            return;
+        }
+        if (getClient().getMyChannelID() <= 0) {
+            announceVideoStatus(R.string.err_video_not_in_channel);
+            return;
+        }
+        if (Permissions.CAMERA.request(this)) {
+            startVideoCaptureInternal(getService().isUsingFrontCamera());
+        }
+    }
+
+    private void startVideoCaptureInternal(boolean frontCamera) {
+        if ((mConnection == null) || !mConnection.isBound()) {
+            return;
+        }
+        if (getService().startVideoCapture(frontCamera, getActivePreviewSurface())) {
+            if (sounds.get(SOUND_VOICETXON) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOICETXON), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+            announceVideoStatus(getService().isUsingFrontCamera()
+                    ? R.string.video_started_front
+                    : R.string.video_started_back);
+        } else {
+            announceVideoStatus(R.string.err_start_video);
+        }
+        refreshVideoUi();
+    }
+
+    void switchCameraTransmission() {
+        if ((mConnection == null) || !mConnection.isBound() || !getService().isVideoTransmissionEnabled()) {
+            return;
+        }
+        if (getService().switchCamera(getActivePreviewSurface())) {
+            announceVideoStatus(getService().isUsingFrontCamera()
+                    ? R.string.video_started_front
+                    : R.string.video_started_back);
+        } else {
+            announceVideoStatus(R.string.err_start_video);
+        }
+        refreshVideoUi();
+    }
+
+    void refreshVideoUi() {
+        invalidateOptionsMenu();
+        if (mediaFragment != null && mediaFragment.isAdded()) {
+            boolean active = (mConnection != null) && mConnection.isBound() && getService().isVideoTransmissionEnabled();
+            boolean multi = (mConnection != null) && mConnection.isBound() && getService().hasMultipleCameras();
+            mediaFragment.updateVideoControls(active, multi);
+        }
+        updateFullscreenDialogControls();
+    }
+
+    @Override
+    public void onVideoCaptureStateChanged(boolean active, boolean frontCamera) {
+        refreshVideoUi();
     }
 }

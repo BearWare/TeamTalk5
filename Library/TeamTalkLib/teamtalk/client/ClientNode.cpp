@@ -3598,6 +3598,15 @@ void ClientNode::CloseVideoCapture()
     m_flags &= ~CLIENT_VIDEOCAPTURE_READY;
 }
 
+bool ClientNode::PushVideoCaptureFrame(const char* frame_data, int frame_len,
+                                       int width, int height)
+{
+    ASSERT_CLIENTNODE_LOCKED(this);
+    if (!m_vidcap || ((m_flags & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED))
+        return false;
+    return m_vidcap->PushVideoFrame(frame_data, frame_len, width, height);
+}
+
 bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
 {
     ASSERT_CLIENTNODE_LOCKED(this);

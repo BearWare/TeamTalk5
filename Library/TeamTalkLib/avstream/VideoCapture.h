@@ -70,6 +70,9 @@ namespace vidcap {
 
         virtual bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) = 0;
         virtual void UnregisterVideoFormat(media::FourCC fcc) = 0;
+
+        virtual bool PushVideoFrame(const char* /*frame_data*/, int /*frame_len*/,
+                                    int /*width*/, int /*height*/) { return false; }
     };
 } // namespace vidcap
 
