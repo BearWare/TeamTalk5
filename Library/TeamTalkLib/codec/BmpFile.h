@@ -24,6 +24,7 @@
 #if !defined(BMPFILE_H)
 #define BMPFILE_H
 
+#include "mystd/MyStd.h"
 #include "MediaUtil.h"
 
 #include <vector>

@@ -35,9 +35,6 @@
 #include "teamtalk/client/StreamPlayers.h"
 #include "teamtalk/client/VoiceLogger.h"
 
-#include <ace/Message_Block.h>
-#include <ace/Time_Value.h>
-
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
@@ -1541,7 +1538,7 @@ void ClientUser::SetDirtyProps()
 }
 
 
-ACE_Message_Block* ClientUser::GetVideoCaptureFrame(guard_t& g)
+std::unique_ptr<MsgBlock> ClientUser::GetVideoCaptureFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
     // copy while 'g' is held so the reactor thread cannot delete the
@@ -1561,7 +1558,7 @@ ACE_Message_Block* ClientUser::GetVideoCaptureFrame(guard_t& g)
         //    return m_vidcap_player->GetNextFrame();
         //}
         g.release(); //don't hold lock while decoding
-        ACE_Message_Block* mb = player->GetNextFrame();
+        auto mb = player->GetNextFrame();
         g.acquire();
         return mb;
     }
@@ -1596,7 +1593,7 @@ void ClientUser::CloseVideoCapturePlayer()
 #endif
 }
 
-ACE_Message_Block* ClientUser::GetVideoFileFrame(guard_t& g)
+std::unique_ptr<MsgBlock> ClientUser::GetVideoFileFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
     // copy while 'g' is held so the reactor thread cannot delete the
@@ -1608,7 +1605,7 @@ ACE_Message_Block* ClientUser::GetVideoFileFrame(guard_t& g)
            (m_audiofile_player->GetPlayedPacketNo() != 0u);
         uint32_t audio_tm = sync ? m_audiofile_player->GetPlayedPacketTime() : 0;
         g.release(); //don't hold lock while decoding
-        ACE_Message_Block* mb = player->GetNextFrame(sync ? &audio_tm : nullptr);
+        auto mb = player->GetNextFrame(sync ? &audio_tm : nullptr);
         g.acquire();
         return mb;
     }

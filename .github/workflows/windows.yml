@@ -114,7 +114,6 @@ jobs:
       working-directory: ${{runner.workspace}}
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
-        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
@@ -296,7 +295,6 @@ jobs:
       working-directory: ${{runner.workspace}}
       run: >-
         cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
-        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF

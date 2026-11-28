@@ -42,7 +42,6 @@
 #include "codec/VpxDecoder.h"
 #endif
 
-#include <ace/Message_Block.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -208,7 +207,7 @@ namespace teamtalk {
         ~WebMPlayer();
 
         bool AddPacket(const VideoPacket& packet, size_t* n_packets = nullptr);
-        ACE_Message_Block* GetNextFrame(const uint32_t* timestamp = nullptr);
+        std::unique_ptr<MsgBlock> GetNextFrame(const uint32_t* timestamp = nullptr);
         bool GetNextFrameTime(uint32_t* tm);
 
         static VideoCodec GetVideoCodec() ;

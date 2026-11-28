@@ -27,9 +27,7 @@
 #include "MediaStreamer.h"
 #include "AudioResampler.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
-
-#include <ace/Message_Block.h>
+#include "mystd/MyQueue.h"
 
 #include <cstdint>
 #include <functional>
@@ -70,13 +68,13 @@ private:
 
     // @return True = Flush
     bool ProcessResample();
-    msg_queue_t m_resample_frames;
+    MsgQueue m_resample_frames;
     media::AudioFormat m_inputfmt;
     audio_resampler_t m_resampler;
     std::vector<short> m_resamplebuffer;
 
     bool Submit(const media::AudioFrame& frame);
-    bool Submit(ACE_Message_Block* mb);
+    bool Submit(std::unique_ptr<MsgBlock> mb);
     void UpdateTimeStamp(media::AudioFrame& frame);
     int64_t m_sampleindex = 0;
     int m_streamid;

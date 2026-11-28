@@ -24,7 +24,6 @@
 #include "ServerChannel.h"
 
 #include "ServerUser.h"
-#include "myace/MyACE.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/TTAssert.h"
 

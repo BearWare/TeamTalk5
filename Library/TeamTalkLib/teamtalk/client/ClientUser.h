@@ -27,17 +27,12 @@
 #include "ClientChannel.h"
 #include "DesktopShare.h"
 #include "StreamPlayers.h"
-
 #include "avstream/SoundSystem.h"
 #include "codec/MediaUtil.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHelper.h"
 #include "teamtalk/PacketLayout.h"
-
-#include "myace/MyACE.h"
 #include "teamtalk/User.h"
-
-#include <ace/Message_Block.h>
 
 #include <array>
 #include <cstdint>
@@ -45,6 +40,7 @@
 #include <memory>
 #include <queue>
 #include <set>
+#include "myace/MyACE.h"
 
 constexpr auto DESKTOPINPUT_QUEUE_MAX_SIZE = 100;
 constexpr auto DESKTOPINPUT_MAX_RTX_PACKETS = 16;
@@ -201,12 +197,12 @@ namespace teamtalk {
         void ResetAudioFilePlayer();
 
         // 'g' is the held reactor lock. It is released while decoding.
-        ACE_Message_Block* GetVideoCaptureFrame(guard_t& g);
+        std::unique_ptr<MsgBlock> GetVideoCaptureFrame(guard_t& g);
         bool GetVideoCaptureCodec(VideoCodec& codec) const;
         void CloseVideoCapturePlayer();
 
         // 'g' is the held reactor lock. It is released while decoding.
-        ACE_Message_Block* GetVideoFileFrame(guard_t& g);
+        std::unique_ptr<MsgBlock> GetVideoFileFrame(guard_t& g);
         bool GetVideoFileCodec(VideoCodec& codec) const;
         void CloseVideoFilePlayer();
 

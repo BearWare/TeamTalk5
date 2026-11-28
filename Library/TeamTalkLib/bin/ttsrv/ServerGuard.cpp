@@ -27,7 +27,6 @@
 #include "ServerConfig.h"
 #include "ServerXML.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
 #include "myace/MyINet.h"
 #include "settings/Settings.h"
 #include "teamtalk/Log.h"

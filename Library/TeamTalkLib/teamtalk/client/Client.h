@@ -102,7 +102,7 @@ namespace teamtalk {
             }
             else // Somethings gone wrong, so close down...
             {
-#if defined (ACE_WIN32)
+#if defined (WIN32)
                 // Win32 (at least prior to Windows 2000) has a timing problem.
                 // If you check to see if the connection has completed too fast,
                 // it will fail - so wait 35 milliseconds to let it catch up.
@@ -110,7 +110,7 @@ namespace teamtalk {
                 if (svc_handler->peer ().get_remote_addr (raddr) != -1)
                     this->activate_svc_handler (svc_handler);
                 else // do the svc handler close below...
-#endif /* ACE_WIN32 */
+#endif /* WIN32 */
                     svc_handler->close (NORMAL_CLOSE_OPERATION);
             }
         }

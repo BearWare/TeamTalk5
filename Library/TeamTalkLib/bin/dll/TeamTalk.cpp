@@ -26,7 +26,6 @@
 
 #include "Convert.h"
 #include "TTClientMsg.h"
-
 #include "avstream/MediaStreamer.h"
 #include "avstream/SoundLoopback.h"
 #include "avstream/SoundSystem.h"
@@ -34,7 +33,7 @@
 #include "avstream/VideoCapture.h"
 #include "codec/MediaUtil.h"
 #include "codec/WaveFile.h"
-#include "myace/MyACE.h"
+#include "license/Trial.h"
 #include "teamtalk/Channel.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
@@ -47,8 +46,6 @@
 #include "teamtalk/client/ClientNodeBase.h"
 #include "teamtalk/client/ClientUser.h"
 #include "teamtalk/client/DesktopShare.h"
-
-#include "license/Trial.h"
 
 #include <ace/Init_ACE.h>
 
@@ -117,14 +114,14 @@ struct ClientInstance
     std::unique_ptr<TTMsgQueue> eventhandler;
     clientnode_t clientnode;
     std::mutex mutex_video;
-    using video_frames_t = std::map<VideoFrame*, ACE_Message_Block*>;
+    using video_frames_t = std::map<VideoFrame*, std::unique_ptr<MsgBlock>>;
     video_frames_t video_frames;
 
-    VideoFrame* PushVideoFrame(ACE_Message_Block* mb)
+    VideoFrame* PushVideoFrame(std::unique_ptr<MsgBlock> mb)
     {
         auto vid_frame = std::make_unique<VideoFrame>();
         std::scoped_lock const g(mutex_video);
-        video_frames[vid_frame.get()] = mb;
+        video_frames[vid_frame.get()] = std::move(mb);
         return vid_frame.release(); // NOLINT(bugprone-unused-return-value)
     }
     bool RemoveVideoFrame(VideoFrame* vid_frame)
@@ -134,7 +131,6 @@ struct ClientInstance
         TTASSERT(ii != video_frames.end());
         if(ii != video_frames.end())
         {
-            ii->second->release();
             delete ii->first;
             video_frames.erase(ii);
             return true;
@@ -143,18 +139,17 @@ struct ClientInstance
     }
 
     std::mutex mutex_desktop;
-    using desktopwindows_t = std::map<DesktopWindow*, ACE_Message_Block*>;
+    using desktopwindows_t = std::map<DesktopWindow*, std::unique_ptr<MsgBlock>>;
     desktopwindows_t desktop_windows;
     DesktopWindow* PushDesktopWindow(int buf_size)
     {
-        auto mb = std::make_unique<ACE_Message_Block>(sizeof(DesktopWindow) + buf_size);
-        auto* wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
-        wnd_frame->frameBuffer = mb->rd_ptr() + sizeof(DesktopWindow);
+        auto mb = std::make_unique<MsgBlock>(sizeof(DesktopWindow) + buf_size);
+        auto* wnd_frame = reinterpret_cast<DesktopWindow*>(mb->RdPtr());
+        wnd_frame->frameBuffer = mb->RdPtr() + sizeof(DesktopWindow);
         wnd_frame->nFrameBufferSize = buf_size;
 
         std::scoped_lock const g(mutex_desktop);
-        desktop_windows[wnd_frame] = mb.get();
-        mb.release(); // NOLINT(bugprone-unused-return-value)
+        desktop_windows[wnd_frame] = std::move(mb);
         return wnd_frame;
     }
 
@@ -164,7 +159,6 @@ struct ClientInstance
         auto const ii = desktop_windows.find(desktop_wnd);
         if(ii != desktop_windows.end())
         {
-            ii->second->release();
             desktop_windows.erase(ii);
             return true;
         }
@@ -172,14 +166,14 @@ struct ClientInstance
     }
 
     std::mutex mutex_audblocks;
-    using audio_blocks_t = std::map<AudioBlock*, ACE_Message_Block*>;
+    using audio_blocks_t = std::map<AudioBlock*, std::unique_ptr<MsgBlock>>;
     audio_blocks_t audio_blocks;
 
-    AudioBlock* PushAudioBlock(ACE_Message_Block* mb)
+    AudioBlock* PushAudioBlock(std::unique_ptr<MsgBlock> mb)
     {
         auto audblock = std::make_unique<AudioBlock>();
         std::scoped_lock const g(mutex_audblocks);
-        audio_blocks[audblock.get()] = mb;
+        audio_blocks[audblock.get()] = std::move(mb);
         return audblock.release(); // NOLINT(bugprone-unused-return-value)
     }
 
@@ -190,7 +184,6 @@ struct ClientInstance
         TTASSERT(ii != audio_blocks.end());
         if(ii != audio_blocks.end())
         {
-            ii->second->release();
             delete ii->first;
             audio_blocks.erase(ii);
             return true;
@@ -1235,7 +1228,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
     if (!inst)
         return nullptr;
 
-    ACE_Message_Block* mb = nullptr;
+    std::unique_ptr<MsgBlock> mb;
 
     if(nUserID == 0)
     {
@@ -1254,10 +1247,10 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
 
     if(mb != nullptr)
     {
-        VideoFrame* lpVideoFrame = inst->PushVideoFrame(mb);
+        auto* frm = VideoFrameFromMsgBlock(*mb);
+        VideoFrame* lpVideoFrame = inst->PushVideoFrame(std::move(mb));
         if(lpVideoFrame != nullptr)
         {
-            auto* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
             Convert(*frm, *lpVideoFrame);
             return lpVideoFrame;
         }
@@ -1837,13 +1830,13 @@ TEAMTALKDLL_API AudioBlock* TT_AcquireUserAudioBlock(IN TTInstance* lpTTInstance
     if (!inst)
         return nullptr;
 
-    ACE_Message_Block* mb = clientnode->GetAudioContainer().AcquireAudioFrame(nUserID, uStreamTypes);
+    auto mb = clientnode->GetAudioContainer().AcquireAudioFrame(nUserID, uStreamTypes);
     if (mb == nullptr)
         return nullptr;
 
-    media::AudioFrame const frm(mb);
+    media::AudioFrame const frm(mb.get());
     
-    AudioBlock* lpAudioBlock = inst->PushAudioBlock(mb);
+    AudioBlock* lpAudioBlock = inst->PushAudioBlock(std::move(mb));
     lpAudioBlock->nStreamID = frm.streamid;
     lpAudioBlock->nSampleRate = frm.inputfmt.samplerate;
     lpAudioBlock->nChannels = frm.inputfmt.channels;
@@ -2286,14 +2279,14 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     if (!user)
         return nullptr;
 
-    ACE_Message_Block* mb = user->GetVideoFileFrame(g);
+    auto mb = user->GetVideoFileFrame(g);
     if(mb == nullptr)
         return nullptr;
 
-    VideoFrame* lpVideoFrame = inst->PushVideoFrame(mb);
+    auto* frm = VideoFrameFromMsgBlock(*mb);
+    VideoFrame* lpVideoFrame = inst->PushVideoFrame(std::move(mb));
     if(lpVideoFrame != nullptr)
     {
-        auto* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
         Convert(*frm, *lpVideoFrame);
         return lpVideoFrame;
     }
@@ -3678,12 +3671,10 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
     {
         if((pnWaitMs != nullptr) && *pnWaitMs != -1)
         {
-            ACE_Time_Value tv = ToTimeValue(*pnWaitMs);
-            tv += ToAceTimeValue(std::chrono::system_clock::now());
-            return inst->eventhandler->GetMessage(*pMsg, &tv);
+            return inst->eventhandler->GetMessage(*pMsg, std::chrono::milliseconds(*pnWaitMs));
         }
 
-        return inst->eventhandler->GetMessage(*pMsg, nullptr);
+        return inst->eventhandler->GetMessage(*pMsg, std::chrono::milliseconds::max());
     }
     return FALSE;
 }

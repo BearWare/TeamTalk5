@@ -49,6 +49,7 @@
 #include <system_error>
 
 using namespace teamtalk;
+
 using namespace media;
 using namespace soundsystem;
 using namespace vidcap;
@@ -1043,7 +1044,7 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 
 // Separate thread
 void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
-                                 ACE_Message_Block* mb_audio)
+                                 msgblock_t mb_audio)
 {
     audframe.soundgrpid = m_soundprop.soundgroupid;
     audframe.userdata = STREAMTYPE_VOICE;
@@ -1054,10 +1055,9 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
         m_listener->OnUserAudioBlock(LOCAL_USERID, STREAMTYPE_VOICE);
     }
     
-    if (mb_audio != nullptr)
+    if (mb_audio)
     {
-        m_voice_thread.QueueAudio(mb_audio);
-        // don't touch 'mb_audio' after this
+        m_voice_thread.QueueAudio(std::move(mb_audio));
     }
     else
     {
@@ -1353,79 +1353,69 @@ SoundDeviceFeatures ClientNode::GetDuplexFeatures()
     return GetCaptureFeatures();
 }
 
-bool ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
-                                           ACE_Message_Block* mb_video)
+void ClientNode::VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+                                           msgblock_t mb_video)
 {
-    if (mb_video == nullptr)
-        mb_video = VideoFrameToMsgBlock(video_frame);
+    msgblock_t mb = mb_video ? std::move(mb_video) : VideoFrameToMsgBlock(video_frame);
 
-    ACE_Time_Value tm_zero;
-    if (m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
+    if (!m_local_vidcapframes.Put(std::move(mb)))
     {
         //make room by deleting oldest video frame
-        ACE_Message_Block* mb = nullptr;
-        if(m_local_vidcapframes.dequeue(mb, &tm_zero) >= 0)
-            mb->release();
-        if(m_local_vidcapframes.enqueue(mb_video, &tm_zero) < 0)
-            return false;
+        std::unique_ptr<MsgBlock> old;
+        m_local_vidcapframes.Get(old, std::chrono::milliseconds(0));
+        if(!m_local_vidcapframes.Put(VideoFrameToMsgBlock(video_frame)))
+            return;
     }
 
     m_listener->OnUserVideoCaptureFrame(0, m_vidcap_stream_id);
-
-    return true; //took ownership of 'org_frame'
 }
 
-bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
-                                            ACE_Message_Block* mb_video)
+void ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+                                            msgblock_t mb_video)
 {
     // FOURCC of 'video_frame' must be RGB32 or I420
 
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED)
-        return false;
+        return;
 
-    if(mb_video != nullptr)
+    if (mb_video)
     {
-        m_vidcap_thread.QueueFrame(mb_video);
-        return true;
+        m_vidcap_thread.QueueFrame(std::move(mb_video));
+        return;
     }
     
-            m_vidcap_thread.QueueFrame(video_frame);
-   
-    return false;
+    m_vidcap_thread.QueueFrame(video_frame);
 }
 
-bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
-                                          ACE_Message_Block* mb_video)
+void ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
+                                          msgblock_t mb_video)
 {
     if ((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED)
     {
-        return VideoCaptureEncodeCallback(video_frame, mb_video);
+        VideoCaptureEncodeCallback(video_frame, std::move(mb_video));
     }
     
-            return VideoCaptureRGB32Callback(video_frame, mb_video);
-   
+    VideoCaptureRGB32Callback(video_frame, std::move(mb_video));
 }
 
-bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
-                                          ACE_Message_Block* mb_video)
+void ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
+                                          msgblock_t mb_video)
 {
     TTASSERT(m_flags & CLIENT_STREAM_VIDEOFILE);
     TTASSERT(m_videofile_thread);
     if (!m_videofile_thread)
-        return false;
+        return;
 
 //    VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
 //     static int x = 1;
 //     if((x++ % 200) == 0)
 //         WriteBitmap(i2string(x) + tstring(".bmp"), video_frame.width, video_frame.height, 4,
 //                     video_frame.frame, video_frame.frame_length);
-    m_videofile_thread->QueueFrame(mb_video);
-
-    return true; //m_video_thread always takes ownership
+    m_videofile_thread->QueueFrame(std::move(mb_video));
 }
 
-bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
-                                          ACE_Message_Block* mb_audio)
+void ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
+                                          msgblock_t mb_audio)
 {
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
 /*
@@ -1451,10 +1441,9 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
 
     AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame);
 
-    m_audiofile_thread.QueueAudio(mb_audio);
+    m_audiofile_thread.QueueAudio(std::move(mb_audio));
     // don't touch 'mb_audio' after this
 
-    return true;  //m_audiofile_thread always takes ownership
 }
 
 void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
@@ -1491,14 +1480,12 @@ void ClientNode::MediaStreamStatusCallback(const MediaFileProp& mfp,
     m_listener->OnChannelStreamMediaFile(mfp, mfs);
 }
 
-bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
-                                    ACE_Message_Block* mb_audio)
+void ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
+                                    msgblock_t mb_audio)
 {
     assert(mb_audio);
     audio_frame.force_enc = true;
     QueueVoiceFrame(audio_frame);
-
-    return false; // delete 'mb_audio'
 }
 
 void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
@@ -3573,9 +3560,9 @@ bool ClientNode::InitVideoCapture(const tstring& src_id,
     //set max buffers for local video frames
     std::size_t bytes = sizeof(media::VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= VIDEOCAPTURE_LOCAL_FRAMES_MAX;
-    m_local_vidcapframes.high_water_mark(bytes);//room for one frame
-    m_local_vidcapframes.low_water_mark(bytes);
-    m_local_vidcapframes.activate();
+    m_local_vidcapframes.Activate();
+    m_local_vidcapframes.SetWaterMark(bytes);//room for one frame
+
 
     if (!m_vidcap->StartVideoCapture())
     {
@@ -3632,22 +3619,21 @@ void ClientNode::CloseVideoCaptureSession()
     ASSERT_CLIENTNODE_LOCKED(this);
 
     m_vidcap_thread.StopEncoder();
-    m_local_vidcapframes.close();
+    m_local_vidcapframes.Close();
 
     m_flags &= ~CLIENT_TX_VIDEOCAPTURE;
 }
 
-ACE_Message_Block* ClientNode::AcquireVideoCaptureFrame()
+std::unique_ptr<MsgBlock> ClientNode::AcquireVideoCaptureFrame()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    ACE_Message_Block* mb = nullptr;
-    ACE_Time_Value tm_zero;
-    m_local_vidcapframes.dequeue(mb, &tm_zero);
+    std::unique_ptr<MsgBlock> mb;
+    m_local_vidcapframes.Get(mb, std::chrono::milliseconds(0));
     return mb;
 }
 
-bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
+void ClientNode::EncodedVideoCaptureFrame(msgblock_t org_frame,
                                           const char* enc_data, int enc_len,
                                           uint32_t packet_no,
                                           uint32_t timestamp)
@@ -3679,19 +3665,18 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
     //MYTRACE(TTEXT("Local video frame queue: %d\n"), m_local_vidcapframes.message_count());
 
     ACE_Time_Value const tm_zero;
-    if(org_frame != nullptr)
+    if (org_frame)
     {
-        VideoFrame vid_frm(org_frame);
+        VideoFrame vid_frm(org_frame.get());
         vid_frm.stream_id = m_vidcap_stream_id;
 
         if (vid_frm.fourcc == media::FOURCC_RGB32)
-            return VideoCaptureRGB32Callback(vid_frm, org_frame);
+            VideoCaptureRGB32Callback(vid_frm, std::move(org_frame));
     }
 
-    return false; //ignored 'org_frame'
 }
 
-bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
+void ClientNode::EncodedVideoFileFrame(msgblock_t /*org_frame*/,
                                        const char* enc_data, int enc_len,
                                        uint32_t packet_no,
                                        uint32_t timestamp)
@@ -3722,7 +3707,6 @@ bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
         }
     }
 
-    return false; //ignored 'org_frame'
 }
 
 int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,

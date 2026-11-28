@@ -919,8 +919,7 @@ void CWMAudioAECCapture::Run()
 
     constexpr auto INPUT_BUFFER_FRAME_MULTIPLIER = 2;
     const size_t BUFSIZE = PCM16_BYTES(inputsamples * INPUT_BUFFER_FRAME_MULTIPLIER, WINAEC_CHANNELS);
-    m_input_queue.high_water_mark(BUFSIZE);
-    m_input_queue.low_water_mark(BUFSIZE);
+    m_input_queue.SetWaterMark(BUFSIZE);
 
     m_resampler = MakeAudioResampler(infmt, media::AudioFormat(m_streamer->samplerate, m_streamer->input_channels), inputsamples);
     if (!m_resampler)
@@ -1103,12 +1102,10 @@ void CWMAudioAECCapture::ProcessAudioQueue()
             return;
     }
 
-    ACE_Time_Value tv;
-    ACE_Message_Block* mb;
-    while (m_input_queue.dequeue(mb, &tv) >= 0)
+    std::unique_ptr<MsgBlock> mb;
+    while (m_input_queue.Get(mb, std::chrono::milliseconds(0)))
     {
-        MBGuard g(mb);
-        media::AudioFrame frm(mb);
+        media::AudioFrame frm(mb.get());
         bool ret = ProcessAudioFrame(frm);
         if (!ret)
             break;
@@ -1120,13 +1117,11 @@ void CWMAudioAECCapture::QueueAudioFrame(const media::AudioFrame& frm)
     std::unique_lock<std::recursive_mutex> g(m_mutex);
 
     // if we already have a queue then just add to queue
-    if (m_input_queue.message_count())
+    if (m_input_queue.Size() != 0)
     {
-        ACE_Message_Block* mb = AudioFrameToMsgBlock(frm);
-        ACE_Time_Value tv;
-        if (m_input_queue.enqueue_tail(mb, &tv) < 0)
+        auto mb = AudioFrameToMsgBlock(frm);
+        if (!m_input_queue.Put(std::move(mb)))
         {
-            mb->release();
             MYTRACE(TTEXT("Failed to queue echo cancelled audio. %d msec\n"),
                     PCM16_SAMPLES_DURATION(frm.input_samples, frm.inputfmt.samplerate));
         }
@@ -1178,11 +1173,9 @@ bool CWMAudioAECCapture::ProcessAudioFrame(const media::AudioFrame& frm)
         tmp.input_buffer = &frm.input_buffer[copiedsamples * CHANNELS];
         tmp.input_samples = samples;
 
-        ACE_Message_Block* mb = AudioFrameToMsgBlock(tmp);
-        ACE_Time_Value tv;
-        if (m_input_queue.enqueue_head(mb, &tv) < 0)
+        auto mb = AudioFrameToMsgBlock(tmp);
+        if (!m_input_queue.PutFront(std::move(mb)))
         {
-            mb->release();
             MYTRACE(TTEXT("Failed to reenqueue echo cancelled audio\n"));
         }
     }
@@ -1192,11 +1185,11 @@ bool CWMAudioAECCapture::ProcessAudioFrame(const media::AudioFrame& frm)
 
 short* CWMAudioAECCapture::AcquireBuffer()
 {
-     size_t bytes = m_input_queue.message_length();
-     bytes -= sizeof(media::AudioFrame) * m_input_queue.message_count();
+     size_t bytes = m_input_queue.LengthQueued();
+     bytes -= sizeof(media::AudioFrame) * m_input_queue.Size();
      int duration = PCM16_BYTES_DURATION(bytes, m_streamer->input_channels, m_streamer->samplerate);
      MYTRACE_COND(DEBUG_WINAEC, TTEXT("Acquire echo audio, duration: %d msec. Full %d%%. Bytes %u\n"),
-             duration, 100 * m_input_index / m_input_buffer.size(), unsigned(m_input_queue.message_length()));
+             duration, 100 * m_input_index / m_input_buffer.size(), unsigned(m_input_queue.LengthQueued()));
      
      if (m_resampled_input)
         return m_resampled_input;

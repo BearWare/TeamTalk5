@@ -29,8 +29,6 @@
 #include "VideoCapture.h"
 #include "codec/MediaUtil.h"
 
-#include <ace/Message_Block.h>
-
 #include <memory>
 
 namespace vidcap {
@@ -77,8 +75,8 @@ namespace vidcap {
         void UnregisterVideoFormat(media::FourCC fcc) override;
 
         // MediaStreamListener interface
-        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                      ACE_Message_Block* mb_video);
+        void MediaStreamVideoCallback(media::VideoFrame& video_frame,
+                                      msgblock_t mb_video);
 
         void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);

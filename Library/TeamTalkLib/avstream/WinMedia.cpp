@@ -67,7 +67,7 @@ public:
     VideoGrabberCallback(LPUNKNOWN pUnk, HRESULT *phr,
                          const MediaFileProp& media_in,
                          const MediaStreamOutput& media_out,
-                         msg_queue_t& video_queue)
+                         MsgQueue& video_queue)
     : CBaseRenderer(CLSID_TTVideoFilter, L"TT Video Filter", pUnk, phr)
     , m_media_in(media_in)
     , m_media_out(media_out)
@@ -152,7 +152,7 @@ public:
 
 protected:
     CMediaType m_media_type;
-    msg_queue_t& m_video_queue;
+    MsgQueue& m_video_queue;
     const MediaFileProp& m_media_in;
     const MediaStreamOutput& m_media_out;
 };
@@ -163,7 +163,7 @@ public:
     AudioGrabberCallback(LPUNKNOWN pUnk, HRESULT *phr,
                          const MediaFileProp& media_in,
                          const MediaStreamOutput& media_out,
-                         msg_queue_t& audio_queue,
+                         MsgQueue& audio_queue,
                          audio_resampler_t& resampler)
     : CBaseRenderer(CLSID_TTAudioFilter, L"My Audio Filter", pUnk, phr)
     , m_media_in(media_in)
@@ -270,7 +270,7 @@ public:
 
 protected:
     audio_resampler_t& m_resampler;
-    msg_queue_t& m_audio_queue;
+    MsgQueue& m_audio_queue;
     const MediaFileProp& m_media_in;
     const MediaStreamOutput& m_media_out;
     CMediaType m_media_type;
@@ -564,8 +564,8 @@ no_video:
 
     InitBuffers();
 
-    assert(m_audio_frames.state() == msg_queue_t::ACTIVATED);
-    assert(m_video_frames.state() == msg_queue_t::ACTIVATED);
+    assert(!m_audio_frames.IsClosed());
+    assert(!m_video_frames.IsClosed());
 
     if(!m_stop && m_listener)
         m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);

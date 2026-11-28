@@ -71,13 +71,10 @@ bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
     //         userid, this, frame.sample_no, frame.input_samples, frame.timestamp);
 
     // MYTRACE(TTEXT("Adding audio #%d of channels %d\n"), userid, channels);
-    ACE_Message_Block* mb = AudioFrameToMsgBlock(frame);
-    ACE_Time_Value tm;
-    if (ii->second->mq.enqueue(mb, &tm) < 0)
+    auto mb = AudioFrameToMsgBlock(frame);
+    if (!ii->second->mq.Put(std::move(mb)))
     {
         MYTRACE(TTEXT("AudioContainer overflow for #%d, failed to insert block\n"), userid);
-        mb->release();
-
         return false;
     }
     return true;
@@ -97,10 +94,10 @@ bool AudioContainer::IsEmpty(int userid, teamtalk::StreamTypes sts)
     if (ii == m_container.end())
         return true;
 
-    return ii->second->mq.message_count() == 0;
+    return ii->second->mq.Size() == 0;
 }
 
-ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)
+std::unique_ptr<MsgBlock> AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)
 {
     std::scoped_lock const g(m_store_mtx);
 
@@ -110,11 +107,10 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
 
     auto& entry = ii->second;
 
-    ACE_Time_Value tm;
-    ACE_Message_Block* mb = nullptr;
-    if (entry->mq.dequeue_head(mb, &tm) >= 0)
+    std::unique_ptr<MsgBlock> mb;
+    if (entry->mq.Get(mb, std::chrono::milliseconds(0)))
     {
-        media::AudioFrame frm(mb);
+        media::AudioFrame frm(mb.get());
 
         // Special handling required by 'AudioMuxer'. 
         if (!frm.inputfmt.IsValid() && frm.input_samples == 0)
@@ -130,16 +126,16 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
                 entry->resampler = MakeAudioResampler(frm.inputfmt, entry->outfmt);
             }
 
-            // setup ACE_Message_Block for resampled output
+            // setup MsgBlock for resampled output
             int const samples = CalcSamples(frm.inputfmt.samplerate, frm.input_samples,
                                       entry->outfmt.samplerate);
 
             size_t const audiobytes = PCM16_BYTES(samples, entry->outfmt.channels);
             size_t const totalbytes = audiobytes + sizeof(media::AudioFrame);
 
-            auto mb_resam = std::make_unique<ACE_Message_Block>(totalbytes);
+            auto mb_resam = std::make_unique<MsgBlock>(totalbytes);
 
-            auto* outputptr = reinterpret_cast<short*>(mb_resam->wr_ptr() + sizeof(media::AudioFrame));
+            auto* outputptr = reinterpret_cast<short*>(mb_resam->Data() + sizeof(media::AudioFrame));
             media::AudioFrame frm_resam = frm;
             frm_resam.inputfmt = entry->outfmt;
             frm_resam.input_buffer = outputptr;
@@ -147,7 +143,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             frm_resam.sample_no = CalcSamples(frm.inputfmt.samplerate, frm.sample_no,
                                               entry->outfmt.samplerate);
 
-            mb_resam->copy(reinterpret_cast<const char*>(&frm_resam), sizeof(frm_resam));
+            mb_resam->Copy(&frm_resam, sizeof(frm_resam));
             assert(entry->resampler);
             int const outputsamples = entry->resampler->Resample(frm.input_buffer, frm.input_samples, outputptr, samples);
             assert(outputsamples <= samples);
@@ -155,10 +151,9 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
                          outputsamples, samples);
             if (outputsamples < samples)
                 std::memset(&outputptr[outputsamples * frm_resam.inputfmt.channels], 0, PCM16_BYTES(samples - outputsamples, frm_resam.inputfmt.channels));
-            mb_resam->wr_ptr(audiobytes); //advance past resampled output
+            mb_resam->Length(sizeof(frm_resam) + audiobytes); //include resampled output
 
-            mb->release();
-            return mb_resam.release(); // NOLINT(bugprone-unused-return-value)
+            return mb_resam; // 'mb' auto-released
         }
 
         // MYTRACE("Retrieved audio for #%d type %d, index %u\n", userid, stream_type, frm.sample_no);
@@ -175,15 +170,10 @@ void AudioContainer::ReleaseAllAudio()
     auto ii = m_container.begin();
     while(ii != m_container.end())
     {
-        ACE_Time_Value tm;
-        ACE_Message_Block* mb = nullptr;
-
-        while(ii->second->mq.dequeue(mb, &tm) >= 0)
-        {
-            mb->release();
-            MYTRACE(TTEXT("AudioContainer clean up #%d, removing obsolete\n"),
-                    ii->first >> 16);
-        }
+        MYTRACE_COND(ii->second->mq.Size() > 0,
+                     TTEXT("AudioContainer clean up #%d, removing obsolete\n"),
+                     ii->first >> 16);
+        ii->second->mq.Flush();
 
         m_container.erase(ii++);
     }

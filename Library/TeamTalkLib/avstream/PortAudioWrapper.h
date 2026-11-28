@@ -37,6 +37,7 @@
 #include <memory>
 #if defined(WIN32)
 #include <future>
+#include "mystd/MyQueue.h"
 #endif /* WIN32 */
 
 namespace soundsystem
@@ -222,7 +223,7 @@ namespace soundsystem
 
         size_t m_input_index = 0;
         std::vector<short> m_input_buffer; // audio from input device
-        msg_queue_t m_input_queue; // audio from input device that didn't fit in 'm_input_buffer'
+        MsgQueue m_input_queue; // audio from input device that didn't fit in 'm_input_buffer'
         audio_resampler_t m_resampler;
         short* m_resampled_input = nullptr;
         std::recursive_mutex m_mutex;

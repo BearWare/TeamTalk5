@@ -121,98 +121,90 @@ StereoMask ToStereoMask(bool muteleft, bool muteright)
     return stereo;
 }
 
-ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
-                                        ACE_Message_Block::ACE_Message_Type mb_type)
+std::unique_ptr<MsgBlock> VideoFrameInMsgBlock(media::VideoFrame& frm)
 {
     assert(frm.frame_length);
-    
-    auto mb = std::make_unique<ACE_Message_Block>(frm.frame_length+sizeof(frm), mb_type);
-    frm.frame = &mb->rd_ptr()[sizeof(frm)];
-    mb->copy(reinterpret_cast<const char*> (&frm), sizeof(frm));
-    return mb.release(); // NOLINT(bugprone-unused-return-value)
+
+    auto mb = std::make_unique<MsgBlock>(frm.frame_length + sizeof(frm));
+    frm.frame = mb->Data() + sizeof(frm);
+    mb->Copy(&frm, sizeof(frm));
+    return mb;
 }
 
-ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
-                                        ACE_Message_Block::ACE_Message_Type mb_type)
+std::unique_ptr<MsgBlock> VideoFrameToMsgBlock(const media::VideoFrame& frm)
 {
     assert(frm.frame);
     assert(frm.frame_length);
     media::VideoFrame tmp = frm;
-    auto mb = std::make_unique<ACE_Message_Block>(sizeof(tmp)+frm.frame_length, mb_type);
-    tmp.frame = &mb->rd_ptr()[sizeof(tmp)];
+    auto mb = std::make_unique<MsgBlock>(sizeof(tmp) + frm.frame_length);
+    tmp.frame = mb->Data() + sizeof(tmp);
 
-    int ret = mb->copy(reinterpret_cast<const char*>(&tmp), sizeof(tmp));
-    assert(ret>=0);
-    ret = mb->copy(frm.frame, frm.frame_length);
-    assert(ret>=0);
-    return mb.release(); // NOLINT(bugprone-unused-return-value)
+    int ret = mb->Copy(&tmp, sizeof(tmp));
+    assert(ret >= 0);
+    ret = mb->Copy(frm.frame, frm.frame_length);
+    assert(ret >= 0);
+    return mb;
 }
 
-media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
+media::VideoFrame* VideoFrameFromMsgBlock(MsgBlock& mb)
 {
-    auto* frm = reinterpret_cast<media::VideoFrame*>(mb->base());
-    return frm;
+    return reinterpret_cast<media::VideoFrame*>(mb.Data());
 }
 
-ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
+std::unique_ptr<MsgBlock> AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
 {
     size_t const frame_bytes = sizeof(frame);
     size_t const input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
     size_t const output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
 
-    //assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
-    //assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);
+    //capacity is pre-allocated so Data() stays stable while copying
+    auto mb = std::make_unique<MsgBlock>(frame_bytes + input_bytes + output_bytes);
 
-    auto mb = std::make_unique<ACE_Message_Block>(frame_bytes + input_bytes + output_bytes);
-
-    //assign pointers to inside ACE_Message_Block
+    //assign pointers to inside MsgBlock
     media::AudioFrame copy_frame = frame;
     if (input_bytes != 0)
-        copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr() + frame_bytes);
+        copy_frame.input_buffer = reinterpret_cast<short*>(mb->Data() + frame_bytes);
     if (output_bytes != 0)
-        copy_frame.output_buffer = reinterpret_cast<short*>(mb->rd_ptr() + (frame_bytes + input_bytes));
+        copy_frame.output_buffer = reinterpret_cast<short*>(mb->Data() + (frame_bytes + input_bytes));
 
-    int ret = 0;
-
-    ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), frame_bytes);
+    int ret = mb->Copy(&copy_frame, frame_bytes);
     assert(ret >= 0);
 
     if (skip_copy)
-        return mb.release(); // NOLINT(bugprone-unused-return-value)
+        return mb;
 
     if (input_bytes > 0)
     {
-        ret = mb->copy(reinterpret_cast<const char*>(frame.input_buffer), input_bytes);
+        ret = mb->Copy(frame.input_buffer, input_bytes);
         assert(ret >= 0);
     }
-
     if (output_bytes > 0)
-        ret = mb->copy(reinterpret_cast<const char*>(frame.output_buffer), output_bytes);
-    assert(ret >= 0);
-
-    return mb.release(); // NOLINT(bugprone-unused-return-value)
+    {
+        ret = mb->Copy(frame.output_buffer, output_bytes);
+        assert(ret >= 0);
+    }
+    return mb;
 }
 
-media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb)
+media::AudioFrame* AudioFrameFromMsgBlock(MsgBlock& mb)
 {
-    auto* frm = reinterpret_cast<media::AudioFrame*>(mb->base());
-    return frm;
+    return reinterpret_cast<media::AudioFrame*>(mb.Data());
 }
 
-ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
+
+std::unique_ptr<MsgBlock> AudioFramesMerge(const std::vector<std::unique_ptr<MsgBlock>>& mbs)
 {
     assert(!mbs.empty());
 
-    const int IN_CHANNELS = media::AudioFrame(mbs[0]).inputfmt.channels;
-    // const int OUT_CHANNELS = media::AudioFrame(mbs[0]).outputfmt.channels;
+    const int IN_CHANNELS = media::AudioFrame(mbs[0].get()).inputfmt.channels;
 
     int64_t in_samples = 0;
     int64_t out_samples = 0;
-    for (auto *mb : mbs)
+    for (auto const& mb : mbs)
     {
-        media::AudioFrame const frm(mb);
-        assert(frm.inputfmt == media::AudioFrame(mbs[0]).inputfmt);
-        assert(frm.outputfmt == media::AudioFrame(mbs[0]).outputfmt);
+        media::AudioFrame const frm(mb.get());
+        assert(frm.inputfmt == media::AudioFrame(mbs[0].get()).inputfmt);
+        assert(frm.outputfmt == media::AudioFrame(mbs[0].get()).outputfmt);
         in_samples += frm.input_samples;
         out_samples += frm.output_samples;
     }
@@ -220,44 +212,41 @@ ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
     assert(std::cmp_less_equal(in_samples, 0xffffffff));
     assert(std::cmp_less_equal(out_samples, 0xffffffff));
 
-    media::AudioFrame frm(mbs[0]);
+    media::AudioFrame frm(mbs[0].get());
     frm.input_samples = static_cast<int>(in_samples);
     assert(out_samples == 0);
-    // frm.output_samples = int(out_samples);
 
-    ACE_Message_Block* mb = AudioFrameToMsgBlock(frm, true);
-    frm = media::AudioFrame(mb);
+    auto mb = AudioFrameToMsgBlock(frm, true);
+    frm = media::AudioFrame(mb.get());
 
     int in_copied = 0;
-    for (auto *m : mbs)
+    for (auto const& m : mbs)
     {
-        media::AudioFrame const newfrm(m);
+        media::AudioFrame const newfrm(m.get());
         size_t const bytes = PCM16_BYTES(newfrm.input_samples, IN_CHANNELS);
         std::memcpy(&frm.input_buffer[in_copied * IN_CHANNELS], newfrm.input_buffer, bytes);
         in_copied += newfrm.input_samples;
-        mb->wr_ptr(bytes);
+        mb->Length(mb->Length() + bytes);
         assert(newfrm.output_buffer == nullptr); // doesn't handle 'output_buffer'
-//        std::memcpy(&frm.output_buffer[out_copied * OUT_CHANNELS], newfrm.output_buffer, PCM16_BYTES(newfrm.output_samples, OUT_CHANNELS));
-//        in_copied += newfrm.input_samples;
     }
     return mb;
 }
 
-ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_Block*>& mbs)
+std::unique_ptr<MsgBlock> AudioFrameFromList(int samples_out, std::vector<std::unique_ptr<MsgBlock>>& mbs)
 {
     if (mbs.empty())
         return nullptr;
 
-    assert(media::AudioFrame(mbs[0]).output_buffer == nullptr);
+    assert(media::AudioFrame(mbs[0].get()).output_buffer == nullptr);
 
-    auto fmt = media::AudioFrame(mbs[0]).inputfmt;
+    auto fmt = media::AudioFrame(mbs[0].get()).inputfmt;
     const int TOTALSAMPLES = samples_out * fmt.channels;
 
     // check that there's enough samples to build an AudioFrame
     int samples = 0;
-    for (auto *mb : mbs)
+    for (auto const& mb : mbs)
     {
-        media::AudioFrame const frm(mb);
+        media::AudioFrame const frm(mb.get());
         assert(frm.input_samples == 0 || frm.inputfmt == fmt);
         samples += frm.input_samples;
         if (frm.input_samples == 0 || samples >= samples_out)
@@ -271,7 +260,7 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
         return nullptr;
 
     // build AudioFrame
-    media::AudioFrame muxfrm(mbs[0]);
+    media::AudioFrame muxfrm(mbs[0].get());
     muxfrm.input_samples = 0;
     std::vector<short> buffer(TOTALSAMPLES, 0);
     muxfrm.input_buffer = buffer.data();
@@ -279,11 +268,10 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
     while (muxfrm.input_samples < samples_out)
     {
         assert(!mbs.empty());
-        media::AudioFrame const frm(mbs[0]);
+        media::AudioFrame const frm(mbs[0].get());
         // exit if terminator
         if (frm.input_samples == 0)
         {
-            mbs[0]->release();
             mbs.erase(mbs.begin());
             muxfrm.input_samples = samples_out;
             break;
@@ -297,17 +285,18 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
         if (copied == frm.input_samples)
         {
             // 'frm' obsolete, all copied
-            mbs[0]->release();
             mbs.erase(mbs.begin());
         }
         else
         {
             // 'frm' still has data
-            media::AudioFrame* rawfrm = AudioFrameFromMsgBlock(mbs[0]);
-            rawfrm->input_buffer = &rawfrm->input_buffer[copied * fmt.channels];
-            rawfrm->input_samples -= copied;
-            assert(rawfrm->input_samples > 0);
-            rawfrm->sample_no += copied;
+            media::AudioFrame rawfrm(mbs[0].get());
+            rawfrm.input_buffer = &rawfrm.input_buffer[copied * fmt.channels];
+            rawfrm.input_samples -= copied;
+            assert(rawfrm.input_samples > 0);
+            rawfrm.sample_no += copied;
+            // write back the modified frame header
+            std::memcpy(mbs[0]->Data(), &rawfrm, sizeof(rawfrm));
             break;
         }
     }

@@ -39,6 +39,7 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/myace/MyINet.h
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.h
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.h
+  ${TEAMTALKLIB_ROOT}/mystd/MyQueue.h
   ${TEAMTALKLIB_ROOT}/TeamTalkDefs.h
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.h
   ${TEAMTALKLIB_ROOT}/teamtalk/CodecCommon.h
@@ -72,6 +73,7 @@ set ( TTCLIENT_SOURCES
   ${TEAMTALKLIB_ROOT}/myace/MyINet.cpp
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.cpp
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.cpp
+  ${TEAMTALKLIB_ROOT}/mystd/MyQueue.cpp
   ${TEAMTALKLIB_ROOT}/avstream/AudioResampler.cpp
   ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.cpp
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.cpp

@@ -43,6 +43,7 @@
 #include "avstream/SoundSystem.h"
 #include "avstream/VideoCapture.h"
 #include "codec/MediaUtil.h"
+#include "mystd/MyQueue.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
@@ -52,7 +53,6 @@
 #include "teamtalk/StreamHandler.h"
 
 #include <ace/INET_Addr.h>
-#include <ace/Message_Block.h>
 #include <ace/Message_Queue.h>
 #include <ace/Synch.h>
 #include <ace/Synch_Traits.h>
@@ -291,8 +291,8 @@ namespace teamtalk {
         bool OpenVideoCaptureSession(const VideoCodec& codec);
         void CloseVideoCaptureSession();
 
-        //returns VideoFrame* in ACE_Message_Block*
-        ACE_Message_Block* AcquireVideoCaptureFrame();
+        //returns VideoFrame in MsgBlock
+        std::unique_ptr<MsgBlock> AcquireVideoCaptureFrame();
 
         //desktop sharing
         //returns -1 on error, 0 no changes, >0 num packets
@@ -347,11 +347,11 @@ namespace teamtalk {
                                    const media::AudioFrame& org_frame);
         
         //Video encoder - separate thread
-        bool EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
+        void EncodedVideoCaptureFrame(msgblock_t org_frame,
                                       const char* enc_data, int enc_len,
                                       uint32_t packet_no,
                                       uint32_t timestamp);
-        bool EncodedVideoFileFrame(ACE_Message_Block* org_frame,
+        void EncodedVideoFileFrame(msgblock_t org_frame,
                                    const char* enc_data, int enc_len,
                                    uint32_t packet_no,
                                    uint32_t timestamp);
@@ -366,24 +366,24 @@ namespace teamtalk {
         soundsystem::SoundDeviceFeatures GetDuplexFeatures() override;
 
         //VideoCapture listener - separate thread
-        bool VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
-                                       ACE_Message_Block* mb_video);
-        bool VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
-                                        ACE_Message_Block* mb_video);
-        bool VideoCaptureDualCallback(media::VideoFrame& video_frame,
-                                      ACE_Message_Block* mb_video);
+        void VideoCaptureRGB32Callback(media::VideoFrame& video_frame,
+                                       msgblock_t mb_video);
+        void VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
+                                        msgblock_t mb_video);
+        void VideoCaptureDualCallback(media::VideoFrame& video_frame,
+                                      msgblock_t mb_video);
 
         //Media stream listener - separate thread
-        bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                      ACE_Message_Block* mb_video);
-        bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
-                                      ACE_Message_Block* mb_audio);
+        void MediaStreamVideoCallback(media::VideoFrame& video_frame,
+                                      msgblock_t mb_video);
+        void MediaStreamAudioCallback(media::AudioFrame& audio_frame,
+                                      msgblock_t mb_audio);
         void MediaStreamStatusCallback(const MediaFileProp& mfp,
                                        MediaStreamStatus status);
 
         // AudioInputStreamer listener - separate thread
-        bool AudioInputCallback(media::AudioFrame& audio_frame,
-                                ACE_Message_Block* mb_audio);
+        void AudioInputCallback(media::AudioFrame& audio_frame,
+                                msgblock_t mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
         // AudioMuxer callback - separate thread
@@ -502,7 +502,7 @@ namespace teamtalk {
         void CloseAudioCapture();
         void QueueAudioCapture(media::AudioFrame& audframe);
         void QueueVoiceFrame(media::AudioFrame& audframe,
-                             ACE_Message_Block* mb_audio = nullptr);
+                             msgblock_t mb_audio = nullptr);
 
         void SendVoicePacket(const VoicePacket& packet);
         void SendAudioFilePacket(const AudioFilePacket& packet);
@@ -588,7 +588,7 @@ namespace teamtalk {
         //encode video from video capture
         vidcap::videocapture_t m_vidcap;
         VideoThread m_vidcap_thread;
-        ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local RGB32 video frames
+        MsgQueue m_local_vidcapframes; //local RGB32 video frames
         uint8_t m_vidcap_stream_id = 0; //0 means not used
 
         //media streamer to channels

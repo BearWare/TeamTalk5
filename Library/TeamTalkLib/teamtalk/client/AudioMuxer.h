@@ -25,10 +25,10 @@
 #define AUDIOMUXER_H
 
 #include "AudioContainer.h"
-
 #include "codec/MediaUtil.h"
 #include "codec/WaveFile.h"
 #include "myace/TimerHandler.h"
+#include "mystd/MyQueue.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 
@@ -48,8 +48,6 @@
 
 #endif /* ENABLE_OGG */
 
-#include <ace/Message_Block.h>
-#include <ace/Message_Queue_T.h>
 #include <ace/Synch.h>
 #include <ace/Synch_Traits.h>
 #include <ace/Reactor.h>
@@ -103,19 +101,19 @@ private:
     void WriteAudio(int cb_samples, teamtalk::StreamTypes sts);
     bool FileActive();
 
-    using message_queue_t = std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> >;
+    using message_queue_t = std::shared_ptr< MsgQueue >;
     message_queue_t GetMuxQueue(int key);
     // return number of media::AudioFrame in queue
     int SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
     // drain everything in 'm_preprocess_queue'
     void SubmitPreprocessQueue();
-    ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs) const;
+    std::unique_ptr<MsgBlock> BuildMuxAudioFrame(std::vector<std::unique_ptr<MsgBlock>>& mbs) const;
 
     // preprocess queue (audio that cannot yet to into 'm_usermux_queue')
     AudioContainer m_preprocess_queue;
     std::recursive_mutex m_mutex1_preprocess;
     // key -> media::AudioFrame. Audio block storing the remainder of 'm_preprocess_queue'
-    std::map<int, ACE_Message_Block*> m_preprocess_block;
+    std::map<int, std::unique_ptr<MsgBlock>> m_preprocess_block;
 
     // raw audio data from a user ID
     using user_audio_queue_t = std::map<int, message_queue_t>;
@@ -126,7 +124,7 @@ private:
     std::vector<short> m_muxed_buffer;
 
     ACE_Reactor m_reactor;
-    ACE_Time_Value m_mux_interval;
+    std::chrono::milliseconds m_mux_interval{};
     std::recursive_mutex m_mutex2_mux;
     std::shared_ptr< std::thread > m_thread;
 

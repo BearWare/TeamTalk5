@@ -22,7 +22,6 @@
  */
 
 #include "AudioThread.h"
-#include "myace/MyACE.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/TTAssert.h"
@@ -60,7 +59,7 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
     if (m_thread.joinable())
         return false;
 
-    TTASSERT(m_msg_queue.is_empty());
+    TTASSERT(m_msg_queue.Size() == 0);
 
     int const callback_samples = GetAudioCodecCbSamples(codec);
     int const sample_rate = GetAudioCodecSampleRate(codec);
@@ -159,9 +158,8 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
     size_t max_queue = PCM16_BYTES(sample_rate, GetAudioCodecChannels(codec));
     max_queue += (1 + (sample_rate / callback_samples)) * sizeof(media::AudioFrame);
 
-    m_msg_queue.activate();
-    m_msg_queue.high_water_mark(max_queue);
-    m_msg_queue.low_water_mark(max_queue);
+    m_msg_queue.Activate();
+    m_msg_queue.SetWaterMark(max_queue);
 
     if (spawn_thread)
     {
@@ -192,8 +190,7 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
 
 void AudioThread::StopEncoder()
 {
-    int const ret = m_msg_queue.close();
-    TTASSERT(ret >= 0);
+    m_msg_queue.Close();
     if (m_thread.joinable())
         m_thread.join();
 
@@ -415,19 +412,18 @@ void AudioThread::QueueAudio(const media::AudioFrame& audframe)
     assert(audframe.inputfmt.channels == audframe.outputfmt.channels || audframe.outputfmt.channels == 0);
     assert(audframe.input_samples == audframe.output_samples || audframe.output_samples == 0);
 
-    ACE_Message_Block* mb = AudioFrameToMsgBlock(audframe);
+    auto mb = AudioFrameToMsgBlock(audframe);
     if (mb != nullptr)
-        QueueAudio(mb);
+        QueueAudio(std::move(mb));
 }
 
-void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
+void AudioThread::QueueAudio(std::unique_ptr<MsgBlock> mb_audio)
 {
     //add audio
-    ACE_Time_Value tv;
-    if(m_msg_queue.enqueue(mb_audio, &tv)<0)
+    bool ok = m_msg_queue.Put(std::move(mb_audio));
+    if(!ok)
     {
         MYTRACE(TTEXT("AudioThread msg_q full, dropped frame\n"));
-        mb_audio->release();
     }
 }
 
@@ -452,15 +448,14 @@ int AudioThread::GetCurrentVoiceLevel() const
     return m_voicelevel;
 }
 
-void AudioThread::ProcessQueue(ACE_Time_Value* tm)
+void AudioThread::ProcessQueue(std::chrono::milliseconds* tm)
 {
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
     TTASSERT(m_callback);
-    ACE_Message_Block* mb = nullptr;
-    while (m_msg_queue.dequeue(mb, tm) >= 0)
+    std::unique_ptr<MsgBlock> mb;
+    while (m_msg_queue.Get(mb, tm ? *tm : std::chrono::milliseconds::max()))
     {
-        MBGuard const g(mb);
-        media::AudioFrame af(mb);
+        media::AudioFrame af(mb.get());
         ProcessAudioFrame(af);
     }
 }

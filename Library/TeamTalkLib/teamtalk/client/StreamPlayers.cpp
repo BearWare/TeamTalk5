@@ -753,7 +753,7 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
     RemoveObsoletePackets();
 }
 
-ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
+std::unique_ptr<MsgBlock> WebMPlayer::GetNextFrame(const uint32_t* timestamp)
 {
     wguard_t const g(m_mutex);
 #if defined(_DEBUG)
@@ -813,7 +813,7 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
     VideoFrame vid_frame(nullptr, static_cast<int>(bytes), w, h, FOURCC_RGB32, true);
     vid_frame.key_frame = false; //TODO: detect key frame
     vid_frame.stream_id = m_videostream_id;
-    ACE_Message_Block* mb = VideoFrameInMsgBlock(vid_frame);
+    auto mb = VideoFrameInMsgBlock(vid_frame);
 
     //sweep the decoder clean
     while(m_decoder.GetRGB32Image(vid_frame.frame, vid_frame.frame_length));

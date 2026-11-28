@@ -25,7 +25,6 @@
 
 #include "bin/ttsrv/ServerXML.h"
 #include "codec/OpusEncoder.h" // OPUS_APPLICATION_AUDIO/OPUS_APPLICATION_VOIP
-#include "myace/MyACE.h"
 
 #include <array>
 #include <cstdio>

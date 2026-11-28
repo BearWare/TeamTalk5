@@ -13,6 +13,7 @@ set (TTSRVLIB_HEADERS
   ${TEAMTALKLIB_ROOT}/myace/MyINet.h
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.h
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.h
+  ${TEAMTALKLIB_ROOT}/mystd/MyQueue.h
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.h
   ${TEAMTALKLIB_ROOT}/teamtalk/CodecCommon.h
   ${TEAMTALKLIB_ROOT}/teamtalk/Commands.h
@@ -37,6 +38,7 @@ set (TTSRVLIB_SOURCES
   ${TEAMTALKLIB_ROOT}/myace/MyINet.cpp
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.cpp
   ${TEAMTALKLIB_ROOT}/mystd/MyStd.cpp
+  ${TEAMTALKLIB_ROOT}/mystd/MyQueue.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/CodecCommon.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Commands.cpp

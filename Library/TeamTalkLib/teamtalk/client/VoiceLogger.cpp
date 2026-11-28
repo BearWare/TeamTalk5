@@ -424,7 +424,7 @@ void VoiceLog::WriteAudio(int packet_no)
     {
         media::AudioFormat fmt = GetAudioCodecAudioFormat(m_codec);
         int samples = GetAudioCodecCbSamples(m_codec);
-        m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, &m_samples_buf[0], samples), true);
+        m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, m_samples_buf.data(), samples));
     }
 #endif
     if(m_wavfile)
@@ -448,7 +448,7 @@ void VoiceLog::WriteSilence(int msecs)
     {
 #if defined(ENABLE_MEDIAFOUNDATION)
         if(m_mp3transform)
-            m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, &m_samples_buf[0], cbsamples), true);
+            m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, m_samples_buf.data(), cbsamples));
 #endif
         if(m_wavfile)
             m_wavfile->AppendSamples(m_samples_buf.data(), GetAudioCodecCbSamples(m_codec));
@@ -458,7 +458,7 @@ void VoiceLog::WriteSilence(int msecs)
     {
 #if defined(ENABLE_MP3)
         if(m_mp3transform)
-            m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, &m_samples_buf[0], samples), true);
+            m_mp3transform->ProcessAudioEncoder(media::AudioFrame(fmt, m_samples_buf.data(), samples), true);
 #endif
         if(m_wavfile)
             m_wavfile->AppendSamples(m_samples_buf.data(), samples);
@@ -578,7 +578,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     time_t const now = time(nullptr);
     struct tm* ttt = localtime(&now);
-#ifdef ACE_WIN32
+#if defined(WIN32)
     wcsftime(buf.data(), STR_SIZE-1, var.c_str(), ttt);
 #else
     ACE_OS::strftime(buf.data(), STR_SIZE-1, var.c_str(), ttt);
