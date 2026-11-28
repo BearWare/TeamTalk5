@@ -22,8 +22,10 @@
  */
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 
 #include "TTUnitTest.h"
+#include "avstream/AudioResampler.h"
 #include "avstream/MediaStreamer.h"
 #include "avstream/VideoCapture.h"
 #include "bin/ttsrv/ServerUtil.h"
@@ -4656,3 +4658,247 @@ TEST_CASE("AudioThread worker thread processes queued audio")
 }
 #endif
 #endif // defined(ENABLE_SPEEX) || defined(ENABLE_OPUS)
+
+TEST_CASE("AudioMuxerMixedAudioDifferentUserFormats")
+{
+    // try all supported sample rates (cf. standardSampleRates in
+    // avstream/SoundSystemBase.h) in mono and stereo as the mux input
+    // format registered with AudioMuxer::RegisterMuxCallback
+    auto const muxfmt = GENERATE(values<media::AudioFormat>({
+        media::AudioFormat(8000, 1),  media::AudioFormat(8000, 2),
+        media::AudioFormat(12000, 1), media::AudioFormat(12000, 2),
+        media::AudioFormat(16000, 1), media::AudioFormat(16000, 2),
+        media::AudioFormat(24000, 1), media::AudioFormat(24000, 2),
+        media::AudioFormat(32000, 1), media::AudioFormat(32000, 2),
+        media::AudioFormat(44100, 1), media::AudioFormat(44100, 2),
+        media::AudioFormat(48000, 1), media::AudioFormat(48000, 2),
+    }));
+    media::AudioInputFormat const inputfmt(muxfmt, muxfmt.samplerate / 50); // 20 msec frames
+    const int FRAMESIZE = inputfmt.samples;
+    const auto FMT = inputfmt.fmt;
+
+    // steady-state value of a constant signal after resampling to 'outfmt'
+    // (the muxer resamples each user's audio to the mux format this way)
+    auto steady_value = [](media::AudioFormat infmt, media::AudioFormat outfmt, short value)
+    {
+        auto resampler = MakeAudioResampler(infmt, outfmt);
+        REQUIRE(resampler);
+        int const insamples = infmt.samplerate / 50; // 20 msec
+        std::vector<short> ibuf(static_cast<size_t>(insamples) * static_cast<size_t>(infmt.channels), value);
+        int const outsamples = CalcSamples(infmt.samplerate, insamples, outfmt.samplerate);
+        std::vector<short> obuf(static_cast<size_t>(outsamples) * static_cast<size_t>(outfmt.channels), 0);
+        int produced = 0;
+        for (int f = 0; f < 5; ++f) // skip resampler warm-up frames
+            produced = resampler->Resample(ibuf.data(), insamples, obuf.data(), outsamples);
+        REQUIRE(produced == outsamples);
+        return static_cast<int>(obuf[obuf.size() / 2]); // constant signal: any sample
+    };
+
+    msg_queue_t mixed_frames;
+    auto const QSIZE = 1024 * 1024 * 10;
+    mixed_frames.high_water_mark(QSIZE);
+    mixed_frames.low_water_mark(QSIZE);
+
+    AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
+    muxer.SetMuxInterval(inputfmt.GetDurationMSec() * 5); // 100 msec
+    auto mixedfunc = [&](teamtalk::StreamTypes /*sts*/, const media::AudioFrame& frm)
+    {
+        auto* mb = AudioFrameToMsgBlock(frm);
+        REQUIRE(mixed_frames.enqueue(mb) >= 0);
+    };
+    REQUIRE(muxer.RegisterMuxCallback(inputfmt, mixedfunc));
+
+    // three users, each with a different AudioFrame input format, each
+    // submitting a constant-valued signal so the mix is predictable
+    struct UserSrc { int userid; media::AudioFormat fmt; int framesize; short value; };
+    const std::vector<UserSrc> users = {
+        { 1, media::AudioFormat(16000, 1), 16000 / 50, 1000 },
+        { 2, media::AudioFormat(8000, 1),   8000 / 50, 2000 },  // upsampled by muxer
+        { 3, media::AudioFormat(48000, 2),  48000 / 50, 3000 }, // downsampled, stereo->mono
+    };
+
+    // expected mix = sum of each user's constant signal resampled to the
+    // mux format (MuxUserAudio sums per sample and clamps to int16)
+    int expected_mix = 0;
+    for (auto const& u : users)
+        expected_mix += steady_value(u.fmt, FMT, u.value);
+    expected_mix = std::clamp(expected_mix, -32768, 32767);
+
+    for (auto const& u : users)
+    {
+        std::vector<short> buf(static_cast<size_t>(u.framesize) * static_cast<size_t>(u.fmt.channels), u.value);
+        media::AudioFrame frm(u.fmt, buf.data(), u.framesize);
+        frm.userdata = teamtalk::STREAMTYPE_VOICE;
+        for (int i = 0; i < 10; ++i) // 10 frames = 200 msec of audio per user
+        {
+            frm.sample_no = static_cast<uint32_t>(i * u.framesize);
+            REQUIRE(muxer.QueueUserAudio(u.userid, teamtalk::STREAMTYPE_VOICE, frm));
+        }
+    }
+
+    // collect mixed frames for up to 3 seconds
+    std::vector<std::vector<short>> voice_frames;
+    ACE_Message_Block* mb = nullptr;
+    auto const deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    while (std::chrono::steady_clock::now() < deadline && voice_frames.size() < 5)
+    {
+        ACE_Time_Value tv(0, 200 * 1000); // 200 msec
+        if (mixed_frames.dequeue(mb, &tv) >= 0)
+        {
+            MBGuard const g(mb);
+            media::AudioFrame const frm(mb);
+            REQUIRE(frm.inputfmt == FMT);
+            REQUIRE(frm.input_samples == FRAMESIZE);
+            if (frm.userdata != teamtalk::STREAMTYPE_NONE) // skip silence frames
+            {
+                voice_frames.emplace_back(frm.input_buffer,
+                                           frm.input_buffer + static_cast<size_t>(frm.input_samples) * FMT.channels);
+            }
+        }
+    }
+
+    // the mux callback must have produced mixed voice frames in the mux format
+    REQUIRE(!voice_frames.empty());
+
+    // steady-state mixed frames must equal the sum of the users' resampled
+    // signals (allow small tolerance for resampler rounding)
+    int sum_ok = 0;
+    for (auto const& v : voice_frames)
+    {
+        bool ok = true;
+        for (short const s : v)
+        {
+            if (std::abs(static_cast<int>(s) - expected_mix) > 8)
+            {
+                ok = false;
+                break;
+            }
+        }
+        if (ok)
+            ++sum_ok;
+    }
+    REQUIRE(sum_ok >= 1);
+}
+
+TEST_CASE("AudioContainerQueueOverflowBoundary")
+{
+    // AudioContainer is the per-user-source ACE_Message_Queue used by
+    // AudioMuxer (m_preprocess_queue); its water mark is AUDIOCONTAINER_MAXSIZE
+    // (3 sec @ 48 kHz stereo)
+    AudioContainer ac;
+    media::AudioFormat const fmt(48000, 2);
+    ac.AddAudioSource(16, teamtalk::STREAMTYPE_VOICE, fmt);
+    REQUIRE(ac.Exists(16, teamtalk::STREAMTYPE_VOICE));
+
+    int const framesize = fmt.samplerate / 100; // 10 msec frames
+    size_t const block_size = sizeof(media::AudioFrame) + PCM16_BYTES(framesize, fmt.channels);
+    size_t const hwm = AUDIOCONTAINER_MAXSIZE;
+
+    // ACE_Message_Queue::enqueue() with a zero timeout fails once
+    // cur_bytes_ >= high_water_mark_, checked *before* the new block is added,
+    // so frame k (1-based) is accepted iff (k-1)*block_size < hwm
+    size_t n_accept = 0;
+    while (n_accept * block_size < hwm)
+        ++n_accept;
+    REQUIRE(n_accept > 1);
+
+    std::vector<short> buf(static_cast<size_t>(framesize) * static_cast<size_t>(fmt.channels), 1);
+    media::AudioFrame frm(fmt, buf.data(), framesize);
+
+    // boundary: exactly n_accept frames fit
+    for (size_t i = 0; i < n_accept; ++i)
+        REQUIRE(ac.AddAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+    // next frame overflows the ACE_Message_Queue
+    REQUIRE(!ac.AddAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+    REQUIRE(!ac.IsEmpty(16, teamtalk::STREAMTYPE_VOICE));
+
+    // drain one frame: exactly one more frame fits again
+    {
+        ACE_Message_Block* mb = ac.AcquireAudioFrame(16, teamtalk::STREAMTYPE_VOICE);
+        REQUIRE(mb != nullptr);
+        mb->release();
+    }
+    REQUIRE(ac.AddAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+    REQUIRE(!ac.AddAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+
+    ac.RemoveAudioSource(16, teamtalk::STREAMTYPE_VOICE);
+    REQUIRE(!ac.Exists(16, teamtalk::STREAMTYPE_VOICE));
+}
+
+TEST_CASE("AudioMuxerQueueOverflow")
+{
+    // same generated mux input formats as AudioMuxerMixedAudioDifferentUserFormats
+    auto const muxfmt = GENERATE(values<media::AudioFormat>({
+        media::AudioFormat(8000, 1),  media::AudioFormat(8000, 2),
+        media::AudioFormat(12000, 1), media::AudioFormat(12000, 2),
+        media::AudioFormat(16000, 1), media::AudioFormat(16000, 2),
+        media::AudioFormat(24000, 1), media::AudioFormat(24000, 2),
+        media::AudioFormat(32000, 1), media::AudioFormat(32000, 2),
+        media::AudioFormat(44100, 1), media::AudioFormat(44100, 2),
+        media::AudioFormat(48000, 1), media::AudioFormat(48000, 2),
+    }));
+    media::AudioInputFormat const inputfmt(muxfmt, muxfmt.samplerate / 100); // 10 msec frames
+
+    msg_queue_t mixed_frames;
+    auto const QSIZE = 1024 * 1024 * 10;
+    mixed_frames.high_water_mark(QSIZE);
+    mixed_frames.low_water_mark(QSIZE);
+
+    AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
+    muxer.SetMuxInterval(1000); // 1 sec: first tick long after the burst below
+    std::atomic<int> voice_frames{0}, total_frames{0};
+    auto mixedfunc = [&](teamtalk::StreamTypes /*sts*/, const media::AudioFrame& frm)
+    {
+        ++total_frames;
+        if (frm.userdata != teamtalk::STREAMTYPE_NONE)
+            ++voice_frames;
+        auto* mb = AudioFrameToMsgBlock(frm);
+        mixed_frames.enqueue(mb); // test-side queue never overflows (10 MB water mark)
+    };
+    REQUIRE(muxer.RegisterMuxCallback(inputfmt, mixedfunc));
+
+    // Burst 5 seconds of audio (500 frames) in a tight loop. The per-source
+    // preprocess queue (AudioContainer, water mark AUDIOCONTAINER_MAXSIZE =
+    // 3 sec @ 48 kHz stereo) overflows first; the per-user mux queue
+    // (MUXBUFFER_MAX = 1 sec of mux format) overflows when the backlog is
+    // submitted. Both are ACE_Message_Queue with zero-timeout enqueue.
+    media::AudioFormat const userfmt(48000, 2);
+    int const userframesize = userfmt.samplerate / 100; // 10 msec frames @ 48 kHz
+    std::vector<short> buf(static_cast<size_t>(userframesize) * 2, 7);
+    media::AudioFrame frm(userfmt, buf.data(), userframesize);
+    frm.userdata = teamtalk::STREAMTYPE_VOICE;
+    constexpr int BURST = 500; // 5 sec of audio
+    for (int i = 0; i < BURST; ++i)
+    {
+        frm.sample_no = static_cast<uint32_t>(i * userframesize);
+        REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
+    }
+    // terminator frame
+    REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, media::AudioFrame()));
+
+    // wait until the muxer goes idle (no new frames for 600 msec, max 8 sec)
+    int last = -1, stable = 0;
+    for (int i = 0; i < 40; ++i)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        int const cur = total_frames.load();
+        if (cur == last)
+        {
+            if (++stable >= 3)
+                break;
+        }
+        else
+        {
+            stable = 0;
+            last = cur;
+        }
+    }
+
+    // the ACE_Message_Queue water marks were exceeded, so the majority of the
+    // burst was dropped: without overflow all BURST frames would be muxed
+    REQUIRE(voice_frames.load() < BURST / 2);
+    // the muxer survived the overflow and generated frames
+    REQUIRE(total_frames.load() >= 2);
+    // test-side queue received every callback frame
+    REQUIRE(mixed_frames.message_count() == static_cast<size_t>(total_frames.load()));
+}
