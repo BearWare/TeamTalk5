@@ -77,12 +77,11 @@ TEST_CASE("TestAudioTransform")
         auto mbs = transform->ProcessAudioResampler(frame);
         for (auto& mb : mbs)
         {
-            media::AudioFrame outframe(mb);
+            media::AudioFrame outframe(mb.get());
             REQUIRE(outframe.inputfmt.samplerate == output.samplerate);
             REQUIRE(outframe.inputfmt.channels == output.channels);
             //Assert::AreEqual(output_samples, outframe.input_samples);
             outwavefile.AppendSamples(outframe.input_buffer, outframe.input_samples);
-            mb->release();
         }
     }
 }
@@ -124,11 +123,10 @@ TEST_CASE("TestAudioEncoderTransform")
         sampleindex = GenerateTone(frame, sampleindex, 600);
         inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
 
-        auto mbs = transform->ProcessAudioEncoder(frame, false);
+        auto mbs = transform->ProcessAudioEncoder(frame);
         for(auto& mb : mbs)
         {
-            outwavefile.Write(mb->rd_ptr(), mb->length());
-            mb->release();
+            outwavefile.Write(mb->RdPtr(), mb->Length());
         }
     }
 
@@ -136,8 +134,7 @@ TEST_CASE("TestAudioEncoderTransform")
     auto mbs = transform->RetrieveAudioFrames();
     for(auto& mb : mbs)
     {
-        outwavefile.Write(mb->rd_ptr(), mb->length());
-        mb->release();
+        outwavefile.Write(mb->RdPtr(), mb->Length());
     }
 
     UpdateWaveFileHeader(outwavefile);
@@ -168,7 +165,7 @@ TEST_CASE("TestAACEncoder")
     while ((samples = wavfile.ReadSamples(&buf[0], int(mfi.audioFmt.nSampleRate * 0.01))) > 0)
     {
         frm.input_samples = samples;
-        transform->ProcessAudioEncoder(frm, true);
+        transform->ProcessAudioEncoder(frm);
         frm.sample_no += samples;
     }
 }
@@ -198,7 +195,7 @@ TEST_CASE("TestWavEncoder")
     while ((samples = wavfile.ReadSamples(&buf[0], int(mfi.audioFmt.nSampleRate * 0.01))) > 0)
     {
         frm.input_samples = samples;
-        transform->ProcessAudioEncoder(frm, true);
+        transform->ProcessAudioEncoder(frm);
         frm.sample_no += samples;
     }
 }
@@ -266,7 +263,7 @@ void AudioTransformEncoder(const media::AudioFormat& input, int bitrate, int fmt
     {
         sampleindex = GenerateTone(frame, sampleindex, 600);
         inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
-        transform->ProcessAudioEncoder(frame, true);
+        transform->ProcessAudioEncoder(frame);
     }
 }
 
@@ -338,7 +335,7 @@ TEST_CASE("TestAudioTransformMP3")
     {
         sampleindex = GenerateTone(frame, sampleindex, 600);
         inwavefile.AppendSamples(frame.input_buffer, frame.input_samples);
-        transformmp3->ProcessAudioEncoder(frame, true);
+        transformmp3->ProcessAudioEncoder(frame);
     }
 }
 #endif
