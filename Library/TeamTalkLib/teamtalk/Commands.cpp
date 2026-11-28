@@ -278,19 +278,6 @@ namespace teamtalk {
         switch(codec_type[0])
         {
         case CODEC_NO_CODEC :
-        case CODEC_SPEEX :
-        case CODEC_SPEEX_VBR :
-        case CODEC_OPUS :
-        case CODEC_WEBM_VP8 :
-            break;
-        default :
-            return false;
-        }
-
-        codec.codec = static_cast<Codec>(codec_type[0]);
-        switch(codec.codec)
-        {
-        case CODEC_NO_CODEC :
             return true;
         case CODEC_SPEEX :
             if(codec_type.size() < 5)
@@ -301,6 +288,7 @@ namespace teamtalk {
             codec.speex.quality = codec_type[2];
             codec.speex.frames_per_packet = codec_type[3];
             codec.speex.sim_stereo = (codec_type[4] != 0);
+            codec.codec = CODEC_SPEEX;
             return true;
         case CODEC_SPEEX_VBR :
             if(codec_type.size() < 8)
@@ -314,6 +302,7 @@ namespace teamtalk {
             codec.speex_vbr.dtx = (codec_type[5] != 0);
             codec.speex_vbr.frames_per_packet = codec_type[6];
             codec.speex_vbr.sim_stereo = (codec_type[7] != 0);
+            codec.codec = CODEC_SPEEX_VBR;
             return true;
         case CODEC_OPUS :
             if(codec_type.size() < 11)
@@ -332,11 +321,11 @@ namespace teamtalk {
                 codec.opus.frames_per_packet = codec_type[11];
             else
                 codec.opus.frames_per_packet = 1;
+            codec.codec = CODEC_OPUS;
             return true;
-        case CODEC_WEBM_VP8 :
-            break;
+        default :
+            return false;
         }
-        return false;
     }
 
     bool GetProperty(const mstrings_t& properties, const tstring& prop, 
