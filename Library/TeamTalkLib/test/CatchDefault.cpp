@@ -23,6 +23,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/generators/catch_generators_range.hpp>
 
 #include "TTUnitTest.h"
 #include "avstream/AudioResampler.h"
@@ -62,6 +63,8 @@
 #if defined(ENABLE_PORTAUDIO)
 #include "avstream/PortAudioWrapper.h"
 #endif
+
+#include "avstream/SoundSystemBase.h"
 
 #include <ace/ACE.h>
 #include <ace/Addr.h>
@@ -4902,3 +4905,75 @@ TEST_CASE("AudioMuxerQueueOverflow")
     // test-side queue received every callback frame
     REQUIRE(mixed_frames.message_count() == static_cast<size_t>(total_frames.load()));
 }
+
+#if defined(ENABLE_FFMPEG)
+TEST_CASE("FFmpegStreamerWaveToneSampleRates")
+{
+    // wave-file sample rates, cf. soundsystem::standardSampleRates (avstream/SoundSystemBase.h)
+    auto const samplerate = GENERATE(from_range(soundsystem::standardSampleRates));
+    constexpr int CHANNELS = 1;
+    constexpr UINT32 DURATION_MSEC = 1000;
+
+    // generate a wave file with a 500 Hz tone at this sample rate
+    MediaFileInfo mfi = {};
+    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = samplerate;
+    mfi.uDurationMSec = DURATION_MSEC;
+    tsnprintf(mfi.szFileName, TT_STRLEN, TTEXT("ffmpegtone_%d.wav"), samplerate);
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+
+    // the generated wave file must have the requested sample rate
+    MediaFileProp mfp;
+    REQUIRE(GetMediaFileProp(mfi.szFileName, mfp));
+    REQUIRE(mfp.audio.samplerate == samplerate);
+    REQUIRE(mfp.audio.channels == CHANNELS);
+
+    // stream the wave file with MediaStreamOutput using 20, 40 and 100
+    // msec audio samples
+    for (int msec : {20, 40, 100})
+    {
+        int const audio_samples = samplerate * msec / 1000;
+        MediaStreamOutput const out(media::AudioFormat(samplerate, CHANNELS), audio_samples);
+
+        FFmpegStreamer streamer(mfi.szFileName, out);
+        REQUIRE(streamer.Open());
+
+        std::promise<bool> done;
+        auto sig_done = done.get_future();
+        std::atomic<int> audio_frames{0};
+        std::atomic<int64_t> total_samples{0};
+
+        auto status = [&](const MediaFileProp& /*mfp*/, MediaStreamStatus status) {
+            if (status == MEDIASTREAM_FINISHED)
+                done.set_value(true);
+            else if (status == MEDIASTREAM_ERROR)
+                done.set_value(false);
+        };
+        auto audio = [&](media::AudioFrame& frm, ACE_Message_Block* /*mb_audio*/) {
+            REQUIRE(frm.inputfmt == media::AudioFormat(samplerate, CHANNELS));
+            REQUIRE(frm.input_samples == audio_samples);
+            ++audio_frames;
+            total_samples += frm.input_samples;
+            return false;
+        };
+
+        streamer.RegisterStatusCallback(status, true);
+        streamer.RegisterAudioCallback(audio, true);
+        REQUIRE(streamer.StartStream());
+
+        REQUIRE(sig_done.wait_for(std::chrono::seconds(20)) == std::future_status::ready);
+        REQUIRE(sig_done.get());
+        REQUIRE(audio_frames.load() > 0);
+
+        // streamed duration must match the wave file (within one frame)
+        int64_t const expected = static_cast<int64_t>(samplerate) * DURATION_MSEC / 1000;
+        int64_t const diff = total_samples.load() - expected;
+        bool const duration_ok = diff >= -audio_samples && diff <= audio_samples;
+        REQUIRE(duration_ok);
+    }
+
+    std::error_code ec;
+    std::filesystem::remove(mfi.szFileName, ec);
+}
+#endif
