@@ -43,6 +43,7 @@ namespace teamtalk
     bool GetAudioCodecSimulateStereo(const AudioCodec& codec);
     int GetAudioCodecBitRate(const AudioCodec& codec);
     int GetAudioCodecMaxPacketBitrate(const AudioCodec& codec);
+    int GetAudioCodecMaxEncFrameSize(const AudioCodec& codec);
     media::AudioFormat GetAudioCodecAudioFormat(const AudioCodec& codec);
     media::AudioInputFormat GetAudioCodecAudioInputFormat(const AudioCodec& codec);
 
@@ -54,6 +55,15 @@ namespace teamtalk
     //returns number of milliseconds 
     int GetSpeexFramesDuration(int bandmode, int framecount);
     int GetSpeexSamplesCount(int bandmode, int framecount);
+
+    bool ValidWavSampleRate(int samplerate);
+    int GetWavSampleFormatBytes(WavSampleFormat sampleformat);
+    int GetWavPacketSize(const AudioCodec& codec);
+    int GetFlacMaxPacketSize(const AudioCodec& codec);
+    int EncodeWavSamples(WavSampleFormat sampleformat, const short* input_buffer,
+                         int input_samples_total, char* output_buffer);
+    int DecodeWavSamples(WavSampleFormat sampleformat, const char* enc_data,
+                         int enc_length, short* output_buffer);
 
     bool AudioCodecConvertBug(const tstring& streamprotocol, const AudioCodec& codec);
 } // namespace teamtalk

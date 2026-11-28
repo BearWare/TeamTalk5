@@ -40,6 +40,9 @@
 #if defined(ENABLE_OPUS)
 #include "codec/OpusDecoder.h"
 #endif
+#if defined(ENABLE_FLAC)
+#include "codec/FlacDecoder.h"
+#endif
 
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include "avstream/MFTransform.h"
@@ -124,6 +127,9 @@ namespace teamtalk {
 #endif
 #if defined(ENABLE_OPUS)
         std::unique_ptr<OpusDecode> m_opus;
+#endif
+#if defined(ENABLE_FLAC)
+        std::unique_ptr<FlacDecode> m_flac;
 #endif
         wavepcmfile_t m_wavfile;
 #if defined(ENABLE_MEDIAFOUNDATION)

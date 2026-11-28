@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -49,11 +50,16 @@ import java.util.Locale;
 
 import dk.bearware.AudioCodec;
 import dk.bearware.Codec;
+import dk.bearware.FlacCodec;
+import dk.bearware.FlacConstants;
 import dk.bearware.OpusCodec;
 import dk.bearware.OpusConstants;
 import dk.bearware.SpeexCodec;
 import dk.bearware.SpeexConstants;
 import dk.bearware.SpeexVBRCodec;
+import dk.bearware.WavCodec;
+import dk.bearware.WavConstants;
+import dk.bearware.WavSampleFormat;
 import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.data.MapAdapter;
 
@@ -63,9 +69,11 @@ public class AudioCodecActivity extends AppCompatActivity implements
     static final int TAB_OPUS       = 0,
                      TAB_SPEEX      = 1,
                      TAB_SPEEXVBR   = 2,
-                     TAB_NOAUDIO    = 3,
+                     TAB_WAV        = 3,
+                     TAB_FLAC       = 4,
+                     TAB_NOAUDIO    = 5,
                      
-                     TAB_COUNT      = 4;
+                     TAB_COUNT      = 6;
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -94,6 +102,12 @@ public class AudioCodecActivity extends AppCompatActivity implements
                 break;
             case Codec.SPEEX_VBR_CODEC :
                 tab_index = TAB_SPEEXVBR;
+                break;
+            case Codec.WAV_CODEC :
+                tab_index = TAB_WAV;
+                break;
+            case Codec.FLAC_CODEC :
+                tab_index = TAB_FLAC;
                 break;
             case Codec.NO_CODEC :
                 tab_index = TAB_NOAUDIO;
@@ -170,6 +184,18 @@ public class AudioCodecActivity extends AppCompatActivity implements
                     audiocodec.nCodec = Codec.SPEEX_VBR_CODEC;
                     break;
                 }
+                case TAB_WAV: {
+                    WAVFragment wavfrag = (WAVFragment) frag;
+                    audiocodec.wav = wavfrag.exchangeWavCodec(wavfrag.getView(), true);
+                    audiocodec.nCodec = Codec.WAV_CODEC;
+                    break;
+                }
+                case TAB_FLAC: {
+                    FLACFragment flacfrag = (FLACFragment) frag;
+                    audiocodec.flac = flacfrag.exchangeFlacCodec(flacfrag.getView(), true);
+                    audiocodec.nCodec = Codec.FLAC_CODEC;
+                    break;
+                }
                 case TAB_NOAUDIO: {
                     audiocodec.nCodec = Codec.NO_CODEC;
                     break;
@@ -213,6 +239,8 @@ public class AudioCodecActivity extends AppCompatActivity implements
         OPUSFragment opusfrag;
         SpeexFragment speexfrag;
         SpeexVBRFragment speexvbrfrag;
+        WAVFragment wavfrag;
+        FLACFragment flacfrag;
         NoAudioFragment noaudiofrag;
         
         @NonNull
@@ -232,6 +260,14 @@ public class AudioCodecActivity extends AppCompatActivity implements
                     if(speexvbrfrag == null)
                         speexvbrfrag = new SpeexVBRFragment();
                     return speexvbrfrag;
+                case TAB_WAV :
+                    if(wavfrag == null)
+                        wavfrag = new WAVFragment();
+                    return wavfrag;
+                case TAB_FLAC :
+                    if(flacfrag == null)
+                        flacfrag = new FLACFragment();
+                    return flacfrag;
                 case TAB_NOAUDIO :
                     if(noaudiofrag == null)
                         noaudiofrag = new NoAudioFragment();
@@ -254,6 +290,10 @@ public class AudioCodecActivity extends AppCompatActivity implements
                     return getString(R.string.title_section_speex).toUpperCase(l);
                 case TAB_SPEEXVBR :
                     return getString(R.string.title_section_speexvbr).toUpperCase(l);
+                case TAB_WAV :
+                    return getString(R.string.title_section_wav).toUpperCase(l);
+                case TAB_FLAC :
+                    return getString(R.string.title_section_flac).toUpperCase(l);
                 case TAB_NOAUDIO :
                     return getString(R.string.title_section_noaudio).toUpperCase(l);
             }
@@ -634,6 +674,282 @@ public class AudioCodecActivity extends AppCompatActivity implements
         }
     }
    
+    public static class WAVFragment extends Fragment {
+
+        WavCodec wavcodec;
+
+        MapAdapter srMap;
+        MapAdapter audMap;
+        MapAdapter fmtMap;
+
+        public WAVFragment() {
+        }
+
+        @Override
+        public void onAttach(@NonNull Activity activity) {
+            wavcodec = ((AudioCodecActivity)activity).audiocodec.wav;
+            srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            audMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            fmtMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+
+            srMap.addPair("8 KHz", 8000);
+            srMap.addPair("11.025 KHz", 11025);
+            srMap.addPair("12 KHz", 12000);
+            srMap.addPair("16 KHz", 16000);
+            srMap.addPair("22.05 KHz", 22050);
+            srMap.addPair("24 KHz", 24000);
+            srMap.addPair("32 KHz", 32000);
+            srMap.addPair("44.1 KHz", 44100);
+            srMap.addPair("48 KHz", 48000);
+            srMap.addPair("88.2 KHz", 88200);
+            srMap.addPair("96 KHz", 96000);
+            srMap.addPair("176.4 KHz", 176400);
+            srMap.addPair("192 KHz", 192000);
+            srMap.addPair("352.8 KHz", 352800);
+            srMap.addPair("384 KHz", 384000);
+
+            audMap.addPair("Mono", 1);
+            audMap.addPair("Stereo", 2);
+
+            fmtMap.addPair("8-bit", WavSampleFormat.WAV_SAMPLEFORMAT_UINT8);
+            fmtMap.addPair("16-bit", WavSampleFormat.WAV_SAMPLEFORMAT_INT16);
+
+            super.onAttach(activity);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_audiocodec_wav,
+                                             container, false);
+
+            exchangeWavCodec(rootView, false);
+
+            return rootView;
+        }
+
+        WavCodec exchangeWavCodec(View rootView, boolean store) {
+
+            Spinner sr = rootView.findViewById(R.id.wav_samplerateSpin);
+            Spinner audchan = rootView.findViewById(R.id.wav_audchanSpin);
+            Spinner sampleformat = rootView.findViewById(R.id.wav_sampleformatSpin);
+            SeekBar txinterval = rootView.findViewById(R.id.wav_txintervalSeekBar);
+            final TextView txintervalText = rootView.findViewById(R.id.wav_txintervalTextView);
+            final TextView bitrateText = rootView.findViewById(R.id.wav_brTextView);
+
+            if(store) {
+                wavcodec.nSampleRate = srMap.getValue(sr.getSelectedItemPosition(),
+                                                      WavConstants.DEFAULT_WAV_SAMPLERATE);
+                wavcodec.nChannels = audMap.getValue(audchan.getSelectedItemPosition(),
+                                                     WavConstants.DEFAULT_WAV_CHANNELS);
+                wavcodec.nSampleFormat = fmtMap.getValue(sampleformat.getSelectedItemPosition(),
+                                                         WavConstants.DEFAULT_WAV_SAMPLEFORMAT);
+                wavcodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.WAV_MIN_TXINTERVALMSEC;
+            }
+            else {
+                sr.setAdapter(srMap);
+                sr.setSelection(srMap.getIndex(wavcodec.nSampleRate, 0));
+
+                audchan.setAdapter(audMap);
+                audchan.setSelection(audMap.getIndex(wavcodec.nChannels, 0));
+
+                sampleformat.setAdapter(fmtMap);
+                sampleformat.setSelection(fmtMap.getIndex(wavcodec.nSampleFormat, 0));
+
+                txinterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        int interval = progress + TeamTalkConstants.WAV_MIN_TXINTERVALMSEC;
+                        txintervalText.setText(interval + " msec");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                final Runnable updateLimits = () -> {
+                    int bytespersec = getBytesPerSecond(srMap.getValue(sr.getSelectedItemPosition(), WavConstants.DEFAULT_WAV_SAMPLERATE),
+                                                        audMap.getValue(audchan.getSelectedItemPosition(), WavConstants.DEFAULT_WAV_CHANNELS),
+                                                        fmtMap.getValue(sampleformat.getSelectedItemPosition(), WavConstants.DEFAULT_WAV_SAMPLEFORMAT));
+                    txinterval.setMax(getMaxTxInterval(bytespersec) - TeamTalkConstants.WAV_MIN_TXINTERVALMSEC);
+                    bitrateText.setText((bytespersec * 8 / 1000) + " kbit/s");
+                };
+
+                updateLimits.run();
+                txinterval.setProgress(wavcodec.nTxIntervalMSec - TeamTalkConstants.WAV_MIN_TXINTERVALMSEC);
+
+                AdapterView.OnItemSelectedListener formatListener = new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        updateLimits.run();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                };
+                sr.setOnItemSelectedListener(formatListener);
+                audchan.setOnItemSelectedListener(formatListener);
+                sampleformat.setOnItemSelectedListener(formatListener);
+            }
+            return wavcodec;
+        }
+
+        private static int getBytesPerSecond(int samplerate, int channels, int sampleformat) {
+            int samplebytes = sampleformat == WavSampleFormat.WAV_SAMPLEFORMAT_UINT8 ? 1 : 2;
+            return samplerate * channels * samplebytes;
+        }
+
+        private static int getMaxTxInterval(int bytespersec) {
+            if (bytespersec <= 0)
+                return TeamTalkConstants.WAV_MAX_TXINTERVALMSEC;
+            return (int) Math.min(TeamTalkConstants.WAV_MAX_TXINTERVALMSEC,
+                                  (long) WavConstants.WAV_MAX_PACKETSIZE * 1000 / bytespersec);
+        }
+    }
+
+    public static class FLACFragment extends Fragment {
+
+        FlacCodec flaccodec;
+
+        MapAdapter srMap;
+        MapAdapter audMap;
+        MapAdapter levelMap;
+
+        public FLACFragment() {
+        }
+
+        @Override
+        public void onAttach(@NonNull Activity activity) {
+            flaccodec = ((AudioCodecActivity)activity).audiocodec.flac;
+            srMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            audMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+            levelMap = new MapAdapter(activity, R.layout.item_spinner, R.id.spinTextView);
+
+            srMap.addPair("8 KHz", 8000);
+            srMap.addPair("11.025 KHz", 11025);
+            srMap.addPair("12 KHz", 12000);
+            srMap.addPair("16 KHz", 16000);
+            srMap.addPair("22.05 KHz", 22050);
+            srMap.addPair("24 KHz", 24000);
+            srMap.addPair("32 KHz", 32000);
+            srMap.addPair("44.1 KHz", 44100);
+            srMap.addPair("48 KHz", 48000);
+            srMap.addPair("88.2 KHz", 88200);
+            srMap.addPair("96 KHz", 96000);
+            srMap.addPair("176.4 KHz", 176400);
+            srMap.addPair("192 KHz", 192000);
+            srMap.addPair("352.8 KHz", 352800);
+            srMap.addPair("384 KHz", 384000);
+
+            audMap.addPair("Mono", 1);
+            audMap.addPair("Stereo", 2);
+
+            for (int level = FlacConstants.FLAC_MIN_COMPRESSIONLEVEL; level <= FlacConstants.FLAC_MAX_COMPRESSIONLEVEL; level++)
+                levelMap.addPair(String.valueOf(level), level);
+
+            super.onAttach(activity);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_audiocodec_flac,
+                                             container, false);
+
+            exchangeFlacCodec(rootView, false);
+
+            return rootView;
+        }
+
+        FlacCodec exchangeFlacCodec(View rootView, boolean store) {
+
+            Spinner sr = rootView.findViewById(R.id.flac_samplerateSpin);
+            Spinner audchan = rootView.findViewById(R.id.flac_audchanSpin);
+            Spinner level = rootView.findViewById(R.id.flac_levelSpin);
+            SeekBar txinterval = rootView.findViewById(R.id.flac_txintervalSeekBar);
+            final TextView txintervalText = rootView.findViewById(R.id.flac_txintervalTextView);
+            final TextView bitrateText = rootView.findViewById(R.id.flac_brTextView);
+
+            if(store) {
+                flaccodec.nSampleRate = srMap.getValue(sr.getSelectedItemPosition(),
+                                                       FlacConstants.DEFAULT_FLAC_SAMPLERATE);
+                flaccodec.nChannels = audMap.getValue(audchan.getSelectedItemPosition(),
+                                                      FlacConstants.DEFAULT_FLAC_CHANNELS);
+                flaccodec.nCompressionLevel = levelMap.getValue(level.getSelectedItemPosition(),
+                                                                FlacConstants.DEFAULT_FLAC_COMPRESSIONLEVEL);
+                flaccodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.FLAC_MIN_TXINTERVALMSEC;
+            }
+            else {
+                sr.setAdapter(srMap);
+                sr.setSelection(srMap.getIndex(flaccodec.nSampleRate, 0));
+
+                audchan.setAdapter(audMap);
+                audchan.setSelection(audMap.getIndex(flaccodec.nChannels, 0));
+
+                level.setAdapter(levelMap);
+                level.setSelection(levelMap.getIndex(flaccodec.nCompressionLevel,
+                                                     FlacConstants.DEFAULT_FLAC_COMPRESSIONLEVEL));
+
+                txinterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        int interval = progress + TeamTalkConstants.FLAC_MIN_TXINTERVALMSEC;
+                        txintervalText.setText(interval + " msec");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                final Runnable updateLimits = () -> {
+                    int bytespersec = srMap.getValue(sr.getSelectedItemPosition(), FlacConstants.DEFAULT_FLAC_SAMPLERATE) *
+                                      audMap.getValue(audchan.getSelectedItemPosition(), FlacConstants.DEFAULT_FLAC_CHANNELS) * 2;
+                    txinterval.setMax(getMaxTxInterval(bytespersec) - TeamTalkConstants.FLAC_MIN_TXINTERVALMSEC);
+                    bitrateText.setText((bytespersec * 8 / 1000) + " kbit/s");
+                };
+
+                updateLimits.run();
+                txinterval.setProgress(flaccodec.nTxIntervalMSec - TeamTalkConstants.FLAC_MIN_TXINTERVALMSEC);
+
+                AdapterView.OnItemSelectedListener formatListener = new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        updateLimits.run();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                };
+                sr.setOnItemSelectedListener(formatListener);
+                audchan.setOnItemSelectedListener(formatListener);
+            }
+            return flaccodec;
+        }
+
+        private static int getMaxTxInterval(int bytespersec) {
+            if (bytespersec <= 0)
+                return TeamTalkConstants.FLAC_MAX_TXINTERVALMSEC;
+            return (int) Math.min(TeamTalkConstants.FLAC_MAX_TXINTERVALMSEC,
+                                  (long) (FlacConstants.FLAC_MAX_PACKETSIZE - FlacConstants.FLAC_MAX_PACKETOVERHEAD) * 1000 / bytespersec);
+        }
+    }
+
     public static class NoAudioFragment extends Fragment {
 
         public NoAudioFragment() {

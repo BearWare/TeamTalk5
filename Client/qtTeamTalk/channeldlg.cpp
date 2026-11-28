@@ -134,6 +134,38 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_framesizeComboBox->addItem("100", 100);
     ui.opus_framesizeComboBox->addItem("120", OPUS_REALMAX_FRAMESIZE);
 
+    ui.audiocodecBox->addItem("WAV", WAV_CODEC);
+    for (int samplerate : {8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+                           88200, 96000, 176400, 192000, 352800, 384000})
+        ui.wav_srateBox->addItem(QString::number(samplerate), samplerate);
+    ui.wav_channelsBox->addItem(tr("Mono"), 1);
+    ui.wav_channelsBox->addItem(tr("Stereo"), 2);
+    ui.wav_sampleformatBox->addItem(tr("8-bit"), WAV_SAMPLEFORMAT_UINT8);
+    ui.wav_sampleformatBox->addItem(tr("16-bit"), WAV_SAMPLEFORMAT_INT16);
+    ui.wav_txdelaySpinBox->setSingleStep(10);
+    ui.wav_txdelaySpinBox->setRange(10, 1000);
+    connect(ui.wav_srateBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ChannelDlg::slotWavCodecChanged);
+    connect(ui.wav_channelsBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ChannelDlg::slotWavCodecChanged);
+    connect(ui.wav_sampleformatBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ChannelDlg::slotWavCodecChanged);
+
+    ui.audiocodecBox->addItem("FLAC", FLAC_CODEC);
+    for (int samplerate : {8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+                           88200, 96000, 176400, 192000, 352800, 384000})
+        ui.flac_srateBox->addItem(QString::number(samplerate), samplerate);
+    ui.flac_channelsBox->addItem(tr("Mono"), 1);
+    ui.flac_channelsBox->addItem(tr("Stereo"), 2);
+    for (int level = FLAC_MIN_COMPRESSIONLEVEL; level <= FLAC_MAX_COMPRESSIONLEVEL; ++level)
+        ui.flac_levelBox->addItem(QString::number(level), level);
+    ui.flac_txdelaySpinBox->setSingleStep(10);
+    ui.flac_txdelaySpinBox->setRange(10, 1000);
+    connect(ui.flac_srateBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ChannelDlg::slotFlacCodecChanged);
+    connect(ui.flac_channelsBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ChannelDlg::slotFlacCodecChanged);
+
     bool modchannels = (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
     ui.staticchanBox->setEnabled(modchannels);
     ui.diskquotaSpinBox->setEnabled(modchannels);
@@ -164,6 +196,16 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_vbrCheckBox->setChecked(DEFAULT_OPUS_VBR);
     setCurrentItemData(ui.opus_framesizeComboBox, DEFAULT_OPUS_FRAMESIZE);
     ui.opus_framesizeComboBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_6->text()).arg(ui.opus_framesizeComboBox->currentText()).arg(ui.label_10->text()));
+    setCurrentItemData(ui.wav_srateBox, DEFAULT_WAV_SAMPLERATE);
+    setCurrentItemData(ui.wav_channelsBox, DEFAULT_WAV_CHANNELS);
+    setCurrentItemData(ui.wav_sampleformatBox, DEFAULT_WAV_SAMPLEFORMAT);
+    ui.wav_txdelaySpinBox->setValue(DEFAULT_WAV_DELAY);
+    slotWavCodecChanged();
+    setCurrentItemData(ui.flac_srateBox, DEFAULT_FLAC_SAMPLERATE);
+    setCurrentItemData(ui.flac_channelsBox, DEFAULT_FLAC_CHANNELS);
+    setCurrentItemData(ui.flac_levelBox, DEFAULT_FLAC_COMPRESSIONLEVEL);
+    ui.flac_txdelaySpinBox->setValue(DEFAULT_FLAC_DELAY);
+    slotFlacCodecChanged();
 
     switch(type)
     {
@@ -273,6 +315,18 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.opus_txdelaySpinBox->setValue(m_channel.audiocodec.opus.nTxIntervalMSec);
         setCurrentItemData(ui.opus_framesizeComboBox, m_channel.audiocodec.opus.nFrameSizeMSec);
         break;
+    case WAV_CODEC :
+        setCurrentItemData(ui.wav_srateBox, m_channel.audiocodec.wav.nSampleRate);
+        setCurrentItemData(ui.wav_channelsBox, m_channel.audiocodec.wav.nChannels);
+        setCurrentItemData(ui.wav_sampleformatBox, m_channel.audiocodec.wav.nSampleFormat);
+        ui.wav_txdelaySpinBox->setValue(m_channel.audiocodec.wav.nTxIntervalMSec);
+        break;
+    case FLAC_CODEC :
+        setCurrentItemData(ui.flac_srateBox, m_channel.audiocodec.flac.nSampleRate);
+        setCurrentItemData(ui.flac_channelsBox, m_channel.audiocodec.flac.nChannels);
+        setCurrentItemData(ui.flac_levelBox, m_channel.audiocodec.flac.nCompressionLevel);
+        ui.flac_txdelaySpinBox->setValue(m_channel.audiocodec.flac.nTxIntervalMSec);
+        break;
     default :
         break;
     }
@@ -373,6 +427,18 @@ Channel ChannelDlg::GetChannel() const
         newchannel.audiocodec.opus.nTxIntervalMSec = ui.opus_txdelaySpinBox->value();
         newchannel.audiocodec.opus.nFrameSizeMSec = getCurrentItemData(ui.opus_framesizeComboBox).toInt();
         break;
+    case WAV_CODEC :
+        newchannel.audiocodec.wav.nSampleRate = getCurrentItemData(ui.wav_srateBox).toInt();
+        newchannel.audiocodec.wav.nChannels = getCurrentItemData(ui.wav_channelsBox).toInt();
+        newchannel.audiocodec.wav.nSampleFormat = WavSampleFormat(getCurrentItemData(ui.wav_sampleformatBox).toInt());
+        newchannel.audiocodec.wav.nTxIntervalMSec = ui.wav_txdelaySpinBox->value();
+        break;
+    case FLAC_CODEC :
+        newchannel.audiocodec.flac.nSampleRate = getCurrentItemData(ui.flac_srateBox).toInt();
+        newchannel.audiocodec.flac.nChannels = getCurrentItemData(ui.flac_channelsBox).toInt();
+        newchannel.audiocodec.flac.nCompressionLevel = getCurrentItemData(ui.flac_levelBox).toInt();
+        newchannel.audiocodec.flac.nTxIntervalMSec = ui.flac_txdelaySpinBox->value();
+        break;
     default :
         break;
     }
@@ -418,6 +484,16 @@ void ChannelDlg::setAudioCodecReadonly()
     ui.opus_framesizeComboBox->setEnabled(false);
     ui.opus_vbrCheckBox->setEnabled(false);
     ui.opus_dtxBox->setEnabled(false);
+
+    ui.wav_srateBox->setEnabled(false);
+    ui.wav_channelsBox->setEnabled(false);
+    ui.wav_sampleformatBox->setEnabled(false);
+    ui.wav_txdelaySpinBox->setReadOnly(true);
+
+    ui.flac_srateBox->setEnabled(false);
+    ui.flac_channelsBox->setEnabled(false);
+    ui.flac_levelBox->setEnabled(false);
+    ui.flac_txdelaySpinBox->setReadOnly(true);
 }
 
 void ChannelDlg::slotAudioCodecChanged(int index)
@@ -432,6 +508,12 @@ void ChannelDlg::slotAudioCodecChanged(int index)
         break;
     case OPUS_CODEC :
         ui.stackedWidget->setCurrentIndex(3);
+        break;
+    case WAV_CODEC :
+        ui.stackedWidget->setCurrentIndex(4);
+        break;
+    case FLAC_CODEC :
+        ui.stackedWidget->setCurrentIndex(5);
         break;
     case NO_CODEC :
     default :
@@ -481,4 +563,41 @@ void ChannelDlg::slotSoloTransmitDelay()
     inputDialog.setLabelText(tr("Delay before switching to next user in queue (in msec)"));
     if (inputDialog.exec())
         m_channel.nTransmitUsersQueueDelayMSec = inputDialog.textValue().toInt();
+}
+
+void ChannelDlg::slotWavCodecChanged()
+{
+    int samplebytes = 0;
+    switch (getCurrentItemData(ui.wav_sampleformatBox).toInt())
+    {
+    case WAV_SAMPLEFORMAT_UINT8 :
+        samplebytes = 1;
+        break;
+    case WAV_SAMPLEFORMAT_INT16 :
+        samplebytes = 2;
+        break;
+    }
+
+    qint64 const bytespersec = qint64(getCurrentItemData(ui.wav_srateBox).toInt()) *
+        getCurrentItemData(ui.wav_channelsBox).toInt() * samplebytes;
+    if (bytespersec <= 0)
+        return;
+
+    ui.wav_txdelaySpinBox->setMaximum(int(qMin(qint64(1000), qint64(WAV_MAX_PACKETSIZE) * 1000 / bytespersec)));
+    ui.wav_bitrateLabel->setText(QString("%1 Kbps").arg(bytespersec * 8 / 1000));
+    ui.wav_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_48->text()).arg(ui.wav_srateBox->currentText()).arg(ui.label_49->text()));
+    ui.wav_bitrateLabel->setAccessibleName(QString("%1 %2").arg(ui.label_53->text()).arg(ui.wav_bitrateLabel->text()));
+}
+
+void ChannelDlg::slotFlacCodecChanged()
+{
+    qint64 const bytespersec = qint64(getCurrentItemData(ui.flac_srateBox).toInt()) *
+        getCurrentItemData(ui.flac_channelsBox).toInt() * 2;
+    if (bytespersec <= 0)
+        return;
+
+    ui.flac_txdelaySpinBox->setMaximum(int(qMin(qint64(1000), qint64(FLAC_MAX_PACKETSIZE - FLAC_MAX_PACKETOVERHEAD) * 1000 / bytespersec)));
+    ui.flac_bitrateLabel->setText(QString("%1 Kbps").arg(bytespersec * 8 / 1000));
+    ui.flac_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_54->text()).arg(ui.flac_srateBox->currentText()).arg(ui.label_55->text()));
+    ui.flac_bitrateLabel->setAccessibleName(QString("%1 %2").arg(ui.label_59->text()).arg(ui.flac_bitrateLabel->text()));
 }

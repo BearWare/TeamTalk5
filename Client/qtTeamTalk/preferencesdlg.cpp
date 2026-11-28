@@ -1807,6 +1807,8 @@ void PreferencesDlg::slotDefaultVideoSettings()
         ui.vp8bitrateSpinBox->setValue(DEFAULT_WEBMVP8_BITRATE);
         break;
     case OPUS_CODEC :
+    case WAV_CODEC :
+    case FLAC_CODEC :
     case SPEEX_VBR_CODEC :
     case SPEEX_CODEC :
     case NO_CODEC :

@@ -40,7 +40,8 @@
 
 namespace soundsystem {
 
-    const std::vector<int> standardSampleRates = { 8000, 12000, 16000, 24000, 32000, 44100, 48000 };
+    const std::vector<int> standardSampleRates = { 8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+                                                   88200, 96000, 176400, 192000, 352800, 384000 };
 
     template < typename SOUNDGROUP, typename INPUTSTREAMER, typename OUTPUTSTREAMER, typename DUPLEXSTREAMER >
     class SoundSystemBase : public SoundSystem
@@ -1241,7 +1242,7 @@ namespace soundsystem {
             device.output_channels.insert(1);
             device.output_channels.insert(2);
 
-            device.default_samplerate = standardSampleRates.back();
+            device.default_samplerate = 48000;
             device.input_samplerates.insert(standardSampleRates.begin(),
                                             standardSampleRates.end());
             device.output_samplerates.insert(standardSampleRates.begin(),

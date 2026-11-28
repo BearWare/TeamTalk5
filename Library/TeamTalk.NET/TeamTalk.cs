@@ -1126,6 +1126,110 @@ namespace BearWare
         public const int DEFAULT_OPUS_DELAY = 20;
     }
 
+    /** @brief The sample formats supported by #BearWare.WavCodec. */
+    public enum WavSampleFormat : uint
+    {
+        /** @brief No sample format specified. */
+        WAV_SAMPLEFORMAT_NONE = 0,
+        /** @brief Unsigned 8-bit PCM samples. */
+        WAV_SAMPLEFORMAT_UINT8 = 1,
+        /** @brief Signed 16-bit little-endian PCM samples. */
+        WAV_SAMPLEFORMAT_INT16 = 2
+    }
+
+    /** @brief WAV audio codec settings. Audio is transmitted as
+     * uncompressed PCM samples. */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct WavCodec
+    {
+        /** @brief The sample rate to use. Sample rate must be 8000,
+         * 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+         * 88200, 96000, 176400, 192000, 352800 or 384000 Hz. */
+        public int nSampleRate;
+        /** @brief Mono = 1 or stereo = 2. */
+        public int nChannels;
+        /** @brief The format of the PCM samples. */
+        public WavSampleFormat nSampleFormat;
+        /** @brief Duration of audio before each transmission. Minimum is 2 msec.
+         * Maximum is 1000 msec.
+         *
+         * The PCM samples of each transmission cannot exceed
+         * #BearWare.WavConstants.WAV_MAX_PACKETSIZE bytes, i.e. @c nSampleRate * @c
+         * nTxIntervalMSec / 1000 * @c nChannels * bytes per sample
+         * of @c nSampleFormat.
+         *
+         * The #BearWare.SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
+        public int nTxIntervalMSec;
+    }
+
+    /** @brief WAV constants for #BearWare.WavCodec. */
+    public struct WavConstants
+    {
+        /** @brief The maximum number of bytes of PCM samples in each
+         * transmission. Checkout @c nTxIntervalMSec of #BearWare.WavCodec. */
+        public const int WAV_MAX_PACKETSIZE = 65535;
+
+        public const int DEFAULT_WAV_SAMPLERATE = 48000;
+        public const int DEFAULT_WAV_CHANNELS = 1;
+        public const WavSampleFormat DEFAULT_WAV_SAMPLEFORMAT = WavSampleFormat.WAV_SAMPLEFORMAT_INT16;
+        public const int DEFAULT_WAV_TXINTERVAL = 40;
+    }
+
+    /** @brief FLAC audio codec settings. Audio is transmitted as
+     * losslessly compressed 16-bit PCM samples. */
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct FlacCodec
+    {
+        /** @brief The sample rate to use. Sample rate must be 8000,
+         * 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+         * 88200, 96000, 176400, 192000, 352800 or 384000 Hz. */
+        public int nSampleRate;
+        /** @brief Mono = 1 or stereo = 2. */
+        public int nChannels;
+        /** @brief The compression level of the FLAC encoder. Value
+         * from #BearWare.FlacConstants.FLAC_MIN_COMPRESSIONLEVEL to
+         * #BearWare.FlacConstants.FLAC_MAX_COMPRESSIONLEVEL. A higher
+         * compression level gives smaller packets but requires more CPU. */
+        public int nCompressionLevel;
+        /** @brief Duration of audio before each transmission. Minimum is 2 msec.
+         * Maximum is 1000 msec.
+         *
+         * The size of the encoded audio depends on the audio being
+         * compressed so the uncompressed 16-bit PCM samples of each
+         * transmission plus #BearWare.FlacConstants.FLAC_MAX_PACKETOVERHEAD
+         * bytes cannot exceed #BearWare.FlacConstants.FLAC_MAX_PACKETSIZE
+         * bytes, i.e. @c nSampleRate * @c nTxIntervalMSec / 1000 * @c
+         * nChannels * 2 + #BearWare.FlacConstants.FLAC_MAX_PACKETOVERHEAD.
+         *
+         * The #BearWare.SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
+        public int nTxIntervalMSec;
+    }
+
+    /** @brief FLAC constants for #BearWare.FlacCodec. */
+    public struct FlacConstants
+    {
+        /** @brief The minimum compression level of #BearWare.FlacCodec. */
+        public const int FLAC_MIN_COMPRESSIONLEVEL = 0;
+        /** @brief The maximum compression level of #BearWare.FlacCodec. */
+        public const int FLAC_MAX_COMPRESSIONLEVEL = 8;
+        /** @brief The maximum number of bytes of encoded audio in each
+         * transmission. Checkout @c nTxIntervalMSec of #BearWare.FlacCodec. */
+        public const int FLAC_MAX_PACKETSIZE = 65535;
+        /** @brief The maximum number of bytes the FLAC encoder adds to the
+         * PCM samples of each transmission. Checkout @c nTxIntervalMSec of
+         * #BearWare.FlacCodec. */
+        public const int FLAC_MAX_PACKETOVERHEAD = 32;
+
+        public const int DEFAULT_FLAC_SAMPLERATE = 48000;
+        public const int DEFAULT_FLAC_CHANNELS = 1;
+        public const int DEFAULT_FLAC_COMPRESSIONLEVEL = 5;
+        public const int DEFAULT_FLAC_TXINTERVAL = 40;
+    }
+
     /** @brief Audio configuration specifying how recorded audio from
     * sound input device should be preprocessed before transmission.
     *
@@ -1528,6 +1632,10 @@ namespace BearWare
         SPEEX_VBR_CODEC = 2,
         /** @brief OPUS audio codec. @see OpusCodec */
         OPUS_CODEC = 3,
+        /** @brief WAV audio codec. @see WavCodec */
+        WAV_CODEC = 4,
+        /** @brief FLAC audio codec. @see FlacCodec */
+        FLAC_CODEC = 5,
         /** @brief WebM video codec. @see WebMVP8Codec */
         WEBM_VP8_CODEC = 128
     }
@@ -1538,8 +1646,8 @@ namespace BearWare
     [StructLayout(LayoutKind.Explicit)]
     public struct AudioCodec
     {
-        /** @brief Specifies whether the member @a speex, @a speex_vbr or
-         * @a opus holds the codec settings. */
+        /** @brief Specifies whether the member @a speex, @a speex_vbr,
+         * @a opus, @a wav or @a flac holds the codec settings. */
         [FieldOffset(0)]
         public Codec nCodec;
         /** @brief Speex codec settings if @a nCodec is
@@ -1554,6 +1662,14 @@ namespace BearWare
          * OPUS_CODEC */
         [FieldOffset(4)]
         public OpusCodec opus;
+        /** @brief WAV codec settings if @a nCodec is
+         * #BearWare.Codec.WAV_CODEC */
+        [FieldOffset(4)]
+        public WavCodec wav;
+        /** @brief FLAC codec settings if @a nCodec is
+         * #BearWare.Codec.FLAC_CODEC */
+        [FieldOffset(4)]
+        public FlacCodec flac;
     }
 
     /** @brief Audio configuration for clients in a channel.
@@ -3955,6 +4071,8 @@ namespace BearWare
         __SOUNDDEVICEEFFECTS      = 44,
         __DESKTOPWINDOW           = 45,
         __ABUSEPREVENTION         = 46,
+        __WAVCODEC                = 47,
+        __FLACCODEC               = 48,
     }
 
     /**
@@ -4370,6 +4488,8 @@ namespace BearWare
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__AUDIOINPUTPROGRESS) == Marshal.SizeOf(new AudioInputProgress()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__JITTERCONFIG) == Marshal.SizeOf(new JitterConfig()));
             Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__ENCRYPTIONCONTEXT) == Marshal.SizeOf(new EncryptionContext()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__WAVCODEC) == Marshal.SizeOf(new WavCodec()));
+            Debug.Assert(TTDLL.TT_DBG_SIZEOF(TTType.__FLACCODEC) == Marshal.SizeOf(new FlacCodec()));
 
             if (poll_based)
                 m_ttInst = TTDLL.TT_InitTeamTalkPoll();

@@ -1158,10 +1158,14 @@ SLuint32 toSLSamplerate(int samplerate)
     {
     case 8000 :
         return SL_SAMPLINGRATE_8;
+    case 11025 :
+        return SL_SAMPLINGRATE_11_025;
     case 12000 :
         return SL_SAMPLINGRATE_12;
     case 16000 :
         return SL_SAMPLINGRATE_16;
+    case 22050 :
+        return SL_SAMPLINGRATE_22_05;
     case 24000 :
         return SL_SAMPLINGRATE_24;
     case 32000 :
@@ -1170,6 +1174,16 @@ SLuint32 toSLSamplerate(int samplerate)
         return SL_SAMPLINGRATE_44_1;
     case 48000 :
         return SL_SAMPLINGRATE_48;
+    case 88200 :
+        return SL_SAMPLINGRATE_88_2;
+    case 96000 :
+        return SL_SAMPLINGRATE_96;
+    case 192000 :
+        return SL_SAMPLINGRATE_192;
+    case 176400 :
+    case 352800 :
+    case 384000 :
+        return static_cast<SLuint32>(samplerate) * 1000;
     default :
         return 0;
     }

@@ -79,6 +79,12 @@ if (TOOLCHAIN_OGG)
   add_subdirectory(ogg)
 endif()
 
+option (TOOLCHAIN_FLAC "Build and link FLAC from TeamTalk toolchain" ON)
+add_feature_info (TOOLCHAIN_FLAC TOOLCHAIN_FLAC "FLAC is provided by TOOLCHAIN_INSTALL_PREFIX")
+if (TOOLCHAIN_FLAC)
+  add_subdirectory(flac)
+endif()
+
 option (TOOLCHAIN_OPUS "Build and link OPUS from TeamTalk toolchain" ON)
 add_feature_info (TOOLCHAIN_OPUS TOOLCHAIN_OPUS "OPUS is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_OPUS)

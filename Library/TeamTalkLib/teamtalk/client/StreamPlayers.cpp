@@ -152,6 +152,21 @@ void AudioPlayer::CleanUpAudioFragments(uint16_t too_old_packet_no)
     }
 }
 
+void AudioPlayer::AddPartialPacket(uint16_t packet_no)
+{
+    wguard_t const g(m_mutex);
+
+    auto const ii = m_audfragments.find(packet_no);
+    if (ii == m_audfragments.end())
+        return;
+
+    audiopacket_t const audpkt = ReassemblePartialAudioPacket(ii->second,
+                                                              static_cast<uint16_t>(GetWavPacketSize(GetAudioCodec())));
+    m_audfragments.erase(ii);
+    if (audpkt)
+        AddPacket(*audpkt);
+}
+
 void AudioPlayer::Reset()
 {
     wguard_t const g(m_mutex);
@@ -398,6 +413,9 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
                      m_userid, m_streamtype, GetStreamID(), m_play_pkt_no, m_buffer.rbegin()->first,
                      GETTIMESTAMP());
 
+        if (GetAudioCodec().codec == CODEC_WAV && m_buffer.find(m_play_pkt_no) == m_buffer.end())
+            AddPartialPacket(m_play_pkt_no);
+
         if(DecodeFrame(m_buffer[m_play_pkt_no], output_buffer, n_samples))
         {
             m_played_packet_time = m_buffer[m_play_pkt_no].timestamp;
@@ -461,6 +479,8 @@ SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type, soundsystem::sounds
         break;
     case CODEC_NO_CODEC :
     case CODEC_OPUS :
+    case CODEC_WAV :
+    case CODEC_FLAC :
     case CODEC_WEBM_VP8 :
         TTASSERT(0);
         break;
@@ -531,6 +551,8 @@ OpusPlayer::OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsys
         break;
     case CODEC_SPEEX :
     case CODEC_SPEEX_VBR :
+    case CODEC_WAV :
+    case CODEC_FLAC :
     case CODEC_WEBM_VP8 :
     case CODEC_NO_CODEC :
         TTASSERT(0);
@@ -608,6 +630,73 @@ bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
         decoffset += framesize;
     }
     //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
+    return false;
+}
+#endif
+
+WavPlayer::WavPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
+                     useraudio_callback_t audio_cb, const AudioCodec& codec,
+                     audio_resampler_t resampler)
+: AudioPlayer(userid, stream_type, std::move(sndsys), std::move(audio_cb), codec, resampler)
+{
+    TTASSERT(codec.codec == CODEC_WAV);
+}
+
+bool WavPlayer::DecodeFrame(const EncFrame& enc_frame,
+                            short* output_buffer, int n_samples)
+{
+    int const samples_total = n_samples * GetAudioCodecChannels(GetAudioCodec());
+    if (!enc_frame.enc_frames.empty() &&
+        std::cmp_equal(enc_frame.enc_frames.size(), GetWavPacketSize(GetAudioCodec())))
+    {
+        int const ret = DecodeWavSamples(GetAudioCodec().wav.sampleformat,
+                                         enc_frame.enc_frames.data(),
+                                         static_cast<int>(enc_frame.enc_frames.size()),
+                                         output_buffer);
+        if (ret == samples_total)
+            return true;
+    }
+
+    MYTRACE(TTEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    std::fill_n(output_buffer, samples_total, static_cast<short>(0));
+    return false;
+}
+
+#if defined(ENABLE_FLAC)
+
+FlacPlayer::FlacPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
+                       useraudio_callback_t audio_cb, const AudioCodec& codec,
+                       audio_resampler_t resampler)
+: AudioPlayer(userid, stream_type, std::move(sndsys), std::move(audio_cb), codec, resampler)
+{
+    TTASSERT(codec.codec == CODEC_FLAC);
+    bool const b = m_decoder.Open(codec.flac.samplerate, codec.flac.channels);
+    MYTRACE_COND(!b, TTEXT("Failed to initialize FLAC decoder\n"));
+}
+
+FlacPlayer::~FlacPlayer()
+{
+    m_decoder.Close();
+}
+
+bool FlacPlayer::DecodeFrame(const EncFrame& enc_frame,
+                             short* output_buffer, int n_samples)
+{
+    if (!enc_frame.enc_frames.empty())
+    {
+        int const ret = m_decoder.Decode(enc_frame.enc_frames.data(),
+                                         static_cast<int>(enc_frame.enc_frames.size()),
+                                         output_buffer, n_samples);
+        if (ret == n_samples)
+            return true;
+        MYTRACE(TTEXT("FLAC decode failed for #%d. Ret = %d\n"), GetUserID(), ret);
+    }
+    else
+    {
+        MYTRACE(TTEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    }
+
+    std::fill_n(output_buffer, n_samples * GetAudioCodecChannels(GetAudioCodec()), static_cast<short>(0));
     return false;
 }
 #endif

@@ -112,6 +112,14 @@
   <init>();
   <fields>;
 }
+-keep class dk.bearware.WavCodec {
+  <init>();
+  <fields>;
+}
+-keep class dk.bearware.FlacCodec {
+  <init>();
+  <fields>;
+}
 -keep class dk.bearware.WebMVP8Codec {
   <init>();
   <fields>;

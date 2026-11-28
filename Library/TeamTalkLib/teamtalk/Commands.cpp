@@ -321,6 +321,22 @@ namespace teamtalk {
             else
                 codec.opus.frames_per_packet = 1;
             return true;
+        case CODEC_WAV :
+            if(codec_type.size() < 5)
+                return false;
+            codec.wav.samplerate = codec_type[1];
+            codec.wav.channels = codec_type[2];
+            codec.wav.sampleformat = static_cast<WavSampleFormat>(codec_type[3]);
+            codec.wav.txinterval_msec = codec_type[4];
+            return true;
+        case CODEC_FLAC :
+            if(codec_type.size() < 5)
+                return false;
+            codec.flac.samplerate = codec_type[1];
+            codec.flac.channels = codec_type[2];
+            codec.flac.compressionlevel = codec_type[3];
+            codec.flac.txinterval_msec = codec_type[4];
+            return true;
         case CODEC_WEBM_VP8 :
             break;
         }
@@ -699,6 +715,20 @@ namespace teamtalk {
             codec_prop.push_back(static_cast<int>(codec.opus.vbr_constraint));
             codec_prop.push_back(codec.opus.frame_size);
             codec_prop.push_back(codec.opus.frames_per_packet);
+            break;
+        case CODEC_WAV :
+            codec_prop.push_back(codec.codec);
+            codec_prop.push_back(codec.wav.samplerate);
+            codec_prop.push_back(codec.wav.channels);
+            codec_prop.push_back(codec.wav.sampleformat);
+            codec_prop.push_back(codec.wav.txinterval_msec);
+            break;
+        case CODEC_FLAC :
+            codec_prop.push_back(codec.codec);
+            codec_prop.push_back(codec.flac.samplerate);
+            codec_prop.push_back(codec.flac.channels);
+            codec_prop.push_back(codec.flac.compressionlevel);
+            codec_prop.push_back(codec.flac.txinterval_msec);
             break;
         default :
             codec_prop.push_back(CODEC_NO_CODEC);

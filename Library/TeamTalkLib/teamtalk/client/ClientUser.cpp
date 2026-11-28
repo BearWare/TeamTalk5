@@ -1417,6 +1417,16 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
                                                     audiofunc, codec, resampler);
         break;
 #endif
+    case teamtalk::CODEC_WAV :
+        audio_player = std::make_shared<WavPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                   audiofunc, codec, resampler);
+        break;
+#if defined(ENABLE_FLAC)
+    case teamtalk::CODEC_FLAC :
+        audio_player = std::make_shared<FlacPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                    audiofunc, codec, resampler);
+        break;
+#endif
     default:
         MYTRACE(TTEXT("Cannot launch player for user #%d. Codec %d is unknown\n"),
                 GetUserID(), codec.codec);
