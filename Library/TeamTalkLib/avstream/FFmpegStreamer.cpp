@@ -853,7 +853,7 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        std::array<int64_t, 2> out_channel_layouts = { (out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO), -1 };
+        std::array<int64_t, 2> out_channel_layouts = { static_cast<int64_t>(out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO), -1 };
         ret = av_opt_set_int_list(aud_buffersink_ctx, "channel_layouts", out_channel_layouts.data(), -1,
                                   AV_OPT_SEARCH_CHILDREN);
     }
