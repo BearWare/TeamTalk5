@@ -1,7 +1,7 @@
-From 86a4d4cb6eb44c1e58ab05df82f65c8faaa61e5b Mon Sep 17 00:00:00 2001
+From a6076e9339f02155224468d6f918d235ebc34b92 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Wed, 5 Oct 2022 13:41:10 +0200
-Subject: [PATCH] Enable SNI for TLS
+Subject: [PATCH 2/3] Enable SNI for TLS
 
 ---
  ACE/protocols/ace/INet/HTTPS_Session.cpp      | 14 ++++++++++++
@@ -11,7 +11,7 @@ Subject: [PATCH] Enable SNI for TLS
  4 files changed, 39 insertions(+), 7 deletions(-)
 
 diff --git a/ACE/protocols/ace/INet/HTTPS_Session.cpp b/ACE/protocols/ace/INet/HTTPS_Session.cpp
-index a92d4a054cb..96878e5564a 100644
+index 903c0acd9b8..0a9d9259aef 100644
 --- a/ACE/protocols/ace/INet/HTTPS_Session.cpp
 +++ b/ACE/protocols/ace/INet/HTTPS_Session.cpp
 @@ -132,6 +132,13 @@ namespace ACE
@@ -43,7 +43,7 @@ index a92d4a054cb..96878e5564a 100644
              typedef ACE_Connector<connection_type, ACE_SSL_SOCK_Connector> connector_type;
  
 diff --git a/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp b/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp
-index ef54eb8262b..dbf0162763a 100644
+index 8428341e61b..95f2d24b214 100644
 --- a/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp
 +++ b/ACE/protocols/ace/INet/HTTPS_SessionFactory.cpp
 @@ -68,7 +68,14 @@ namespace ACE
@@ -76,7 +76,7 @@ index 7d64fef1747..4f400e6e110 100644
        }
    }
 diff --git a/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp b/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp
-index 35abddb6b89..71b0eeabfe6 100644
+index 12fb301c963..be2c7b135e2 100644
 --- a/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp
 +++ b/ACE/protocols/examples/INet/HTTP_Simple_exec.cpp
 @@ -6,6 +6,10 @@
@@ -127,5 +127,5 @@ index 35abddb6b89..71b0eeabfe6 100644
          {
            std::cout << "Received response "
 -- 
-2.39.2 (Apple Git-143)
+2.55.0.windows.3
 
