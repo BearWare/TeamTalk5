@@ -186,6 +186,7 @@ depend-ubuntu24:
 		g++ \
 		junit5 \
 		libasound2-dev \
+		libdbus-1-dev \
 		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
@@ -217,6 +218,7 @@ depend-ubuntu26:
 		g++ \
 		junit5 \
 		libasound2-dev \
+		libdbus-1-dev \
 		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
@@ -263,6 +265,7 @@ depend-raspios12:
 		git \
 		junit5 \
 		libasound2-dev \
+		libdbus-1-dev \
 		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
