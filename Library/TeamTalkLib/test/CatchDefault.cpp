@@ -36,9 +36,11 @@
 #include "settings/Settings.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
+#include "teamtalk/CodecCommon.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/StreamHandler.h"
 #include "teamtalk/client/AudioMuxer.h"
+#include "teamtalk/client/AudioThread.h"
 #include "teamtalk/client/Client.h"
 
 #if defined(ENABLE_OGG)
@@ -48,6 +50,7 @@
 #if defined(ENABLE_OPUS)
 #include "avstream/OpusFileStreamer.h"
 #include "codec/OpusDecoder.h"
+#include "codec/OpusEncoder.h"
 #endif
 
 #if defined(ENABLE_FFMPEG)
@@ -71,7 +74,9 @@
 #include <ace/Synch_Options.h>
 #include <ace/Timer_Heap.h>
 
+#include <algorithm>
 #include <array>
+#include <atomic>
 #include <cerrno>
 #include <chrono>
 #include <condition_variable>
@@ -89,6 +94,7 @@
 #include <set>
 #include <string>
 #include <system_error>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -4392,7 +4398,6 @@ TEST_CASE( "User account local time check" )
     }
 }
 
-
 TEST_CASE( "Ban local time check" )
 {
     auto client = InitTeamTalk();
@@ -4413,4 +4418,241 @@ TEST_CASE( "Ban local time check" )
     }
 }
 
+#if defined(ENABLE_SPEEX) || defined(ENABLE_OPUS)
+namespace {
 
+// Supported sample rates, cf. standardSampleRates in avstream/SoundSystemBase.h
+const std::vector<int> audioThreadSampleRates = {8000, 12000, 16000, 24000, 32000, 44100, 48000};
+
+// Submits 'nframes' audio frames to an AudioThread encoder via
+// AudioThread::QueueAudio(const media::AudioFrame&) and drains the encoder queue
+// manually (no worker thread spawned). Returns {callback invocations, frames encoded}.
+std::pair<int, int> AudioThreadEncodeFrames(const teamtalk::AudioCodec& codec, int nframes)
+{
+    AudioThread audio;
+    int cb_count = 0, enc_count = 0;
+    audioencodercallback_t const callback =
+        [&cb_count, &enc_count](const teamtalk::AudioCodec&, const char* enc_data, int enc_len,
+                                const std::vector<int>&, const media::AudioFrame&)
+    {
+        ++cb_count;
+        if (enc_data != nullptr && enc_len > 0)
+            ++enc_count;
+    };
+    REQUIRE(audio.StartEncoder(callback, codec, false));
+
+    int const samplerate = teamtalk::GetAudioCodecSampleRate(codec);
+    int const channels = teamtalk::GetAudioCodecChannels(codec);
+    int const cb_samples = teamtalk::GetAudioCodecCbSamples(codec);
+    REQUIRE(samplerate > 0);
+    REQUIRE(channels > 0);
+    REQUIRE(cb_samples > 0);
+    REQUIRE(std::find(audioThreadSampleRates.begin(), audioThreadSampleRates.end(), samplerate) !=
+            audioThreadSampleRates.end());
+
+    std::vector<short> pcm(static_cast<size_t>(cb_samples) * static_cast<size_t>(channels));
+    for (size_t i = 0; i < pcm.size(); ++i)
+        pcm[i] = static_cast<short>((static_cast<int>(i) % 64) * 512 - 16384); // non-silent input
+
+    media::AudioFrame frame(media::AudioFormat(samplerate, channels), pcm.data(), cb_samples);
+    frame.force_enc = true; // make ProcessAudioFrame() run the encoder
+    for (int i = 0; i < nframes; ++i)
+    {
+        frame.sample_no = static_cast<uint32_t>(i * cb_samples);
+        audio.QueueAudio(frame);
+    }
+
+    ACE_Time_Value tv; // zero => ProcessQueue() drains the queue without blocking
+    audio.ProcessQueue(&tv);
+    audio.StopEncoder();
+    return {cb_count, enc_count};
+}
+
+} // namespace
+
+TEST_CASE("AudioThread codec configurations")
+{
+#if defined(ENABLE_SPEEX)
+    // Speex bandmodes: 0 = 8 kHz narrow band, 1 = 16 kHz wide band, 2 = 32 kHz ultra-wide band
+    // (cf. SPEEX_NB_MODE/SPEEX_WB_MODE/SPEEX_UWB_MODE in teamtalk/CodecCommon.cpp); all three
+    // sample rates are in standardSampleRates (avstream/SoundSystemBase.h)
+    for (int bandmode = 0; bandmode <= 2; ++bandmode)
+    {
+        for (int fpp : {1, 2, 5}) // 20/40/100 msec of audio per packet
+        {
+            teamtalk::AudioCodec cbr;
+            cbr.codec = teamtalk::CODEC_SPEEX;
+            cbr.speex.bandmode = bandmode;
+            cbr.speex.quality = 5;
+            cbr.speex.frames_per_packet = fpp;
+            REQUIRE(teamtalk::ValidAudioCodec(cbr));
+            auto const [cb, enc] = AudioThreadEncodeFrames(cbr, 5);
+            REQUIRE(cb == 5);
+            REQUIRE(enc == 5);
+
+            teamtalk::AudioCodec vbr;
+            vbr.codec = teamtalk::CODEC_SPEEX_VBR;
+            vbr.speex_vbr.bandmode = bandmode;
+            vbr.speex_vbr.vbr_quality = 5;
+            vbr.speex_vbr.frames_per_packet = fpp;
+            vbr.speex_vbr.dtx = true;
+            REQUIRE(teamtalk::ValidAudioCodec(vbr));
+            auto const [vbr_cb, vbr_enc] = AudioThreadEncodeFrames(vbr, 5);
+            REQUIRE(vbr_cb == 5);
+            REQUIRE(vbr_enc == 5);
+        }
+    }
+#endif
+
+#if defined(ENABLE_OPUS)
+    for (int samplerate : audioThreadSampleRates)
+    {
+        // opus_encoder_create() only accepts 8/12/16/24/48 kHz
+        if (samplerate != 8000 && samplerate != 12000 && samplerate != 16000 &&
+            samplerate != 24000 && samplerate != 48000)
+            continue;
+        for (int channels : {1, 2})
+        {
+            for (int frame_msec : {10, 20, 40, 60})
+            {
+                for (int fpp : {1, 2})
+                {
+                    teamtalk::AudioCodec codec;
+                    codec.codec = teamtalk::CODEC_OPUS;
+                    codec.opus.samplerate = samplerate;
+                    codec.opus.channels = channels;
+                    codec.opus.application = OPUS_APPLICATION_VOIP;
+                    codec.opus.complexity = 5;
+                    codec.opus.bitrate = 32000;
+                    codec.opus.vbr = true;
+                    codec.opus.frame_size = OpusGetCbSize(samplerate, frame_msec); // in samples
+                    codec.opus.frames_per_packet = fpp;
+                    REQUIRE(codec.opus.frame_size > 0);
+                    REQUIRE(teamtalk::ValidAudioCodec(codec));
+                    auto const [cb, enc] = AudioThreadEncodeFrames(codec, 5);
+                    REQUIRE(cb == 5);
+                    REQUIRE(enc == 5);
+                }
+            }
+        }
+    }
+#endif
+}
+
+TEST_CASE("AudioThread queue overflow boundary")
+{
+    std::vector<teamtalk::AudioCodec> codecs;
+#if defined(ENABLE_SPEEX)
+    {
+        teamtalk::AudioCodec codec;
+        codec.codec = teamtalk::CODEC_SPEEX;
+        codec.speex.bandmode = 0; // 8 kHz narrow band
+        codec.speex.quality = 5;
+        codec.speex.frames_per_packet = 1; // 20 msec, 160 samples
+        codecs.push_back(codec);
+    }
+#endif
+#if defined(ENABLE_OPUS)
+    {
+        teamtalk::AudioCodec codec;
+        codec.codec = teamtalk::CODEC_OPUS;
+        codec.opus.samplerate = 48000;
+        codec.opus.channels = 1;
+        codec.opus.application = OPUS_APPLICATION_VOIP;
+        codec.opus.complexity = 5;
+        codec.opus.bitrate = 32000;
+        codec.opus.vbr = true;
+        codec.opus.frame_size = OpusGetCbSize(48000, 20); // 20 msec, 960 samples
+        codec.opus.frames_per_packet = 1;
+        codecs.push_back(codec);
+    }
+#endif
+
+    for (auto const& codec : codecs)
+    {
+        int const samplerate = teamtalk::GetAudioCodecSampleRate(codec);
+        int const channels = teamtalk::GetAudioCodecChannels(codec);
+        int const cb_samples = teamtalk::GetAudioCodecCbSamples(codec);
+
+        // each queued frame occupies sizeof(AudioFrame) + PCM bytes in the queue
+        // (ACE_Message_Block::size(); output_samples == 0)
+        size_t const block_size = sizeof(media::AudioFrame) + PCM16_BYTES(cb_samples, channels);
+        // high water mark set by AudioThread::StartEncoder(): one second of audio
+        // plus room for the frame headers
+        size_t const max_queue = PCM16_BYTES(samplerate, channels) +
+            (1 + (samplerate / cb_samples)) * sizeof(media::AudioFrame);
+
+        // ACE_Message_Queue::enqueue() with a zero timeout fails once
+        // cur_bytes_ >= high_water_mark_, checked *before* the new block is added,
+        // so frame k (1-based) is accepted iff (k-1)*block_size < max_queue
+        size_t n_accept = 0;
+        while (n_accept * block_size < max_queue)
+            ++n_accept;
+        REQUIRE(n_accept > 1);
+
+        auto queued_callbacks = [&](size_t nframes)
+        {
+            AudioThread audio;
+            int cb_count = 0;
+            audioencodercallback_t const callback =
+                [&cb_count](const teamtalk::AudioCodec&, const char*, int,
+                            const std::vector<int>&, const media::AudioFrame&)
+            { ++cb_count; };
+            REQUIRE(audio.StartEncoder(callback, codec, false));
+
+            std::vector<short> pcm(static_cast<size_t>(cb_samples) * static_cast<size_t>(channels), 0);
+            media::AudioFrame frame(media::AudioFormat(samplerate, channels), pcm.data(), cb_samples);
+            for (size_t i = 0; i < nframes; ++i)
+                audio.QueueAudio(frame);
+
+            ACE_Time_Value tv; // zero => drain without blocking
+            audio.ProcessQueue(&tv);
+            audio.StopEncoder();
+            return cb_count;
+        };
+
+        // boundary: exactly n_accept frames fit in the queue and all are processed
+        REQUIRE(queued_callbacks(n_accept) == static_cast<int>(n_accept));
+        // overflow: frames beyond the water mark are dropped by QueueAudio()
+        REQUIRE(queued_callbacks(n_accept + 10) == static_cast<int>(n_accept));
+    }
+}
+
+#if defined(ENABLE_OPUS)
+TEST_CASE("AudioThread worker thread processes queued audio")
+{
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_OPUS;
+    codec.opus.samplerate = 48000;
+    codec.opus.channels = 1;
+    codec.opus.application = OPUS_APPLICATION_VOIP;
+    codec.opus.complexity = 5;
+    codec.opus.bitrate = 32000;
+    codec.opus.vbr = true;
+    codec.opus.frame_size = OpusGetCbSize(48000, 20);
+    codec.opus.frames_per_packet = 1;
+
+    AudioThread audio;
+    std::atomic<int> cb_count{0};
+    audioencodercallback_t const callback =
+        [&cb_count](const teamtalk::AudioCodec&, const char*, int,
+                    const std::vector<int>&, const media::AudioFrame&)
+    { ++cb_count; };
+    REQUIRE(audio.StartEncoder(callback, codec, true)); // spawn worker thread
+
+    int const cb_samples = teamtalk::GetAudioCodecCbSamples(codec);
+    std::vector<short> pcm(static_cast<size_t>(cb_samples), 0);
+    media::AudioFrame frame(media::AudioFormat(48000, 1), pcm.data(), cb_samples);
+    frame.force_enc = true;
+    constexpr int NFRAMES = 20;
+    for (int i = 0; i < NFRAMES; ++i)
+        audio.QueueAudio(frame);
+
+    // wait for the worker thread to drain the queue (max 5 sec)
+    for (int i = 0; i < 500 && cb_count.load() < NFRAMES; ++i)
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    audio.StopEncoder();
+    REQUIRE(cb_count.load() == NFRAMES);
+}
+#endif
+#endif // defined(ENABLE_SPEEX) || defined(ENABLE_OPUS)
